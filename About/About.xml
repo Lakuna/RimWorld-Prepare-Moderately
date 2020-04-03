@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+	<name>Prepare Thoughtlessly</name>
+	<author>Lakuna</author>
+	<packageId>lakuna.preparethoughtlessly</packageId>
+	<supportedVersions>
+		<li>1.1</li>
+	</supportedVersions>
+	<description>This mod is intended as a balanced replacement for EdB Prepare Carefully. Allows the player to set minimum specifications for colonists; colonists that do not meet these specifications are automatically re-rolled. Never again will you have to roll through hundreds of colonists looking for a cannibal psychopath.</description>
+</ModMetaData>

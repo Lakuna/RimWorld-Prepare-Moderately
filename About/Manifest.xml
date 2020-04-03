@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<Manifest>
+	<identifier>PrepareThoughtlessly</identifier>
+	<version>1.0</version>
+	<loadAfter>
+		<li>Core</li>
+		<li>Royalty</li>
+	</loadAfter>
+	<showCrossPromotions>false</showCrossPromotions>
+	<manifestUri>https://github.com/T3rrabyte/RimWorld-Prepare-Thoughtlessly/raw/master/About/Manifest.xml</manifestUri>
+	<downloadUri>https://github.com/T3rrabyte/RimWorld-Prepare-Thoughtlessly/releases/latest</downloadUri>
+</Manifest>
