@@ -2,3 +2,7 @@ C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Assemblies\
 C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareModerately.csprojAssemblyReference.cache
 C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareModerately.csproj.CoreCompileInputs.cache
 C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareModerately.dll
+C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Moderately\Assemblies\PrepareModerately.dll
+C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Moderately\Source\obj\Debug\PrepareModerately.csprojAssemblyReference.cache
+C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Moderately\Source\obj\Debug\PrepareModerately.csproj.CoreCompileInputs.cache
+C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Moderately\Source\obj\Debug\PrepareModerately.dll
