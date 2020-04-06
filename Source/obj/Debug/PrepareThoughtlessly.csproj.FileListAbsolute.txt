@@ -1,4 +1,0 @@
-C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Assemblies\PrepareThoughtlessly.dll
-C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareThoughtlessly.csprojAssemblyReference.cache
-C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareThoughtlessly.csproj.CoreCompileInputs.cache
-C:\Users\tjmar\Documents\Repositories\RimWorld-Prepare-Thoughtlessly\Source\obj\Debug\PrepareThoughtlessly.dll

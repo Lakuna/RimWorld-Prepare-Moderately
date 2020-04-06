@@ -7,8 +7,8 @@
     <ProjectGuid>{318E91E9-51E9-4C10-89A3-F000FC5A58F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrepareThoughtlessly</RootNamespace>
-    <AssemblyName>PrepareThoughtlessly</AssemblyName>
+    <RootNamespace>PrepareModerately</RootNamespace>
+    <AssemblyName>PrepareModerately</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -70,8 +70,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Page_PrepareThoughtlessly.cs" />
-    <Compile Include="PrepareThoughtlessly.cs" />
+    <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="Page_PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

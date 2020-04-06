@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ModMetaData>
-	<name>Prepare Thoughtlessly</name>
+	<name>Prepare Moderately</name>
 	<author>Lakuna</author>
-	<packageId>lakuna.preparethoughtlessly</packageId>
+	<packageId>lakuna.preparemoderately</packageId>
 	<supportedVersions>
 		<li>1.1</li>
 	</supportedVersions>

@@ -7,9 +7,9 @@ using UnityEngine;
 using RimWorld;
 using Verse;
 
-namespace PrepareThoughtlessly {
-	public class Page_PrepareThoughtlessly : Page {
-		public Page_PrepareThoughtlessly() : base() {
+namespace PrepareModerately {
+	public class Page_PrepareModerately : Page {
+		public Page_PrepareModerately() : base() {
 
 		}
 
@@ -18,7 +18,6 @@ namespace PrepareThoughtlessly {
 
 			Rect mainRect = this.GetMainRect(inRect);
 			Widgets.DrawMenuSection(mainRect);
-
 		}
 	}
 }

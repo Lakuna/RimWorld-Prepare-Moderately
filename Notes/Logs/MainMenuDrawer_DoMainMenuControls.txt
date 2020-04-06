@@ -1,0 +1,2412 @@
+Instructions (477): [
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldarg.0
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void BeginGroup(UnityEngine.Rect)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloca.s
+		Operand: UnityEngine.Rect (0)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 170
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldarga.s
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single get_height()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void .ctor(Single, Single, Single, Single)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloca.s
+		Operand: UnityEngine.Rect (1)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloca.s
+		Operand: UnityEngine.Rect (0)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single get_xMax()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 17
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: add
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 145
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldarga.s
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single get_height()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void .ctor(Single, Single, Single, Single)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void set_Font(Verse.GameFont)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Tutorial
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Boolean CanTranslate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: LearnToPlay
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.String (4)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: br.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Tutorial
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.String (4)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.String (4)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_10
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_10()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_10
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: NewColony
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_11
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_11()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_11
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: bne.un.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.Game get_Game()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Verse.GameInfo get_Info()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldfld
+		Operand: System.Boolean permadeathMode
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Save
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_0()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldarg.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: bne.un.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.Game get_Game()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Verse.GameInfo get_Info()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldfld
+		Operand: System.Boolean permadeathMode
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: LoadGame
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_1
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_1()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_1
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: bne.un.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: ReviewScenario
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_2
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_2()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_2
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Options
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_3
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_3()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_3
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: MenuButton-Options
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Mods
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_4
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_4()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_4
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Boolean get_DevMode()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: Verse.LoadedLanguage activeLanguage
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: Verse.LoadedLanguage defaultLanguage
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: bne.un.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: Verse.LoadedLanguage activeLanguage
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldfld
+		Operand: System.Boolean anyError
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: SaveTranslationReport
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_5
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_5()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_5
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Credits
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_6
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_6()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_6
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: bne.un
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.Game get_Game()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Verse.GameInfo get_Info()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldfld
+		Operand: System.Boolean permadeathMode
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: SaveAndQuitToMainMenu
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_7
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_7()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_7
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: SaveAndQuitToOS
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_8
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_8()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_8
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: br
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_15
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_15()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_15
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Action (5)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: QuitToMainMenu
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Action (5)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_16
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_16()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_16
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Action (6)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: QuitToOS
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Action (6)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: br.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: QuitToOS
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.Action <>9__16_9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: RimWorld.MainMenuDrawer+<>c <>9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__16_9()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: dup
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stsfld
+		Operand: System.Action <>9__16_9
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.3
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.0
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.2
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single DrawOptionListing(UnityEngine.Rect, System.Collections.Generic.List`1[Verse.ListableOption])
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: pop
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void set_Font(Verse.GameFont)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: FictionPrimer
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://rimworldgame.com/backstory
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconBlog
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: LudeonBlog
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://ludeon.com/blog
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconBlog
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: Forums
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://ludeon.com/forums
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconForums
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: OfficialWiki
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://rimworldwiki.com
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconBlog
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: TynansTwitter
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://twitter.com/TynanSylvester
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconTwitter
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: TynansDesignBook
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: https://tynansylvester.com/book
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconBook
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: HelpTranslate
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: System.String TranslationsContributeURL
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconForums
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: BuySoundtrack
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.TaggedString Translate(System.String)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.String op_Implicit(Verse.TaggedString)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldstr
+		Operand: http://www.lasgameaudio.co.uk/#!store/t04fw
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: UnityEngine.Texture2D IconSoundtrack
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, String, Texture2D)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.ListableOption (8)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.ListableOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.ListableOption] (7)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single DrawOptionListing(UnityEngine.Rect, System.Collections.Generic.List`1[Verse.ListableOption])
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Single (9)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void BeginGroup(UnityEngine.Rect)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.ProgramState get_ProgramState()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Single (9)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 10
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: add
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloca.s
+		Operand: UnityEngine.Rect (1)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Single get_width()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 50
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Single, Single, Single, Single)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldsfld
+		Operand: Verse.LoadedLanguage activeLanguage
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: System.String get_FriendlyNameNative()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.1
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Boolean ButtonText(UnityEngine.Rect, System.String, Boolean, Boolean, Boolean)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Collections.Generic.List`1[Verse.FloatMenuOption] (10)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: System.Collections.Generic.IEnumerable`1[Verse.LoadedLanguage] get_AllLoadedLanguages()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] GetEnumerator()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] (11)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: br.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] (11)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Verse.LoadedLanguage get_Current()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: Verse.LoadedLanguage (12)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stloc.s
+		Operand: RimWorld.MainMenuDrawer+<>c__DisplayClass16_0 (13)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: RimWorld.MainMenuDrawer+<>c__DisplayClass16_0 (13)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: Verse.LoadedLanguage (12)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: stfld
+		Operand: Verse.LoadedLanguage localLang
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.FloatMenuOption] (10)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: RimWorld.MainMenuDrawer+<>c__DisplayClass16_0 (13)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldfld
+		Operand: Verse.LoadedLanguage localLang
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: System.String get_DisplayName()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: RimWorld.MainMenuDrawer+<>c__DisplayClass16_0 (13)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldftn
+		Operand: Void <DoMainMenuControls>b__19()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(Object, IntPtr)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.i4.4
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldc.r4
+		Operand: 0
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldnull
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(String, Action, MenuOptionPriority, Action, Thing, Single, Func`2, WorldObject)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.FloatMenuOption)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] (11)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Boolean MoveNext()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brtrue.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: leave.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] (11)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: brfalse.s
+		Operand: System.Reflection.Emit.Label
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.IEnumerator`1[Verse.LoadedLanguage] (11)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Dispose()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: endfinally
+		Operand: 
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Verse.WindowStack get_WindowStack()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ldloc.s
+		Operand: System.Collections.Generic.List`1[Verse.FloatMenuOption] (10)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: newobj
+		Operand: Void .ctor(List`1)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: callvirt
+		Operand: Void Add(Verse.Window)
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void EndGroup()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: call
+		Operand: Void EndGroup()
+	}
+	{
+		Labels: System.Collections.Generic.List`1[System.Reflection.Emit.Label]
+		OpCode: ret
+		Operand: 
+	}
+]
+Verse.Log:Message(String, Boolean)
+PrepareThoughtlessly.<Transpiler>d__0:MoveNext()
+System.Collections.Generic.List`1:.ctor(IEnumerable`1)
+System.Linq.Enumerable:ToList(IEnumerable`1)
+HarmonyLib.CodeTranspiler:GetResult(ILGenerator, MethodBase)
+HarmonyLib.MethodBodyReader:FinalizeILCodes(Emitter, List`1, List`1, Boolean&)
+HarmonyLib.MethodCopier:Finalize(Emitter, List`1, Boolean&)
+HarmonyLib.MethodPatcher:CreateReplacement(Dictionary`2&)
+HarmonyLib.PatchFunctions:UpdateWrapper(MethodBase, PatchInfo)
+HarmonyLib.PatchClassProcessor:ProcessPatchJob(Job)
+HarmonyLib.PatchClassProcessor:PatchWithAttributes(MethodBase&)
+HarmonyLib.PatchClassProcessor:Patch()
+HarmonyLib.Harmony:<PatchAll>b__10_0(Type)
+HarmonyLib.CollectionExtensions:Do(IEnumerable`1, Action`1)
+HarmonyLib.Harmony:PatchAll(Assembly)
+PrepareThoughtlessly.PrepareThoughtlessly:.cctor()
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(IntPtr)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(RuntimeTypeHandle)
+Verse.StaticConstructorOnStartupUtility:CallAll()
+Verse.<>c:<DoPlayLoad>b__4_2()
+Verse.LongEventHandler:ExecuteToExecuteWhenFinished()
+Verse.LongEventHandler:UpdateCurrentAsynchronousEvent()
+Verse.LongEventHandler:LongEventsUpdate(Boolean&)
+Verse.Root:Update()
+Verse.Root_Entry:Update()
