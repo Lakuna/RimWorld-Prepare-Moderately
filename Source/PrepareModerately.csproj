@@ -70,8 +70,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="ButtonPatch.cs" />
+    <Compile Include="HarmonyPatcher.cs" />
     <Compile Include="Page_PrepareModerately.cs" />
+    <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

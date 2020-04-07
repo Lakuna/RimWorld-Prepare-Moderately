@@ -9,15 +9,6 @@ using Verse;
 
 namespace PrepareModerately {
 	public class Page_PrepareModerately : Page {
-		public Page_PrepareModerately() : base() {
-
-		}
-
-		public override void DoWindowContents(Rect inRect) {
-			this.DrawPageTitle(inRect);
-
-			Rect mainRect = this.GetMainRect(inRect);
-			Widgets.DrawMenuSection(mainRect);
-		}
+		public override void DoWindowContents(Rect inRect) => throw new NotImplementedException();
 	}
 }
