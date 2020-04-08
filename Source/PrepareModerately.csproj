@@ -73,8 +73,11 @@
     <Compile Include="ButtonPatch.cs" />
     <Compile Include="HarmonyPatcher.cs" />
     <Compile Include="Page_PrepareModerately.cs" />
+    <Compile Include="PawnFilter.cs" />
     <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomizeCurrentPatch.cs" />
+    <Compile Include="SelectPawnPatch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
