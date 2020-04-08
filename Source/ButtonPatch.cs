@@ -13,9 +13,8 @@ namespace PrepareModerately {
 	class ButtonPatch {
 		[HarmonyPostfix]
 		public static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
-			Vector2 position = new Vector2(150, 150);
-			float y = rect.height + 45;
-			if (!Widgets.ButtonText(new Rect(rect.x + rect.width / 2.0f - position.x / 2.0f, y, position.x, position.y), "Prepare Moderately", true, false, true)) { return; }
+			Vector2 buttonDimensions = new Vector2(150, 38);
+			if (!Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - buttonDimensions.x / 2, rect.y - 45, buttonDimensions.x, buttonDimensions.y), "Prepare Moderately")) { return; }
 			try {
 				PrepareModerately.Instantiate(__instance);
 				Find.WindowStack.Add(PrepareModerately.instance.page);
