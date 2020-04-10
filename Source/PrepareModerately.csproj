@@ -71,10 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonPatch.cs" />
+    <Compile Include="Listing_PawnFilter.cs" />
+    <Compile Include="PawnFilterPart.cs" />
     <Compile Include="HarmonyPatcher.cs" />
-    <Compile Include="IFilterPart.cs" />
     <Compile Include="Page_PrepareModerately.cs" />
     <Compile Include="PawnFilter.cs" />
+    <Compile Include="PawnFilterPartDef.cs" />
+    <Compile Include="PawnFilterPart_NameStartsWith.cs" />
     <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomizeCurrentPatch.cs" />
