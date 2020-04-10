@@ -7,21 +7,16 @@ using RimWorld;
 using Verse;
 using HarmonyLib;
 using UnityEngine;
+using System.Reflection;
 
 namespace PrepareModerately {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "RandomizeCurPawn")]
 	class RandomizeCurrentPatch {
-		[HarmonyPrefix]
-		public static void Prefix(Page_ConfigureStartingPawns __instance) {
-			PrepareModerately.Instance.originalPage = __instance;
-			PrepareModerately.Instance.SaveCurrentPawnNames();
-		}
-
 		[HarmonyPostfix]
-		public static void Postfix() {
-			// if (!PrepareModerately.Instance.currentFilter.Matches(PrepareModerately.Instance.JustRandomizedPawn)) { _ = StartingPawnUtility.RandomizeInPlace(PrepareModerately.Instance.JustRandomizedPawn); }
-			if (!PrepareModerately.Instance.JustRandomizedPawn.Name.ToStringFull.StartsWith("A")) { _ = StartingPawnUtility.RandomizeInPlace(PrepareModerately.Instance.JustRandomizedPawn); } // For testing until filters get finished.
-																																															   // TODO: Index out of range exception. Try repeating with a reverse patch instead.
+		public static void Postfix(Page_ConfigureStartingPawns __instance, MethodBase __originalMethod, Pawn ___curPawn) {
+			Log.Message("New pawn: " + ___curPawn.Name.ToStringFull + ".");
+			// if (!PrepareModerately.Instance.currentFilter.Matches(___curPawn)) { _ = __originalMethod.Invoke(__instance, null); }
+			if (!___curPawn.Name.ToStringFull.StartsWith("A")) { _ = __originalMethod.Invoke(__instance, null); } // For testing until filters get finished.
 		}
 	}
 }
