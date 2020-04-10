@@ -14,13 +14,13 @@ namespace PrepareModerately {
 		[HarmonyPrefix]
 		public static void Prefix(Page_ConfigureStartingPawns __instance) {
 			PrepareModerately.Instance.originalPage = __instance;
-			PrepareModerately.Instance.PawnsBeforeRandomize = Find.GameInitData.startingAndOptionalPawns;
+			PrepareModerately.Instance.SaveCurrentPawnNames();
 		}
 
 		[HarmonyPostfix]
-		public static void Postfix(Page_ConfigureStartingPawns __instance) {
-			PrepareModerately.Instance.originalPage = __instance;
-			Log.Message("Randomized. New pawn: " + PrepareModerately.Instance.JustRandomizedPawn + ".");
+		public static void Postfix() {
+			Log.Message("New pawn: " + PrepareModerately.Instance.JustRandomizedPawn);
+			// TODO: Re-randomize until fits.
 		}
 
 		/*
