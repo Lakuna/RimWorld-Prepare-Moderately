@@ -9,7 +9,8 @@ using Verse;
 
 namespace PrepareModerately {
 	public class Page_PrepareModerately : Page {
-		// TODO: Build window.
-		public override void DoWindowContents(Rect inRect) => throw new NotImplementedException();
+		public override void DoWindowContents(Rect inRect) {
+
+		}
 	}
 }

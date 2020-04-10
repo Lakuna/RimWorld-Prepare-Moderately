@@ -39,8 +39,8 @@ namespace PrepareModerately {
 		private PrepareModerately() {
 			Log.Message("Instantiating Prepare Moderately.");
 			this.page = new Page_PrepareModerately();
+			this.currentFilter = new PawnFilter();
 			this.SaveCurrentPawnNames();
-			// this.currentFilter...
 		}
 
 		public void SaveCurrentPawnNames() {

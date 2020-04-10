@@ -19,13 +19,9 @@ namespace PrepareModerately {
 
 		[HarmonyPostfix]
 		public static void Postfix() {
-			Log.Message("New pawn: " + PrepareModerately.Instance.JustRandomizedPawn);
-			// TODO: Re-randomize until fits.
+			// if (!PrepareModerately.Instance.currentFilter.Matches(PrepareModerately.Instance.JustRandomizedPawn)) { _ = StartingPawnUtility.RandomizeInPlace(PrepareModerately.Instance.JustRandomizedPawn); }
+			if (!PrepareModerately.Instance.JustRandomizedPawn.Name.ToStringFull.StartsWith("A")) { _ = StartingPawnUtility.RandomizeInPlace(PrepareModerately.Instance.JustRandomizedPawn); } // For testing until filters get finished.
+																																															   // TODO: Index out of range exception. Try repeating with a reverse patch instead.
 		}
-
-		/*
-		[HarmonyReversePatch]
-		public static void ReversePatch() => throw new NotImplementedException("This is a stub and is not meant to be implemented.");
-		*/
 	}
 }

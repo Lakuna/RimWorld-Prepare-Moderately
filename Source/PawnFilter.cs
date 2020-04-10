@@ -13,15 +13,27 @@ namespace PrepareModerately {
 		public static List<SkillDef> allSkills = DefDatabase<SkillDef>.AllDefsListForReading;
 		public static List<PawnRelationDef> allRelations = DefDatabase<PawnRelationDef>.AllDefsListForReading;
 		public static List<TraitDef> allTraits = DefDatabase<TraitDef>.AllDefsListForReading;
+		public static List<WorkTypeDef> allWorkTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+		public static List<StatDef> allStats = DefDatabase<StatDef>.AllDefsListForReading;
+
+		private readonly List<IFilterPart> parts;
 
 		// Able/not able to do each skill.
 		// 0-20 and no/minor/major passion for each skill.
 		// No relationships/has certain relationship.
 		// No medical conditions.
 		// Has/doesn't have specific trait.
+		// Age below/above.
 
-		// Constructor.
+		public PawnFilter() => this.parts = new List<IFilterPart>();
 
-		// public bool PawnMatchesFilter(Pawn pawn) { }
+		public void AddPart(IFilterPart part) => this.parts.Add(part);
+
+		public bool Matches(Pawn pawn) {
+			foreach (IFilterPart part in this.parts) {
+				if (!part.Matches(pawn)) { return false; }
+			}
+			return true;
+		}
 	}
 }

@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="ButtonPatch.cs" />
     <Compile Include="HarmonyPatcher.cs" />
+    <Compile Include="IFilterPart.cs" />
     <Compile Include="Page_PrepareModerately.cs" />
     <Compile Include="PawnFilter.cs" />
     <Compile Include="PrepareModerately.cs" />
