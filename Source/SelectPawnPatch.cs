@@ -9,6 +9,7 @@ using Verse;
 using UnityEngine;
 
 namespace PrepareModerately {
+	/*
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "SelectPawn")]
 	class SelectPawnPatch {
 		[HarmonyPostfix]
@@ -16,7 +17,8 @@ namespace PrepareModerately {
 			PrepareModerately.Instance.originalPage = __instance;
 			PrepareModerately.Instance.CurrentPawn = c;
 			Log.Message("Selected new pawn.");
-			// Fix this not ever being called.
+			// This is not ever being called.
 		}
 	}
+	*/
 }

@@ -13,7 +13,7 @@ namespace PrepareModerately {
 		public Page_PrepareModerately page;
 		public Page_ConfigureStartingPawns originalPage;
 		public PawnFilter currentFilter;
-		private Pawn currentPawn;
+		private List<Pawn> pawnsBeforeRandomize;
 
 		public static PrepareModerately Instance {
 			get {
@@ -22,6 +22,7 @@ namespace PrepareModerately {
 			}
 		}
 
+		/*
 		public Pawn CurrentPawn {
 			get {
 				if (this.currentPawn == null) {
@@ -32,9 +33,27 @@ namespace PrepareModerately {
 			}
 			set => this.currentPawn = value;
 		}
+		*/
+
+		public List<Pawn> PawnsBeforeRandomize { set => this.pawnsBeforeRandomize = value; }
+
+		public Pawn JustRandomizedPawn {
+			get {
+				List<Pawn> currentPawns = Find.GameInitData.startingAndOptionalPawns;
+				if (this.pawnsBeforeRandomize.Count != currentPawns.Count) { Log.Warning("Pawn count changed."); }
+				List<Pawn> newPawns = new List<Pawn>();
+				foreach (Pawn pawn in this.pawnsBeforeRandomize) {
+					if (!currentPawns.Contains(pawn)) { newPawns.Add(pawn); }
+				}
+				if (newPawns.Count > 1) { Log.Warning("More than one pawn was randomized."); }
+				if (newPawns.Count < 1) { Log.Warning("No pawn was randomized."); return null; }
+				return newPawns[0];
+			}
+		}
 
 		private PrepareModerately() {
 			this.page = new Page_PrepareModerately();
+			this.pawnsBeforeRandomize = Find.GameInitData.startingAndOptionalPawns;
 			// this.currentFilter...
 		}
 	}
