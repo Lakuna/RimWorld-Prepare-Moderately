@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonPatch.cs" />
+    <Compile Include="Dialog_Randomizing.cs" />
     <Compile Include="Listing_PawnFilter.cs" />
     <Compile Include="PawnFilterPart.cs" />
     <Compile Include="HarmonyPatcher.cs" />

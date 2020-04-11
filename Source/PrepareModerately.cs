@@ -7,18 +7,20 @@ namespace PrepareModerately {
 		public Page_PrepareModerately page;
 		public Page_ConfigureStartingPawns originalPage;
 		public PawnFilter currentFilter;
+		public bool currentlyRandomizing;
+		public Pawn currentPawn;
 
 		public static PrepareModerately Instance {
 			get {
-				if (PrepareModerately.instance == null) { PrepareModerately.instance = new PrepareModerately(); }
-				return PrepareModerately.instance;
+				if (instance == null) { instance = new PrepareModerately(); }
+				return instance;
 			}
 		}
 
 		private PrepareModerately() {
-			Log.Message("Instantiating Prepare Moderately.");
 			this.page = new Page_PrepareModerately();
 			this.currentFilter = new PawnFilter();
+			this.currentlyRandomizing = false;
 		}
 	}
 }
