@@ -2,13 +2,16 @@
 
 namespace PrepareModerately {
 	public abstract class PawnFilterPart : IExposable {
-		public string label;
+		public string label = "No label";
+		public bool toRemove = false;
 		public PawnFilterPartDef def;
+
+		public static float RowHeight => Text.LineHeight;
 
 		public abstract bool Matches(Pawn pawn);
 
-		public virtual void DoEditInterface(Listing_PawnFilter list) => _ = list.GetPawnFilterPartRect(this, Text.LineHeight);
+		public abstract void DoEditInterface(Listing_PawnFilter list);
 
-		public void ExposeData() => Scribe_Defs.Look<PawnFilterPartDef>(ref this.def, "def");
+		public void ExposeData() => Scribe_Defs.Look(ref this.def, "def");
 	}
 }

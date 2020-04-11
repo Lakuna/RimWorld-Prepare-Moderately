@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
 using Verse;
-using HarmonyLib;
 
 namespace PrepareModerately {
 	public class PawnFilter {
+		// TODO: Remove references here - move to individual filters.
 		public static List<SkillDef> allSkills = DefDatabase<SkillDef>.AllDefsListForReading;
 		public static List<PawnRelationDef> allRelations = DefDatabase<PawnRelationDef>.AllDefsListForReading;
 		public static List<TraitDef> allTraits = DefDatabase<TraitDef>.AllDefsListForReading;
 		public static List<WorkTypeDef> allWorkTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
 		public static List<StatDef> allStats = DefDatabase<StatDef>.AllDefsListForReading;
+
+		// Keep this one though.
 		public static List<PawnFilterPartDef> allFilterParts = DefDatabase<PawnFilterPartDef>.AllDefsListForReading;
 
 		public readonly List<PawnFilterPart> parts;

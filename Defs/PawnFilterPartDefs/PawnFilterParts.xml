@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>NameStartsWith</defName>
+		<label>Name starts with</label>
+		<partClass>PrepareModerately.PawnFilterPart_NameStartsWith</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+</Defs>

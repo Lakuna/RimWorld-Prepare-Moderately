@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_NameStartsWith : PawnFilterPart {
-		private readonly string startsWith;
+		private string startsWith;
 
-		public PawnFilterPart_NameStartsWith(string startsWith) => this.startsWith = startsWith;
+		public PawnFilterPart_NameStartsWith() {
+			this.label = "Name starts with:";
+			this.startsWith = "";
+		}
+
+		public override void DoEditInterface(Listing_PawnFilter list) {
+			Rect rect = list.GetPawnFilterPartRect(this, 31);
+			this.startsWith = Widgets.TextArea(rect, this.startsWith);
+		}
 
 		public override bool Matches(Pawn pawn) => pawn.Name.ToStringFull.StartsWith(this.startsWith);
 	}
