@@ -79,6 +79,7 @@
     <Compile Include="PawnFilter.cs" />
     <Compile Include="PawnFilterPartDef.cs" />
     <Compile Include="PawnFilterPartDefOf.cs" />
+    <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_NameStartsWith.cs" />
     <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

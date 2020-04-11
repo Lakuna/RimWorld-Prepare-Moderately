@@ -6,4 +6,10 @@
 		<label>Name starts with</label>
 		<partClass>PrepareModerately.PawnFilterPart_NameStartsWith</partClass>
 	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>CapableOf</defName>
+		<label>Capable of</label>
+		<partClass>PrepareModerately.PawnFilterPart_CapableOf</partClass>
+	</PrepareModerately.PawnFilterPartDef>
 </Defs>
