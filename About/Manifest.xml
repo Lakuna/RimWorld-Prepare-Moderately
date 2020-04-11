@@ -3,11 +3,23 @@
 <Manifest>
 	<identifier>PrepareModerately</identifier>
 	<version>1.0</version>
+	<dependencies>
+		<li>Harmony</li>
+	</dependencies>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+		</li>
+	</modDependencies>
 	<loadAfter>
 		<li>Core</li>
 		<li>Royalty</li>
+		<li>Harmony</li>
 	</loadAfter>
 	<showCrossPromotions>false</showCrossPromotions>
-	<manifestUri>https://github.com/T3rrabyte/RimWorld-Prepare-Moderately/raw/master/About/Manifest.xml</manifestUri>
+	<manifestUri>https://raw.githubusercontent.com/T3rrabyte/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/T3rrabyte/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
 </Manifest>
