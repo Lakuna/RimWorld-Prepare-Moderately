@@ -2,14 +2,50 @@
 
 <Defs>
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>NameStartsWith</defName>
-		<label>Name starts with</label>
-		<partClass>PrepareModerately.PawnFilterPart_NameStartsWith</partClass>
+		<defName>NameContains</defName>
+		<label>Name contains</label>
+		<partClass>PrepareModerately.PawnFilterPart_NameContains</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
 		<defName>CapableOf</defName>
 		<label>Capable of</label>
 		<partClass>PrepareModerately.PawnFilterPart_CapableOf</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>SkillLevelMinimum</defName>
+		<label>Skill level minimum</label>
+		<partClass>PrepareModerately.PawnFilterPart_SkillLevelMinimum</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>PassionMinimum</defName>
+		<label>Passion minimum</label>
+		<partClass>PrepareModerately.PawnFilterPart_PassionMinimum</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>AgeMaximum</defName>
+		<label>Age maximum</label>
+		<partClass>PrepareModerately.PawnFilterPart_AgeMaximum</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>RequiredTrait</defName>
+		<label>Required trait</label>
+		<partClass>PrepareModerately.PawnFilterPart_RequiredTrait</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>DisallowedTrait</defName>
+		<label>Disallowed trait</label>
+		<partClass>PrepareModerately.PawnFilterPart_DisallowedTrait</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>NoMedicalConditions</defName>
+		<label>No medical conditions</label>
+		<partClass>PrepareModerately.PawnFilterPart_NoMedicalConditions</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 </Defs>

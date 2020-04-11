@@ -13,13 +13,6 @@ namespace PrepareModerately {
 
 		public readonly List<PawnFilterPart> parts;
 
-		// Able/not able to do each ABILITY (?) - whatever firefighting is. Skills already have this done.
-		// 0-20 and no/minor/major passion for each skill.
-		// No relationships/has certain relationship.
-		// No medical conditions.
-		// Has/doesn't have specific trait.
-		// Age below/above.
-
 		public PawnFilter() => this.parts = new List<PawnFilterPart>();
 
 		public bool Matches(Pawn pawn) {

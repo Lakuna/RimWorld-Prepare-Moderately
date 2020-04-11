@@ -79,8 +79,14 @@
     <Compile Include="PawnFilter.cs" />
     <Compile Include="PawnFilterPartDef.cs" />
     <Compile Include="PawnFilterPartDefOf.cs" />
+    <Compile Include="PawnFilterPart_AgeMaximum.cs" />
     <Compile Include="PawnFilterPart_CapableOf.cs" />
-    <Compile Include="PawnFilterPart_NameStartsWith.cs" />
+    <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
+    <Compile Include="PawnFilterPart_NameContains.cs" />
+    <Compile Include="PawnFilterPart_NoMedicalConditions.cs" />
+    <Compile Include="PawnFilterPart_PassionMinimum.cs" />
+    <Compile Include="PawnFilterPart_RequiredTrait.cs" />
+    <Compile Include="PawnFilterPart_SkillLevelMinimum.cs" />
     <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomizeCurrentPatch.cs" />
