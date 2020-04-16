@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using Verse;
 
 namespace PrepareModerately {
@@ -9,6 +10,10 @@ namespace PrepareModerately {
 		public PawnFilter currentFilter;
 		public bool currentlyRandomizing;
 		public Pawn currentPawn;
+
+		public int RandomizeMultiplier => Math.Max(this.page.randomizeMultiplier, 1);
+
+		public int RandomizeModulus => Math.Max(this.page.randomizeModulus, 1);
 
 		public static PrepareModerately Instance {
 			get {

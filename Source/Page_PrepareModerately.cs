@@ -10,6 +10,10 @@ namespace PrepareModerately {
 		private const int dividerWidth = 17;
 		private float partViewHeight = 0;
 		private Vector2 scrollPosition = Vector2.zero;
+		public int randomizeMultiplier;
+		private string randomizeMultiplierBuffer;
+		public int randomizeModulus;
+		private string randomizeModulusBuffer;
 
 		public override string PageTitle => "Prepare Moderately";
 
@@ -36,6 +40,15 @@ namespace PrepareModerately {
 
 			// Add part button.
 			if (controlButtonList.ButtonText("Add part")) { this.OpenAddPartMenu(); }
+
+			// Randomize multiplier input field.
+			controlButtonList.TextFieldNumericLabeled("Multiplier ", ref this.randomizeMultiplier, ref this.randomizeMultiplierBuffer);
+
+			// Randomize modulus input field.
+			controlButtonList.TextFieldNumericLabeled("Modulus ", ref this.randomizeModulus, ref this.randomizeModulusBuffer);
+
+			// Multiplier and modulus help label.
+			controlButtonList.Label("Pawn randomization speed is multiplied by the multiplier and divided by the modulus.");
 
 			// End control column.
 			controlButtonList.End();

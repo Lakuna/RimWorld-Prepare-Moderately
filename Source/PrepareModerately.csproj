@@ -83,7 +83,8 @@
     <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
     <Compile Include="PawnFilterPart_NameContains.cs" />
-    <Compile Include="PawnFilterPart_NoMedicalConditions.cs" />
+    <Compile Include="PawnFilterPart_NoAddictions.cs" />
+    <Compile Include="PawnFilterPart_NoPermanentMedicalConditions.cs" />
     <Compile Include="PawnFilterPart_PassionMinimum.cs" />
     <Compile Include="PawnFilterPart_RequiredTrait.cs" />
     <Compile Include="PawnFilterPart_SkillLevelMinimum.cs" />

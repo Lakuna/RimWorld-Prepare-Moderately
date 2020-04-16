@@ -10,7 +10,8 @@ namespace PrepareModerately {
 		public static PawnFilterPartDef AgeMaximum;
 		public static PawnFilterPartDef RequiredTrait;
 		public static PawnFilterPartDef DisallowedTrait;
-		public static PawnFilterPartDef NoMedicalConditions;
+		public static PawnFilterPartDef NoPermanentMedicalConditions;
+		public static PawnFilterPartDef NoAddictions;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

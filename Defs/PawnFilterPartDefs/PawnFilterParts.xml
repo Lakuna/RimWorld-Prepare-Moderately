@@ -44,8 +44,14 @@
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>NoMedicalConditions</defName>
-		<label>No medical conditions</label>
-		<partClass>PrepareModerately.PawnFilterPart_NoMedicalConditions</partClass>
+		<defName>NoPermanentMedicalConditions</defName>
+		<label>No permanent medical conditions</label>
+		<partClass>PrepareModerately.PawnFilterPart_NoPermanentMedicalConditions</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>NoAddictions</defName>
+		<label>No addictions</label>
+		<partClass>PrepareModerately.PawnFilterPart_NoAddictions</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 </Defs>
