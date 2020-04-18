@@ -80,9 +80,11 @@
     <Compile Include="PawnFilterPartDef.cs" />
     <Compile Include="PawnFilterPartDefOf.cs" />
     <Compile Include="PawnFilterPart_AgeMaximum.cs" />
+    <Compile Include="PawnFilterPart_AgeMinimum.cs" />
     <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
     <Compile Include="PawnFilterPart_NameContains.cs" />
+    <Compile Include="PawnFilterPart_CapableOfEverything.cs" />
     <Compile Include="PawnFilterPart_NoAddictions.cs" />
     <Compile Include="PawnFilterPart_NoPermanentMedicalConditions.cs" />
     <Compile Include="PawnFilterPart_PassionMinimum.cs" />

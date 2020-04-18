@@ -54,4 +54,16 @@
 		<label>No addictions</label>
 		<partClass>PrepareModerately.PawnFilterPart_NoAddictions</partClass>
 	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>AgeMinimum</defName>
+		<label>Age minimum</label>
+		<partClass>PrepareModerately.PawnFilterPart_AgeMinimum</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>CapableOfEverything</defName>
+		<label>Capable of everything</label>
+		<partClass>PrepareModerately.PawnFilterPart_CapableOfEverything</partClass>
+	</PrepareModerately.PawnFilterPartDef>
 </Defs>
