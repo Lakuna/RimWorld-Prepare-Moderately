@@ -14,6 +14,10 @@ namespace PrepareModerately {
 		public static PawnFilterPartDef NoAddictions;
 		public static PawnFilterPartDef AgeMinimum;
 		public static PawnFilterPartDef CapableOfEverything;
+		public static PawnFilterPartDef HasRelationship;
+		public static PawnFilterPartDef NotHasRelationship;
+		public static PawnFilterPartDef NoRelationships;
+		public static PawnFilterPartDef IsSpecies;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

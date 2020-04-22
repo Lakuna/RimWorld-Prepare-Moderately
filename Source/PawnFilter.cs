@@ -10,6 +10,23 @@ namespace PrepareModerately {
 		public static List<WorkTypeDef> allWorkTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
 		public static List<StatDef> allStats = DefDatabase<StatDef>.AllDefsListForReading;
 		public static List<PawnFilterPartDef> allFilterParts = DefDatabase<PawnFilterPartDef>.AllDefsListForReading;
+		private static List<ThingDef> allHumanlikeDefs;
+
+		public static List<ThingDef> AllHumanlikeDefs {
+			get {
+				if (allHumanlikeDefs == null) {
+					Log.Message("Getting humanlikes list.");
+					allHumanlikeDefs = new List<ThingDef>();
+					foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading) {
+						if (def.race != null && def.race.Humanlike) {
+							allHumanlikeDefs.Add(def);
+							Log.Message(def.LabelCap + " is humanlike.");
+						}
+					}
+				}
+				return allHumanlikeDefs;
+			}
+		}
 
 		public readonly List<PawnFilterPart> parts;
 

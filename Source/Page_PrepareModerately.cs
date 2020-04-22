@@ -47,8 +47,11 @@ namespace PrepareModerately {
 			// Randomize modulus input field.
 			controlButtonList.TextFieldNumericLabeled("Modulus ", ref this.randomizeModulus, ref this.randomizeModulusBuffer);
 
-			// Multiplier and modulus help label.
+			// Multiplier and modulus help labels.
 			controlButtonList.Label("Pawn randomization speed is multiplied by the multiplier and divided by the modulus.");
+			if (this.randomizeMultiplier < 1 || this.randomizeModulus < 1) { _ = controlButtonList.Label("Multiplier and modulus values less than 1 will be set to 1."); }
+			if (this.randomizeMultiplier > 5) { _ = controlButtonList.Label("Randomization speed will still be limited by your computer's hardware. Use high multiplier values at your own risk."); }
+			if (this.randomizeModulus > 1) { _ = controlButtonList.Label("Higher modulus values will not make randomization easier on your computer."); }
 
 			// End control column.
 			controlButtonList.End();

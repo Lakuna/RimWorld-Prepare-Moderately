@@ -66,4 +66,28 @@
 		<label>Capable of everything</label>
 		<partClass>PrepareModerately.PawnFilterPart_CapableOfEverything</partClass>
 	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>HasRelationship</defName>
+		<label>Has relationship</label>
+		<partClass>PrepareModerately.PawnFilterPart_HasRelationship</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>NotHasRelationship</defName>
+		<label>Doesn't have relationship</label>
+		<partClass>PrepareModerately.PawnFilterPart_NotHasRelationship</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>NoRelationships</defName>
+		<label>No relationships</label>
+		<partClass>PrepareModerately.PawnFilterPart_NoRelationships</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>IsSpecies</defName>
+		<label>Is species</label>
+		<partClass>PrepareModerately.PawnFilterPart_IsSpecies</partClass>
+	</PrepareModerately.PawnFilterPartDef>
 </Defs>

@@ -19,7 +19,7 @@ namespace PrepareModerately {
 		}
 
 		public override void DoEditInterface(Listing_PawnFilter list) {
-			Rect rect = list.GetPawnFilterPartRect(this, ScenPart.RowHeight * 2);
+			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Trait list.
 			Rect traitRect = new Rect(rect.x, rect.y, rect.width, rect.height / 2);

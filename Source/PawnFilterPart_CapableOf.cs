@@ -1,5 +1,4 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -14,7 +13,7 @@ namespace PrepareModerately {
 		}
 
 		public override void DoEditInterface(Listing_PawnFilter list) {
-			Rect rect = list.GetPawnFilterPartRect(this, ScenPart.RowHeight);
+			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 
 			// Don't do anything when the button isn't clicked.
 			if (!Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) { return; }

@@ -83,10 +83,14 @@
     <Compile Include="PawnFilterPart_AgeMinimum.cs" />
     <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
+    <Compile Include="PawnFilterPart_HasRelationship.cs" />
+    <Compile Include="PawnFilterPart_IsSpecies.cs" />
     <Compile Include="PawnFilterPart_NameContains.cs" />
     <Compile Include="PawnFilterPart_CapableOfEverything.cs" />
     <Compile Include="PawnFilterPart_NoAddictions.cs" />
     <Compile Include="PawnFilterPart_NoPermanentMedicalConditions.cs" />
+    <Compile Include="PawnFilterPart_NoRelationships.cs" />
+    <Compile Include="PawnFilterPart_NotHasRelationship.cs" />
     <Compile Include="PawnFilterPart_PassionMinimum.cs" />
     <Compile Include="PawnFilterPart_RequiredTrait.cs" />
     <Compile Include="PawnFilterPart_SkillLevelMinimum.cs" />
