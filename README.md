@@ -1,10 +1,9 @@
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/T3rrabyte/RimWorld-Prepare-Moderately?label=Version)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/T3rrabyte/RimWorld-Prepare-Moderately)
 
-![GitHub All Releases](https://img.shields.io/github/downloads/T3rrabyte/RimWorld-Prepare-Moderately/total?label=GitHub%20downloads)
-![Steam Downloads](https://img.shields.io/steam/downloads/2057362949?label=Steam%20downloads)
-![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2057362949?label=Subscriptions)
-![Steam Favorites](https://img.shields.io/steam/favorites/2057362949?label=Favorites)
-![Steam Views](https://img.shields.io/steam/views/2057362949?label=Views)
+![Steam Downloads](https://img.shields.io/steam/downloads/2057362949)
+![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2057362949)
+![Steam Favorites](https://img.shields.io/steam/favorites/2057362949)
+![Steam Views](https://img.shields.io/steam/views/2057362949)
 
 # Prepare Moderately
 Source code for this project can be found at https://github.com/T3rrabyte/RimWorld-Prepare-Moderately.
