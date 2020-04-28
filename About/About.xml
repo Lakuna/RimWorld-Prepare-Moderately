@@ -4,15 +4,15 @@
 	<name>Prepare Moderately</name>
 	<author>Lakuna</author>
 	<packageId>lakuna.preparemoderately</packageId>
+    <url>https://github.com/T3rrabyte/RimWorld-Prepare-Moderately</url>
+    <supportedVersions>
+        <li>1.1</li>
+    </supportedVersions>
 	<description>
 This mod is intended as a balanced replacement for EdB Prepare Carefully.
 
 Allows the player to set minimum specifications for colonists; colonists that do not meet these specifications are automatically re-rolled. Never again will you have to roll through hundreds of colonists looking for a cannibal-psychopath.
 	</description>
-	<url>https://github.com/T3rrabyte/RimWorld-Prepare-Moderately</url>
-	<supportedVersions>
-		<li>1.1</li>
-	</supportedVersions>
 	<modDependencies>
         <li>
             <packageId>brrainz.harmony</packageId>
@@ -21,9 +21,11 @@ Allows the player to set minimum specifications for colonists; colonists that do
             <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
         </li>
     </modDependencies>
+    <incompatibleWith/>
+    <loadBefore/>
     <loadAfter>
-    	<li>Core</li>
-    	<li>Royalty</li>
+    	<li>ludeon.rimworld</li>
+        <li>ludeon.rimworld.royalty</li>
         <li>brrainz.harmony</li>
     </loadAfter>
 </ModMetaData>
