@@ -3,13 +3,13 @@ using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	class PawnFilterPart_WellRounded : PawnFilterPart {
+	public class PawnFilterPart_WellRounded : PawnFilterPart {
 		private int skillCount;
 		private string skillCountBuffer;
 		private int skillLevel;
 		private string skillLevelBuffer;
 
-		PawnFilterPart_WellRounded() {
+		public PawnFilterPart_WellRounded() {
 			this.label = "Minimum skills:\nat level:";
 			this.skillCount = 2;
 			this.skillLevel = 6;

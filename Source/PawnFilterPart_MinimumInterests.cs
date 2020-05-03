@@ -5,12 +5,12 @@ using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	class PawnFilterPart_MinimumInterests : PawnFilterPart {
+	public class PawnFilterPart_MinimumInterests : PawnFilterPart {
 		private int skillCount;
 		private string skillCountBuffer;
 		private Passion passionLevel;
 
-		PawnFilterPart_MinimumInterests() {
+		public PawnFilterPart_MinimumInterests() {
 			this.label = "Minimum interests:\nat level:";
 			this.skillCount = 2;
 			this.passionLevel = Passion.Minor;
