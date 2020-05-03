@@ -18,6 +18,8 @@ namespace PrepareModerately {
 		public static PawnFilterPartDef NotHasRelationship;
 		public static PawnFilterPartDef NoRelationships;
 		public static PawnFilterPartDef IsSpecies;
+		public static PawnFilterPartDef MinimumInterests;
+		public static PawnFilterPartDef WellRounded;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

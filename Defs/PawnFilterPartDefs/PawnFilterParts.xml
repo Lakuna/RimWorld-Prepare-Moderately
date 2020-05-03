@@ -90,4 +90,16 @@
 		<label>Is species</label>
 		<partClass>PrepareModerately.PawnFilterPart_IsSpecies</partClass>
 	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>MinimumInterests</defName>
+		<label>Minimum interest count</label>
+		<partClass>PrepareModerately.PawnFilterPart_MinimumInterests</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>WellRounded</defName>
+		<label>Minimum skills at level</label>
+		<partClass>PrepareModerately.PawnFilterPart_WellRounded</partClass>
+	</PrepareModerately.PawnFilterPartDef>
 </Defs>
