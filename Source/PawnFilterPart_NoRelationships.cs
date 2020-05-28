@@ -11,5 +11,9 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => !pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe;
+
+		public override string ToLoadableString() => this.GetType().Name;
+
+		public override void FromLoadableString(string s) { }
 	}
 }

@@ -34,5 +34,13 @@ namespace PrepareModerately {
 			}
 			return skills > this.skillCount;
 		}
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.skillCount + " " + this.skillLevel;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.skillCount = int.Parse(parts[1]);
+			this.skillLevel = int.Parse(parts[2]);
+		}
 	}
 }

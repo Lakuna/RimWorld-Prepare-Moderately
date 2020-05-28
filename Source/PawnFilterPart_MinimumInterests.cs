@@ -40,5 +40,13 @@ namespace PrepareModerately {
 			}
 			return interests > this.skillCount;
 		}
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.skillCount + " " + (int) this.passionLevel;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.skillCount = int.Parse(parts[1]);
+			this.passionLevel = (Passion) int.Parse(parts[2]);
+		}
 	}
 }

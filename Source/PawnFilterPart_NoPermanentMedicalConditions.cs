@@ -10,5 +10,9 @@ namespace PrepareModerately {
 			Widgets.Label(rect, "No input.");
 		}
 		public override bool Matches(Pawn pawn) => !pawn.health.hediffSet.hediffs.Any(hediff => hediff.IsPermanent() || hediff.def.chronic);
+
+		public override string ToLoadableString() => this.GetType().Name;
+
+		public override void FromLoadableString(string s) { }
 	}
 }

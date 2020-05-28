@@ -13,5 +13,12 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.Name.ToStringFull.Contains(this.contains);
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.contains;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.contains = parts[1];
+		}
 	}
 }

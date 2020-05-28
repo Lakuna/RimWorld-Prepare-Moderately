@@ -41,6 +41,15 @@ namespace PrepareModerately {
 			// Add part button.
 			if (controlButtonList.ButtonText("Add part")) { this.OpenAddPartMenu(); }
 
+			// Add filter name input field.
+			PrepareModerately.Instance.currentFilter.name = controlButtonList.TextEntry(PrepareModerately.Instance.currentFilter.name);
+
+			// Add save filter button.
+			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".filter"); }
+
+			// Add load filter button.
+			if (controlButtonList.ButtonText("Load")) { PrepareModerately.Instance.currentFilter.Load(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".filter"); }
+
 			// Randomize multiplier input field.
 			controlButtonList.TextFieldNumericLabeled("Multiplier ", ref this.randomizeMultiplier, ref this.randomizeMultiplierBuffer);
 

@@ -1,9 +1,11 @@
 ﻿using RimWorld;
 using System;
+using System.IO;
 using Verse;
 
 namespace PrepareModerately {
 	public class PrepareModerately {
+		public static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PrepareModerately");
 		private static PrepareModerately instance;
 		public Page_PrepareModerately page;
 		public Page_ConfigureStartingPawns originalPage;
@@ -23,6 +25,7 @@ namespace PrepareModerately {
 		}
 
 		private PrepareModerately() {
+			_ = Directory.CreateDirectory(dataPath);
 			this.page = new Page_PrepareModerately();
 			this.currentFilter = new PawnFilter();
 			this.currentlyRandomizing = false;

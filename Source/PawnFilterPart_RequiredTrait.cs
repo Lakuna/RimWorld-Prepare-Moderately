@@ -44,5 +44,13 @@ namespace PrepareModerately {
 			Trait matchedTrait = pawn.story.traits.allTraits.Find(trait => trait.def == this.trait);
 			return matchedTrait == null ? false : matchedTrait.Degree == this.degree;
 		}
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.trait.defName.CapitalizeFirst() + " " + this.degree;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.trait = PawnFilter.allTraits.Find(def => def.defName.CapitalizeFirst() == parts[1]);
+			this.degree = int.Parse(parts[2]);
+		}
 	}
 }

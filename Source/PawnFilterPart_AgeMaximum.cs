@@ -18,5 +18,12 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.ageTracker.AgeBiologicalYears <= this.age;
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.age;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.age = int.Parse(parts[1]);
+		}
 	}
 }

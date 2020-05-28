@@ -13,5 +13,9 @@ namespace PrepareModerately {
 		public abstract void DoEditInterface(Listing_PawnFilter list);
 
 		public void ExposeData() => Scribe_Defs.Look(ref this.def, "def");
+
+		public abstract string ToLoadableString();
+
+		public abstract void FromLoadableString(string s);
 	}
 }

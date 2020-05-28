@@ -26,5 +26,12 @@ namespace PrepareModerately {
 			DirectPawnRelation matchedRelation = pawn.relations.DirectRelations.Find(relation => relation.def == this.relation);
 			return matchedRelation != null;
 		}
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.relation.LabelCap;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.relation = PawnFilter.allRelations.Find(def => def.LabelCap == parts[1]);
+		}
 	}
 }

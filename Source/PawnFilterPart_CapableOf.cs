@@ -25,5 +25,12 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => !pawn.WorkTagIsDisabled(this.workTag);
+
+		public override string ToLoadableString() => this.GetType().Name + " " + (int) this.workTag;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.workTag = (WorkTags) int.Parse(parts[1]);
+		}
 	}
 }

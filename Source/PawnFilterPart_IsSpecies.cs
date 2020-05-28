@@ -23,5 +23,12 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.def == this.humanlike;
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.humanlike.LabelCap;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.humanlike = PawnFilter.AllHumanlikeDefs.Find(def => def.LabelCap == parts[1]);
+		}
 	}
 }

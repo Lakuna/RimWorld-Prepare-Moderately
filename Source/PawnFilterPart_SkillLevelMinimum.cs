@@ -34,5 +34,13 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.skills.GetSkill(this.skill).levelInt >= this.level;
+
+		public override string ToLoadableString() => this.GetType().Name + " " + this.skill.LabelCap + " " + this.level;
+
+		public override void FromLoadableString(string s) {
+			string[] parts = s.Split(' ');
+			this.skill = PawnFilter.allSkills.Find(def => def.LabelCap == parts[1]);
+			this.level = int.Parse(parts[2]);
+		}
 	}
 }

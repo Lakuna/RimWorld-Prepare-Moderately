@@ -8,11 +8,16 @@ namespace PrepareModerately {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			Widgets.Label(rect, "No input.");
 		}
+
 		public override bool Matches(Pawn pawn) {
 			foreach (WorkTypeDef def in PawnFilter.allWorkTypes) {
 				if (pawn.WorkTypeIsDisabled(def)) { return false; }
 			}
 			return true;
 		}
+
+		public override string ToLoadableString() => this.GetType().Name;
+
+		public override void FromLoadableString(string s) { }
 	}
 }
