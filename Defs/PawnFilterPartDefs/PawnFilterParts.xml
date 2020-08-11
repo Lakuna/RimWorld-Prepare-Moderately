@@ -20,9 +20,9 @@
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>PassionMinimum</defName>
-		<label>Passion minimum</label>
-		<partClass>PrepareModerately.PawnFilterPart_PassionMinimum</partClass>
+		<defName>PassionValue</defName>
+		<label>Passion value</label>
+		<partClass>PrepareModerately.PawnFilterPart_PassionValue</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>

@@ -92,7 +92,7 @@
     <Compile Include="PawnFilterPart_NoPermanentMedicalConditions.cs" />
     <Compile Include="PawnFilterPart_NoRelationships.cs" />
     <Compile Include="PawnFilterPart_NotHasRelationship.cs" />
-    <Compile Include="PawnFilterPart_PassionMinimum.cs" />
+    <Compile Include="PawnFilterPart_PassionValue.cs" />
     <Compile Include="PawnFilterPart_RequiredTrait.cs" />
     <Compile Include="PawnFilterPart_SkillLevelMinimum.cs" />
     <Compile Include="PawnFilterPart_WellRounded.cs" />

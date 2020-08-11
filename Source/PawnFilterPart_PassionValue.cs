@@ -5,12 +5,12 @@ using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	public class PawnFilterPart_PassionMinimum : PawnFilterPart {
+	public class PawnFilterPart_PassionValue : PawnFilterPart {
 		private SkillDef skill;
 		private Passion passionLevel;
 
-		public PawnFilterPart_PassionMinimum() {
-			this.label = "Passion minimum:";
+		public PawnFilterPart_PassionValue() {
+			this.label = "Passion value:";
 			this.skill = SkillDefOf.Shooting;
 			this.passionLevel = Passion.Minor;
 		}
@@ -37,7 +37,7 @@ namespace PrepareModerately {
 			}
 		}
 
-		public override bool Matches(Pawn pawn) => pawn.skills.GetSkill(this.skill).passion >= this.passionLevel;
+		public override bool Matches(Pawn pawn) => pawn.skills.GetSkill(this.skill).passion == this.passionLevel;
 
 		public override string ToLoadableString() => this.GetType().Name + " " + this.skill.LabelCap + " " + (int) this.passionLevel;
 
