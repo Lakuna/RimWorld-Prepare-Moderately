@@ -102,4 +102,10 @@
 		<label>Minimum skills at level</label>
 		<partClass>PrepareModerately.PawnFilterPart_WellRounded</partClass>
 	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>Gender</defName>
+		<label>Is gender</label>
+		<partClass>PrepareModerately.PawnFilterPart_Gender</partClass>
+	</PrepareModerately.PawnFilterPartDef>
 </Defs>

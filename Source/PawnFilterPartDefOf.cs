@@ -20,6 +20,7 @@ namespace PrepareModerately {
 		public static PawnFilterPartDef IsSpecies;
 		public static PawnFilterPartDef MinimumInterests;
 		public static PawnFilterPartDef WellRounded;
+        public static PawnFilterPartDef Gender;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

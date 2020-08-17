@@ -83,6 +83,7 @@
     <Compile Include="PawnFilterPart_AgeMinimum.cs" />
     <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
+    <Compile Include="PawnFilterPart_Gender.cs" />
     <Compile Include="PawnFilterPart_HasRelationship.cs" />
     <Compile Include="PawnFilterPart_IsSpecies.cs" />
     <Compile Include="PawnFilterPart_MinimumInterests.cs" />
