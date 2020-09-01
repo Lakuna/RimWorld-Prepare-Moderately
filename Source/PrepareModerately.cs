@@ -5,7 +5,7 @@ using Verse;
 
 namespace PrepareModerately {
 	public class PrepareModerately {
-		public static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PrepareModerately");
+		public static string dataPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/.t3/PrepareModerately";
 		private static PrepareModerately instance;
 		public Page_PrepareModerately page;
 		public Page_ConfigureStartingPawns originalPage;
