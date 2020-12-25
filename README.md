@@ -3,4 +3,4 @@
 # RimWorld-Prepare-Moderately
 This mod is intended as a balanced replacement for EdB Prepare Carefully.
 
-Copyright (c) 2020 Edikt Studios LLC - All Rights Reserved
+Copyright (c) 2020 Travis Martin - All Rights Reserved
