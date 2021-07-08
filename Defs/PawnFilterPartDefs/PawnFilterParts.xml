@@ -26,12 +26,6 @@
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>AgeMaximum</defName>
-		<label>Age maximum</label>
-		<partClass>PrepareModerately.PawnFilterPart_AgeMaximum</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
 		<defName>RequiredTrait</defName>
 		<label>Required trait</label>
 		<partClass>PrepareModerately.PawnFilterPart_RequiredTrait</partClass>
@@ -53,12 +47,6 @@
 		<defName>NoAddictions</defName>
 		<label>No addictions</label>
 		<partClass>PrepareModerately.PawnFilterPart_NoAddictions</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>AgeMinimum</defName>
-		<label>Age minimum</label>
-		<partClass>PrepareModerately.PawnFilterPart_AgeMinimum</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
@@ -107,5 +95,11 @@
 		<defName>Gender</defName>
 		<label>Is gender</label>
 		<partClass>PrepareModerately.PawnFilterPart_Gender</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>AgeRange</defName>
+		<label>Age range</label>
+		<partClass>PrepareModerately.PawnFilterPart_AgeRange</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 </Defs>

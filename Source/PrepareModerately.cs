@@ -5,7 +5,6 @@ using Verse;
 
 namespace PrepareModerately {
 	public class PrepareModerately {
-		// public static string dataPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/.t3/PrepareModerately";
 		public static string dataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/Lakuna/PrepareModerately";
 		private static PrepareModerately instance;
 		public Page_PrepareModerately page;

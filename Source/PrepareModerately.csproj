@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonPatch.cs" />
+    <Compile Include="PawnFilterPart_AgeRange.cs" />
     <Compile Include="Dialog_Randomizing.cs" />
     <Compile Include="Listing_PawnFilter.cs" />
     <Compile Include="PawnFilterPart.cs" />
@@ -79,8 +80,6 @@
     <Compile Include="PawnFilter.cs" />
     <Compile Include="PawnFilterPartDef.cs" />
     <Compile Include="PawnFilterPartDefOf.cs" />
-    <Compile Include="PawnFilterPart_AgeMaximum.cs" />
-    <Compile Include="PawnFilterPart_AgeMinimum.cs" />
     <Compile Include="PawnFilterPart_CapableOf.cs" />
     <Compile Include="PawnFilterPart_DisallowedTrait.cs" />
     <Compile Include="PawnFilterPart_Gender.cs" />
