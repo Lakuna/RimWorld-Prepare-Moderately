@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 
 <Manifest>
-	<version>1.5</version>
+	<identifier>PrepareModerately</identifier>
+	<version>2.1</version>
+	<dependencies>
+		<li>Harmony</li>
+	</dependencies>
+	<loadAfter>
+		<li>Harmony</li>
+		<li>Core</li>
+		<li>Royalty</li>
+		<li>Ideology</li>
+	</loadAfter>
 	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/Lakuna/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
 </Manifest>

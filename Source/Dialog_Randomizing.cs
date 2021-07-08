@@ -29,15 +29,8 @@ namespace PrepareModerately {
 			// Display window information.
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(rect, "Randomizing (" + this.iterations + " iterations, " + this.randomizedPawns + " pawns)");
-			if (this.randomizedPawns > 10000) {
-				Text.Anchor = TextAnchor.UpperRight;
-				Widgets.Label(rect, "Consider reducing your filters.");
-
-				if (this.randomizedPawns > 30000) {
-					Text.Anchor = TextAnchor.LowerLeft;
-					Widgets.Label(rect, "I don't think these filters are viable, chief...");
-				}
-			}
+			Text.Anchor = TextAnchor.UpperRight;
+			Widgets.Label(rect, "Click outside of this dialog to stop rolling.");
 			Text.Anchor = TextAnchor.UpperLeft;
 			Widgets.Label(rect, PrepareModerately.Instance.RandomizeMultiplier + "X | " + PrepareModerately.Instance.RandomizeModulus + "%");
 

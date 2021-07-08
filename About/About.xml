@@ -3,7 +3,7 @@
 <ModMetaData>
 	<name>Prepare Moderately</name>
 	<author>Lakuna</author>
-	<packageId>lakuna.preparemoderately</packageId>
+	<packageId>Lakuna.PrepareModerately</packageId>
     <url>https://github.com/Lakuna/RimWorld-Prepare-Moderately</url>
     <supportedVersions>
         <li>1.1</li>
@@ -26,9 +26,9 @@ Allows the player to set minimum specifications for colonists; colonists that do
     <incompatibleWith/>
     <loadBefore/>
     <loadAfter>
-    	<li>ludeon.rimworld</li>
-        <li>ludeon.rimworld.royalty</li>
-        <li>ludeon.rimworld.ideology</li>
+    	<li>Ludeon.RimWorld</li>
+        <li>Ludeon.RimWorld.Royalty</li>
+        <li>Ludeon.RimWorld.Ideology</li>
         <li>brrainz.harmony</li>
     </loadAfter>
 </ModMetaData>
