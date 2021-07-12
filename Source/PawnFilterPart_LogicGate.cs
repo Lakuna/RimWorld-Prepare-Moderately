@@ -11,6 +11,8 @@ namespace PrepareModerately {
 			public int logicGateType;
 			public PawnFilter.SerializablePawnFilter innerFilter;
 
+			public SerializableLogicGate() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableLogicGate(PawnFilterPart_LogicGate pawnFilterPart) {
 				this.logicGateType = (int) pawnFilterPart.logicGateType;
 				this.innerFilter = new PawnFilter.SerializablePawnFilter(pawnFilterPart.innerFilter);

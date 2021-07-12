@@ -4,10 +4,12 @@ using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	internal class PawnFilterPart_Gender : PawnFilterPart {
+	public class PawnFilterPart_Gender : PawnFilterPart {
 		[Serializable]
 		public class SerializableGender : SerializablePawnFilterPart {
 			public string gender;
+
+			public SerializableGender() { } // Parameterless constructor necessary for serialization.
 
 			public SerializableGender(PawnFilterPart_Gender pawnFilterPart) => this.gender = pawnFilterPart.gender.ToString();
 

@@ -9,6 +9,8 @@ namespace PrepareModerately {
 			public int max;
 			public int min;
 
+			public SerializableAgeRange() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableAgeRange(PawnFilterPart_AgeRange pawnFilterPart) {
 				this.max = pawnFilterPart.range.max;
 				this.min = pawnFilterPart.range.min;

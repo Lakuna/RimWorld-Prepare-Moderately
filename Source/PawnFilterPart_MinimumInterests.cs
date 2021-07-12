@@ -10,6 +10,8 @@ namespace PrepareModerately {
 		public class SerializableMinimumInterests : SerializablePawnFilterPart {
 			public int passion;
 
+			public SerializableMinimumInterests() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableMinimumInterests(PawnFilterPart_MinimumInterests pawnFilterPart) => this.passion = (int) pawnFilterPart.passion;
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_MinimumInterests {

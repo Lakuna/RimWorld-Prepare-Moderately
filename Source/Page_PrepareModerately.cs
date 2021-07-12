@@ -52,7 +52,7 @@ namespace PrepareModerately {
 			PrepareModerately.Instance.currentFilter.name = controlButtonList.TextEntry(PrepareModerately.Instance.currentFilter.name);
 
 			// Add save filter button.
-			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".json"); }
+			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".xml"); }
 
 			// Add load filter button.
 			if (controlButtonList.ButtonText("Load")) {
@@ -60,7 +60,7 @@ namespace PrepareModerately {
 				if (filePaths.Length > 0) {
 					FloatMenuUtility.MakeMenu(filePaths, path => {
 						int start = path.LastIndexOf("\\") + 1;
-						int end = path.LastIndexOf(".json");
+						int end = path.LastIndexOf(".xml");
 						return path.Substring(start, end - start);
 					}, path => () => PrepareModerately.Instance.currentFilter.Load(path));
 				} else {

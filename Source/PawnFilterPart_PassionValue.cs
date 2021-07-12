@@ -11,6 +11,8 @@ namespace PrepareModerately {
 			public string skill;
 			public int passionLevel;
 
+			public SerializablePassionValue() { } // Parameterless constructor necessary for serialization.
+
 			public SerializablePassionValue(PawnFilterPart_PassionValue pawnFilterPart) {
 				this.skill = pawnFilterPart.skill.LabelCap;
 				this.passionLevel = (int) pawnFilterPart.passionLevel;

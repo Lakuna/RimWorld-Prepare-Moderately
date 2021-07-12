@@ -10,6 +10,8 @@ namespace PrepareModerately {
 		public class SerializableHasRelationship : SerializablePawnFilterPart {
 			public string relation;
 
+			public SerializableHasRelationship() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableHasRelationship(PawnFilterPart_HasRelationship pawnFilterPart) => this.relation = pawnFilterPart.relation.LabelCap;
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_HasRelationship {

@@ -8,6 +8,8 @@ namespace PrepareModerately {
 		public class SerializableNoRelationships : SerializablePawnFilterPart {
 			public int workTag;
 
+			public SerializableNoRelationships() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableNoRelationships(PawnFilterPart_NoRelationships pawnFilterPart) { }
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_NoRelationships();

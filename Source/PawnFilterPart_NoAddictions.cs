@@ -9,6 +9,8 @@ namespace PrepareModerately {
 		public class SerializableNoAddictions : SerializablePawnFilterPart {
 			public int workTag;
 
+			public SerializableNoAddictions() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableNoAddictions(PawnFilterPart_NoAddictions pawnFilterPart) { }
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_NoAddictions();

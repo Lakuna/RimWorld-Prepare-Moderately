@@ -9,6 +9,8 @@ namespace PrepareModerately {
 		public class SerializableCapableOf : SerializablePawnFilterPart {
 			public int workTag;
 
+			public SerializableCapableOf() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableCapableOf(PawnFilterPart_CapableOf pawnFilterPart) => this.workTag = (int) pawnFilterPart.workTag;
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_CapableOf {

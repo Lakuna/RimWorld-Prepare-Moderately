@@ -10,6 +10,8 @@ namespace PrepareModerately {
 		public class SerializableIsSpecies : SerializablePawnFilterPart {
 			public string humanlike;
 
+			public SerializableIsSpecies() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableIsSpecies(PawnFilterPart_IsSpecies pawnFilterPart) => this.humanlike = pawnFilterPart.humanlike.LabelCap;
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_IsSpecies {

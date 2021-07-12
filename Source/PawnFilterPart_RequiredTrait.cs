@@ -11,6 +11,8 @@ namespace PrepareModerately {
 			public string trait;
 			public int degree;
 
+			public SerializableRequiredTrait() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableRequiredTrait(PawnFilterPart_RequiredTrait pawnFilterPart) {
 				this.trait = pawnFilterPart.trait.defName.CapitalizeFirst();
 				this.degree = pawnFilterPart.degree;

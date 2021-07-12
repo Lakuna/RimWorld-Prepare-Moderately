@@ -6,6 +6,8 @@ namespace PrepareModerately {
 	public class PawnFilterPart_CapableOfEverything : PawnFilterPart {
 		[Serializable]
 		public class SerializableCapableOfEverything : SerializablePawnFilterPart {
+			public SerializableCapableOfEverything() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableCapableOfEverything(PawnFilterPart_CapableOfEverything pawnFilterPart) { }
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_CapableOfEverything();

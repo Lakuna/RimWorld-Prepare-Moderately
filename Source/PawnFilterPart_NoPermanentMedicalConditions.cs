@@ -9,6 +9,8 @@ namespace PrepareModerately {
 		public class SerializableNoPermanentMedicalConditions : SerializablePawnFilterPart {
 			public int workTag;
 
+			public SerializableNoPermanentMedicalConditions() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableNoPermanentMedicalConditions(PawnFilterPart_NoPermanentMedicalConditions pawnFilterPart) { }
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_NoPermanentMedicalConditions();

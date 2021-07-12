@@ -8,6 +8,8 @@ namespace PrepareModerately {
 		public class SerializableNameContains : SerializablePawnFilterPart {
 			public string contains;
 
+			public SerializableNameContains() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableNameContains(PawnFilterPart_NameContains pawnFilterPart) => this.contains = pawnFilterPart.contains;
 
 			public override PawnFilterPart Deserialize() => new PawnFilterPart_NameContains {

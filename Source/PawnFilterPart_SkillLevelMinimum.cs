@@ -11,6 +11,8 @@ namespace PrepareModerately {
 			public string skill;
 			public int level;
 
+			public SerializableSkillLevelMinimum() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableSkillLevelMinimum(PawnFilterPart_SkillLevelMinimum pawnFilterPart) {
 				this.skill = pawnFilterPart.skill.LabelCap;
 				this.level = pawnFilterPart.level;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using System.Xml.Serialization;
 using Verse;
 
 namespace PrepareModerately {
@@ -10,13 +10,14 @@ namespace PrepareModerately {
 		[Serializable]
 		public class SerializablePawnFilter {
 			public static SerializablePawnFilter Load(string path) {
-				string s = "";
-				using (StreamReader reader = new StreamReader(path)) { s = reader.ReadToEnd(); }
-				return JsonUtility.FromJson<SerializablePawnFilter>(s);
+				XmlSerializer serializer = new XmlSerializer(typeof(SerializablePawnFilter));
+				using (StreamReader reader = new StreamReader(path)) { return (SerializablePawnFilter) serializer.Deserialize(reader); }
 			}
 
 			public string name;
 			public PawnFilterPart.SerializablePawnFilterPart[] parts;
+
+			private SerializablePawnFilter() { } // Parameterless constructor necessary for serialization.
 
 			public SerializablePawnFilter(PawnFilter pawnFilter) {
 				this.name = pawnFilter.name;
@@ -27,7 +28,8 @@ namespace PrepareModerately {
 			}
 
 			public void Save(string path) {
-				using (StreamWriter writer = new StreamWriter(path)) { writer.Write(JsonUtility.ToJson(this)); }
+				XmlSerializer serializer = new XmlSerializer(typeof(SerializablePawnFilter));
+				using (StreamWriter writer = new StreamWriter(path)) { serializer.Serialize(writer, this); }
 			}
 
 			public PawnFilter Deserialize() {

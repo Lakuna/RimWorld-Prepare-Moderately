@@ -10,6 +10,8 @@ namespace PrepareModerately {
 			public int skillCount;
 			public int skillLevel;
 
+			public SerializableWellRounded() { } // Parameterless constructor necessary for serialization.
+
 			public SerializableWellRounded(PawnFilterPart_WellRounded pawnFilterPart) {
 				this.skillCount = pawnFilterPart.skillCount;
 				this.skillLevel = pawnFilterPart.skillLevel;
