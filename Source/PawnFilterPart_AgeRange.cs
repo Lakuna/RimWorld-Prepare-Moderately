@@ -3,6 +3,7 @@ using Verse;
 
 namespace PrepareModerately {
 	class PawnFilterPart_AgeRange : PawnFilterPart {
+		private static System.Random random = new System.Random();
 		protected IntRange range;
 
 		public PawnFilterPart_AgeRange() {
@@ -12,7 +13,7 @@ namespace PrepareModerately {
 
 		public override void DoEditInterface(Listing_PawnFilter list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
-			Widgets.IntRange(rect, 0x80085, ref this.range, 14);
+			Widgets.IntRange(rect, PawnFilterPart_AgeRange.random.Next(0x0, 0xFFFFF), ref this.range, 14);
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.ageTracker.AgeBiologicalYears <= this.range.max && pawn.ageTracker.AgeBiologicalYears >= this.range.min;

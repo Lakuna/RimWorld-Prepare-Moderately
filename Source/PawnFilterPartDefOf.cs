@@ -3,23 +3,22 @@
 namespace PrepareModerately {
 	[DefOf]
 	public static class PawnFilterPartDefOf {
-		public static PawnFilterPartDef NameContains;
+		public static PawnFilterPartDef AgeRange;
 		public static PawnFilterPartDef CapableOf;
-		public static PawnFilterPartDef SkillLevelMinimum;
+		public static PawnFilterPartDef CapableOfEverything;
+		public static PawnFilterPartDef Gender;
+		public static PawnFilterPartDef HasRelationship;
+		public static PawnFilterPartDef IsSpecies;
+		public static PawnFilterPartDef LogicGate;
+		public static PawnFilterPartDef MinimumInterests;
+		public static PawnFilterPartDef NameContains;
+		public static PawnFilterPartDef NoAddictions;
+		public static PawnFilterPartDef NoPermanentMedicalConditions;
+		public static PawnFilterPartDef NoRelationships;
 		public static PawnFilterPartDef PassionValue;
 		public static PawnFilterPartDef RequiredTrait;
-		public static PawnFilterPartDef DisallowedTrait;
-		public static PawnFilterPartDef NoPermanentMedicalConditions;
-		public static PawnFilterPartDef NoAddictions;
-		public static PawnFilterPartDef CapableOfEverything;
-		public static PawnFilterPartDef HasRelationship;
-		public static PawnFilterPartDef NotHasRelationship;
-		public static PawnFilterPartDef NoRelationships;
-		public static PawnFilterPartDef IsSpecies;
-		public static PawnFilterPartDef MinimumInterests;
+		public static PawnFilterPartDef SkillLevelMinimum;
 		public static PawnFilterPartDef WellRounded;
-        public static PawnFilterPartDef Gender;
-		public static PawnFilterPartDef AgeRange;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

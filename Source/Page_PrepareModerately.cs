@@ -7,7 +7,7 @@ using System.IO;
 
 namespace PrepareModerately {
 	public class Page_PrepareModerately : Page {
-		private const float controlColumnWidthPercentage = 0.35f;
+		private const float controlColumnWidthPercentage = 0.20f;
 		private const int dividerWidth = 17;
 		private float partViewHeight = 0;
 		private Vector2 scrollPosition = Vector2.zero;
@@ -30,7 +30,7 @@ namespace PrepareModerately {
 
 			// Build control column.
 			Rect controlColumn = new Rect(0, 0, mainRect.width * controlColumnWidthPercentage, mainRect.height).Rounded();
-			Listing_Standard controlButtonList = new Listing_Standard { ColumnWidth = 200 };
+			Listing_Standard controlButtonList = new Listing_Standard { ColumnWidth = controlColumn.width };
 			controlButtonList.Begin(controlColumn);
 
 			// Back button.
@@ -40,16 +40,31 @@ namespace PrepareModerately {
 			}
 
 			// Add part button.
-			if (controlButtonList.ButtonText("Add part")) { this.OpenAddPartMenu(); }
+			if (controlButtonList.ButtonText("Add part")) { FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
+				PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
+				part.def = def;
+				PrepareModerately.Instance.currentFilter.parts.Add(part);
+			}); }
 
 			// Add filter name input field.
 			PrepareModerately.Instance.currentFilter.name = controlButtonList.TextEntry(PrepareModerately.Instance.currentFilter.name);
 
 			// Add save filter button.
-			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".filter"); }
+			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".json"); }
 
 			// Add load filter button.
-			if (controlButtonList.ButtonText("Load")) { this.OpenLoadFilterMenu(); }
+			if (controlButtonList.ButtonText("Load")) {
+				string[] filePaths = Directory.GetFiles(PrepareModerately.dataPath);
+				if (filePaths.Length > 0) {
+					FloatMenuUtility.MakeMenu(filePaths, path => {
+						int start = path.LastIndexOf("\\") + 1;
+						int end = path.LastIndexOf(".json");
+						return path.Substring(start, end - start);
+					}, path => () => PrepareModerately.Instance.currentFilter.Load(path));
+				} else {
+					FloatMenuUtility.MakeMenu(new string[] { "N/A" }, _ => _, _ => () => { });
+				}
+			}
 
 			// Randomize multiplier input field.
 			controlButtonList.TextFieldNumericLabeled("Multiplier ", ref this.randomizeMultiplier, ref this.randomizeMultiplierBuffer);
@@ -89,27 +104,6 @@ namespace PrepareModerately {
 			// End filter column.
 			Widgets.EndScrollView();
 			GUI.EndGroup();
-		}
-
-		private void OpenAddPartMenu() => FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => this.AddPawnFilterPart(def));
-
-		private void OpenLoadFilterMenu() {
-			string[] filePaths = Directory.GetFiles(PrepareModerately.dataPath);
-			if (filePaths.Length > 0) {
-				FloatMenuUtility.MakeMenu(filePaths, path => {
-					int start = path.LastIndexOf("\\") + 1;
-					int end = path.LastIndexOf(".filter");
-					return path.Substring(start, end - start);
-				}, path => () => PrepareModerately.Instance.currentFilter.Load(path));
-			} else {
-				FloatMenuUtility.MakeMenu(new string[] { "N/A" }, _ => _, _ => () => { });
-			}
-		}
-
-		private void AddPawnFilterPart(PawnFilterPartDef partDef) {
-			PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(partDef.partClass);
-			part.def = partDef;
-			PrepareModerately.Instance.currentFilter.parts.Add(part);
 		}
 	}
 }
