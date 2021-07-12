@@ -28,6 +28,7 @@ namespace PrepareModerately.GUI {
 			// Display window information.
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(rect, "Rolling (" + this.iterations + ")\nClick outside of this dialog to stop.");
+			Text.Anchor = TextAnchor.UpperLeft; // Must end on upper left.
 
 			// Don't randomize on non-modulus frames.
 			if (this.iterations % PrepareModerately.Instance.RandomizeModulus != 0) { return; }

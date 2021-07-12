@@ -21,7 +21,7 @@
 
 	<PrepareModerately.Filter.PawnFilterPartDef>
 		<defName>HasMinimumInterestsAtLevel</defName>
-		<label>Minimum skills at level</label>
+		<label>Minimum interests at level</label>
 		<partClass>PrepareModerately.Filter.Filters.HasMinimumInterestsAtLevel</partClass>
 	</PrepareModerately.Filter.PawnFilterPartDef>
 

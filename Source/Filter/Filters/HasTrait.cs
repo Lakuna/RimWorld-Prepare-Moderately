@@ -31,7 +31,7 @@ namespace PrepareModerately.Filter.Filters {
 		protected int degree;
 
 		public HasTrait() {
-			this.label = "Has required trait:";
+			this.label = "Has trait:";
 			this.SelectTrait(TraitDefOf.Cannibal);
 		}
 
