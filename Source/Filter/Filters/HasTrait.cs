@@ -1,36 +1,37 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_RequiredTrait : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class HasTrait : PawnFilterPart {
 		[Serializable]
-		public class SerializableRequiredTrait : SerializablePawnFilterPart {
+		public class HasTraitSerializable : PawnFilterPartSerializable {
 			public string trait;
 			public int degree;
 
-			public SerializableRequiredTrait() { } // Parameterless constructor necessary for serialization.
+			private HasTraitSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableRequiredTrait(PawnFilterPart_RequiredTrait pawnFilterPart) {
+			public HasTraitSerializable(HasTrait pawnFilterPart) {
 				this.trait = pawnFilterPart.trait.defName.CapitalizeFirst();
 				this.degree = pawnFilterPart.degree;
 			}
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_RequiredTrait {
+			public override PawnFilterPart Deserialize() => new HasTrait {
 				trait = PawnFilter.allTraits.Find(def => def.defName.CapitalizeFirst() == this.trait),
 				degree = this.degree
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableRequiredTrait(this);
+		public override PawnFilterPartSerializable Serialize() => new HasTraitSerializable(this);
 
 		protected TraitDef trait;
 		protected int degree;
 
-		public PawnFilterPart_RequiredTrait() {
-			this.label = "Required trait:";
+		public HasTrait() {
+			this.label = "Has required trait:";
 			this.SelectTrait(TraitDefOf.Cannibal);
 		}
 
@@ -39,7 +40,7 @@ namespace PrepareModerately {
 			this.degree = this.trait.degreeDatas[0].degree;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Trait list.

@@ -1,9 +1,10 @@
 ﻿using HarmonyLib;
+using PrepareModerately.GUI;
 using RimWorld;
 using System.Reflection;
 using Verse;
 
-namespace PrepareModerately {
+namespace PrepareModerately.Patches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "RandomizeCurPawn")]
 	public class RandomizeCurrentPatch {
 		[HarmonyPostfix]
@@ -21,7 +22,7 @@ namespace PrepareModerately {
 			if (PrepareModerately.Instance.currentlyRandomizing) { return; }
 
 			// Add randomizing dialog.
-			Find.WindowStack.Add(new Dialog_Randomizing(__instance, __originalMethod));
+			Find.WindowStack.Add(new RollingDialog(__instance, __originalMethod));
 			PrepareModerately.Instance.currentlyRandomizing = true;
 		}
 	}

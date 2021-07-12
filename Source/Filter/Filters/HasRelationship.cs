@@ -1,34 +1,35 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_HasRelationship : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class HasRelationship : PawnFilterPart {
 		[Serializable]
-		public class SerializableHasRelationship : SerializablePawnFilterPart {
+		public class HasRelationshipSerializable : PawnFilterPartSerializable {
 			public string relation;
 
-			public SerializableHasRelationship() { } // Parameterless constructor necessary for serialization.
+			private HasRelationshipSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableHasRelationship(PawnFilterPart_HasRelationship pawnFilterPart) => this.relation = pawnFilterPart.relation.LabelCap;
+			public HasRelationshipSerializable(HasRelationship pawnFilterPart) => this.relation = pawnFilterPart.relation.LabelCap;
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_HasRelationship {
+			public override PawnFilterPart Deserialize() => new HasRelationship {
 				relation = PawnFilter.allRelations.Find(def => def.LabelCap == this.relation)
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableHasRelationship(this);
+		public override PawnFilterPartSerializable Serialize() => new HasRelationshipSerializable(this);
 
 		private PawnRelationDef relation;
 
-		public PawnFilterPart_HasRelationship() {
+		public HasRelationship() {
 			this.label = "Has relationship:";
 			this.relation = PawnRelationDefOf.Lover;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			if (!Widgets.ButtonText(rect, this.relation.LabelCap)) { return; }
 

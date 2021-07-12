@@ -1,38 +1,39 @@
-﻿using System;
+﻿using PrepareModerately.GUI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_Gender : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class IsGender : PawnFilterPart {
 		[Serializable]
-		public class SerializableGender : SerializablePawnFilterPart {
+		public class IsGenderSerializable : PawnFilterPartSerializable {
 			public string gender;
 
-			public SerializableGender() { } // Parameterless constructor necessary for serialization.
+			private IsGenderSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableGender(PawnFilterPart_Gender pawnFilterPart) => this.gender = pawnFilterPart.gender.ToString();
+			public IsGenderSerializable(IsGender pawnFilterPart) => this.gender = pawnFilterPart.gender.ToString();
 
 			public override PawnFilterPart Deserialize() {
 				foreach (Gender gender in Enum.GetValues(typeof(Gender))) {
 					if (gender.ToString() == this.gender) {
-						return new PawnFilterPart_Gender() { gender = gender };
+						return new IsGender() { gender = gender };
 					}
 				}
 				throw new Exception("Tried to load unknown gender \"" + this.gender + "\".");
 			}
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableGender(this);
+		public override PawnFilterPartSerializable Serialize() => new IsGenderSerializable(this);
 
 		private Gender gender;
 
-		public PawnFilterPart_Gender() {
-			this.label = "Gender:";
+		public IsGender() {
+			this.label = "Is gender:";
 			this.gender = Gender.Male;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			if (!Widgets.ButtonText(rect, this.gender.ToString())) { return; }
 

@@ -1,33 +1,34 @@
-﻿using System;
+﻿using PrepareModerately.GUI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_CapableOf : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class IsCapableOf : PawnFilterPart {
 		[Serializable]
-		public class SerializableCapableOf : SerializablePawnFilterPart {
+		public class IsCapableOfSerializable : PawnFilterPartSerializable {
 			public int workTag;
 
-			public SerializableCapableOf() { } // Parameterless constructor necessary for serialization.
+			private IsCapableOfSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableCapableOf(PawnFilterPart_CapableOf pawnFilterPart) => this.workTag = (int) pawnFilterPart.workTag;
+			public IsCapableOfSerializable(IsCapableOf pawnFilterPart) => this.workTag = (int) pawnFilterPart.workTag;
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_CapableOf {
+			public override PawnFilterPart Deserialize() => new IsCapableOf {
 				workTag = (WorkTags) this.workTag
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableCapableOf(this);
+		public override PawnFilterPartSerializable Serialize() => new IsCapableOfSerializable(this);
 
 		private WorkTags workTag;
 
-		public PawnFilterPart_CapableOf() {
-			this.label = "Capable of:";
+		public IsCapableOf() {
+			this.label = "Is capable of:";
 			this.workTag = WorkTags.Firefighting;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 
 			// Don't do anything when the button isn't clicked.

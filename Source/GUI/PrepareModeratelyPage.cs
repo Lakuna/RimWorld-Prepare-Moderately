@@ -1,20 +1,28 @@
-﻿using RimWorld;
+﻿using PrepareModerately.Filter;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class Page_PrepareModerately : Page {
-		private const float controlColumnWidthPercentage = 0.20f;
+namespace PrepareModerately.GUI {
+	public class PrepareModeratelyPage : Page {
 		private const int dividerWidth = 17;
-		private float partViewHeight = 0;
-		private Vector2 scrollPosition = Vector2.zero;
+
+		private float partViewHeight;
+		private Vector2 scrollPosition;
 		public int randomizeMultiplier;
 		private string randomizeMultiplierBuffer;
 		public int randomizeModulus;
 		private string randomizeModulusBuffer;
+
+		public PrepareModeratelyPage() {
+			this.partViewHeight = 0;
+			this.scrollPosition = Vector2.zero;
+			this.randomizeMultiplier = 1;
+			this.randomizeModulus = 1;
+		}
 
 		public override string PageTitle => "Prepare Moderately";
 
@@ -24,12 +32,13 @@ namespace PrepareModerately {
 		}
 
 		public override void DoWindowContents(Rect rect) {
+			// Setup page.
 			this.DrawPageTitle(rect);
 			Rect mainRect = this.GetMainRect(rect);
-			GUI.BeginGroup(mainRect);
+			UnityEngine.GUI.BeginGroup(mainRect);
 
 			// Build control column.
-			Rect controlColumn = new Rect(0, 0, mainRect.width * controlColumnWidthPercentage, mainRect.height).Rounded();
+			Rect controlColumn = new Rect(0, 0, mainRect.width * 0.20f, mainRect.height).Rounded();
 			Listing_Standard controlButtonList = new Listing_Standard { ColumnWidth = controlColumn.width };
 			controlButtonList.Begin(controlColumn);
 
@@ -48,13 +57,13 @@ namespace PrepareModerately {
 				});
 			}
 
-			// Add filter name input field.
+			// Filter name input field.
 			PrepareModerately.Instance.currentFilter.name = controlButtonList.TextEntry(PrepareModerately.Instance.currentFilter.name);
 
-			// Add save filter button.
+			// Save filter button.
 			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".xml"); }
 
-			// Add load filter button.
+			// Load filter button.
 			if (controlButtonList.ButtonText("Load")) {
 				string[] filePaths = Directory.GetFiles(PrepareModerately.dataPath);
 				if (filePaths.Length > 0) {
@@ -92,7 +101,7 @@ namespace PrepareModerately {
 			Rect filterViewInnerRect = new Rect(0, 0, filterViewRect.width, 99999);
 
 			// Draw filter parts.
-			Listing_PawnFilter filterPartList = new Listing_PawnFilter(PrepareModerately.Instance.currentFilter) { ColumnWidth = filterViewInnerRect.width };
+			PawnFilterListing filterPartList = new PawnFilterListing() { ColumnWidth = filterViewInnerRect.width };
 			filterPartList.Begin(filterViewInnerRect);
 			_ = filterPartList.Label("Filters");
 			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>(); // Remove parts that should be removed here in order to avoid modifying enumerable during foreach.
@@ -105,7 +114,7 @@ namespace PrepareModerately {
 
 			// End filter column.
 			Widgets.EndScrollView();
-			GUI.EndGroup();
+			UnityEngine.GUI.EndGroup();
 		}
 	}
 }

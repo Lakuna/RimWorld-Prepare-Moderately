@@ -1,42 +1,43 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_WellRounded : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class HasMinimumSkillsAtLevel : PawnFilterPart {
 		[Serializable]
-		public class SerializableWellRounded : SerializablePawnFilterPart {
+		public class HasMinimumSkillsAtLevelSerializable : PawnFilterPartSerializable {
 			public int skillCount;
 			public int skillLevel;
 
-			public SerializableWellRounded() { } // Parameterless constructor necessary for serialization.
+			private HasMinimumSkillsAtLevelSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableWellRounded(PawnFilterPart_WellRounded pawnFilterPart) {
+			public HasMinimumSkillsAtLevelSerializable(HasMinimumSkillsAtLevel pawnFilterPart) {
 				this.skillCount = pawnFilterPart.skillCount;
 				this.skillLevel = pawnFilterPart.skillLevel;
 			}
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_WellRounded {
+			public override PawnFilterPart Deserialize() => new HasMinimumSkillsAtLevel {
 				skillCount = this.skillCount,
 				skillLevel = this.skillLevel
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableWellRounded(this);
+		public override PawnFilterPartSerializable Serialize() => new HasMinimumSkillsAtLevelSerializable(this);
 
 		private int skillCount;
 		private string skillCountBuffer;
 		private int skillLevel;
 		private string skillLevelBuffer;
 
-		public PawnFilterPart_WellRounded() {
-			this.label = "Minimum skills at level:";
+		public HasMinimumSkillsAtLevel() {
+			this.label = "Has minimum skills at level:";
 			this.skillCount = 2;
 			this.skillLevel = 6;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Skill count input field.
@@ -53,7 +54,7 @@ namespace PrepareModerately {
 			foreach (SkillRecord skill in pawn.skills.skills) {
 				if (skill.levelInt >= this.skillLevel) { skills++; }
 			}
-			return skills > this.skillCount;
+			return skills >= this.skillCount;
 		}
 	}
 }

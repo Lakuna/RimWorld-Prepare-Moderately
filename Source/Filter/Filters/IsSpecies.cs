@@ -1,34 +1,35 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_IsSpecies : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class IsSpecies : PawnFilterPart {
 		[Serializable]
-		public class SerializableIsSpecies : SerializablePawnFilterPart {
+		public class IsSpeciesSerializable : PawnFilterPartSerializable {
 			public string humanlike;
 
-			public SerializableIsSpecies() { } // Parameterless constructor necessary for serialization.
+			private IsSpeciesSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableIsSpecies(PawnFilterPart_IsSpecies pawnFilterPart) => this.humanlike = pawnFilterPart.humanlike.LabelCap;
+			public IsSpeciesSerializable(IsSpecies pawnFilterPart) => this.humanlike = pawnFilterPart.humanlike.LabelCap;
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_IsSpecies {
+			public override PawnFilterPart Deserialize() => new IsSpecies {
 				humanlike = PawnFilter.AllHumanlikeDefs.Find(def => def.LabelCap == this.humanlike)
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableIsSpecies(this);
+		public override PawnFilterPartSerializable Serialize() => new IsSpeciesSerializable(this);
 
 		private ThingDef humanlike;
 
-		public PawnFilterPart_IsSpecies() {
+		public IsSpecies() {
 			this.label = "Is species:";
 			this.humanlike = ThingDefOf.Human;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			if (!Widgets.ButtonText(rect, this.humanlike.LabelCap)) { return; }
 

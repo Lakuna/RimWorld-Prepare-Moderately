@@ -1,37 +1,38 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_MinimumInterests : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class HasMinimumInterestsAtLevel : PawnFilterPart {
 		[Serializable]
-		public class SerializableMinimumInterests : SerializablePawnFilterPart {
+		public class HasMinimumInterestsAtLevelSerializable : PawnFilterPartSerializable {
 			public int passion;
 
-			public SerializableMinimumInterests() { } // Parameterless constructor necessary for serialization.
+			private HasMinimumInterestsAtLevelSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableMinimumInterests(PawnFilterPart_MinimumInterests pawnFilterPart) => this.passion = (int) pawnFilterPart.passion;
+			public HasMinimumInterestsAtLevelSerializable(HasMinimumInterestsAtLevel pawnFilterPart) => this.passion = (int) pawnFilterPart.passion;
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_MinimumInterests {
+			public override PawnFilterPart Deserialize() => new HasMinimumInterestsAtLevel {
 				passion = (Passion) this.passion
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableMinimumInterests(this);
+		public override PawnFilterPartSerializable Serialize() => new HasMinimumInterestsAtLevelSerializable(this);
 
 		private int count;
 		private string buffer;
 		private Passion passion;
 
-		public PawnFilterPart_MinimumInterests() {
-			this.label = "Minimum interests at level:";
+		public HasMinimumInterestsAtLevel() {
+			this.label = "Has minimum interests at level:";
 			this.count = 2;
 			this.passion = Passion.Minor;
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Skill count field.
@@ -53,7 +54,7 @@ namespace PrepareModerately {
 			foreach (SkillRecord skill in pawn.skills.skills) {
 				if (skill.passion >= this.passion) { interests++; }
 			}
-			return interests > this.count;
+			return interests >= this.count;
 		}
 	}
 }

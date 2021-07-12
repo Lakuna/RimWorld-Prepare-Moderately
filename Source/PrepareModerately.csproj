@@ -70,34 +70,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonPatch.cs" />
-    <Compile Include="PawnFilterPart_AgeRange.cs" />
-    <Compile Include="Dialog_Randomizing.cs" />
-    <Compile Include="Listing_PawnFilter.cs" />
-    <Compile Include="PawnFilterPart.cs" />
-    <Compile Include="HarmonyPatcher.cs" />
-    <Compile Include="Page_PrepareModerately.cs" />
-    <Compile Include="PawnFilter.cs" />
-    <Compile Include="PawnFilterPartDef.cs" />
-    <Compile Include="PawnFilterPartDefOf.cs" />
-    <Compile Include="PawnFilterPart_CapableOf.cs" />
-    <Compile Include="PawnFilterPart_Gender.cs" />
-    <Compile Include="PawnFilterPart_HasRelationship.cs" />
-    <Compile Include="PawnFilterPart_IsSpecies.cs" />
-    <Compile Include="PawnFilterPart_LogicGate.cs" />
-    <Compile Include="PawnFilterPart_MinimumInterests.cs" />
-    <Compile Include="PawnFilterPart_NameContains.cs" />
-    <Compile Include="PawnFilterPart_CapableOfEverything.cs" />
-    <Compile Include="PawnFilterPart_NoAddictions.cs" />
-    <Compile Include="PawnFilterPart_NoPermanentMedicalConditions.cs" />
-    <Compile Include="PawnFilterPart_NoRelationships.cs" />
-    <Compile Include="PawnFilterPart_PassionValue.cs" />
-    <Compile Include="PawnFilterPart_RequiredTrait.cs" />
-    <Compile Include="PawnFilterPart_SkillLevelMinimum.cs" />
-    <Compile Include="PawnFilterPart_WellRounded.cs" />
+    <Compile Include="Filter\Filters\HasAnyPermanentMedicalCondition.cs" />
+    <Compile Include="Filter\Filters\IsSpecies.cs" />
+    <Compile Include="Patches\ButtonPatch.cs" />
+    <Compile Include="Filter\Filters\InAgeRange.cs" />
+    <Compile Include="GUI\RollingDialog.cs" />
+    <Compile Include="GUI\PawnFilterListing.cs" />
+    <Compile Include="Filter\PawnFilterPart.cs" />
+    <Compile Include="Patches\HarmonyPatcher.cs" />
+    <Compile Include="GUI\PrepareModeratelyPage.cs" />
+    <Compile Include="Filter\PawnFilter.cs" />
+    <Compile Include="Filter\PawnFilterPartDef.cs" />
+    <Compile Include="Filter\PawnFilterPartDefOf.cs" />
+    <Compile Include="Filter\Filters\IsCapableOf.cs" />
+    <Compile Include="Filter\Filters\IsGender.cs" />
+    <Compile Include="Filter\Filters\HasRelationship.cs" />
+    <Compile Include="Filter\Filters\LogicGate.cs" />
+    <Compile Include="Filter\Filters\HasMinimumInterestsAtLevel.cs" />
+    <Compile Include="Filter\Filters\NameContains.cs" />
+    <Compile Include="Filter\Filters\IsCapableOfEverything.cs" />
+    <Compile Include="Filter\Filters\HasAnyAddiction.cs" />
+    <Compile Include="Filter\Filters\HasAnyRelationship.cs" />
+    <Compile Include="Filter\Filters\HasPassionValue.cs" />
+    <Compile Include="Filter\Filters\HasTrait.cs" />
+    <Compile Include="Filter\Filters\HasSkillLevelMinimum.cs" />
+    <Compile Include="Filter\Filters\HasMinimumSkillsAtLevel.cs" />
     <Compile Include="PrepareModerately.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomizeCurrentPatch.cs" />
+    <Compile Include="Patches\RandomizeCurrentPatch.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

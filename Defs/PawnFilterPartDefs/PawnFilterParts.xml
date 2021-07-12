@@ -2,98 +2,92 @@
 
 <Defs>
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>AgeRange</defName>
-		<label>Age range</label>
-		<partClass>PrepareModerately.PawnFilterPart_AgeRange</partClass>
+		<defName>HasAnyAddiction</defName>
+		<label>Any addiction</label>
+		<partClass>PrepareModerately.Filter.Filters.HasAnyAddiction</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>CapableOf</defName>
-		<label>Capable of</label>
-		<partClass>PrepareModerately.PawnFilterPart_CapableOf</partClass>
+		<defName>HasAnyPermanentMedicalCondition</defName>
+		<label>Any permanent injury</label>
+		<partClass>PrepareModerately.Filter.Filters.HasAnyPermanentMedicalCondition</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>CapableOfEverything</defName>
-		<label>Capable of everything</label>
-		<partClass>PrepareModerately.PawnFilterPart_CapableOfEverything</partClass>
+		<defName>HasAnyRelationship</defName>
+		<label>Any relationship</label>
+		<partClass>PrepareModerately.Filter.Filters.HasAnyRelationship</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
-		<defName>Gender</defName>
-		<label>Gender</label>
-		<partClass>PrepareModerately.PawnFilterPart_Gender</partClass>
+		<defName>HasMinimumSkillsAtLevel</defName>
+		<label>Minimum skills at level</label>
+		<partClass>PrepareModerately.Filter.Filters.HasMinimumSkillsAtLevel</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>HasPassionValue</defName>
+		<label>Passion</label>
+		<partClass>PrepareModerately.Filter.Filters.HasPassionValue</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
 		<defName>HasRelationship</defName>
-		<label>Has relationship</label>
-		<partClass>PrepareModerately.PawnFilterPart_HasRelationship</partClass>
+		<label>Relationship</label>
+		<partClass>PrepareModerately.Filter.Filters.HasRelationship</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>HasSkillLevelMinimum</defName>
+		<label>Skill level minimum</label>
+		<partClass>PrepareModerately.Filter.Filters.HasSkillLevelMinimum</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>HasTrait</defName>
+		<label>Trait</label>
+		<partClass>PrepareModerately.Filter.Filters.HasTrait</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>InAgeRange</defName>
+		<label>Age</label>
+		<partClass>PrepareModerately.Filter.Filters.InAgeRange</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>IsCapableOf</defName>
+		<label>Capable of</label>
+		<partClass>PrepareModerately.Filter.Filters.IsCapableOf</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>IsCapableOfEverything</defName>
+		<label>Capable of everything</label>
+		<partClass>PrepareModerately.Filter.Filters.IsCapableOfEverything</partClass>
+	</PrepareModerately.PawnFilterPartDef>
+
+	<PrepareModerately.PawnFilterPartDef>
+		<defName>IsGender</defName>
+		<label>Gender</label>
+		<partClass>PrepareModerately.Filter.Filters.IsGender</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
 		<defName>IsSpecies</defName>
-		<label>Is species</label>
-		<partClass>PrepareModerately.PawnFilterPart_IsSpecies</partClass>
+		<label>Species</label>
+		<partClass>PrepareModerately.Filter.Filters.IsSpecies</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
 		<defName>LogicGate</defName>
 		<label>Logic gate</label>
-		<partClass>PrepareModerately.PawnFilterPart_LogicGate</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>MinimumInterests</defName>
-		<label>Minimum interests</label>
-		<partClass>PrepareModerately.PawnFilterPart_MinimumInterests</partClass>
+		<partClass>PrepareModerately.Filter.Filters.LogicGate</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilterPartDef>
 		<defName>NameContains</defName>
-		<label>Name contains</label>
-		<partClass>PrepareModerately.PawnFilterPart_NameContains</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>NoAddictions</defName>
-		<label>No addictions</label>
-		<partClass>PrepareModerately.PawnFilterPart_NoAddictions</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>NoPermanentMedicalConditions</defName>
-		<label>No permanent medical conditions</label>
-		<partClass>PrepareModerately.PawnFilterPart_NoPermanentMedicalConditions</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>NoRelationships</defName>
-		<label>No relationships</label>
-		<partClass>PrepareModerately.PawnFilterPart_NoRelationships</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>PassionValue</defName>
-		<label>Passion value</label>
-		<partClass>PrepareModerately.PawnFilterPart_PassionValue</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>RequiredTrait</defName>
-		<label>Required trait</label>
-		<partClass>PrepareModerately.PawnFilterPart_RequiredTrait</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>SkillLevelMinimum</defName>
-		<label>Skill level minimum</label>
-		<partClass>PrepareModerately.PawnFilterPart_SkillLevelMinimum</partClass>
-	</PrepareModerately.PawnFilterPartDef>
-
-	<PrepareModerately.PawnFilterPartDef>
-		<defName>WellRounded</defName>
-		<label>Minimum skills at level</label>
-		<partClass>PrepareModerately.PawnFilterPart_WellRounded</partClass>
+		<label>Name</label>
+		<partClass>PrepareModerately.Filter.Filters.NameContains</partClass>
 	</PrepareModerately.PawnFilterPartDef>
 </Defs>

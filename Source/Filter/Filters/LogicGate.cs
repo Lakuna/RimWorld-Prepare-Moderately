@@ -1,30 +1,31 @@
-﻿using RimWorld;
+﻿using PrepareModerately.GUI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class PawnFilterPart_LogicGate : PawnFilterPart {
+namespace PrepareModerately.Filter.Filters {
+	public class LogicGate : PawnFilterPart {
 		[Serializable]
-		public class SerializableLogicGate : SerializablePawnFilterPart {
+		public class LogicGateSerializable : PawnFilterPartSerializable {
 			public int logicGateType;
-			public PawnFilter.SerializablePawnFilter innerFilter;
+			public PawnFilter.PawnFilterSerializable innerFilter;
 
-			public SerializableLogicGate() { } // Parameterless constructor necessary for serialization.
+			private LogicGateSerializable() { } // Parameterless constructor necessary for serialization.
 
-			public SerializableLogicGate(PawnFilterPart_LogicGate pawnFilterPart) {
+			public LogicGateSerializable(LogicGate pawnFilterPart) {
 				this.logicGateType = (int) pawnFilterPart.logicGateType;
-				this.innerFilter = new PawnFilter.SerializablePawnFilter(pawnFilterPart.innerFilter);
+				this.innerFilter = new PawnFilter.PawnFilterSerializable(pawnFilterPart.innerFilter);
 			}
 
-			public override PawnFilterPart Deserialize() => new PawnFilterPart_LogicGate {
+			public override PawnFilterPart Deserialize() => new LogicGate {
 				logicGateType = (LogicGateType) this.logicGateType,
 				innerFilter = this.innerFilter.Deserialize()
 			};
 		}
 
-		public override SerializablePawnFilterPart Serialize() => new SerializableLogicGate(this);
+		public override PawnFilterPartSerializable Serialize() => new LogicGateSerializable(this);
 
 		private enum LogicGateType { AND, OR, XOR, NOT };
 
@@ -36,12 +37,12 @@ namespace PrepareModerately {
 		private float partViewHeight = 0;
 		private Vector2 scrollPosition = Vector2.zero;
 
-		public PawnFilterPart_LogicGate() {
+		public LogicGate() {
 			this.label = "Logic gate:";
 			this.innerFilter = new PawnFilter();
 		}
 
-		public override void DoEditInterface(Listing_PawnFilter list) {
+		public override void DoEditInterface(PawnFilterListing list) {
 			int heightParts = 2 + filterFieldHeightParts;
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * heightParts);
 
@@ -68,7 +69,7 @@ namespace PrepareModerately {
 			Rect filterViewInnerRect = new Rect(0, 0, filterViewRect.width, 99999);
 
 			// Draw filter parts.
-			Listing_PawnFilter filterPartList = new Listing_PawnFilter(this.innerFilter) { ColumnWidth = filterViewInnerRect.width };
+			PawnFilterListing filterPartList = new PawnFilterListing() { ColumnWidth = filterViewInnerRect.width };
 			filterPartList.Begin(filterViewInnerRect);
 			_ = filterPartList.Label("Filters");
 			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>(); // Remove parts that should be removed here in order to avoid modifying enumerable during foreach.

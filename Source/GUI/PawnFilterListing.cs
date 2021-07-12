@@ -1,12 +1,10 @@
-﻿using UnityEngine;
+﻿using PrepareModerately.Filter;
+using UnityEngine;
 using Verse;
 
-namespace PrepareModerately {
-	public class Listing_PawnFilter : Listing_Standard {
-		private readonly PawnFilter filter;
-
-		public Listing_PawnFilter(PawnFilter filter) => this.filter = filter;
-
+namespace PrepareModerately.GUI {
+	// GUI representation of a PawnFilter. Lists PawnFilterParts visually.
+	public class PawnFilterListing : Listing_Standard {
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) {
 			// Make rect.
 			Rect rect = this.GetRect(PawnFilterPart.RowHeight + height);
@@ -20,8 +18,10 @@ namespace PrepareModerately {
 			Rect labelRect = new Rect(rect.x + 32, rect.y, rect.width, PawnFilterPart.RowHeight);
 			Widgets.Label(labelRect, part.label);
 
-			// Return remainder for further modification.
+			// Make a space between filter parts.
 			this.Gap(4);
+
+			// Return remainder for further modification.
 			return new Rect(rect.x, rect.y + labelRect.height, rect.width, rect.height - labelRect.height);
 		}
 	}

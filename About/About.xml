@@ -26,9 +26,7 @@ Allows the player to set minimum specifications for colonists; colonists that do
     <incompatibleWith/>
     <loadBefore/>
     <loadAfter>
-    	<li>Ludeon.RimWorld</li>
-        <li>Ludeon.RimWorld.Royalty</li>
-        <li>Ludeon.RimWorld.Ideology</li>
         <li>brrainz.harmony</li>
+    	<li>Ludeon.RimWorld</li>
     </loadAfter>
 </ModMetaData>
