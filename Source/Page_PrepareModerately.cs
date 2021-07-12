@@ -3,6 +3,7 @@ using UnityEngine;
 using RimWorld;
 using Verse;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PrepareModerately {
 	public class Page_PrepareModerately : Page {
@@ -48,7 +49,7 @@ namespace PrepareModerately {
 			if (controlButtonList.ButtonText("Save")) { PrepareModerately.Instance.currentFilter.Save(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".filter"); }
 
 			// Add load filter button.
-			if (controlButtonList.ButtonText("Load")) { PrepareModerately.Instance.currentFilter.Load(PrepareModerately.dataPath + "\\" + PrepareModerately.Instance.currentFilter.name + ".filter"); }
+			if (controlButtonList.ButtonText("Load")) { this.OpenLoadFilterMenu(); }
 
 			// Randomize multiplier input field.
 			controlButtonList.TextFieldNumericLabeled("Multiplier ", ref this.randomizeMultiplier, ref this.randomizeMultiplierBuffer);
@@ -91,6 +92,19 @@ namespace PrepareModerately {
 		}
 
 		private void OpenAddPartMenu() => FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => this.AddPawnFilterPart(def));
+
+		private void OpenLoadFilterMenu() {
+			string[] filePaths = Directory.GetFiles(PrepareModerately.dataPath);
+			if (filePaths.Length > 0) {
+				FloatMenuUtility.MakeMenu(filePaths, path => {
+					int start = path.LastIndexOf("\\") + 1;
+					int end = path.LastIndexOf(".filter");
+					return path.Substring(start, end - start);
+				}, path => () => PrepareModerately.Instance.currentFilter.Load(path));
+			} else {
+				FloatMenuUtility.MakeMenu(new string[] { "N/A" }, _ => _, _ => () => { });
+			}
+		}
 
 		private void AddPawnFilterPart(PawnFilterPartDef partDef) {
 			PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(partDef.partClass);

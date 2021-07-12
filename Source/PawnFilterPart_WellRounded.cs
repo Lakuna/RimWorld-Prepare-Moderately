@@ -10,7 +10,7 @@ namespace PrepareModerately {
 		private string skillLevelBuffer;
 
 		public PawnFilterPart_WellRounded() {
-			this.label = "Minimum skills:\nat level:";
+			this.label = "Minimum skills at level:";
 			this.skillCount = 2;
 			this.skillLevel = 6;
 		}

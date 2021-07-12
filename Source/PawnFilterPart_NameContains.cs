@@ -5,7 +5,10 @@ namespace PrepareModerately {
 	public class PawnFilterPart_NameContains : PawnFilterPart {
 		private string contains;
 
-		public PawnFilterPart_NameContains() => this.label = "Name contains:";
+		public PawnFilterPart_NameContains() {
+			this.label = "Name contains:";
+			this.contains = "Tynan";
+		}
 
 		public override void DoEditInterface(Listing_PawnFilter list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);

@@ -12,8 +12,7 @@ namespace PrepareModerately {
 		public PawnFilterPart_SkillLevelMinimum() {
 			this.label = "Skill level minimum:";
 			this.skill = SkillDefOf.Shooting;
-			this.buffer = "";
-			this.level = 0;
+			this.level = 6;
 		}
 
 		public override void DoEditInterface(Listing_PawnFilter list) {
