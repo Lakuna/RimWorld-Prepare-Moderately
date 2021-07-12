@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
 using RimWorld;
-using Verse;
-using HarmonyLib;
+using System;
 using UnityEngine;
+using Verse;
 
 namespace PrepareModerately {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "DoWindowContents")]

@@ -6,6 +6,19 @@ using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_MinimumInterests : PawnFilterPart {
+		[Serializable]
+		public class SerializableMinimumInterests : SerializablePawnFilterPart {
+			public int passion;
+
+			public SerializableMinimumInterests(PawnFilterPart_MinimumInterests pawnFilterPart) => this.passion = (int) pawnFilterPart.passion;
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_MinimumInterests {
+				passion = (Passion) this.passion
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableMinimumInterests(this);
+
 		private int count;
 		private string buffer;
 		private Passion passion;
@@ -39,14 +52,6 @@ namespace PrepareModerately {
 				if (skill.passion >= this.passion) { interests++; }
 			}
 			return interests > this.count;
-		}
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.count + " " + (int) this.passion;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.count = int.Parse(parts[1]);
-			this.passion = (Passion) int.Parse(parts[2]);
 		}
 	}
 }

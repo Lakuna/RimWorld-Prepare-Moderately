@@ -5,6 +5,24 @@ using Verse;
 
 namespace PrepareModerately {
 	internal class PawnFilterPart_Gender : PawnFilterPart {
+		[Serializable]
+		public class SerializableGender : SerializablePawnFilterPart {
+			public string gender;
+
+			public SerializableGender(PawnFilterPart_Gender pawnFilterPart) => this.gender = pawnFilterPart.gender.ToString();
+
+			public override PawnFilterPart Deserialize() {
+				foreach (Gender gender in Enum.GetValues(typeof(Gender))) {
+					if (gender.ToString() == this.gender) {
+						return new PawnFilterPart_Gender() { gender = gender };
+					}
+				}
+				throw new Exception("Tried to load unknown gender \"" + this.gender + "\".");
+			}
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableGender(this);
+
 		private Gender gender;
 
 		public PawnFilterPart_Gender() {
@@ -22,17 +40,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.gender == this.gender;
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.gender.ToString();
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			foreach (Gender gender in Enum.GetValues(typeof(Gender))) {
-				if (gender.ToString() == parts[1]) {
-					this.gender = gender;
-					break;
-				}
-			}
-		}
 	}
 }

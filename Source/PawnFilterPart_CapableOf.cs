@@ -5,6 +5,19 @@ using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_CapableOf : PawnFilterPart {
+		[Serializable]
+		public class SerializableCapableOf : SerializablePawnFilterPart {
+			public int workTag;
+
+			public SerializableCapableOf(PawnFilterPart_CapableOf pawnFilterPart) => this.workTag = (int) pawnFilterPart.workTag;
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_CapableOf {
+				workTag = (WorkTags) this.workTag
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableCapableOf(this);
+
 		private WorkTags workTag;
 
 		public PawnFilterPart_CapableOf() {
@@ -25,12 +38,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => !pawn.WorkTagIsDisabled(this.workTag);
-
-		public override string ToLoadableString() => this.GetType().Name + " " + (int) this.workTag;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.workTag = (WorkTags) int.Parse(parts[1]);
-		}
 	}
 }

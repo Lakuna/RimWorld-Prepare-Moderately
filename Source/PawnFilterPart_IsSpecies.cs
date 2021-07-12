@@ -1,10 +1,24 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_IsSpecies : PawnFilterPart {
+		[Serializable]
+		public class SerializableIsSpecies : SerializablePawnFilterPart {
+			public string humanlike;
+
+			public SerializableIsSpecies(PawnFilterPart_IsSpecies pawnFilterPart) => this.humanlike = pawnFilterPart.humanlike.LabelCap;
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_IsSpecies {
+				humanlike = PawnFilter.AllHumanlikeDefs.Find(def => def.LabelCap == this.humanlike)
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableIsSpecies(this);
+
 		private ThingDef humanlike;
 
 		public PawnFilterPart_IsSpecies() {
@@ -23,12 +37,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.def == this.humanlike;
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.humanlike.LabelCap;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.humanlike = PawnFilter.AllHumanlikeDefs.Find(def => def.LabelCap == parts[1]);
-		}
 	}
 }

@@ -1,11 +1,46 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilter {
+		[Serializable]
+		public class SerializablePawnFilter {
+			public static SerializablePawnFilter Load(string path) {
+				string s = "";
+				using (StreamReader reader = new StreamReader(path)) { s = reader.ReadToEnd(); }
+				return JsonUtility.FromJson<SerializablePawnFilter>(s);
+			}
+
+			public string name;
+			public PawnFilterPart.SerializablePawnFilterPart[] parts;
+
+			public SerializablePawnFilter(PawnFilter pawnFilter) {
+				this.name = pawnFilter.name;
+
+				List<PawnFilterPart.SerializablePawnFilterPart> parts = new List<PawnFilterPart.SerializablePawnFilterPart>();
+				foreach (PawnFilterPart pawnFilterPart in pawnFilter.parts) { parts.Add(pawnFilterPart.Serialize()); }
+				this.parts = parts.ToArray();
+			}
+
+			public void Save(string path) {
+				using (StreamWriter writer = new StreamWriter(path)) { writer.Write(JsonUtility.ToJson(this)); }
+			}
+
+			public PawnFilter Deserialize() {
+				PawnFilter pawnFilter = new PawnFilter {
+					name = this.name
+				};
+				foreach (PawnFilterPart.SerializablePawnFilterPart pawnFilterPart in this.parts) {
+					pawnFilter.parts.Add(pawnFilterPart.Deserialize());
+				}
+				return pawnFilter;
+			}
+		}
+
 		public static List<SkillDef> allSkills = DefDatabase<SkillDef>.AllDefsListForReading;
 		public static List<PawnRelationDef> allRelations = DefDatabase<PawnRelationDef>.AllDefsListForReading;
 		public static List<TraitDef> allTraits = DefDatabase<TraitDef>.AllDefsListForReading;
@@ -41,29 +76,14 @@ namespace PrepareModerately {
 			return true;
 		}
 
-		public void Save(string path) {
-			string output = "name=" + this.name;
-			foreach (PawnFilterPart filterPart in this.parts) { output += "\n" + filterPart.ToLoadableString(); }
-			using (StreamWriter writer = new StreamWriter(path)) { writer.Write(output); }
-		}
+		public void Save(string path) => new SerializablePawnFilter(this).Save(path);
 
 		public void Load(string path) {
-			string s = "";
-			using (StreamReader reader = new StreamReader(path)) { s = reader.ReadToEnd(); }
+			PawnFilter loadedPawnFilter = SerializablePawnFilter.Load(path).Deserialize();
+
+			this.name = loadedPawnFilter.name;
 			this.parts.Clear();
-			foreach (string line in s.Split('\n')) {
-				if (line.StartsWith("name=")) { this.name = line.Substring("name=".Length); } else {
-					string type = line.Split(' ')[0];
-					try {
-						PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(allFilterParts.Find(def => def.partClass.Name == type).partClass);
-						Log.Message("1: " + part.label);
-						part.FromLoadableString(line);
-						Log.Message("2: " + part.ToLoadableString());
-						this.parts.Add(part);
-						Log.Message("3: " + this.parts.Count);
-					} catch (Exception e) { Log.Error("Exception with filter type \"" + type + "\":\n" + e + "\n"); }
-				}
-			}
+			foreach (PawnFilterPart pawnFilterPart in loadedPawnFilter.parts) { this.parts.Add(pawnFilterPart); }
 		}
 	}
 }

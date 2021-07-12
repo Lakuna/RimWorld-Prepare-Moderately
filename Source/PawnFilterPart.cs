@@ -1,7 +1,13 @@
-﻿using Verse;
+﻿using System;
+using Verse;
 
 namespace PrepareModerately {
 	public abstract class PawnFilterPart : IExposable {
+		[Serializable]
+		public abstract class SerializablePawnFilterPart {
+			public abstract PawnFilterPart Deserialize();
+		}
+
 		public string label = "No label";
 		public bool toRemove = false;
 		public PawnFilterPartDef def;
@@ -14,8 +20,6 @@ namespace PrepareModerately {
 
 		public void ExposeData() => Scribe_Defs.Look(ref this.def, "def");
 
-		public abstract string ToLoadableString();
-
-		public abstract void FromLoadableString(string s);
+		public abstract SerializablePawnFilterPart Serialize();
 	}
 }

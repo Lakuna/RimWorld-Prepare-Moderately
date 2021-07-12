@@ -1,10 +1,29 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_RequiredTrait : PawnFilterPart {
+		[Serializable]
+		public class SerializableRequiredTrait : SerializablePawnFilterPart {
+			public string trait;
+			public int degree;
+
+			public SerializableRequiredTrait(PawnFilterPart_RequiredTrait pawnFilterPart) {
+				this.trait = pawnFilterPart.trait.defName.CapitalizeFirst();
+				this.degree = pawnFilterPart.degree;
+			}
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_RequiredTrait {
+				trait = PawnFilter.allTraits.Find(def => def.defName.CapitalizeFirst() == this.trait),
+				degree = this.degree
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableRequiredTrait(this);
+
 		protected TraitDef trait;
 		protected int degree;
 
@@ -43,14 +62,6 @@ namespace PrepareModerately {
 		public override bool Matches(Pawn pawn) {
 			Trait matchedTrait = pawn.story.traits.allTraits.Find(trait => trait.def == this.trait);
 			return matchedTrait == null ? false : matchedTrait.Degree == this.degree;
-		}
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.trait.defName.CapitalizeFirst() + " " + this.degree;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.trait = PawnFilter.allTraits.Find(def => def.defName.CapitalizeFirst() == parts[1]);
-			this.degree = int.Parse(parts[2]);
 		}
 	}
 }

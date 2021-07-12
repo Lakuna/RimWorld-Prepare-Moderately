@@ -1,8 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_NameContains : PawnFilterPart {
+		[Serializable]
+		public class SerializableNameContains : SerializablePawnFilterPart {
+			public string contains;
+
+			public SerializableNameContains(PawnFilterPart_NameContains pawnFilterPart) => this.contains = pawnFilterPart.contains;
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_NameContains {
+				contains = this.contains
+			};
+		}
+
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableNameContains(this);
 		private string contains;
 
 		public PawnFilterPart_NameContains() {
@@ -16,12 +30,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.Name.ToStringFull.Contains(this.contains);
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.contains;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.contains = parts[1];
-		}
 	}
 }

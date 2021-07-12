@@ -1,10 +1,29 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_SkillLevelMinimum : PawnFilterPart {
+		[Serializable]
+		public class SerializableSkillLevelMinimum : SerializablePawnFilterPart {
+			public string skill;
+			public int level;
+
+			public SerializableSkillLevelMinimum(PawnFilterPart_SkillLevelMinimum pawnFilterPart) {
+				this.skill = pawnFilterPart.skill.LabelCap;
+				this.level = pawnFilterPart.level;
+			}
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_SkillLevelMinimum {
+				skill = PawnFilter.allSkills.Find(def => def.LabelCap == this.skill),
+				level = this.level
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableSkillLevelMinimum(this);
+
 		private SkillDef skill;
 		private string buffer;
 		private int level;
@@ -33,13 +52,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.skills.GetSkill(this.skill).levelInt >= this.level;
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.skill.LabelCap + " " + this.level;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.skill = PawnFilter.allSkills.Find(def => def.LabelCap == parts[1]);
-			this.level = int.Parse(parts[2]);
-		}
 	}
 }

@@ -1,9 +1,9 @@
-﻿using System;
-using UnityEngine;
-using RimWorld;
-using Verse;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
+using Verse;
 
 namespace PrepareModerately {
 	public class Page_PrepareModerately : Page {
@@ -40,11 +40,13 @@ namespace PrepareModerately {
 			}
 
 			// Add part button.
-			if (controlButtonList.ButtonText("Add part")) { FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
-				PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
-				part.def = def;
-				PrepareModerately.Instance.currentFilter.parts.Add(part);
-			}); }
+			if (controlButtonList.ButtonText("Add part")) {
+				FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
+					PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
+					part.def = def;
+					PrepareModerately.Instance.currentFilter.parts.Add(part);
+				});
+			}
 
 			// Add filter name input field.
 			PrepareModerately.Instance.currentFilter.name = controlButtonList.TextEntry(PrepareModerately.Instance.currentFilter.name);

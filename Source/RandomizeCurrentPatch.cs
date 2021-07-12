@@ -1,7 +1,7 @@
-﻿using RimWorld;
-using Verse;
-using HarmonyLib;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Reflection;
+using Verse;
 
 namespace PrepareModerately {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "RandomizeCurPawn")]

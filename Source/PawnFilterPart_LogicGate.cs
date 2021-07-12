@@ -5,7 +5,25 @@ using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	class PawnFilterPart_LogicGate : PawnFilterPart {
+	public class PawnFilterPart_LogicGate : PawnFilterPart {
+		[Serializable]
+		public class SerializableLogicGate : SerializablePawnFilterPart {
+			public int logicGateType;
+			public PawnFilter.SerializablePawnFilter innerFilter;
+
+			public SerializableLogicGate(PawnFilterPart_LogicGate pawnFilterPart) {
+				this.logicGateType = (int) pawnFilterPart.logicGateType;
+				this.innerFilter = new PawnFilter.SerializablePawnFilter(pawnFilterPart.innerFilter);
+			}
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_LogicGate {
+				logicGateType = (LogicGateType) this.logicGateType,
+				innerFilter = this.innerFilter.Deserialize()
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableLogicGate(this);
+
 		private enum LogicGateType { AND, OR, XOR, NOT };
 
 		private const int filterFieldHeightParts = 8;
@@ -27,15 +45,17 @@ namespace PrepareModerately {
 
 			// Logic gate type list.
 			Rect gateTypeRect = new Rect(rect.x, rect.y, rect.width, rect.height / heightParts);
-			if (Widgets.ButtonText(gateTypeRect, this.logicGateType.ToString())) { FloatMenuUtility.MakeMenu((LogicGateType[])Enum.GetValues(typeof(LogicGateType)), type => type.ToString(), type => () => this.logicGateType = type); }
+			if (Widgets.ButtonText(gateTypeRect, this.logicGateType.ToString())) { FloatMenuUtility.MakeMenu((LogicGateType[]) Enum.GetValues(typeof(LogicGateType)), type => type.ToString(), type => () => this.logicGateType = type); }
 
 			// Add part button.
 			Rect addPartButtonRect = new Rect(rect.x, rect.y + gateTypeRect.height, rect.width, rect.height / heightParts);
-			if (Widgets.ButtonText(addPartButtonRect, "Add part")) { FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
-				PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
-				part.def = def;
-				this.innerFilter.parts.Add(part);
-			}); }
+			if (Widgets.ButtonText(addPartButtonRect, "Add part")) {
+				FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
+					PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
+					part.def = def;
+					this.innerFilter.parts.Add(part);
+				});
+			}
 
 			// Build filter field.
 			Rect filterFieldRect = new Rect(rect.x, rect.y + gateTypeRect.height + addPartButtonRect.height, rect.width, rect.height / heightParts * filterFieldHeightParts).Rounded();
@@ -93,9 +113,5 @@ namespace PrepareModerately {
 					throw new Exception("Unknown logic gate type \"" + this.logicGateType.ToString() + "\"");
 			}
 		}
-
-		public override string ToLoadableString() => throw new NotImplementedException();
-
-		public override void FromLoadableString(string s) => throw new NotImplementedException();
 	}
 }

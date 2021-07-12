@@ -1,9 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
-	class PawnFilterPart_AgeRange : PawnFilterPart {
-		private static System.Random random = new System.Random();
+	public class PawnFilterPart_AgeRange : PawnFilterPart {
+		[Serializable]
+		public class SerializableAgeRange : SerializablePawnFilterPart {
+			public int max;
+			public int min;
+
+			public SerializableAgeRange(PawnFilterPart_AgeRange pawnFilterPart) {
+				this.max = pawnFilterPart.range.max;
+				this.min = pawnFilterPart.range.min;
+			}
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_AgeRange {
+				range = new IntRange(this.min, this.max)
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableAgeRange(this);
+
+		private static readonly System.Random random = new System.Random();
 		protected IntRange range;
 
 		public PawnFilterPart_AgeRange() {
@@ -17,12 +35,5 @@ namespace PrepareModerately {
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.ageTracker.AgeBiologicalYears <= this.range.max && pawn.ageTracker.AgeBiologicalYears >= this.range.min;
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.range.min + " " + this.range.max;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.range = new IntRange(int.Parse(parts[1]), int.Parse(parts[2]));
-		}
 	}
 }

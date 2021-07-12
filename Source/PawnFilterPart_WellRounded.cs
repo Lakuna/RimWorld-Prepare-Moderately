@@ -1,9 +1,28 @@
 ﻿using RimWorld;
+using System;
 using UnityEngine;
 using Verse;
 
 namespace PrepareModerately {
 	public class PawnFilterPart_WellRounded : PawnFilterPart {
+		[Serializable]
+		public class SerializableWellRounded : SerializablePawnFilterPart {
+			public int skillCount;
+			public int skillLevel;
+
+			public SerializableWellRounded(PawnFilterPart_WellRounded pawnFilterPart) {
+				this.skillCount = pawnFilterPart.skillCount;
+				this.skillLevel = pawnFilterPart.skillLevel;
+			}
+
+			public override PawnFilterPart Deserialize() => new PawnFilterPart_WellRounded {
+				skillCount = this.skillCount,
+				skillLevel = this.skillLevel
+			};
+		}
+
+		public override SerializablePawnFilterPart Serialize() => new SerializableWellRounded(this);
+
 		private int skillCount;
 		private string skillCountBuffer;
 		private int skillLevel;
@@ -33,14 +52,6 @@ namespace PrepareModerately {
 				if (skill.levelInt >= this.skillLevel) { skills++; }
 			}
 			return skills > this.skillCount;
-		}
-
-		public override string ToLoadableString() => this.GetType().Name + " " + this.skillCount + " " + this.skillLevel;
-
-		public override void FromLoadableString(string s) {
-			string[] parts = s.Split(' ');
-			this.skillCount = int.Parse(parts[1]);
-			this.skillLevel = int.Parse(parts[2]);
 		}
 	}
 }
