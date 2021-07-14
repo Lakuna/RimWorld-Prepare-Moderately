@@ -40,7 +40,7 @@ namespace PrepareModerately.Filter.Filters {
 			this.degree = this.trait.degreeDatas[0].degree;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Trait list.
@@ -60,6 +60,8 @@ namespace PrepareModerately.Filter.Filters {
 				foreach (TraitDegreeData data in this.trait.degreeDatas) { degreeOptions.Add(new FloatMenuOption(data.LabelCap, () => this.degree = data.degree)); }
 				Find.WindowStack.Add(new FloatMenu(degreeOptions));
 			}
+
+			return RowHeight * 2;
 		}
 
 		public override bool Matches(Pawn pawn) {

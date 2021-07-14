@@ -2,6 +2,7 @@
 using PrepareModerately.GUI;
 using System;
 using System.Xml.Serialization;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately.Filter {
@@ -35,7 +36,8 @@ namespace PrepareModerately.Filter {
 
 		public abstract bool Matches(Pawn pawn);
 
-		public abstract void DoEditInterface(PawnFilterListing list);
+		// Returns Rect height.
+		public abstract float DoEditInterface(PawnFilterListing list);
 
 		public void ExposeData() => Scribe_Defs.Look(ref this.def, "def");
 

@@ -28,16 +28,16 @@ namespace PrepareModerately.Filter.Filters {
 			this.workTag = WorkTags.Firefighting;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 
-			// Don't do anything when the button isn't clicked.
-			if (!Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) { return; }
+			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
+				List<FloatMenuOption> options = new List<FloatMenuOption>();
+				foreach (WorkTags workTag in Enum.GetValues(typeof(WorkTags))) { options.Add(new FloatMenuOption(workTag.ToString().CapitalizeFirst(), () => this.workTag = workTag)); }
+				Find.WindowStack.Add(new FloatMenu(options));
+			}
 
-			// Fill dropdown.
-			List<FloatMenuOption> options = new List<FloatMenuOption>();
-			foreach (WorkTags workTag in Enum.GetValues(typeof(WorkTags))) { options.Add(new FloatMenuOption(workTag.ToString().CapitalizeFirst(), () => this.workTag = workTag)); }
-			Find.WindowStack.Add(new FloatMenu(options));
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) => !pawn.WorkTagIsDisabled(this.workTag);

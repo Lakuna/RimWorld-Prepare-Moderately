@@ -36,7 +36,7 @@ namespace PrepareModerately.Filter.Filters {
 			this.passionLevel = Passion.Minor;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Add skill chooser button.
@@ -56,6 +56,8 @@ namespace PrepareModerately.Filter.Filters {
 				foreach (Passion passionLevel in Enum.GetValues(typeof(Passion))) { options.Add(new FloatMenuOption(passionLevel.ToString().CapitalizeFirst(), () => this.passionLevel = passionLevel)); }
 				Find.WindowStack.Add(new FloatMenu(options));
 			}
+
+			return RowHeight * 2;
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.skills.GetSkill(this.skill).passion == this.passionLevel;

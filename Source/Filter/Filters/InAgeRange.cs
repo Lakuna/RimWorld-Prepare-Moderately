@@ -32,9 +32,11 @@ namespace PrepareModerately.Filter.Filters {
 			this.range = new IntRange(20, 55);
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			Widgets.IntRange(rect, random.Next(0x0, 0xFFFFF), ref this.range, 14);
+
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.ageTracker.AgeBiologicalYears <= this.range.max && pawn.ageTracker.AgeBiologicalYears >= this.range.min;

@@ -37,7 +37,7 @@ namespace PrepareModerately.Filter.Filters {
 			this.skillLevel = 6;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Skill count input field.
@@ -47,6 +47,8 @@ namespace PrepareModerately.Filter.Filters {
 			// Skill level input field.
 			Rect skillLevelRect = new Rect(rect.x, rect.y + skillCountRect.height, rect.width, rect.height / 2);
 			Widgets.TextFieldNumeric(skillLevelRect, ref this.skillLevel, ref this.skillLevelBuffer);
+
+			return RowHeight * 2;
 		}
 
 		public override bool Matches(Pawn pawn) {

@@ -1,5 +1,6 @@
 ﻿using PrepareModerately.GUI;
 using System;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately.Filter.Filters {
@@ -19,7 +20,7 @@ namespace PrepareModerately.Filter.Filters {
 
 		public HasAnyRelationship() => this.label = "Has any relationship.";
 
-		public override void DoEditInterface(PawnFilterListing list) => _ = list.GetPawnFilterPartRect(this, 0);
+		public override float DoEditInterface(PawnFilterListing list) => list.GetPawnFilterPartRect(this, 0).height;
 
 		public override bool Matches(Pawn pawn) => pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe;
 	}

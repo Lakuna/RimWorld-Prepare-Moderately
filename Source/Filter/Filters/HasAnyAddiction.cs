@@ -1,6 +1,7 @@
 ﻿using PrepareModerately.GUI;
 using System;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace PrepareModerately.Filter.Filters {
@@ -20,7 +21,7 @@ namespace PrepareModerately.Filter.Filters {
 
 		public HasAnyAddiction() => this.label = "Has any addiction.";
 
-		public override void DoEditInterface(PawnFilterListing list) => _ = list.GetPawnFilterPartRect(this, 0);
+		public override float DoEditInterface(PawnFilterListing list) => list.GetPawnFilterPartRect(this, 0).height;
 
 		public override bool Matches(Pawn pawn) => pawn.health.hediffSet.hediffs.Any(hediff => hediff.def.IsAddiction);
 	}

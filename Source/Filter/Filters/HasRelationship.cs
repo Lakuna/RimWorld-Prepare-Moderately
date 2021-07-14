@@ -29,14 +29,16 @@ namespace PrepareModerately.Filter.Filters {
 			this.relation = PawnRelationDefOf.Lover;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
-			if (!Widgets.ButtonText(rect, this.relation.LabelCap)) { return; }
 
-			// Fill relationship dropdown when button is pressed.
-			List<FloatMenuOption> options = new List<FloatMenuOption>();
-			foreach (PawnRelationDef def in PawnFilter.allRelations) { options.Add(new FloatMenuOption(def.LabelCap, () => this.relation = def)); }
-			Find.WindowStack.Add(new FloatMenu(options));
+			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
+				List<FloatMenuOption> options = new List<FloatMenuOption>();
+				foreach (PawnRelationDef def in PawnFilter.allRelations) { options.Add(new FloatMenuOption(def.LabelCap, () => this.relation = def)); }
+				Find.WindowStack.Add(new FloatMenu(options));
+			}
+
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) {

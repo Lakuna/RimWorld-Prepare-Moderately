@@ -29,14 +29,16 @@ namespace PrepareModerately.Filter.Filters {
 			this.humanlike = ThingDefOf.Human;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
-			if (!Widgets.ButtonText(rect, this.humanlike.LabelCap)) { return; }
 
-			// Fill humanlike dropdown when button is pressed.
-			List<FloatMenuOption> options = new List<FloatMenuOption>();
-			foreach (ThingDef def in PawnFilter.AllHumanlikeDefs) { options.Add(new FloatMenuOption(def.LabelCap, () => this.humanlike = def)); }
-			Find.WindowStack.Add(new FloatMenu(options));
+			if (Widgets.ButtonText(rect, this.humanlike.LabelCap)) {
+				List<FloatMenuOption> options = new List<FloatMenuOption>();
+				foreach (ThingDef def in PawnFilter.AllHumanlikeDefs) { options.Add(new FloatMenuOption(def.LabelCap, () => this.humanlike = def)); }
+				Find.WindowStack.Add(new FloatMenu(options));
+			}
+
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.def == this.humanlike;

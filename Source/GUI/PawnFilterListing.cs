@@ -5,6 +5,8 @@ using Verse;
 namespace PrepareModerately.GUI {
 	// GUI representation of a PawnFilter. Lists PawnFilterParts visually.
 	public class PawnFilterListing : Listing_Standard {
+		public const int gapSize = 6;
+
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) {
 			// Make rect.
 			Rect rect = this.GetRect(PawnFilterPart.RowHeight + height);
@@ -19,7 +21,7 @@ namespace PrepareModerately.GUI {
 			Widgets.Label(labelRect, part.label);
 
 			// Make a space between filter parts.
-			this.Gap(4);
+			this.Gap(gapSize);
 
 			// Return remainder for further modification.
 			return new Rect(rect.x, rect.y + labelRect.height, rect.width, rect.height - labelRect.height);

@@ -27,9 +27,11 @@ namespace PrepareModerately.Filter.Filters {
 			this.contains = "Tynan";
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
 			this.contains = Widgets.TextArea(rect, this.contains);
+
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.Name.ToStringFull.Contains(this.contains);

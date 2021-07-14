@@ -29,29 +29,29 @@ namespace PrepareModerately.Filter.Filters {
 
 		private enum LogicGateType { AND, OR, XOR, NOT };
 
-		private const int filterFieldHeightParts = 8;
-		private const int dividerWidth = 17;
+		private const float filterPartListHeightBuffer = 40; // Don't touch.
 
 		private PawnFilter innerFilter;
 		private LogicGateType logicGateType;
-		private float partViewHeight = 0;
-		private Vector2 scrollPosition = Vector2.zero;
+		private float filterPartListHeight;
 
 		public LogicGate() {
 			this.label = "Logic gate:";
 			this.innerFilter = new PawnFilter();
+			this.logicGateType = LogicGateType.AND;
+			this.filterPartListHeight = 0;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
-			int heightParts = 2 + filterFieldHeightParts;
-			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * heightParts);
+		public override float DoEditInterface(PawnFilterListing list) {
+			float rectHeight = RowHeight * 2 + this.filterPartListHeight;
+			Rect rect = list.GetPawnFilterPartRect(this, rectHeight);
 
 			// Logic gate type list.
-			Rect gateTypeRect = new Rect(rect.x, rect.y, rect.width, rect.height / heightParts);
+			Rect gateTypeRect = new Rect(rect.x, rect.y, rect.width, RowHeight);
 			if (Widgets.ButtonText(gateTypeRect, this.logicGateType.ToString())) { FloatMenuUtility.MakeMenu((LogicGateType[]) Enum.GetValues(typeof(LogicGateType)), type => type.ToString(), type => () => this.logicGateType = type); }
 
 			// Add part button.
-			Rect addPartButtonRect = new Rect(rect.x, rect.y + gateTypeRect.height, rect.width, rect.height / heightParts);
+			Rect addPartButtonRect = new Rect(rect.x, rect.y + gateTypeRect.height, rect.width, RowHeight);
 			if (Widgets.ButtonText(addPartButtonRect, "Add part")) {
 				FloatMenuUtility.MakeMenu(PawnFilter.allFilterParts, def => def.label, def => () => {
 					PawnFilterPart part = (PawnFilterPart) Activator.CreateInstance(def.partClass);
@@ -61,27 +61,26 @@ namespace PrepareModerately.Filter.Filters {
 			}
 
 			// Build filter field.
-			Rect filterFieldRect = new Rect(rect.x, rect.y + gateTypeRect.height + addPartButtonRect.height, rect.width, rect.height / heightParts * filterFieldHeightParts).Rounded();
+			Rect filterFieldRect = new Rect(rect.x, rect.y + gateTypeRect.height + addPartButtonRect.height, rect.width, this.filterPartListHeight).Rounded();
 			Widgets.DrawMenuSection(filterFieldRect);
 			filterFieldRect = filterFieldRect.GetInnerRect();
-			Rect filterViewRect = new Rect(0, 0, filterFieldRect.width - (dividerWidth - 1), this.partViewHeight);
-			Widgets.BeginScrollView(filterFieldRect, ref this.scrollPosition, filterViewRect);
-			Rect filterViewInnerRect = new Rect(0, 0, filterViewRect.width, 99999);
 
 			// Draw filter parts.
-			PawnFilterListing filterPartList = new PawnFilterListing() { ColumnWidth = filterViewInnerRect.width };
-			filterPartList.Begin(filterViewInnerRect);
-			_ = filterPartList.Label("Filters");
+			this.filterPartListHeight = filterPartListHeightBuffer;
+			PawnFilterListing filterPartList = new PawnFilterListing() { ColumnWidth = filterFieldRect.width };
+			filterPartList.Begin(filterFieldRect);
 			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>(); // Remove parts that should be removed here in order to avoid modifying enumerable during foreach.
 			foreach (PawnFilterPart part in this.innerFilter.parts) {
-				if (part.toRemove) { partsToRemove.Add(part); } else { part.DoEditInterface(filterPartList); }
+				if (part.toRemove) {
+					partsToRemove.Add(part);
+				} else {
+					this.filterPartListHeight += part.DoEditInterface(filterPartList) + RowHeight + PawnFilterListing.gapSize;
+				}
 			}
 			foreach (PawnFilterPart part in partsToRemove) { _ = this.innerFilter.parts.Remove(part); }
 			filterPartList.End();
-			this.partViewHeight = filterPartList.CurHeight + 100;
 
-			// End filter field.
-			Widgets.EndScrollView();
+			return rectHeight;
 		}
 
 		public override bool Matches(Pawn pawn) {
@@ -107,7 +106,7 @@ namespace PrepareModerately.Filter.Filters {
 						}
 					}
 					return alreadyMatched;
-				case LogicGateType.NOT: // Acts like NAND.
+				case LogicGateType.NOT: // NAND.
 					foreach (PawnFilterPart filterPart in this.innerFilter.parts) {
 						if (filterPart.Matches(pawn)) { return false; }
 					}

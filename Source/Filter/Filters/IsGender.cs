@@ -33,13 +33,16 @@ namespace PrepareModerately.Filter.Filters {
 			this.gender = Gender.Male;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight);
-			if (!Widgets.ButtonText(rect, this.gender.ToString())) { return; }
 
-			List<FloatMenuOption> options = new List<FloatMenuOption>();
-			foreach (Gender gender in Enum.GetValues(typeof(Gender))) { options.Add(new FloatMenuOption(gender.ToString(), () => this.gender = gender)); }
-			Find.WindowStack.Add(new FloatMenu(options));
+			if (Widgets.ButtonText(rect, this.gender.ToString())) {
+				List<FloatMenuOption> options = new List<FloatMenuOption>();
+				foreach (Gender gender in Enum.GetValues(typeof(Gender))) { options.Add(new FloatMenuOption(gender.ToString(), () => this.gender = gender)); }
+				Find.WindowStack.Add(new FloatMenu(options));
+			}
+
+			return RowHeight;
 		}
 
 		public override bool Matches(Pawn pawn) => pawn.gender == this.gender;

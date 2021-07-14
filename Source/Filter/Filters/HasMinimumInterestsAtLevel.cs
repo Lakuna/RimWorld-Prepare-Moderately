@@ -32,7 +32,7 @@ namespace PrepareModerately.Filter.Filters {
 			this.passion = Passion.Minor;
 		}
 
-		public override void DoEditInterface(PawnFilterListing list) {
+		public override float DoEditInterface(PawnFilterListing list) {
 			Rect rect = list.GetPawnFilterPartRect(this, RowHeight * 2);
 
 			// Skill count field.
@@ -47,6 +47,8 @@ namespace PrepareModerately.Filter.Filters {
 				foreach (Passion passionLevel in Enum.GetValues(typeof(Passion))) { options.Add(new FloatMenuOption(passionLevel.ToString().CapitalizeFirst(), () => this.passion = passionLevel)); }
 				Find.WindowStack.Add(new FloatMenu(options));
 			}
+
+			return RowHeight * 2;
 		}
 
 		public override bool Matches(Pawn pawn) {
