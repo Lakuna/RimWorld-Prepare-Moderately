@@ -2,13 +2,12 @@
 
 <Manifest>
 	<identifier>PrepareModerately</identifier>
-	<version>3.1</version>
+	<version>3.2</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
 	<loadAfter>
 		<li>brrainz.harmony</li>
-		<li>Ludeon.RimWorld</li>
 	</loadAfter>
 	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/Lakuna/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
