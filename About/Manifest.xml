@@ -2,13 +2,14 @@
 
 <Manifest>
 	<identifier>PrepareModerately</identifier>
-	<version>3.2</version>
+	<version>4.0.0.0</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
 	<loadAfter>
-		<li>brrainz.harmony</li>
+		<li>Harmony</li>
 	</loadAfter>
-	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
-	<downloadUri>https://github.com/Lakuna/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
+	<showCrossPromotions>true</showCrossPromotions>
+	<manifestUri>https://github.com/Lakuna/RimWorld-Mod-Template/About/Manifest.xml</manifestUri>
+	<downloadUri>https://github.com/Lakuna/RimWorld-Mod-Template/releases/latest</downloadUri>
 </Manifest>
