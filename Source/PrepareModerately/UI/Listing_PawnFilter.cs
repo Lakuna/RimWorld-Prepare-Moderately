@@ -24,7 +24,7 @@ namespace PrepareModerately.UI {
 			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, 72, 0);
 
 			if (widgetRow.ButtonIcon(this.DeleteButtonTexture, null, new Color?(GenUI.SubtleMouseoverColor))) {
-				pawnFilterPart.Remove();
+				pawnFilterPart.planToRemove = true;
 			}
 
 			Rect labelRect = new Rect(rect.x + this.DeleteButtonTexture.width, rect.y, rect.width - this.DeleteButtonTexture.width, Text.LineHeight);

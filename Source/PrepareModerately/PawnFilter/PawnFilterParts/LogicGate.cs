@@ -1,6 +1,7 @@
 ﻿using PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -69,7 +70,7 @@ namespace PrepareModerately.PawnFilter.PawnFilterParts {
 							int start = filePath.LastIndexOf("\\") + 1;
 							int end = filePath.LastIndexOf(PrepareModerately.filterExtension);
 							return filePath.Substring(start, end - start);
-						}, (filePath) => () => PrepareModerately.Instance.activeFilter = PawnFilter.Load(filePath));
+						}, (filePath) => () => this.innerFilter.Load(filePath));
 					} else {
 						FloatMenuUtility.MakeMenu(new string[] { "N/A" }, (s) => s, (s) => () => { });
 					}
@@ -85,9 +86,16 @@ namespace PrepareModerately.PawnFilter.PawnFilterParts {
 
 			Listing_PawnFilter filterListing = new Listing_PawnFilter() { ColumnWidth = filterRect.width };
 			filterListing.Begin(filterRect);
-			for (int i = 0; i < this.innerFilter.parts.Count; i++) {
-				// Use a for loop instead of foreach so that iteration continues is an element is removed.
-				this.innerFilter.parts[i].DoEditInterface(filterListing);
+			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>();
+			foreach (PawnFilterPart part in this.innerFilter.parts) {
+				if (part.planToRemove) {
+					partsToRemove.Add(part);
+				} else {
+					part.DoEditInterface(filterListing);
+				}
+			}
+			foreach (PawnFilterPart part in partsToRemove) {
+				this.innerFilter.parts.Remove(part);
 			}
 			filterListing.End();
 			this.filterHeight = filterListing.CurHeight + LogicGate.filterHeightBuffer;

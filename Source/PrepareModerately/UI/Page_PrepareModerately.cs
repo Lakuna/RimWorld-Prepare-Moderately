@@ -1,6 +1,7 @@
 ﻿using PrepareModerately.PawnFilter;
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -60,7 +61,7 @@ namespace PrepareModerately.UI {
 							int start = filePath.LastIndexOf("\\") + 1;
 							int end = filePath.LastIndexOf(PrepareModerately.filterExtension);
 							return filePath.Substring(start, end - start);
-						}, (filePath) => () => PrepareModerately.Instance.activeFilter = PawnFilter.PawnFilter.Load(filePath));
+						}, (filePath) => () => PrepareModerately.Instance.activeFilter.Load(filePath));
 					} else {
 						FloatMenuUtility.MakeMenu(new string[] { "N/A" }, (s) => s, (s) => () => { });
 					}
@@ -69,7 +70,7 @@ namespace PrepareModerately.UI {
 				}
 			}
 
-			controlList.Label("If you would like to invert a filter, use a logic gate and set its type to \"NOT\".");
+			controlList.Label("If you would like to invert a filter, put it inside of a logic gate with its type set to \"NOT\".");
 
 			controlList.End();
 
@@ -82,13 +83,16 @@ namespace PrepareModerately.UI {
 
 			Listing_PawnFilter filterListing = new Listing_PawnFilter() { ColumnWidth = filterViewInnerRect.width };
 			filterListing.Begin(filterViewInnerRect);
-			for (int i = 0; i < PrepareModerately.Instance.activeFilter.parts.Count; i++) {
-				// Use a for loop instead of foreach so that iteration continues is an element is removed.
-				try {
-					PrepareModerately.Instance.activeFilter.parts[i].DoEditInterface(filterListing);
-				} catch (Exception e) {
-					PrepareModerately.LogError(e);
+			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>();
+			foreach (PawnFilterPart part in PrepareModerately.Instance.activeFilter.parts) {
+				if (part.planToRemove) {
+					partsToRemove.Add(part);
+				} else {
+					part.DoEditInterface(filterListing);
 				}
+			}
+			foreach (PawnFilterPart part in partsToRemove) {
+				PrepareModerately.Instance.activeFilter.parts.Remove(part);
 			}
 			filterListing.End();
 			this.partViewHeight = filterListing.CurHeight + Page_PrepareModerately.scrollBuffer;

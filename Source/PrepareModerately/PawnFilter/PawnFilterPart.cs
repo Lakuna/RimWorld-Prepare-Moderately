@@ -22,6 +22,8 @@ namespace PrepareModerately.PawnFilter {
 	[XmlInclude(typeof(NameContains))]
 	public abstract class PawnFilterPart : IExposable {
 		private PawnFilterPartDef def;
+		private PawnFilter filter;
+		[XmlIgnore] public bool planToRemove;
 
 		public PawnFilterPartDef Def {
 			get {
@@ -32,16 +34,15 @@ namespace PrepareModerately.PawnFilter {
 			}
 		}
 
-		[XmlIgnore]
-		public PawnFilter Filter => PrepareModerately.Instance.activeFilter;
+		public PawnFilterPart() : this(PrepareModerately.Instance.activeFilter) { }
+
+		public PawnFilterPart(PawnFilter filter) => this.filter = filter;
 
 		public string Label => this.Def.label;
 
 		public abstract bool Matches(Pawn pawn);
 
 		public abstract void DoEditInterface(Listing_PawnFilter listing);
-
-		public void Remove() => this.Filter.parts.Remove(this);
 
 		public void ExposeData() => Scribe_Defs.Look(ref this.def, "def");
 	}
