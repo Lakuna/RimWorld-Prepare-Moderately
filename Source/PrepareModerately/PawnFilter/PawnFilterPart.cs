@@ -22,7 +22,7 @@ namespace PrepareModerately.PawnFilter {
 	[XmlInclude(typeof(NameContains))]
 	public abstract class PawnFilterPart : IExposable {
 		private PawnFilterPartDef def;
-		private PawnFilter filter;
+		private readonly PawnFilter filter;
 		[XmlIgnore] public bool planToRemove;
 
 		public PawnFilterPartDef Def {
@@ -34,7 +34,7 @@ namespace PrepareModerately.PawnFilter {
 			}
 		}
 
-		public PawnFilterPart() : this(PrepareModerately.Instance.activeFilter) { }
+		public PawnFilterPart() : this(PrepareModerately.page.filter) { }
 
 		public PawnFilterPart(PawnFilter filter) => this.filter = filter;
 

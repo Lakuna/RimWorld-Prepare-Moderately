@@ -14,10 +14,14 @@ namespace PrepareModerately.UI {
 
 		private float partViewHeight;
 		private Vector2 scrollPosition;
+		public Page_ConfigureStartingPawns parent;
+		public PawnFilter.PawnFilter filter;
 
-		public Page_PrepareModerately() {
+		public Page_PrepareModerately(Page_ConfigureStartingPawns parent, PawnFilter.PawnFilter filter) {
 			this.partViewHeight = 0;
 			this.scrollPosition = Vector2.zero;
+			this.parent = parent;
+			this.filter = filter;
 		}
 
 		public override string PageTitle => "Prepare Moderately";
@@ -39,17 +43,17 @@ namespace PrepareModerately.UI {
 
 			if (controlList.ButtonText("Close")) {
 				this.Close();
-				Find.WindowStack.Add(PrepareModerately.Instance.configureStartingPawnsPage);
+				Find.WindowStack.Add(this.parent);
 			}
 
 			if (controlList.ButtonText("Add part")) {
-				FloatMenuUtility.MakeMenu(DefDatabase<PawnFilterPartDef>.AllDefsListForReading, (def) => def.label, (def) => () => PrepareModerately.Instance.activeFilter.CreatePart(def));
+				FloatMenuUtility.MakeMenu(DefDatabase<PawnFilterPartDef>.AllDefsListForReading, (def) => def.label, (def) => () => this.filter.CreatePart(def));
 			}
 
-			PrepareModerately.Instance.activeFilter.name = controlList.TextEntry(PrepareModerately.Instance.activeFilter.name);
+			this.filter.name = controlList.TextEntry(this.filter.name);
 
 			if (controlList.ButtonText("Save")) {
-				PrepareModerately.Instance.activeFilter.Save();
+				this.filter.Save();
 			}
 
 			if (controlList.ButtonText("Load")) {
@@ -61,7 +65,7 @@ namespace PrepareModerately.UI {
 							int start = filePath.LastIndexOf("\\") + 1;
 							int end = filePath.LastIndexOf(PrepareModerately.filterExtension);
 							return filePath.Substring(start, end - start);
-						}, (filePath) => () => PrepareModerately.Instance.activeFilter.Load(filePath));
+						}, (filePath) => () => this.filter.Load(filePath));
 					} else {
 						FloatMenuUtility.MakeMenu(new string[] { "N/A" }, (s) => s, (s) => () => { });
 					}
@@ -84,7 +88,7 @@ namespace PrepareModerately.UI {
 			Listing_PawnFilter filterListing = new Listing_PawnFilter() { ColumnWidth = filterViewInnerRect.width };
 			filterListing.Begin(filterViewInnerRect);
 			List<PawnFilterPart> partsToRemove = new List<PawnFilterPart>();
-			foreach (PawnFilterPart part in PrepareModerately.Instance.activeFilter.parts) {
+			foreach (PawnFilterPart part in this.filter.parts) {
 				if (part.planToRemove) {
 					partsToRemove.Add(part);
 				} else {
@@ -92,7 +96,7 @@ namespace PrepareModerately.UI {
 				}
 			}
 			foreach (PawnFilterPart part in partsToRemove) {
-				PrepareModerately.Instance.activeFilter.parts.Remove(part);
+				this.filter.parts.Remove(part);
 			}
 			filterListing.End();
 			this.partViewHeight = filterListing.CurHeight + Page_PrepareModerately.scrollBuffer;

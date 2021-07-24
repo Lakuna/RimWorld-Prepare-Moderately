@@ -9,22 +9,22 @@ namespace PrepareModerately.Patches {
 	public class RandomizeCurrentPatch {
 		[HarmonyPostfix]
 		public static void Postfix(Page_ConfigureStartingPawns __instance, MethodBase __originalMethod, Pawn ___curPawn) {
-			if (PrepareModerately.Instance.activeFilter == null || PrepareModerately.Instance.activeFilter.parts.NullOrEmpty()) {
+			if (PrepareModerately.page == null || PrepareModerately.page.filter.parts.NullOrEmpty()) {
 				return;
 			}
 
-			PrepareModerately.Instance.activePawn = ___curPawn;
+			PrepareModerately.activePawn = ___curPawn;
 
-			if (PrepareModerately.Instance.activeFilter.Matches(___curPawn)) {
+			if (PrepareModerately.page.filter.Matches(___curPawn)) {
 				return;
 			}
 
-			if (PrepareModerately.Instance.activelyRolling) {
+			if (PrepareModerately.activelyRolling) {
 				return;
 			}
 
 			Find.WindowStack.Add(new Dialog_Rolling(__instance, __originalMethod));
-			PrepareModerately.Instance.activelyRolling = true;
+			PrepareModerately.activelyRolling = true;
 		}
 	}
 }

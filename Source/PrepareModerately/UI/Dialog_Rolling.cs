@@ -32,12 +32,12 @@ namespace PrepareModerately.UI {
 			Widgets.Label(rect, "Rolling (" + this.iterations + ")\nClick outside of this dialog to stop.");
 			Text.Anchor = TextAnchor.UpperLeft; // Must end on upper left.
 
-			if (this.iterations % PrepareModerately.Instance.settings.rollModulus != 0) {
+			if (this.iterations % PrepareModerately.settings.rollModulus != 0) {
 				return;
 			}
 
-			for (int i = 0; i < PrepareModerately.Instance.settings.rollMultiplier; i++) {
-				if (PrepareModerately.Instance.activeFilter.Matches(PrepareModerately.Instance.activePawn)) {
+			for (int i = 0; i < PrepareModerately.settings.rollMultiplier; i++) {
+				if (PrepareModerately.page.filter.Matches(PrepareModerately.activePawn)) {
 					this.Close();
 					return;
 				}
@@ -47,7 +47,7 @@ namespace PrepareModerately.UI {
 		}
 
 		public override void PreClose() {
-			PrepareModerately.Instance.activelyRolling = false;
+			PrepareModerately.activelyRolling = false;
 			base.PreClose();
 		}
 	}
