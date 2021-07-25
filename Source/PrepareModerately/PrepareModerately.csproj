@@ -74,6 +74,7 @@
     <Compile Include="PawnFilter\PawnFilterPart.cs" />
     <Compile Include="PawnFilter\PawnFilterPartDef.cs" />
     <Compile Include="PawnFilter\PawnFilterParts\HasAnyAddiction.cs" />
+    <Compile Include="PawnFilter\PawnFilterParts\HasAnyBodyModification.cs" />
     <Compile Include="PawnFilter\PawnFilterParts\HasAnyPermanentMedicalCondition.cs" />
     <Compile Include="PawnFilter\PawnFilterParts\HasAnyRelationship.cs" />
     <Compile Include="PawnFilter\PawnFilterParts\HasMinimumPassionsAtLevel.cs" />

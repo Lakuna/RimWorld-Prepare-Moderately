@@ -5,6 +5,7 @@ using Verse;
 
 namespace PrepareModerately.PawnFilter {
 	[XmlInclude(typeof(HasAnyAddiction))]
+	[XmlInclude(typeof(HasAnyBodyModification))]
 	[XmlInclude(typeof(HasAnyPermanentMedicalCondition))]
 	[XmlInclude(typeof(HasAnyRelationship))]
 	[XmlInclude(typeof(HasMinimumPassionsAtLevel))]
@@ -22,7 +23,6 @@ namespace PrepareModerately.PawnFilter {
 	[XmlInclude(typeof(NameContains))]
 	public abstract class PawnFilterPart : IExposable {
 		private PawnFilterPartDef def;
-		private readonly PawnFilter filter;
 		[XmlIgnore] public bool planToRemove;
 
 		public PawnFilterPartDef Def {
@@ -33,10 +33,6 @@ namespace PrepareModerately.PawnFilter {
 				return this.def;
 			}
 		}
-
-		public PawnFilterPart() : this(PrepareModerately.page.filter) { }
-
-		public PawnFilterPart(PawnFilter filter) => this.filter = filter;
 
 		public string Label => this.Def.label;
 

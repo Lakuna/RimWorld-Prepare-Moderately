@@ -1,6 +1,5 @@
 ﻿using PrepareModerately.UI;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ using Verse;
 
 namespace PrepareModerately.PawnFilter.PawnFilterParts {
 	public class IsSpecies : PawnFilterPart {
-		private static readonly List<ThingDef> humanlikeDefs = ((Func<List<ThingDef>>) (() => DefDatabase<ThingDef>.AllDefsListForReading.Where((def) => def.race != null && def.race.Humanlike).ToList()))();
+		private static readonly List<ThingDef> humanlikeDefs = DefDatabase<ThingDef>.AllDefsListForReading.Where((def) => def.race != null && def.race.Humanlike).ToList();
 
 		private ThingDef species;
 
