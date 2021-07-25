@@ -36,6 +36,7 @@ namespace PrepareModerately.UI {
 			this.DrawPageTitle(rect);
 			Rect mainRect = this.GetMainRect(rect);
 			GUI.BeginGroup(mainRect);
+			mainRect = new Rect(0, 0, mainRect.width, mainRect.height); // Test
 
 			Rect controlRect = mainRect.LeftPart(Page_PrepareModerately.controlColumnWidthPercentage).Rounded();
 			Listing_Standard controlList = new Listing_Standard { ColumnWidth = controlRect.width };
