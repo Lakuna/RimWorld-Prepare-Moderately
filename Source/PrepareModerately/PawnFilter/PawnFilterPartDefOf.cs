@@ -4,7 +4,7 @@ namespace PrepareModerately.PawnFilter {
 	[DefOf]
 	public static class PawnFilterPartDefOf {
 		public static PawnFilterPartDef HasAnyAddiction;
-		public static PawnFilterPartDef HasAnyBodyModifications;
+		public static PawnFilterPartDef HasAnyBodyModification;
 		public static PawnFilterPartDef HasAnyPermanentMedicalCondition;
 		public static PawnFilterPartDef HasAnyRelationship;
 		public static PawnFilterPartDef HasMinimumPassionsAtLevel;

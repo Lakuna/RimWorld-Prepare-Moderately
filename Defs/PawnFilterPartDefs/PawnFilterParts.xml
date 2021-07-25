@@ -8,9 +8,9 @@
 	</PrepareModerately.PawnFilter.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilter.PawnFilterPartDef>
-		<defName>HasAnyBodyModifications</defName>
-		<label>Any body modifications</label>
-		<partClass>PrepareModerately.PawnFilter.PawnFilterParts.HasAnyBodyModifications</partClass>
+		<defName>HasAnyBodyModification</defName>
+		<label>Any body modification</label>
+		<partClass>PrepareModerately.PawnFilter.PawnFilterParts.HasAnyBodyModification</partClass>
 	</PrepareModerately.PawnFilter.PawnFilterPartDef>
 
 	<PrepareModerately.PawnFilter.PawnFilterPartDef>
