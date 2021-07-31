@@ -1,5 +1,6 @@
 ﻿using PrepareModerately.UI;
 using System;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 
@@ -7,7 +8,7 @@ namespace PrepareModerately {
 	public class PrepareModerately : Mod {
 		public const string filterExtension = ".v2.xml";
 
-		public static readonly string dataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Lakuna\\PrepareModerately";
+		public static readonly string dataPath = (string) typeof(GenFilePaths).GetMethod("FolderUnderSaveData", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { "PrepareModerately" });
 
 		public static void LogError(Exception e) {
 			string output = "Prepare Moderately encountered an exception.";
