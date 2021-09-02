@@ -37,7 +37,7 @@ namespace PrepareModerately.PawnFilter {
 			try {
 				Directory.CreateDirectory(PrepareModerately.dataPath);
 				XmlSerializer serializer = new XmlSerializer(typeof(PawnFilter));
-				using (StreamWriter writer = new StreamWriter(PrepareModerately.dataPath + "\\" + this.name + PrepareModerately.filterExtension)) {
+				using (StreamWriter writer = new StreamWriter(PrepareModerately.dataPath + Path.DirectorySeparatorChar + this.name + PrepareModerately.filterExtension)) {
 					serializer.Serialize(writer, this);
 				}
 			} catch (Exception e) {
