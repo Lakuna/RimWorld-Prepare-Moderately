@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
 <Manifest>
-	<identifier>PrepareModerately</identifier>
-	<version>4.0.2.0</version>
-	<dependencies>
-		<li>Harmony</li>
-	</dependencies>
-	<loadAfter>
-		<li>Harmony</li>
-	</loadAfter>
-	<showCrossPromotions>true</showCrossPromotions>
-	<manifestUri>https://github.com/Lakuna/RimWorld-Mod-Template/About/Manifest.xml</manifestUri>
-	<downloadUri>https://github.com/Lakuna/RimWorld-Mod-Template/releases/latest</downloadUri>
+  <identifier>PrepareModerately</identifier>
+  <version>5.0.0.0</version>
+  <dependencies>
+    <li>Harmony</li>
+  </dependencies>
+  <loadAfter>
+    <li>Harmony</li>
+  </loadAfter>
+  <showCrossPromotions>true</showCrossPromotions>
+  <manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
+  <downloadUri>https://github.com/Lakuna/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
 </Manifest>

@@ -1,1 +1,3 @@
-**/Assemblies
+**/*.dll
+Source/bin
+Source/obj

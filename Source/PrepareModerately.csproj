@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="..\**\0Harmony.dll" />
+    <Reference Include="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorld*_Data\**\*.dll" />
+  </ItemGroup>
+</Project>
