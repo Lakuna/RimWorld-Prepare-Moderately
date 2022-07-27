@@ -1,6 +1,7 @@
-![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2057362949)
+![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2057362949?style=for-the-badge)
 
-# RimWorld-Prepare-Moderately
-RimWorld mod intended to be a balanced replacement for EdB Prepare Carefully.
+# Prepare Moderately
 
-The source code for this mod can be found on [the GitHub repository](https://github.com/Lakuna/RimWorld-Prepare-Moderately).
+A RimWorld mod that rerolls pawns until they meet user-defined criteria.
+
+The source code can be found on [the GitHub repository](https://github.com/Lakuna/RimWorld-Prepare-Moderately).
