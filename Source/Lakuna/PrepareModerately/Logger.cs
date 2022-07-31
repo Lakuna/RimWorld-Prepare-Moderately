@@ -3,8 +3,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately {
 	public static class Logger {
-		public static void LogException(Exception e) {
-			string output = "EncounteredAnException".Translate();
+		public static void LogException(Exception e, string description = "no description provided") {
+			string output = "Prepare Moderately encountered an exception: " + description + ".";
 
 			Exception innerException = e;
 			while (innerException != null) {

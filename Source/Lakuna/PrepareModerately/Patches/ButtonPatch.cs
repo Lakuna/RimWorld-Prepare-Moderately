@@ -21,11 +21,12 @@ namespace Lakuna.PrepareModerately.Patches {
 
 			if (Widgets.ButtonText(buttonRect, buttonText)) {
 				try {
-					Find.WindowStack.Add(new Page_SelectPawnFilter());
+					PrepareModeratelyMod.page_ConfigureStartingPawns = __instance;
+					Find.WindowStack.Add(new Page_SelectFilter());
 				} catch (Exception e) {
 					SoundDefOf.ClickReject.PlayOneShot(new SoundInfo());
 					Find.WindowStack.Add(new Dialog_Exception(e));
-					Logger.LogException(e);
+					Logger.LogException(e, "failed to initialize");
 				}
 			}
 		}

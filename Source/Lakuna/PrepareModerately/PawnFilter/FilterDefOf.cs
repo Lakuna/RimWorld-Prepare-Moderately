@@ -1,6 +1,6 @@
 namespace Lakuna.PrepareModerately.PawnFilter {
 	// Based on RimWorld.ScenarioDefOf.
-	public static class PawnFilterDefOf {
+	public static class FilterDefOf {
 		// TODO
 	}
 }
