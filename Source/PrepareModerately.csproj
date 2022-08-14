@@ -7,5 +7,7 @@
   <ItemGroup>
     <Reference Include="..\**\0Harmony.dll" />
     <Reference Include="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorld*_Data\**\*.dll" />
+	<Reference Include="~/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorld*_Data/**/*.dll" />
+	<Reference Include="~/.steam/steam/SteamApps/common/RimWorld/RimWorld*_Data/**/*.dll" />
   </ItemGroup>
 </Project>
