@@ -1,3 +1,5 @@
+using System;
+using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
@@ -6,6 +8,22 @@ namespace Lakuna.PrepareModerately {
 
 		public PrepareModerately(ModContentPack content) : base(content) {
 			PrepareModerately.settings = this.GetSettings<Settings>();
+		}
+
+		public override void DoSettingsWindowContents(Rect inRect) {
+			Listing_Standard listing = new Listing_Standard();
+			listing.Begin(inRect);
+
+			listing.Label(String.Format("PawnRollSpeedMultiplier".Translate(), PrepareModerately.settings.pawnRollSpeedMultiplier));
+			PrepareModerately.settings.pawnRollSpeedMultiplier = (int)listing.Slider(PrepareModerately.settings.pawnRollSpeedMultiplier, 1, 10);
+
+			listing.End();
+
+			base.DoSettingsWindowContents(inRect);
+		}
+
+		public override string SettingsCategory() {
+			return "PrepareModerately".Translate();
 		}
 	}
 }

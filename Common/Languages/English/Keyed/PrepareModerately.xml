@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<LanguageData>
+	<PrepareModerately>Prepare Moderately</PrepareModerately>
+	<PawnRollSpeedMultiplier>Pawn roll speed multiplier ({0})</PawnRollSpeedMultiplier>
+	<EncounteredAnException>Prepare Moderately encountered an exception:\n{0}</EncounteredAnException>
+</LanguageData>
