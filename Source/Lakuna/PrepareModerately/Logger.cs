@@ -20,5 +20,13 @@ namespace Lakuna.PrepareModerately {
 				Log.ErrorOnce(output, (int)category);
 			}
 		}
+
+		public static void LogErrorMessage(string e, LoggerCategory category = LoggerCategory.Unrestricted) {
+			if (category == LoggerCategory.Unrestricted) {
+				Log.Error(e);
+			} else {
+				Log.ErrorOnce(e, (int)category);
+			}
+		}
 	}
 }

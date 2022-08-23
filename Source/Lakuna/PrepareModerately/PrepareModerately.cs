@@ -29,31 +29,31 @@ namespace Lakuna.PrepareModerately {
 }
 
 /*
-Notable classes:
-RimWorld.BackstoryCategoryFilter
-RimWorld.BackstoryDatabase
-RimWorld.Dialog_ScenarioList
-RimWorld.Dialog_ScenarioList_Load
-RimWorld.Dialog_ScenarioList_Save
-RimWorld.NameGenerator
-RimWorld.Page_ConfigureStartingPawns
-RimWorld.Page_ScenarioEditor
-RimWorld.Page_SelectScenario
-RimWorld.PawnBioAndNameGenerator
-RimWorld.Scenario
-RimWorld.ScenarioDef
-RimWorld.ScenarioDefOf
-RimWorld.ScenarioFiles
-RimWorld.ScenarioLister
-RimWorld.ScenarioMaker
-RimWorld.ScenarioUI
-RimWorld.ScenPart
-RimWorld.ScenPartDef
-RimWorld.ScenPartDefOf
-Verse.Listing_ScenEdit
-Verse.Pawn
-Verse.PawnGenerationRequest
-Verse.PawnGenerator
+Notable class							Status
+RimWorld.BackstoryCategoryFilter		Maybe helpful
+RimWorld.BackstoryDatabase				Maybe helpful
+RimWorld.Dialog_ScenarioList			TODO
+RimWorld.Dialog_ScenarioList_Load		TODO
+RimWorld.Dialog_ScenarioList_Save		TODO
+RimWorld.NameGenerator					Maybe helpful
+RimWorld.Page_ConfigureStartingPawns	TODO
+RimWorld.Page_ScenarioEditor			TODO
+RimWorld.Page_SelectScenario			TODO
+RimWorld.PawnBioAndNameGenerator		Maybe helpful
+RimWorld.Scenario						DONE
+RimWorld.ScenarioDef					DONE
+RimWorld.ScenarioDefOf					DONE
+RimWorld.ScenarioFiles					TODO
+RimWorld.ScenarioLister					TODO
+RimWorld.ScenarioMaker					DONE
+RimWorld.ScenarioUI						TODO
+RimWorld.ScenPart						DONE
+RimWorld.ScenPartDef					DONE
+RimWorld.ScenPartDefOf					DONE
+Verse.Listing_ScenEdit					DONE
+Verse.Pawn								Maybe helpful
+Verse.PawnGenerationRequest				Maybe helpful
+Verse.PawnGenerator						Maybe helpful
 
 Notable previous commits:
 https://github.com/Lakuna/RimWorld-Prepare-Moderately/tree/2ae4be15337c73d0d91f172437bac8f150b85edd (live version)

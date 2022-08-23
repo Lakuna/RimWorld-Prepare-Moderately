@@ -40,8 +40,6 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		// public FileInfo File => new FileInfo(Path.Combine(FolderUnderSaveData("Filters"), this.fileName + ".rpf"));
-
 		public FileInfo File {
 			get {
 				string directory = Path.Combine(GenFilePaths.SaveDataFolderPath, "Filters");
@@ -62,7 +60,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		public FilterCategory Category {
 			get {
 				if (this.category == FilterCategory.Undefined) {
-					Logger.LogException(new Exception(), "Filter category is undefined.");
+					Logger.LogErrorMessage("Filter category is undefined.");
 				}
 
 				return this.category;
@@ -81,11 +79,11 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
 				if (this.parts.RemoveAll((FilterPart.FilterPart part) => part == null) != 0) {
-					Logger.LogException(new Exception(), "Some filter parts were null after loading.");
+					Logger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
 				if (this.parts.RemoveAll((FilterPart.FilterPart part) => part.HasNullDefs()) != 0) {
-					Logger.LogException(new Exception(), "Some filter parts had null defs.");
+					Logger.LogErrorMessage("Some filter parts had null defs.");
 				}
 			}
 		}
@@ -147,7 +145,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(FilterPart.FilterPart part) {
-			if (!this.parts.Contains(part)) { Logger.LogException(new Exception(), "Cannot remove part."); }
+			if (!this.parts.Contains(part)) { Logger.LogErrorMessage("Cannot remove part."); }
 			this.parts.Remove(part);
 		}
 
