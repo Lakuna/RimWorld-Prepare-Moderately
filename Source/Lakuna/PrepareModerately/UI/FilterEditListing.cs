@@ -4,7 +4,7 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace Lakuna.PrepareModerately.GUI {
+namespace Lakuna.PrepareModerately.UI {
 	public class FilterEditListing : Listing_Standard {
 		private Filter.Filter filter;
 

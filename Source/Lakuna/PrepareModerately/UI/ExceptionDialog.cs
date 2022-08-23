@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace Lakuna.PrepareModerately.GUI {
+namespace Lakuna.PrepareModerately.UI {
 	public class ExceptionDialog : Window {
 		private readonly Exception e;
 

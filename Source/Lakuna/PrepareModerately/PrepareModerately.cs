@@ -43,10 +43,10 @@ RimWorld.PawnBioAndNameGenerator		Maybe helpful
 RimWorld.Scenario						DONE
 RimWorld.ScenarioDef					DONE
 RimWorld.ScenarioDefOf					DONE
-RimWorld.ScenarioFiles					TODO
-RimWorld.ScenarioLister					TODO
+RimWorld.ScenarioFiles					DONE
+RimWorld.ScenarioLister					DONE
 RimWorld.ScenarioMaker					DONE
-RimWorld.ScenarioUI						TODO
+RimWorld.ScenarioUI						DONE
 RimWorld.ScenPart						DONE
 RimWorld.ScenPartDef					DONE
 RimWorld.ScenPartDefOf					DONE

@@ -20,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			Rand.PushState();
 			Rand.Seed = seed.GetHashCode();
-			FilterMaker.AddCategoryFilterParts(FilterMaker.filter, FilterPartCategory.HighProbability, Rand.RangeInclusive(3, 7));
+			FilterMaker.AddCategoryFilterParts(FilterMaker.filter, FilterPartCategory.Normal, Rand.RangeInclusive(3, 7));
 			foreach (FilterPart.FilterPart part in FilterMaker.filter.AllParts) { part.Randomize(); }
 			for (int i = 0; i < FilterMaker.filter.parts.Count; i++) {
 				for (int j = 0; j < FilterMaker.filter.parts.Count; j++) {

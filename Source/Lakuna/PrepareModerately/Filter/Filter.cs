@@ -40,14 +40,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public FileInfo File {
-			get {
-				string directory = Path.Combine(GenFilePaths.SaveDataFolderPath, "Filters");
-				DirectoryInfo directoryInfo = new DirectoryInfo(directory);
-				if (!directoryInfo.Exists) { directoryInfo.Create(); }
-				return new FileInfo(Path.Combine(directory, this.fileName + ".rpf"));
-			}
-		}
+		public FileInfo File => new FileInfo(GenFilterPaths.AbsolutePathForFilter(this.fileName));
 
 		public IEnumerable<FilterPart.FilterPart> AllParts {
 			get {

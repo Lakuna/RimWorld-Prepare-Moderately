@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Lakuna.PrepareModerately.GUI;
+using Lakuna.PrepareModerately.UI;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.FilterPart {

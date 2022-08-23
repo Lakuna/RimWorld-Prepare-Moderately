@@ -1,6 +1,6 @@
 using System;
 using HarmonyLib;
-using Lakuna.PrepareModerately.GUI;
+using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using UnityEngine;
 using Verse;
