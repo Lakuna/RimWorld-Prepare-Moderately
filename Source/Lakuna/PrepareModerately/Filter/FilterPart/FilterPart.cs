@@ -51,7 +51,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			return true;
 		}
 
-		public virtual bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req) {
+		public virtual bool Matches(Pawn pawn) {
 			return true;
 		}
 

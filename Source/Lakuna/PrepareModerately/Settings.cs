@@ -1,15 +1,16 @@
+using Lakuna.PrepareModerately.Filter;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
 	public class Settings : ModSettings {
-		public int pawnRollSpeedMultiplier;
+		public string filterSavePath;
 
 		public Settings() {
-			this.pawnRollSpeedMultiplier = 1;
+			this.filterSavePath = GenFilterPaths.FolderUnderSaveData("Filter");
 		}
 
 		public override void ExposeData() {
-			Scribe_Values.Look(ref this.pawnRollSpeedMultiplier, nameof(this.pawnRollSpeedMultiplier));
+			Scribe_Values.Look(ref this.filterSavePath, nameof(this.filterSavePath));
 
 			base.ExposeData();
 		}

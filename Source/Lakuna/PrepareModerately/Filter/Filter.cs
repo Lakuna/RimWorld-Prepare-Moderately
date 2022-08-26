@@ -8,6 +8,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class Filter : IExposable {
+		public static Filter currentFilter;
+
 		[MustTranslate]
 		public string name;
 
@@ -26,7 +28,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public bool enabled;
 
-		public bool showInGUI;
+		public bool showInUI;
 
 		public const int NameMaxLength = 55;
 
@@ -83,7 +85,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public IEnumerable<string> ConfigErrors() {
 			if (this.name.NullOrEmpty()) { yield return "No title."; }
-			if (this.parts.NullOrEmpty()) { yield return "No parts."; }
+			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
 			foreach (FilterPart.FilterPart part in this.AllParts) {
 				foreach (string item in part.ConfigErrors()) {
@@ -129,9 +131,9 @@ namespace Lakuna.PrepareModerately.Filter {
 			return filter;
 		}
 
-		public bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req) {
+		public bool Matches(Pawn pawn) {
 			foreach (FilterPart.FilterPart part in this.AllParts) {
-				if (!part.AllowPlayerStartingPawn(pawn, tryingToRedress, req)) { return false; }
+				if (!part.Matches(pawn)) { return false; }
 			}
 
 			return true;
@@ -188,7 +190,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		public Filter() {
 			this.parts = new List<FilterPart.FilterPart>();
 			this.enabled = true;
-			this.showInGUI = true;
+			this.showInUI = true;
 		}
 	}
 }

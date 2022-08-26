@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef Name="NameContains">
+		<defName>NameContains</defName>
+		<label>name contains</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.FilterPart.NameContainsFilterPart</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef>
+</Defs>

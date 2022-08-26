@@ -1,12 +1,9 @@
 using System;
 using System.IO;
-using System.Text;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public static class FilterSaveLoader {
-		private static int lastSaveTick = -9999;
-
 		public const string SavedFilterParentNodeName = "savedfilter";
 
 		public const string FilterNodeName = "filter";

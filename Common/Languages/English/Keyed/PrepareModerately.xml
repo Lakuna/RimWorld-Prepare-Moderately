@@ -2,6 +2,11 @@
 
 <LanguageData>
 	<PrepareModerately>Prepare Moderately</PrepareModerately>
-	<PawnRollSpeedMultiplier>Pawn roll speed multiplier ({0})</PawnRollSpeedMultiplier>
+	<FilterSavePath>Filter save path</FilterSavePath>
 	<EncounteredAnException>Prepare Moderately encountered an exception:\n{0}</EncounteredAnException>
+	<ChooseFilter>Choose filter</ChooseFilter>
+	<FilterEditor>Filter editor</FilterEditor>
+	<FiltersCustom>Custom</FiltersCustom>
+	<Rolling>Rolling</Rolling>
+	<ClickOutsideToStop>Click outside to stop.</ClickOutsideToStop>
 </LanguageData>

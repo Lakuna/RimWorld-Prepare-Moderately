@@ -20,7 +20,10 @@ namespace Lakuna.PrepareModerately.Patches {
 
 			if (Widgets.ButtonText(buttonRect, buttonText)) {
 				try {
-					throw new NotImplementedException(); // TODO
+					SelectFilterPage page = new SelectFilterPage();
+					page.prev = __instance;
+					page.next = __instance;
+					Find.WindowStack.Add(page);
 				} catch (Exception e) {
 					SoundDefOf.ClickReject.PlayOneShotOnCamera();
 					Find.WindowStack.Add(new ExceptionDialog(e));
