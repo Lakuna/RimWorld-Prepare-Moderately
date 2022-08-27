@@ -27,9 +27,12 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public FilterPartDef() {
-			this.summaryPriority = -1;
-			this.selectionWeight = -1;
+			this.summaryPriority = 1;
+			this.selectionWeight = 1;
 			this.maxUses = 999999;
 		}
 	}
 }
+
+// TODO: Set filter and filter part names, descriptions, etc. from the Languages/*/DefInjected folder.
+// TODO: Set filter and filter part summaries from the Languages/*/Keyed folder with Translate() parameters.

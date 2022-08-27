@@ -7,6 +7,14 @@
 		<description>This filter does not filter out any pawns, leaving you with the vanilla pawn generation experience.</description>
 		<filter>
 			<summary>An empty filter. Does not affect pawn generation.</summary>
+		</filter>
+	</Lakuna.PrepareModerately.Filter.FilterDef>
+	<Lakuna.PrepareModerately.Filter.FilterDef Name="Basic">
+		<defName>Basic</defName>
+		<label>Basic</label>
+		<description>This filter filters out pawns with generally undesirable properties.</description>
+		<filter>
+			<summary>A basic, general-purpose filter.</summary>
 			<parts>
 				<!--
 					<li Class="Lakuna.PrepareModerately.Filter.FilterPart.NameContainsFilterPart">

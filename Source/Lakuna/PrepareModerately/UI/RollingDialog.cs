@@ -11,6 +11,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private Action rollAction;
 
 		public RollingDialog(Action rollAction) {
+			this.closeOnClickedOutside = true;
 			this.rollAction = rollAction;
 		}
 
