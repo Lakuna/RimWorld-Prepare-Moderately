@@ -21,7 +21,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Is a " + this.relation.ToString() + ".";
+			return "IsARelation".Translate(this.relation.ToString());
 		}
 
 		public override void Randomize() {

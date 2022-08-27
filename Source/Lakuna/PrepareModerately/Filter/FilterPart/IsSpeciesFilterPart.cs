@@ -26,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Is a(n) " + this.species.ToString() + ".";
+			return "IsSpecies".Translate(this.species.ToString());
 		}
 
 		public override void Randomize() {

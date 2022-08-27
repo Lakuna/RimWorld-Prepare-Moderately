@@ -33,7 +33,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Has a " + this.passion.ToString() + " passion for " + this.skill.ToString() + ".";
+			return "HasAPassionForSkill".Translate(this.passion.ToString(), this.skill.ToString());
 		}
 
 		public override void Randomize() {

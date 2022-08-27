@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <LanguageData>
+	<!-- UI -->
 	<PrepareModerately>Prepare Moderately</PrepareModerately>
-	<FilterSavePath>Filter save path</FilterSavePath>
-	<EncounteredAnException>Prepare Moderately encountered an exception:\n{0}</EncounteredAnException>
-	<ChooseFilter>Choose filter</ChooseFilter>
-	<FilterEditor>Filter editor</FilterEditor>
-	<FiltersCustom>Custom</FiltersCustom>
-	<Rolling>Rolling</Rolling>
-	<ClickOutsideToStop>Click outside to stop.</ClickOutsideToStop>
+	<FilterSavePath>filter save path</FilterSavePath>
+	<ChooseFilter>choose filter</ChooseFilter>
+	<FilterEditor>filter editor</FilterEditor>
+	<FiltersCustom>custom</FiltersCustom>
+	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
+	<AddPart>add part</AddPart>
+	<Count>Count ({0})</Count>
+	<Level>Level ({0})</Level>
+	<Rolling>Rolling ({0})</Rolling>
+
+	<!-- Filter Part Summaries -->
+	<HasAnyAddiction>has any addiction</HasAnyAddiction>
+	<HasAnyBodyModification>has any body modification</HasAnyBodyModification>
+	<HasAnyPermanentMedicalConditions>has any permanent medical conditions</HasAnyPermanentMedicalConditions>
+	<HasAnyRelation>has any relation</HasAnyRelation>
+	<HasAPassionForSkill>has a(n) {0} passion for {1}</HasAPassionForSkill>
+	<HasPassions>has {0} {1} passions</HasPassions>
+	<IsARelation>is a(n) {0}</IsARelation>
+	<HasLevelInSkill>has level {0} in {1}</HasLevelInSkill>
+	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
+	<HasTrait>has trait {0}</HasTrait>
+	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
+	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
+	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>
+	<IsGender>is {0}</IsGender>
+	<IsSpecies>is a(n) {0}</IsSpecies>
+	<InvalidLogicGateType>invalid logic gate type</InvalidLogicGateType>
+	<NoneOf>none of ({0})</NoneOf>
+	<OneOf>one of ({0})</OneOf>
+	<AllOf>all of ({0})</AllOf>
+	<NameMatches>name matches "{0}"</NameMatches>
+
+	<!-- Exceptions and Handling -->
+	<PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PrepareModeratelyEncounteredAnException>
+	<FilterCategoryIsUndefined>filter category is undefined</FilterCategoryIsUndefined>
+	<SomeFilterPartsWereNullAfterLoading>some filter parts were null after loading</SomeFilterPartsWereNullAfterLoading>
+	<SomeFilterPartsHadNullDefs>some filter parts had null defs</SomeFilterPartsHadNullDefs>
+	<NoTitle>no title</NoTitle>
+	<NoParts>no parts</NoParts>
+	<UnnamedFilter>unnamed filter</UnnamedFilter>
+	<NullFilter>null filter</NullFilter>
+	<TypeHasNullDef>{0} has null def</TypeHasNullDef>
+	<FilterPartClassIsNull>filter part class is null</FilterPartClassIsNull>
+	<FailedToAddFilterPart>failed to add filter part</FailedToAddFilterPart>
+	<FailedToRemoveFilterPart>failed to remove filter part</FailedToRemoveFilterPart>
+	<FailedToGetFullFilterInformationText>failed to get full filter information text</FailedToGetFullFilterInformationText>
+	<FailedToSaveFilter>failed to save filter</FailedToSaveFilter>
+	<FailedToLoadFilter>failed to load filter</FailedToLoadFilter>
+	<FailedToInitialize>failed to initialize</FailedToInitialize>
 </LanguageData>

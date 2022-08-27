@@ -57,7 +57,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public virtual IEnumerable<string> ConfigErrors() {
 			if (this.def == null) {
-				yield return this.GetType().ToString() + " has null def.";
+				yield return "TypeHasNullDef".Translate(this.GetType().ToString());
 			}
 		}
 

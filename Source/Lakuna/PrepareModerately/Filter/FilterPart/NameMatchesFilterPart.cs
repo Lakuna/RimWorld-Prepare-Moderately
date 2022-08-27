@@ -15,12 +15,10 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Name matches \"" + this.regex + ".\"";
+			return "NameMatches".Translate(this.regex);
 		}
 
 		public override void Randomize() {
-			// TODO: Get names from the Languages/*/Strings folder instead.
-
 			// All of the available random names (listed below) are people who purchased the name-in-game option.
 			switch (Rand.RangeInclusive(0, 20)) {
 				case 0:

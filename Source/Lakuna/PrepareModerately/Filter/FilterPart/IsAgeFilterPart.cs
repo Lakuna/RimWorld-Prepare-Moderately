@@ -1,4 +1,3 @@
-using System;
 using Lakuna.PrepareModerately.UI;
 using UnityEngine;
 using Verse;
@@ -17,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Is between " + this.range.min + " and " + this.range.max + " years old.";
+			return "IsBetweenYearsOld".Translate(this.range.min, this.range.max);
 		}
 
 		public override void Randomize() {

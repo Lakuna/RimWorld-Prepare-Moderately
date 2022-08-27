@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Is " + this.gender.ToString() + ".";
+			return "IsGender".Translate(this.gender.ToString());
 		}
 
 		public override void Randomize() {

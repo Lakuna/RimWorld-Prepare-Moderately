@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.UI {
 			this.iterations++;
 
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(rect, "Rolling".Translate() + " (" + this.iterations + ")\n" + "ClickOutsideToStop".Translate());
+			Widgets.Label(rect, "Rolling".Translate(this.iterations) + "\n" + "ClickOutsideToStop".Translate());
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			if (Filter.Filter.currentFilter.Matches(RandomizePatch.lastRandomizedPawn)) {

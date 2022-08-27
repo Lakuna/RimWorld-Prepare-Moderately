@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public override IEnumerable<string> ConfigErrors() {
-			if (this.filter == null) { yield return "Null filter."; }
+			if (this.filter == null) { yield return "NullFilter".Translate(); }
 
 			foreach (string item in this.filter.ConfigErrors()) {
 				yield return item;

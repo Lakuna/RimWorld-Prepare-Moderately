@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Has any relationship.";
+			return "HasAnyRelation".Translate();
 		}
 
 		public override bool CanCoexistWith(FilterPart other) {

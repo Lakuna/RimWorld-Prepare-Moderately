@@ -64,7 +64,6 @@
 		<label>has trait</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.FilterPart.HasTraitFilterPart</filterPartClass>
-		<maxUses>3</maxUses>
 	</Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef>
 	<Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef Name="IsAge">
 		<defName>IsAge</defName>
@@ -99,6 +98,13 @@
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.FilterPart.IsSpeciesFilterPart</filterPartClass>
 		<maxUses>1</maxUses>
+	</Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef>
+	<Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef Name="LogicGate">
+		<defName>LogicGate</defName>
+		<label>logic gate</label>
+		<category>LogicGate</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.FilterPart.LogicGateFilterPart</filterPartClass>
+		<selectionWeight>0</selectionWeight>
 	</Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef>
 	<Lakuna.PrepareModerately.Filter.FilterPart.FilterPartDef Name="NameMatches">
 		<defName>NameMatches</defName>

@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Is capable of " + this.workTag.ToString() + ".";
+			return "IsCapableOfWorkTag".Translate(this.workTag.ToString());
 		}
 
 		public override void Randomize() {

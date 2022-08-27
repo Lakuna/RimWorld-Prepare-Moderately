@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter {
 					Scribe_Deep.Look(ref filter, FilterSaveLoader.FilterNodeName);
 				});
 			} catch (Exception e) {
-				Logger.LogException(e, "Failed to save filter.");
+				Logger.LogException(e, "FailedToSaveFilter".Translate());
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				filter.fileName = Path.GetFileNameWithoutExtension(new FileInfo(absoluteFilePath).Name);
 				filter.Category = category;
 			} catch (Exception e) {
-				Logger.LogException(e, "Failed to load filter.");
+				Logger.LogException(e, "FailedToLoadFilter".Translate());
 				filter = null;
 				Scribe.ForceStop();
 			}

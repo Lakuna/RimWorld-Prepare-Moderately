@@ -33,6 +33,8 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public static FilterPartDef IsSpecies;
 
+		public static FilterPartDef LogicGate;
+
 		public static FilterPartDef NameMatches;
 
 		static FilterPartDefOf() {

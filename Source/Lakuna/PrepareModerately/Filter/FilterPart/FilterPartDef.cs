@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			}
 
 			if (this.filterPartClass == null) {
-				yield return "filterPartClass is null";
+				yield return "FilterPartClassIsNull".Translate();
 			}
 		}
 
@@ -33,6 +33,3 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 	}
 }
-
-// TODO: Set filter and filter part names, descriptions, etc. from the Languages/*/DefInjected folder.
-// TODO: Set filter and filter part summaries from the Languages/*/Keyed folder with Translate() parameters.

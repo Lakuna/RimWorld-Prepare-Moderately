@@ -57,9 +57,7 @@ namespace Lakuna.PrepareModerately.UI {
 			foreach (FilterPart part in filter.AllParts) { part.DoEditInterface(listing); }
 
 			listing.End();
-
 			FilterUI.editViewHeight = listing.CurHeight + 100;
-
 			Widgets.EndScrollView();
 		}
 	}

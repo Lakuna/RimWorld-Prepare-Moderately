@@ -77,9 +77,7 @@ namespace Lakuna.PrepareModerately.UI {
 			this.ListFiltersOnListing(listing, FilterLister.FiltersInCategory(FilterCategory.CustomLocal));
 
 			listing.End();
-
 			this.totalFilterListHeight = listing.CurHeight;
-
 			Widgets.EndScrollView();
 		}
 

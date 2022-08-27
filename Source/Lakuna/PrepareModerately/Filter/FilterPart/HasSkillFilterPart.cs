@@ -24,12 +24,12 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			}
 
 			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(0.2f).Rounded(), "Level (" + this.level + ")");
+			Widgets.Label(levelRect.LeftPart(0.2f).Rounded(), "Level".Translate(this.level));
 			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - 0.2f), this.level, 1, 20);
 		}
 
 		public override string Summary(Filter filter) {
-			return "Has level " + this.level + " in " + this.skill.ToString() + ".";
+			return "HasLevelInSkill".Translate(this.level, this.skill.ToString());
 		}
 
 		public override void Randomize() {

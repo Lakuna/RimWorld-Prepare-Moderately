@@ -21,7 +21,9 @@ namespace Lakuna.PrepareModerately.Filter {
 			Rand.PushState();
 			Rand.Seed = seed.GetHashCode();
 			FilterMaker.AddCategoryFilterParts(FilterMaker.filter, FilterPartCategory.Normal, Rand.RangeInclusive(3, 7));
+
 			foreach (FilterPart.FilterPart part in FilterMaker.filter.AllParts) { part.Randomize(); }
+
 			for (int i = 0; i < FilterMaker.filter.parts.Count; i++) {
 				for (int j = 0; j < FilterMaker.filter.parts.Count; j++) {
 					if (i != j && FilterMaker.filter.parts[i].TryMerge(FilterMaker.filter.parts[j])) {
@@ -31,6 +33,7 @@ namespace Lakuna.PrepareModerately.Filter {
 					}
 				}
 			}
+
 			for (int i = 0; i < FilterMaker.filter.parts.Count; i++) {
 				for (int j = 0; j < FilterMaker.filter.parts.Count; j++) {
 					if (i != j && !FilterMaker.filter.parts[i].CanCoexistWith(FilterMaker.filter.parts[j])) {
@@ -40,7 +43,9 @@ namespace Lakuna.PrepareModerately.Filter {
 					}
 				}
 			}
+
 			foreach (string item in FilterMaker.filter.ConfigErrors()) { Logger.LogErrorMessage(item); }
+
 			Rand.PopState();
 
 			Filter result = FilterMaker.filter;
@@ -66,7 +71,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 				numTries++;
 				if (numTries > 100) {
-					Logger.LogErrorMessage("Couldn't add filter part within the maximum allowed number of tries.");
+					Logger.LogErrorMessage("FailedToAddFilterPart".Translate());
 					break;
 				}
 			}

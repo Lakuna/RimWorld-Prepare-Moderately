@@ -4,7 +4,7 @@ using Verse;
 namespace Lakuna.PrepareModerately {
 	public static class Logger {
 		public static void LogException(Exception e, string description = "No description provided.", LoggerCategory category = LoggerCategory.Unrestricted) {
-			string output = "Prepare Moderately encountered an exception: " + description;
+			string output = "PrepareModeratelyEncounteredAnException".Translate(description);
 
 			Exception innerException = e;
 			while (innerException != null) {

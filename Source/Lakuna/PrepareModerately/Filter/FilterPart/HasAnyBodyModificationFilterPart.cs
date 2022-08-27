@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Has any body modification.";
+			return "HasAnyBodyModification".Translate();
 		}
 	}
 }

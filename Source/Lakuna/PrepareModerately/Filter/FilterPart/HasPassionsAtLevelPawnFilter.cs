@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(0.2f).Rounded(), "Count (" + this.count + ")");
+			Widgets.Label(countRect.LeftPart(0.2f).Rounded(), "Count".Translate(this.count));
 			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - 0.2f), this.count, 1, 12);
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
@@ -31,7 +31,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "Has " + this.count + " " + this.passion.ToString() + " passions.";
+			return "HasPassions".Translate(this.count, this.passion.ToString());
 		}
 
 		public override void Randomize() {

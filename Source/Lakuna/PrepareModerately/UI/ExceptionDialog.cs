@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public override void DoWindowContents(Rect inRect) {
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(inRect, String.Format("EncounteredAnException".Translate(), this.e.Message));
+			Widgets.Label(inRect, "PrepareModeratelyEncounteredAnException".Translate(this.e.Message));
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 		}
 	}

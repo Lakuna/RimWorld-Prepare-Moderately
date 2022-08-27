@@ -21,7 +21,7 @@ namespace Lakuna.PrepareModerately.UI {
 			LongEventHandler.QueueLongEvent(delegate {
 				FilterSaveLoader.SaveFilter(this.savingFilter, absolutePath);
 			}, "SavingLongEvent", false, delegate (Exception e) {
-				Logger.LogException(e, "Failed to save filter.");
+				Logger.LogException(e, "FailedToSaveFilter".Translate());
 			});
 			Messages.Message("SavedAs".Translate(fileName), MessageTypeDefOf.SilentInput, false);
 			this.Close();
