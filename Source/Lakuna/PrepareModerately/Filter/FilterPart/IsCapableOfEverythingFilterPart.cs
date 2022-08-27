@@ -17,7 +17,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override string Summary(Filter filter) {
-			return "IsCapableOfEverything";
+			return "IsCapableOfEverything".Translate();
 		}
 
 		public override bool CanCoexistWith(FilterPart other) {

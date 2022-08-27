@@ -49,15 +49,15 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			rect = rect.GetInnerRect();
 
 			Rect typeRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(typeRect, this.type.ToString())) {
 				FloatMenuUtility.MakeMenu((LogicGateType[])Enum.GetValues(typeof(LogicGateType)),
-					(LogicGateType type) => type.ToString().CapitalizeFirst(),
+					(LogicGateType type) => type.ToString(),
 					(LogicGateType type) => () => this.type = type);
 			}
 
 			Rect addPartRect = new Rect(rect.x, typeRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(addPartRect, "AddPart".Translate())) {
-				FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.innerFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part, (FilterPartDef def) => def.LabelCap, (FilterPartDef def) => delegate {
+				FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.innerFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part, (FilterPartDef def) => def.label, (FilterPartDef def) => delegate {
 					FilterPart part = FilterMaker.MakeFilterPart(def);
 					part.Randomize();
 					this.innerFilter.parts.Add(part);

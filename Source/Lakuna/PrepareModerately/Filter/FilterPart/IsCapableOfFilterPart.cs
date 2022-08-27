@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, this.workTag.ToString())) {
 				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
-					(WorkTags workTag) => workTag.ToString().CapitalizeFirst(),
+					(WorkTags workTag) => workTag.ToString(),
 					(WorkTags workTag) => () => this.workTag = workTag);
 			}
 		}

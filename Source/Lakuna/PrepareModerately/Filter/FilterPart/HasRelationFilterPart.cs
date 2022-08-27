@@ -13,9 +13,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.relation.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, this.relation.ToString())) {
 				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading,
-					(PawnRelationDef def) => def.ToString().CapitalizeFirst(),
+					(PawnRelationDef def) => def.ToString(),
 					(PawnRelationDef def) => () => this.relation = def);
 			}
 		}

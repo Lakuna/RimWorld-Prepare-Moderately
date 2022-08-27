@@ -87,7 +87,7 @@ namespace Lakuna.PrepareModerately.UI {
 			}
 
 			if (this.seedIsValid) {
-				listing.Label("Seed".Translate().CapitalizeFirst());
+				listing.Label("Seed".Translate());
 				string text = listing.TextEntry(this.seed);
 				if (text != this.seed) {
 					this.seed = text;
@@ -97,7 +97,7 @@ namespace Lakuna.PrepareModerately.UI {
 				listing.Gap(Text.LineHeight + Text.LineHeight + 2);
 			}
 
-			listing.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode);
+			listing.CheckboxLabeled("EditMode".Translate(), ref this.editMode);
 
 			if (this.editMode) {
 				this.seedIsValid = false;
@@ -127,7 +127,7 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void OpenAddFilterPartMenu() {
-			FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.currentFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part, (FilterPartDef def) => def.LabelCap, (FilterPartDef def) => delegate {
+			FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.currentFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part, (FilterPartDef def) => def.label, (FilterPartDef def) => delegate {
 				this.AddFilterPart(def);
 			});
 		}

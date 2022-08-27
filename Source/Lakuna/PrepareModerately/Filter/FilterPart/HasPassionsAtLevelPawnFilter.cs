@@ -22,10 +22,10 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - 0.2f), this.count, 1, 12);
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(passionRect, this.passion.ToString())) {
 				FloatMenuUtility.MakeMenu(
 					(Passion[])Enum.GetValues(typeof(Passion)),
-					(Passion passion) => passion.ToString().CapitalizeFirst(),
+					(Passion passion) => passion.ToString(),
 					(Passion passion) => () => this.passion = passion);
 			}
 		}

@@ -17,9 +17,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(skillRect, this.skill.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(skillRect, this.skill.ToString())) {
 				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
-					(SkillDef def) => def.ToString().CapitalizeFirst(),
+					(SkillDef def) => def.ToString(),
 					(SkillDef def) => () => this.skill = def);
 			}
 

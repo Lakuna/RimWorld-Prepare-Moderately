@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public static float RowHeight => Text.LineHeight;
 
-		public virtual string Label => this.def.LabelCap;
+		public virtual string Label => this.def.label;
 
 		public virtual void ExposeData() {
 			Scribe_Defs.Look(ref this.def, nameof(this.def));
