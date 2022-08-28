@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.species = IsSpeciesFilterPart.humanlikeDefs.ToArray()[Rand.Range(0, IsSpeciesFilterPart.humanlikeDefs.Count())];
+			this.species = IsSpeciesFilterPart.humanlikeDefs.ToArray()[Rand.Range(0, IsSpeciesFilterPart.humanlikeDefs.Count() - 1)];
 		}
 
 		public override void ExposeData() {

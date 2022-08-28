@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void Randomize() {
 			this.passion = FilterPart.GetRandomOfEnum(new Passion());
-			this.count = Rand.RangeInclusive(3, 6);
+			this.count = Rand.Range(3, 6);
 		}
 
 		public override void ExposeData() {

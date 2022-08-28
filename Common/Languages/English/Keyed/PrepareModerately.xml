@@ -8,10 +8,9 @@
 	<FilterEditor>filter editor</FilterEditor>
 	<FiltersCustom>custom</FiltersCustom>
 	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
-	<AddPart>add part</AddPart>
-	<Count>Count ({0})</Count>
-	<Level>Level ({0})</Level>
-	<Rolling>Rolling ({0})</Rolling>
+	<Count>count ({0})</Count>
+	<Level>level ({0})</Level>
+	<Rolling>rolling ({0})</Rolling>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>

@@ -7,14 +7,14 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.FilterPart {
 	public class HasTraitFilterPart : FilterPart {
-		private static readonly IEnumerable<HasTraitDegreeData> traitDegreeDatas;
+		private static readonly List<HasTraitDegreeData> traitDegreeDatas;
 
 		static HasTraitFilterPart() {
 			HasTraitFilterPart.traitDegreeDatas = new List<HasTraitDegreeData>();
 
 			foreach (TraitDef trait in DefDatabase<TraitDef>.AllDefsListForReading) {
 				foreach (TraitDegreeData degree in trait.degreeDatas) {
-					((List<HasTraitDegreeData>)HasTraitFilterPart.traitDegreeDatas).Add(new HasTraitDegreeData(trait, degree.degree));
+					HasTraitFilterPart.traitDegreeDatas.Add(new HasTraitDegreeData(trait, degree.degree));
 				}
 			}
 		}
@@ -39,7 +39,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.traitDegreeData = HasTraitFilterPart.traitDegreeDatas.ToArray()[Rand.Range(0, HasTraitFilterPart.traitDegreeDatas.Count())];
+			// this.traitDegreeData = HasTraitFilterPart.traitDegreeDatas[Rand.Range(0, HasTraitFilterPart.traitDegreeDatas.Count() - 1)];
+			TraitDef trait = FilterPart.GetRandomOfDef(new TraitDef());
+			this.traitDegreeData = new HasTraitDegreeData(trait, trait.degreeDatas[0].degree);
 		}
 
 		public override void ExposeData() {

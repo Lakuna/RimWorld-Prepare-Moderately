@@ -31,8 +31,8 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.count = Rand.RangeInclusive(3, 6);
-			this.level = Rand.RangeInclusive(5, 10);
+			this.count = Rand.Range(3, 6);
+			this.level = Rand.Range(5, 10);
 		}
 
 		public override void ExposeData() {

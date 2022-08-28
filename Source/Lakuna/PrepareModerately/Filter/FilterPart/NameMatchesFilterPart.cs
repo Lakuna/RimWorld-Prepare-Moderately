@@ -46,7 +46,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 				"Skye"
 			};
 
-			this.regex = (string)names.GetValue(Rand.Range(0, names.Length));
+			this.regex = (string)names.GetValue(Rand.Range(0, names.Length - 1));
 		}
 
 		public override void ExposeData() {

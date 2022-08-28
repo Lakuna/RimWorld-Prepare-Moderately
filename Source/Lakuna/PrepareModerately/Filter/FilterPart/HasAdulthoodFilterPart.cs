@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void Randomize() {
 			Backstory[] values = BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood).ToArray();
-			this.backstory = values[Rand.Range(0, values.Length)];
+			this.backstory = values[Rand.Range(0, values.Length - 1)];
 		}
 
 		public override void ExposeData() {

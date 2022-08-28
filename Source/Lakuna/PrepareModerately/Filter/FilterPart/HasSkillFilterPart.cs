@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void Randomize() {
 			this.skill = FilterPart.GetRandomOfDef(new SkillDef());
-			this.level = Rand.RangeInclusive(5, 10);
+			this.level = Rand.Range(5, 10);
 		}
 
 		public override void ExposeData() {
