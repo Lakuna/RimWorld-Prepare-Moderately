@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.workTag.ToString())) {
+			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
-					(WorkTags workTag) => workTag.ToString(),
+					(WorkTags workTag) => workTag.ToString().CapitalizeFirst(),
 					(WorkTags workTag) => () => this.workTag = workTag);
 			}
 		}
@@ -26,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.workTag = ((WorkTags[])Enum.GetValues(typeof(WorkTags)))[Enum.GetValues(typeof(WorkTags)).Length - 1];
+			this.workTag = FilterPart.GetRandomOfEnum(new WorkTags());
 		}
 
 		public override void ExposeData() {

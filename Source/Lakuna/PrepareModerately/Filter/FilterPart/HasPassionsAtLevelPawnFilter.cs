@@ -17,15 +17,16 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
+			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(0.2f).Rounded(), "Count".Translate(this.count));
-			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - 0.2f), this.count, 1, 12);
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate(this.count).CapitalizeFirst());
+			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - labelWidthPercentage), this.count, 1, 12);
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(passionRect, this.passion.ToString())) {
+			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(
 					(Passion[])Enum.GetValues(typeof(Passion)),
-					(Passion passion) => passion.ToString(),
+					(Passion passion) => passion.ToString().CapitalizeFirst(),
 					(Passion passion) => () => this.passion = passion);
 			}
 		}
@@ -35,18 +36,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			switch (Rand.RangeInclusive(0, 2)) {
-				case 0:
-					this.passion = Passion.None;
-					break;
-				case 1:
-					this.passion = Passion.Minor;
-					break;
-				case 2:
-					this.passion = Passion.Major;
-					break;
-			}
-
+			this.passion = FilterPart.GetRandomOfEnum(new Passion());
 			this.count = Rand.RangeInclusive(3, 6);
 		}
 

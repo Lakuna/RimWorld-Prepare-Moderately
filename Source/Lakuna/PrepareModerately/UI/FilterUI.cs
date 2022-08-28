@@ -43,13 +43,13 @@ namespace Lakuna.PrepareModerately.UI {
 			listing.ColumnWidth = listingRect.width;
 			listing.Begin(listingRect);
 
-			listing.Label("Title".Translate());
+			listing.Label("Title".Translate().CapitalizeFirst());
 			filter.name = listing.TextEntry(filter.name).TrimmedToLength(55);
 
-			listing.Label("Summary".Translate());
+			listing.Label("Summary".Translate().CapitalizeFirst());
 			filter.summary = listing.TextEntry(filter.summary, 2).TrimmedToLength(300);
 
-			listing.Label("Description".Translate());
+			listing.Label("Description".Translate().CapitalizeFirst());
 			filter.description = listing.TextEntry(filter.description, 4).TrimmedToLength(1000);
 
 			listing.Gap();

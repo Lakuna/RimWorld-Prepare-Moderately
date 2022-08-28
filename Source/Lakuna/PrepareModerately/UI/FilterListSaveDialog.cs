@@ -10,7 +10,7 @@ namespace Lakuna.PrepareModerately.UI {
 		protected override bool ShouldDoTypeInField => true;
 
 		public FilterListSaveDialog(Filter.Filter filter) {
-			this.interactButLabel = "OverwriteButton".Translate();
+			this.interactButLabel = "OverwriteButton".Translate().CapitalizeFirst();
 			this.typingName = filter.name;
 			this.savingFilter = filter;
 		}
@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.UI {
 			}, "SavingLongEvent", false, delegate (Exception e) {
 				Logger.LogException(e, "FailedToSaveFilter".Translate());
 			});
-			Messages.Message("SavedAs".Translate(fileName), MessageTypeDefOf.SilentInput, false);
+			Messages.Message("SavedAs".Translate(fileName).CapitalizeFirst(), MessageTypeDefOf.SilentInput, false);
 			this.Close();
 		}
 	}

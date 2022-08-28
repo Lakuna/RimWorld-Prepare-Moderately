@@ -13,19 +13,19 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.relation.ToString())) {
+			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading,
-					(PawnRelationDef def) => def.ToString(),
+					(PawnRelationDef def) => def.LabelCap,
 					(PawnRelationDef def) => () => this.relation = def);
 			}
 		}
 
 		public override string Summary(Filter filter) {
-			return "IsARelation".Translate(this.relation.ToString());
+			return "IsARelation".Translate(this.relation.label);
 		}
 
 		public override void Randomize() {
-			this.relation = DefDatabase<PawnRelationDef>.AllDefsListForReading[Rand.RangeInclusive(0, DefDatabase<PawnRelationDef>.AllDefsListForReading.Count - 1)];
+			this.relation = FilterPart.GetRandomOfDef(new PawnRelationDef());
 		}
 
 		public override void ExposeData() {

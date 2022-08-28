@@ -18,16 +18,16 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(skillRect, this.skill.ToString())) {
+			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
-					(SkillDef def) => def.ToString(),
+					(SkillDef def) => def.LabelCap,
 					(SkillDef def) => () => this.skill = def);
 			}
 
 			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(passionRect, this.passion.ToString())) {
+			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)),
-					(Passion passion) => passion.ToString(),
+					(Passion passion) => passion.ToString().CapitalizeFirst(),
 					(Passion passion) => () => this.passion = passion);
 			}
 		}
@@ -37,19 +37,8 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			switch (Rand.RangeInclusive(0, 2)) {
-				case 0:
-					this.passion = Passion.None;
-					break;
-				case 1:
-					this.passion = Passion.Minor;
-					break;
-				case 2:
-					this.passion = Passion.Major;
-					break;
-			}
-
-			this.skill = DefDatabase<SkillDef>.AllDefsListForReading[Rand.RangeInclusive(0, DefDatabase<SkillDef>.AllDefsListForReading.Count - 1)];
+			this.passion = FilterPart.GetRandomOfEnum(new Passion());
+			this.skill = FilterPart.GetRandomOfDef(new SkillDef());
 		}
 
 		public override void ExposeData() {

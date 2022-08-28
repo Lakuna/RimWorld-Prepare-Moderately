@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.gender.ToString())) {
+			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((Gender[])Enum.GetValues(typeof(Gender)),
-				(Gender gender) => gender.ToString(),
+				(Gender gender) => gender.ToString().CapitalizeFirst(),
 				(Gender gender) => () => this.gender = gender);
 			}
 		}
@@ -26,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.gender = ((Gender[])Enum.GetValues(typeof(Gender)))[Enum.GetValues(typeof(Gender)).Length - 1];
+			this.gender = FilterPart.GetRandomOfEnum(new Gender());
 		}
 
 		public override void ExposeData() {

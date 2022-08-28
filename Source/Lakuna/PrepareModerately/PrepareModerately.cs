@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(inRect);
 
-			listing.Label("FilterSavePath".Translate());
+			listing.Label("FilterSavePath".Translate().CapitalizeFirst());
 			PrepareModerately.settings.filterSavePath = listing.TextEntry(PrepareModerately.settings.filterSavePath);
 
 			listing.End();
@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately {
 		}
 
 		public override string SettingsCategory() {
-			return "PrepareModerately".Translate();
+			return "PrepareModerately".Translate().CapitalizeFirst();
 		}
 	}
 }

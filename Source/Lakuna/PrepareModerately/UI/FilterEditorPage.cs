@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private bool editMode;
 
-		public override string PageTitle => "FilterEditor".Translate();
+		public override string PageTitle => "FilterEditor".Translate().CapitalizeFirst();
 
 		public Filter.Filter EditingFilter => this.currentFilter;
 
@@ -69,25 +69,25 @@ namespace Lakuna.PrepareModerately.UI {
 			listing.ColumnWidth = 200;
 			listing.Begin(rect);
 
-			if (listing.ButtonText("Load".Translate())) {
+			if (listing.ButtonText("Load".Translate().CapitalizeFirst())) {
 				Find.WindowStack.Add(new FilterListLoadDialog(delegate (Filter.Filter filter) {
 					this.currentFilter = filter;
 					this.seedIsValid = false;
 				}));
 			}
 
-			if (listing.ButtonText("Save".Translate()) && FilterEditorPage.CheckAllPartsCompatible(this.currentFilter)) {
+			if (listing.ButtonText("Save".Translate().CapitalizeFirst()) && FilterEditorPage.CheckAllPartsCompatible(this.currentFilter)) {
 				Find.WindowStack.Add(new FilterListSaveDialog(this.currentFilter));
 			}
 
-			if (listing.ButtonText("RandomizeSeed".Translate())) {
+			if (listing.ButtonText("RandomizeSeed".Translate().CapitalizeFirst())) {
 				SoundDefOf.Tick_Tiny.PlayOneShotOnCamera();
 				this.RandomizeSeedAndFilter();
 				this.seedIsValid = true;
 			}
 
 			if (this.seedIsValid) {
-				listing.Label("Seed".Translate());
+				listing.Label("Seed".Translate().CapitalizeFirst());
 				string text = listing.TextEntry(this.seed);
 				if (text != this.seed) {
 					this.seed = text;
@@ -97,12 +97,12 @@ namespace Lakuna.PrepareModerately.UI {
 				listing.Gap(Text.LineHeight + Text.LineHeight + 2);
 			}
 
-			listing.CheckboxLabeled("EditMode".Translate(), ref this.editMode);
+			listing.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode);
 
 			if (this.editMode) {
 				this.seedIsValid = false;
 
-				if (listing.ButtonText("AddPart".Translate())) { this.OpenAddFilterPartMenu(); }
+				if (listing.ButtonText("AddPart".Translate().CapitalizeFirst())) { this.OpenAddFilterPartMenu(); }
 			}
 
 			listing.End();
@@ -114,11 +114,11 @@ namespace Lakuna.PrepareModerately.UI {
 				foreach (FilterPart part2 in filter.AllParts) {
 					if (part2.def == part.def) { num++; }
 					if (num > part.def.maxUses) {
-						Messages.Message("TooMany".Translate(part.def.maxUses) + ": " + part.def.label, MessageTypeDefOf.RejectInput, false);
+						Messages.Message(("TooMany".Translate(part.def.maxUses) + ": " + part.def.label).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 					if (part != part2 && !part.CanCoexistWith(part2)) {
-						Messages.Message("Incompatible".Translate() + ": " + part.def.label + ", " + part2.def.label, MessageTypeDefOf.RejectInput, false);
+						Messages.Message(("Incompatible".Translate() + ": " + part.def.label + ", " + part2.def.label).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}
@@ -127,9 +127,9 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void OpenAddFilterPartMenu() {
-			FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.currentFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part, (FilterPartDef def) => def.label, (FilterPartDef def) => delegate {
-				this.AddFilterPart(def);
-			});
+			FloatMenuUtility.MakeMenu(from part in FilterMaker.AddableParts(this.currentFilter) where part.category != FilterPartCategory.Fixed orderby part.label select part,
+				(FilterPartDef def) => def.LabelCap,
+				(FilterPartDef def) => () => this.AddFilterPart(def));
 		}
 
 		private void AddFilterPart(FilterPartDef def) {

@@ -7,7 +7,13 @@ namespace Lakuna.PrepareModerately.Filter {
 	public static class GenFilterPaths {
 		public const string FilterExtension = ".rpf";
 
-		private static string FiltersFolderPath => PrepareModerately.settings.filterSavePath.NullOrEmpty() ? GenFilterPaths.FolderUnderSaveData("Filter") : PrepareModerately.settings.filterSavePath;
+		public static readonly string defaultPath;
+
+		private static string FiltersFolderPath => PrepareModerately.settings.filterSavePath.NullOrEmpty() ? GenFilterPaths.defaultPath : PrepareModerately.settings.filterSavePath;
+
+		static GenFilterPaths() {
+			GenFilterPaths.defaultPath = GenFilterPaths.FolderUnderSaveData("Filters");
+		}
 
 		public static IEnumerable<FileInfo> AllCustomFilterFiles {
 			get {

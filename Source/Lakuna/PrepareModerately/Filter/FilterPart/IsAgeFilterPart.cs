@@ -20,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.range = new IntRange(Rand.RangeInclusive(14, 30), Rand.RangeInclusive(30, 60));
+			this.range = new IntRange(Rand.RangeInclusive(14, 30), Rand.RangeInclusive(30, 100));
 		}
 
 		public override void ExposeData() {

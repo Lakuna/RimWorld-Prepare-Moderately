@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Lakuna.PrepareModerately.UI;
 using Verse;
@@ -10,8 +11,6 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		public bool visible;
 
 		public bool summarized;
-
-		public static float RowHeight => Text.LineHeight;
 
 		public virtual string Label => this.def.label;
 
@@ -30,7 +29,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public virtual void DoEditInterface(FilterEditListing listing) {
-			listing.GetFilterPartRect(this, FilterPart.RowHeight);
+			listing.GetFilterPartRect(this, 0);
 		}
 
 		public virtual string Summary(Filter filter) {
@@ -39,6 +38,18 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public virtual IEnumerable<string> GetSummaryListEntries(string tag) {
 			yield break;
+		}
+
+		// Helper method for Randomize().
+		public static T GetRandomOfEnum<T>(T t) where T : Enum {
+			Array values = Enum.GetValues(t.GetType());
+			return (T)values.GetValue(Rand.Range(0, values.Length));
+		}
+
+		// Helper method for Randomize().
+		public static T GetRandomOfDef<T>(T t) where T : Def {
+			List<T> values = DefDatabase<T>.AllDefsListForReading;
+			return values[Rand.Range(0, values.Count)];
 		}
 
 		public virtual void Randomize() { }

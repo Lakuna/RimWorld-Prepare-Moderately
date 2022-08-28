@@ -5,6 +5,8 @@ namespace Lakuna.PrepareModerately.Filter {
 	public static class FilterDefOf {
 		public static FilterDef Empty;
 
+		public static FilterDef Basic;
+
 		static FilterDefOf() {
 			DefOfHelper.EnsureInitializedInCtor(typeof(FilterDefOf));
 		}

@@ -3,6 +3,8 @@ using RimWorld;
 namespace Lakuna.PrepareModerately.Filter.FilterPart {
 	[DefOf]
 	public static class FilterPartDefOf {
+		public static FilterPartDef HasAdulthood;
+
 		public static FilterPartDef HasAnyAddiction;
 
 		public static FilterPartDef HasAnyBodyModification;
@@ -10,6 +12,8 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		public static FilterPartDef HasAnyPermanentMedicalCondition;
 
 		public static FilterPartDef HasAnyRelation;
+
+		public static FilterPartDef HasChildhood;
 
 		public static FilterPartDef HasPassion;
 

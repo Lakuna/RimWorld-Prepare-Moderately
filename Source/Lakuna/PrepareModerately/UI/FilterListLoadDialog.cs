@@ -7,7 +7,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private Action<Filter.Filter> filterReturner;
 
 		public FilterListLoadDialog(Action<Filter.Filter> filterReturner) {
-			this.interactButLabel = "LoadGameButton".Translate();
+			this.interactButLabel = "LoadGameButton".Translate().CapitalizeFirst();
 			this.filterReturner = filterReturner;
 		}
 

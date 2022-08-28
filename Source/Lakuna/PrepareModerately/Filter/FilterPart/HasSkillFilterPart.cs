@@ -17,24 +17,24 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(skillRect, this.skill.ToString())) {
+			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
-					(SkillDef def) => def.ToString(),
+					(SkillDef def) => def.LabelCap,
 					(SkillDef def) => () => this.skill = def);
 			}
 
+			float labelWidthPercentage = 0.2f;
 			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(0.2f).Rounded(), "Level".Translate(this.level));
-			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - 0.2f), this.level, 1, 20);
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate(this.level).CapitalizeFirst());
+			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), this.level, 1, 20);
 		}
 
 		public override string Summary(Filter filter) {
-			return "HasLevelInSkill".Translate(this.level, this.skill.ToString());
+			return "HasLevelInSkill".Translate(this.level, this.skill.label);
 		}
 
 		public override void Randomize() {
-			this.skill = DefDatabase<SkillDef>.AllDefsListForReading[Rand.RangeInclusive(0, DefDatabase<SkillDef>.AllDefsListForReading.Count - 1)];
-
+			this.skill = FilterPart.GetRandomOfDef(new SkillDef());
 			this.level = Rand.RangeInclusive(5, 10);
 		}
 

@@ -6,7 +6,7 @@ namespace Lakuna.PrepareModerately {
 		public string filterSavePath;
 
 		public Settings() {
-			this.filterSavePath = GenFilterPaths.FolderUnderSaveData("Filter");
+			this.filterSavePath = GenFilterPaths.defaultPath;
 		}
 
 		public override void ExposeData() {

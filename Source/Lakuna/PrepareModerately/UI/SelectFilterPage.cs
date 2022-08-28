@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private float totalFilterListHeight;
 
-		public override string PageTitle => "ChooseFilter".Translate();
+		public override string PageTitle => "ChooseFilter".Translate().CapitalizeFirst();
 
 		public override void PreOpen() {
 			base.PreOpen();
@@ -41,7 +41,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 			Widgets.EndGroup();
 
-			this.DoBottomButtons(rect, null, "FilterEditor".Translate(), this.GoToFilterEditor);
+			this.DoBottomButtons(rect, null, "FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
 		}
 
 		private bool CanEditFilter(Filter.Filter filter) {
@@ -73,7 +73,7 @@ namespace Lakuna.PrepareModerately.UI {
 			listing.Gap();
 
 			Text.Font = GameFont.Small;
-			listing.Label("FiltersCustom".Translate());
+			listing.Label("FiltersCustom".Translate().CapitalizeFirst());
 			this.ListFiltersOnListing(listing, FilterLister.FiltersInCategory(FilterCategory.CustomLocal));
 
 			listing.End();
@@ -94,7 +94,7 @@ namespace Lakuna.PrepareModerately.UI {
 			}
 			if (!flag) {
 				GUI.color = new Color(1, 1, 1, 0.5f);
-				listing.Label("(" + "NoneLower".Translate() + ")");
+				listing.Label(("(" + "NoneLower".Translate() + ")").CapitalizeFirst());
 				GUI.color = Color.white;
 			}
 		}
@@ -126,8 +126,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 			WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
-			if (filter.Category == FilterCategory.CustomLocal && widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate(), GenUI.SubtleMouseoverColor)) {
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name), delegate {
+			if (filter.Category == FilterCategory.CustomLocal && widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name).CapitalizeFirst(), delegate {
 					filter.File.Delete();
 					FilterLister.MarkDirty();
 				}, true));

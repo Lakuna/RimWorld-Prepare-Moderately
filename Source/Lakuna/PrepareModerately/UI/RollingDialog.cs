@@ -17,13 +17,13 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public override Vector2 InitialSize => new Vector2(450, 150);
 
-		public override string PageTitle => "Rolling".Translate();
+		public override string PageTitle => "Rolling".Translate().CapitalizeFirst();
 
 		public override void DoWindowContents(Rect rect) {
 			this.iterations++;
 
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(rect, "Rolling".Translate(this.iterations) + "\n" + "ClickOutsideToStop".Translate());
+			Widgets.Label(rect, "Rolling".Translate(this.iterations).CapitalizeFirst() + "\n" + "ClickOutsideToStop".Translate().CapitalizeFirst());
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			if (Filter.Filter.currentFilter.Matches(RandomizePatch.lastRandomizedPawn)) {

@@ -15,7 +15,8 @@ namespace Lakuna.PrepareModerately.UI {
 		public Rect GetFilterPartRect(FilterPart part, float height) {
 			Rect rect = this.GetRect(Text.LineHeight + height);
 			Widgets.DrawBoxSolid(rect, new Color(1, 1, 1, 0.08f));
-			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, 72, 0);
+			float widgetRowMaxWidth = 72;
+			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, widgetRowMaxWidth, 0);
 
 			if (part.def.PlayerAddRemovable && widgetRow.ButtonIcon(TexButton.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
@@ -32,9 +33,9 @@ namespace Lakuna.PrepareModerately.UI {
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
-			Rect labelRect = new Rect(rect.x + 72, rect.y, rect.width - 72, Text.LineHeight);
+			Rect labelRect = new Rect(rect.x + widgetRowMaxWidth, rect.y, rect.width - widgetRowMaxWidth, Text.LineHeight);
 			Text.Anchor = TextAnchor.UpperRight;
-			Widgets.Label(labelRect, part.Label);
+			Widgets.Label(labelRect, part.Label.CapitalizeFirst());
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			this.Gap(4);

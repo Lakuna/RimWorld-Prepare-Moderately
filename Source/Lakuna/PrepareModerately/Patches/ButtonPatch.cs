@@ -16,12 +16,12 @@ namespace Lakuna.PrepareModerately.Patches {
 			Vector2 buttonPos = new Vector2((rect.x + rect.width) / 2 - buttonSize.x / 2, rect.y - buttonY);
 			Rect buttonRect = new Rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
 
-			string buttonText = "PrepareModerately".Translate();
+			string buttonText = "PrepareModerately".Translate().CapitalizeFirst();
 
 			if (Widgets.ButtonText(buttonRect, buttonText)) {
 				try {
 					SelectFilterPage page = new SelectFilterPage();
-					page.prev = __instance;
+					page.prev = __instance; // Disable "Back" button to prevent people from accidentally not setting filters.
 					page.next = __instance;
 					Find.WindowStack.Add(page);
 				} catch (Exception e) {

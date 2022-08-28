@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using UnityEngine;
@@ -5,62 +7,48 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.FilterPart {
 	public class HasTraitFilterPart : FilterPart {
-		public TraitDef trait;
+		private static readonly IEnumerable<HasTraitDegreeData> traitDegreeDatas;
 
-		private int degree;
+		static HasTraitFilterPart() {
+			HasTraitFilterPart.traitDegreeDatas = new List<HasTraitDegreeData>();
 
-		public int Degree {
-			get {
-				if (this.trait.DataAtDegree(this.degree) == null) {
-					this.degree = this.trait.degreeDatas[0].degree;
-				}
-				return this.degree;
-			}
-			set {
-				if (this.trait.DataAtDegree(value) == null) {
-					this.degree = this.trait.degreeDatas[0].degree;
-				} else {
-					this.degree = value;
+			foreach (TraitDef trait in DefDatabase<TraitDef>.AllDefsListForReading) {
+				foreach (TraitDegreeData degree in trait.degreeDatas) {
+					((List<HasTraitDegreeData>)HasTraitFilterPart.traitDegreeDatas).Add(new HasTraitDegreeData(trait, degree.degree));
 				}
 			}
 		}
 
+		public HasTraitDegreeData traitDegreeData;
+
 		public override bool Matches(Pawn pawn) {
-			return pawn.story.traits.allTraits.Find((Trait trait) => trait.def == this.trait)?.Degree == this.Degree;
+			return pawn.story.traits.allTraits.Find((Trait trait) => trait.def == this.traitDegreeData.trait)?.Degree == this.traitDegreeData.degree;
 		}
 
 		public override void DoEditInterface(FilterEditListing listing) {
-			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
-
-			Rect traitRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(traitRect, this.trait.ToString())) {
-				FloatMenuUtility.MakeMenu(DefDatabase<TraitDef>.AllDefsListForReading,
-					(TraitDef def) => def.ToString(),
-					(TraitDef def) => () => this.trait = def);
-			}
-
-			Rect degreeRect = new Rect(rect.x, traitRect.yMax, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(degreeRect, this.trait.DataAtDegree(this.Degree).label)) {
-				FloatMenuUtility.MakeMenu(this.trait.degreeDatas,
-					(TraitDegreeData degree) => degree.label,
-					(TraitDegreeData degree) => () => this.Degree = degree.degree);
+			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
+			if (Widgets.ButtonText(rect, this.traitDegreeData.Degree.LabelCap)) {
+				FloatMenuUtility.MakeMenu(HasTraitFilterPart.traitDegreeDatas,
+					(HasTraitDegreeData traitDegreeData) => traitDegreeData.Degree.LabelCap,
+					(HasTraitDegreeData traitDegreeData) => () => this.traitDegreeData = traitDegreeData);
 			}
 		}
 
 		public override string Summary(Filter filter) {
-			return "HasTrait".Translate(this.trait.DataAtDegree(this.Degree).label);
+			return "HasTrait".Translate(this.traitDegreeData.Degree.label);
 		}
 
 		public override void Randomize() {
-			this.trait = DefDatabase<TraitDef>.AllDefsListForReading[Rand.RangeInclusive(0, DefDatabase<TraitDef>.AllDefsListForReading.Count - 1)];
-
-			this.Degree = this.trait.degreeDatas[Rand.RangeInclusive(0, this.trait.degreeDatas.Count - 1)].degree;
+			this.traitDegreeData = HasTraitFilterPart.traitDegreeDatas.ToArray()[Rand.Range(0, HasTraitFilterPart.traitDegreeDatas.Count())];
 		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.trait, nameof(this.trait));
-			Scribe_Values.Look(ref this.degree, nameof(this.degree));
+			Scribe_Deep.Look(ref this.traitDegreeData, nameof(this.traitDegreeData));
 		}
 	}
 }
+
+// TODO: Make incompatible with incompatible traits.
+// TODO: Make incompatible with incompatible backstories.
+// TODO: Make incompatible with disabled work types.

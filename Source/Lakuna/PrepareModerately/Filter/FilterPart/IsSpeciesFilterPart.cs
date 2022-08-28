@@ -18,19 +18,19 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.species.ToString())) {
+			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
 				FloatMenuUtility.MakeMenu(humanlikeDefs,
-					(ThingDef def) => def.ToString(),
+					(ThingDef def) => def.LabelCap,
 					(ThingDef def) => () => this.species = def);
 			}
 		}
 
 		public override string Summary(Filter filter) {
-			return "IsSpecies".Translate(this.species.ToString());
+			return "IsSpecies".Translate(this.species.label);
 		}
 
 		public override void Randomize() {
-			this.species = IsSpeciesFilterPart.humanlikeDefs.ToArray()[IsSpeciesFilterPart.humanlikeDefs.Count() - 1];
+			this.species = IsSpeciesFilterPart.humanlikeDefs.ToArray()[Rand.Range(0, IsSpeciesFilterPart.humanlikeDefs.Count())];
 		}
 
 		public override void ExposeData() {

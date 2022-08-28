@@ -105,7 +105,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 				foreach (FilterPart.FilterPart part in from part in this.AllParts orderby part.def.summaryPriority descending, part.def.defName where part.visible select part) {
-					string summary = part.Summary(this);
+					string summary = part.Summary(this).CapitalizeFirst() + ".";
 					if (!summary.NullOrEmpty()) { stringBuilder.AppendLine(summary); }
 				}
 

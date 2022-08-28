@@ -16,13 +16,14 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight * 2);
 
+			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(0.2f).Rounded(), "Count".Translate(this.count));
-			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - 0.2f), this.count, 1, 12);
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate(this.count).CapitalizeFirst());
+			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - labelWidthPercentage), this.count, 1, 12);
 
 			Rect levelRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(0.2f).Rounded(), "Level".Translate(this.level));
-			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - 0.2f), this.level, 1, 20);
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate(this.level).CapitalizeFirst());
+			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), this.level, 1, 20);
 		}
 
 		public override string Summary(Filter filter) {

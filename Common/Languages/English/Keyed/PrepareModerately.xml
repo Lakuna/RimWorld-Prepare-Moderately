@@ -34,6 +34,8 @@
 	<OneOf>one of ({0})</OneOf>
 	<AllOf>all of ({0})</AllOf>
 	<NameMatches>name matches "{0}"</NameMatches>
+	<HasChildhood>has childhood {0}</HasChildhood>
+	<HasAdulthood>has adulthood {0}</HasAdulthood>
 
 	<!-- Exceptions and Handling -->
 	<PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PrepareModeratelyEncounteredAnException>
