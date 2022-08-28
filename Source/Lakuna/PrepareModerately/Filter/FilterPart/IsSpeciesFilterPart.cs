@@ -8,7 +8,15 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.FilterPart {
 	public class IsSpeciesFilterPart : FilterPart {
 		// TODO: Currently, this filter allows the player to choose between any humanlike race. This might not be equal to the list of startable races. Make it be.
-		private static readonly IEnumerable<ThingDef> humanlikeDefs = DefDatabase<ThingDef>.AllDefsListForReading.Where((ThingDef def) => def.race != null && def.race.Humanlike);
+		private static List<ThingDef> AllHumanlikeThingDefs {
+			get {
+				List<ThingDef> output = new List<ThingDef>();
+				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading) {
+					if (def.race != null && def.race.Humanlike) { output.Add(def); }
+				}
+				return output;
+			}
+		}
 
 		public ThingDef species;
 
@@ -19,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
 			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
-				FloatMenuUtility.MakeMenu(humanlikeDefs,
+				FloatMenuUtility.MakeMenu(IsSpeciesFilterPart.AllHumanlikeThingDefs,
 					(ThingDef def) => def.LabelCap,
 					(ThingDef def) => () => this.species = def);
 			}
@@ -30,7 +38,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 		}
 
 		public override void Randomize() {
-			this.species = IsSpeciesFilterPart.humanlikeDefs.ToArray()[Rand.Range(0, IsSpeciesFilterPart.humanlikeDefs.Count() - 1)];
+			this.species = IsSpeciesFilterPart.AllHumanlikeThingDefs[Rand.Range(0, IsSpeciesFilterPart.AllHumanlikeThingDefs.Count() - 1)];
 		}
 
 		public override void ExposeData() {
