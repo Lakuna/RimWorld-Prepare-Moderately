@@ -8,9 +8,10 @@
 	<FilterEditor>filter editor</FilterEditor>
 	<FiltersCustom>custom</FiltersCustom>
 	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
-	<Count>count ({0})</Count>
-	<Level>level ({0})</Level>
-	<Rolling>rolling ({0})</Rolling>
+	<CountNumber>count ({0})</CountNumber>
+	<LevelNumber>level ({0})</LevelNumber>
+	<RollingNumber>rolling ({0})</RollingNumber>
+	<Rolling>rolling</Rolling>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>
@@ -37,20 +38,7 @@
 	<HasAdulthood>has adulthood {0}</HasAdulthood>
 
 	<!-- Exceptions and Handling -->
-	<PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PrepareModeratelyEncounteredAnException>
-	<FilterCategoryIsUndefined>filter category is undefined</FilterCategoryIsUndefined>
-	<SomeFilterPartsWereNullAfterLoading>some filter parts were null after loading</SomeFilterPartsWereNullAfterLoading>
-	<SomeFilterPartsHadNullDefs>some filter parts had null defs</SomeFilterPartsHadNullDefs>
-	<NoTitle>no title</NoTitle>
-	<NoParts>no parts</NoParts>
 	<UnnamedFilter>unnamed filter</UnnamedFilter>
-	<NullFilter>null filter</NullFilter>
-	<TypeHasNullDef>{0} has null def</TypeHasNullDef>
-	<FilterPartClassIsNull>filter part class is null</FilterPartClassIsNull>
-	<FailedToAddFilterPart>failed to add filter part</FailedToAddFilterPart>
-	<FailedToRemoveFilterPart>failed to remove filter part</FailedToRemoveFilterPart>
-	<FailedToGetFullFilterInformationText>failed to get full filter information text</FailedToGetFullFilterInformationText>
-	<FailedToSaveFilter>failed to save filter</FailedToSaveFilter>
-	<FailedToLoadFilter>failed to load filter</FailedToLoadFilter>
-	<FailedToInitialize>failed to initialize</FailedToInitialize>
+	<FailedToGetFullInformationText>failed to get full information text</FailedToGetFullInformationText>
+	<PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PrepareModeratelyEncounteredAnException>
 </LanguageData>

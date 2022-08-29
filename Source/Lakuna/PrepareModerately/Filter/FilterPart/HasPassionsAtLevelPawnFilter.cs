@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate(this.count).CapitalizeFirst());
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "CountNumber".Translate(this.count).CapitalizeFirst());
 			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - labelWidthPercentage), this.count, 1, 12);
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);

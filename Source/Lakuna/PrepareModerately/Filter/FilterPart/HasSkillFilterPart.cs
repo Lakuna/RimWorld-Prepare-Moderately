@@ -25,7 +25,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 			float labelWidthPercentage = 0.2f;
 			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate(this.level).CapitalizeFirst());
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "LevelNumber".Translate(this.level).CapitalizeFirst());
 			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), this.level, 1, 20);
 		}
 

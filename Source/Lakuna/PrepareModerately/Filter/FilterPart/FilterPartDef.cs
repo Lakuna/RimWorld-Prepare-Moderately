@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			}
 
 			if (this.filterPartClass == null) {
-				yield return "FilterPartClassIsNull".Translate();
+				yield return "Filter part class is null.";
 			}
 		}
 

@@ -18,11 +18,11 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate(this.count).CapitalizeFirst());
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "CountNumber".Translate(this.count).CapitalizeFirst());
 			this.count = (int)Widgets.HorizontalSlider(countRect.RightPart(1 - labelWidthPercentage), this.count, 1, 12);
 
 			Rect levelRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate(this.level).CapitalizeFirst());
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "LevelNumber".Translate(this.level).CapitalizeFirst());
 			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), this.level, 1, 20);
 		}
 

@@ -71,7 +71,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 				numTries++;
 				if (numTries > 100) {
-					Logger.LogErrorMessage("FailedToAddFilterPart".Translate());
+					Logger.LogErrorMessage("Failed to add filter part.");
 					break;
 				}
 			}

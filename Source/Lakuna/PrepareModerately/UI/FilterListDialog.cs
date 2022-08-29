@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.UI {
 					saveFileInfo.LoadData();
 					this.files.Add(saveFileInfo);
 				} catch (Exception e) {
-					Logger.LogException(e, "FailedToLoadFilter".Translate());
+					Logger.LogException(e, "Failed to load filter.");
 				}
 			}
 		}

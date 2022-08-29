@@ -114,11 +114,11 @@ namespace Lakuna.PrepareModerately.UI {
 				foreach (FilterPart part2 in filter.AllParts) {
 					if (part2.def == part.def) { num++; }
 					if (num > part.def.maxUses) {
-						Messages.Message(("TooMany".Translate(part.def.maxUses) + ": " + part.def.label).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
+						Messages.Message("Too many of filter part.", MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 					if (part != part2 && !part.CanCoexistWith(part2)) {
-						Messages.Message(("Incompatible".Translate() + ": " + part.def.label + ", " + part2.def.label).CapitalizeFirst(), MessageTypeDefOf.RejectInput, false);
+						Messages.Message("Incompatible filter part.", MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}

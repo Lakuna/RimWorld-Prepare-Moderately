@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Patches {
 				} catch (Exception e) {
 					SoundDefOf.ClickReject.PlayOneShotOnCamera();
 					Find.WindowStack.Add(new ExceptionDialog(e));
-					Logger.LogException(e, "FailedToInitialize".Translate());
+					Logger.LogException(e, "Failed to initialize.");
 				}
 			}
 		}

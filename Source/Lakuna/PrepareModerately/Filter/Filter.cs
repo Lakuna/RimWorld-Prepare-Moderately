@@ -55,7 +55,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		public FilterCategory Category {
 			get {
 				if (this.category == FilterCategory.Undefined) {
-					Logger.LogErrorMessage("FilterCategoryIsUndefined".Translate());
+					Logger.LogErrorMessage("Filter category is undefined.");
 				}
 
 				return this.category;
@@ -74,18 +74,18 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
 				if (this.parts.RemoveAll((FilterPart.FilterPart part) => part == null) != 0) {
-					Logger.LogErrorMessage("SomeFilterPartsWereNullAfterLoading".Translate());
+					Logger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
 				if (this.parts.RemoveAll((FilterPart.FilterPart part) => part.HasNullDefs()) != 0) {
-					Logger.LogErrorMessage("SomeFilterPartsHadNullDefs".Translate());
+					Logger.LogErrorMessage("Some filter parts had null definitions.");
 				}
 			}
 		}
 
 		public IEnumerable<string> ConfigErrors() {
-			if (this.name.NullOrEmpty()) { yield return "NoTitle".Translate(); }
-			// if (this.parts.NullOrEmpty()) { yield return "NoParts".Translate(); }
+			if (this.name.NullOrEmpty()) { yield return "No title."; }
+			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
 			foreach (FilterPart.FilterPart part in this.AllParts) {
 				foreach (string item in part.ConfigErrors()) {
@@ -111,9 +111,8 @@ namespace Lakuna.PrepareModerately.Filter {
 
 				return stringBuilder.ToString().TrimEndNewlines();
 			} catch (Exception e) {
-				string errorMessage = "FailedToGetFullFilterInformationText".Translate();
-				Logger.LogException(e, errorMessage, LoggerCategory.GetFullInformationText);
-				return errorMessage;
+				Logger.LogException(e, "Failed to get full information text.", LoggerCategory.GetFullInformationText);
+				return "FailedToGetFullInformationText".Translate().CapitalizeFirst() + ".";
 			}
 		}
 
@@ -140,7 +139,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(FilterPart.FilterPart part) {
-			if (!this.parts.Contains(part)) { Logger.LogErrorMessage("FailedToRemoveFilterPart".Translate()); }
+			if (!this.parts.Contains(part)) { Logger.LogErrorMessage("Failed to remove filter part."); }
 			this.parts.Remove(part);
 		}
 
@@ -176,7 +175,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public override string ToString() {
-			return this.name.NullOrEmpty() ? "UnnamedFilter".Translate().ToString() : this.name;
+			return this.name.NullOrEmpty() ? "UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.name;
 		}
 
 		public override int GetHashCode() {

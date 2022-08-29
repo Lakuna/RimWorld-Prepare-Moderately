@@ -17,28 +17,28 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 
 		public LogicGateFilterPart() : base() {
 			this.innerFilter = new Filter();
-			this.innerFilter.name = "INNER";
-			this.innerFilter.description = "INNER";
-			this.innerFilter.summary = "INNER";
+			this.innerFilter.name = "Inner filter";
+			this.innerFilter.description = "This filter exists inside of a logic gate. It is part of another filter.";
+			this.innerFilter.summary = "If you are seeing this summary in the UI, something has gone wrong.";
 			this.infoScrollPosition = Vector2.zero;
 		}
 
 		public override bool Matches(Pawn pawn) {
 			switch (this.type) {
-				case LogicGateType.AND:
+				case LogicGateType.And:
 					return this.innerFilter.Matches(pawn);
-				case LogicGateType.OR:
+				case LogicGateType.Or:
 					foreach (FilterPart part in this.innerFilter.AllParts) {
 						if (part.Matches(pawn)) { return true; }
 					}
 					return false;
-				case LogicGateType.NOT:
+				case LogicGateType.Not:
 					foreach (FilterPart part in this.innerFilter.AllParts) {
 						if (part.Matches(pawn)) { return false; }
 					}
 					return true;
 				default:
-					Logger.LogErrorMessage("InvalidLogicGateType".Translate());
+					Logger.LogErrorMessage("Invalid logic gate type.");
 					return true;
 			}
 		}
@@ -93,14 +93,14 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			}
 
 			switch (this.type) {
-				case LogicGateType.AND:
+				case LogicGateType.And:
 					return "AllOf".Translate(output);
-				case LogicGateType.OR:
+				case LogicGateType.Or:
 					return "OneOf".Translate(output);
-				case LogicGateType.NOT:
+				case LogicGateType.Not:
 					return "NoneOf".Translate(output);
 				default:
-					Logger.LogErrorMessage("InvalidLogicGateType".Translate());
+					Logger.LogErrorMessage("Invalid logic gate type.");
 					return output;
 			}
 		}
