@@ -20,11 +20,11 @@
 			<parts>
 				<li Class="Lakuna.PrepareModerately.Filter.FilterPart.LogicGateFilterPart">
 					<def>LogicGate</def>
-					<type>NOT</type>
+					<type>Not</type>
 					<innerFilter>
-						<name>INNER</name>
-						<summary>INNER</summary>
-						<description>INNER</description>
+						<name>Inner filter</name>
+						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
+						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
 						<parts>
 							<li Class="Lakuna.PrepareModerately.Filter.FilterPart.HasAnyAddictionFilterPart">
 								<def>HasAnyAddiction</def>
@@ -96,6 +96,12 @@
 								<def>HasTrait</def>
 								<traitDegreeData>
 									<trait>DislikesWomen</trait>
+								</traitDegreeData>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.FilterPart.HasTraitFilterPart">
+								<def>HasTrait</def>
+								<traitDegreeData>
+									<trait>TorturedArtist</trait>
 								</traitDegreeData>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.FilterPart.HasTraitFilterPart">
@@ -190,6 +196,7 @@
 							</li>
 						</parts>
 					</innerFilter>
+					<editViewHeight>1352</editViewHeight>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.FilterPart.IsAgeFilterPart">
 					<def>IsAge</def>
