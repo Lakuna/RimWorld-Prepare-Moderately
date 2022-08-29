@@ -109,6 +109,7 @@ namespace Lakuna.PrepareModerately.Filter.FilterPart {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.type, nameof(this.type));
 			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
+			Scribe_Values.Look(ref this.editViewHeight, nameof(this.editViewHeight)); // Should fix the UI bug where logic gate parts display over each other.
 		}
 	}
 }
