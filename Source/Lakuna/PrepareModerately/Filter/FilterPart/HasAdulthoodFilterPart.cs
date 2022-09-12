@@ -6,33 +6,41 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.FilterPart {
 	public class HasAdulthoodFilterPart : FilterPart {
-		public Backstory backstory;
+		private string backstoryIdentifier;
+
+		public Backstory Backstory {
+			get {
+				return BackstoryDatabase.allBackstories.Values
+					.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood)
+					.First((Backstory backstory) => backstory.identifier == this.backstoryIdentifier);
+			}
+		}
 
 		public override bool Matches(Pawn pawn) {
-			return pawn.story.adulthood == this.backstory;
+			return pawn.story.adulthood == this.Backstory;
 		}
 
 		public override void DoEditInterface(FilterEditListing listing) {
 			Rect rect = listing.GetFilterPartRect(this, Text.LineHeight);
-			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood),
 					(Backstory backstory) => backstory.title.CapitalizeFirst(),
-					(Backstory backstory) => () => this.backstory = backstory);
+					(Backstory backstory) => () => this.backstoryIdentifier = backstory.identifier);
 			}
 		}
 
 		public override string Summary(Filter filter) {
-			return "HasAdulthood".Translate(this.backstory.title);
+			return "HasAdulthood".Translate(this.Backstory.title);
 		}
 
 		public override void Randomize() {
 			Backstory[] values = BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood).ToArray();
-			this.backstory = values[Rand.Range(0, values.Length - 1)];
+			this.backstoryIdentifier = values[Rand.Range(0, values.Length - 1)].identifier;
 		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.backstory, nameof(this.backstory));
+			Scribe_Values.Look(ref this.backstoryIdentifier, nameof(this.backstoryIdentifier));
 		}
 	}
 }
