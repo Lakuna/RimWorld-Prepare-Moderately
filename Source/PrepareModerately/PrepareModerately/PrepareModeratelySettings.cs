@@ -9,7 +9,7 @@ namespace Lakuna.PrepareModerately {
 			set => this.filterSavePath = value;
 		}
 
-		public PrepareModeratelySettings() => this.filterSavePath = ""; // TODO
+		public PrepareModeratelySettings() => this.filterSavePath = ""; // TODO: GenFilterPaths.defaultPath.
 
 		public override void ExposeData() {
 			Scribe_Values.Look(ref this.filterSavePath, nameof(this.filterSavePath));

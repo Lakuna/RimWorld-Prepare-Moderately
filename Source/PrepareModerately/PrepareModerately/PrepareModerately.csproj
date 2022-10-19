@@ -43,6 +43,7 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<Compile Include="Logger.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />
 		<Compile Include="PrepareModeratelySettings.cs" />
 	</ItemGroup>
