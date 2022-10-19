@@ -44,6 +44,9 @@
 			<PackagePath>\</PackagePath>
 		</None>
 		<Compile Include="Logger.cs" />
+		<Compile Include="Patches\ButtonPatch.cs" />
+		<Compile Include="Patches\HarmonyPatcher.cs" />
+		<Compile Include="Patches\RandomizePatch.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />
 		<Compile Include="PrepareModeratelySettings.cs" />
 	</ItemGroup>
