@@ -43,13 +43,20 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<Compile Include="Logger.cs" />
-		<Compile Include="Patches\ButtonPatch.cs" />
-		<Compile Include="Patches\HarmonyPatcher.cs" />
-		<Compile Include="Patches\RandomizePatch.cs" />
-		<Compile Include="PrepareModeratelyMod.cs" />
-		<Compile Include="PrepareModeratelySettings.cs" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Filter\Part\PawnFilterPart.cs" />
+    <Compile Include="Filter\Part\PawnFilterPartDef.cs" />
+    <Compile Include="Filter\PawnFilter.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Patches\ButtonPatch.cs" />
+    <Compile Include="Patches\HarmonyPatcher.cs" />
+    <Compile Include="Patches\RandomizePatch.cs" />
+    <Compile Include="PrepareModeratelyMod.cs" />
+    <Compile Include="PrepareModeratelySettings.cs" />
+    <Compile Include="UI\FilterEditListing.cs" />
+  </ItemGroup>
 
 	<Choose>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.0|AnyCPU'">

@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using Lakuna.PrepareModerately.Filter;
+using Verse;
 
 namespace Lakuna.PrepareModerately {
 	public class PrepareModeratelySettings : ModSettings {
@@ -9,7 +10,7 @@ namespace Lakuna.PrepareModerately {
 			set => this.filterSavePath = value;
 		}
 
-		public PrepareModeratelySettings() => this.filterSavePath = ""; // TODO: GenFilterPaths.defaultPath.
+		public PrepareModeratelySettings() => this.filterSavePath = PawnFilter.DefaultPawnFiltersFolderPath;
 
 		public override void ExposeData() {
 			Scribe_Values.Look(ref this.filterSavePath, nameof(this.filterSavePath));

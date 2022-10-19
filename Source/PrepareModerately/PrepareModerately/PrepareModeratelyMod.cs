@@ -5,18 +5,16 @@ using Verse;
 [assembly: CLSCompliant(false)]
 namespace Lakuna.PrepareModerately {
 	public class PrepareModeratelyMod : Mod {
-		private static PrepareModeratelySettings settings;
+		public static PrepareModeratelySettings Settings { get; private set; }
 
-		public static PrepareModeratelySettings Settings => PrepareModeratelyMod.settings;
-
-		public PrepareModeratelyMod(ModContentPack content) : base(content) => PrepareModeratelyMod.settings = this.GetSettings<PrepareModeratelySettings>();
+		public PrepareModeratelyMod(ModContentPack content) : base(content) => Settings = this.GetSettings<PrepareModeratelySettings>();
 
 		public override void DoSettingsWindowContents(Rect inRect) {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(inRect);
 
 			listing.Label("FilterSavePath".Translate().CapitalizeFirst());
-			PrepareModeratelyMod.Settings.FilterSavePath = listing.TextEntry(PrepareModeratelyMod.settings.FilterSavePath);
+			Settings.FilterSavePath = listing.TextEntry(Settings.FilterSavePath);
 
 			listing.End();
 

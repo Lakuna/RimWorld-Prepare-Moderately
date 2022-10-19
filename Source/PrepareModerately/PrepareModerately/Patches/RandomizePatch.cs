@@ -1,44 +1,30 @@
 ﻿using Harmony;
+using Lakuna.PrepareModerately.Filter;
 using RimWorld;
+using System.Linq;
 using System.Reflection;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "RandomizeCurPawn")]
 	public static class RandomizePatch {
-		private static bool activelyRolling;
+		public static bool ActivelyRolling { get; set; }
 
-		public static bool ActivelyRolling {
-			get => RandomizePatch.activelyRolling;
-			set => RandomizePatch.activelyRolling = value;
-		}
-
-		private static Pawn lastRandomizedPawn;
-
-		public static Pawn LastRandomizedPawn {
-			get => RandomizePatch.lastRandomizedPawn;
-			set => RandomizePatch.lastRandomizedPawn = value;
-		}
+		public static Pawn LastRandomizedPawn { get; set; }
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Page_ConfigureStartingPawns __instance, MethodBase __originalMethod, Pawn ___curPawn) {
 #pragma warning restore CA1707
-			RandomizePatch.LastRandomizedPawn = ___curPawn;
+			LastRandomizedPawn = ___curPawn;
 
-			/*
-			 * TODO:
-			 * if (Filter.Filter.currentFilter == null || Filter.Filter.currentFilter.AllParts.Count() == 0) { return; }
-			 * if (Filter.Filter.currentFilter.Matches(RandomizePatch.lastRandomizedPawn)) { return; }
-			 */
-			if (RandomizePatch.ActivelyRolling) { return; }
+			if (PawnFilter.Current == null || !PawnFilter.Current.AllParts.Any()) { return; }
+			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) { return; }
+			if (ActivelyRolling) { return; }
 
-			/*
-			 * TODO:
-			 * Find.WindowStack.Add(new RollingDialog(delegate { __originalMethod.Invoke(__instance, null); }));
-			 */
+			// Find.WindowStack.Add(new RollingDialog(delegate { __originalMethod.Invoke(__instance, null); })); // TODO
 
-			RandomizePatch.ActivelyRolling = true;
+			ActivelyRolling = true;
 		}
 	}
 }
