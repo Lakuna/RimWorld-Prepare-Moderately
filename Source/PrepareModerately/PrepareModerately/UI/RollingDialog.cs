@@ -11,14 +11,14 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private readonly Action rollAction;
 
-		private static readonly Vector2 size = new Vector2(450, 150);
+		private static readonly Vector2 Size = new Vector2(450, 150);
 
 		public RollingDialog(Action rollAction) {
 			this.closeOnClickedOutside = true;
 			this.rollAction = rollAction;
 		}
 
-		public override Vector2 InitialSize => size;
+		public override Vector2 InitialSize => Size;
 
 		public override string PageTitle => "Rolling".Translate().CapitalizeFirst();
 

@@ -21,7 +21,7 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
+		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<AssemblyName>PrepareModerately</AssemblyName>
 		<Version>6.0.0.0</Version>
 		<Company>$(Authors)</Company>
@@ -32,6 +32,12 @@
 		<DefineConstants />
 		<NoWarn />
 		<WarningsAsErrors />
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<IncludeSymbols>False</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 	</PropertyGroup>
 
 	<ItemGroup>

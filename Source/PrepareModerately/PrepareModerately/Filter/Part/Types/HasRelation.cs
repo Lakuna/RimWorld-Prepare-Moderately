@@ -27,9 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "IsARelation".Translate(this.relation.label);
 
-		public override void Randomize() {
-			this.relation = GetRandomOfDef(new PawnRelationDef());
-		}
+		public override void Randomize() => this.relation = GetRandomOfDef<PawnRelationDef>();
 
 		public override void ExposeData() {
 			base.ExposeData();

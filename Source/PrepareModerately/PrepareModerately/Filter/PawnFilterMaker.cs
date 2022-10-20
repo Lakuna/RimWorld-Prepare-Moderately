@@ -75,11 +75,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			if (count <= 0) { yield break; }
 
-			IEnumerable<PawnFilterPartDef> allowedParts = from def in AddableParts(filter) where def.Category == category select def;
+			IEnumerable<PawnFilterPartDef> allowedParts = from def in AddableParts(filter) where def.category == category select def;
 			int yieldCount = 0;
 			int tryCount = 0;
 			while (yieldCount < count && allowedParts.Any()) {
-				PawnFilterPart part = MakeFilterPart(allowedParts.RandomElementByWeight((PawnFilterPartDef def) => def.SelectionWeight));
+				PawnFilterPart part = MakeFilterPart(allowedParts.RandomElementByWeight((PawnFilterPartDef def) => def.selectionWeight));
 				if (CanAddPart(filter, part)) {
 					yield return part;
 					yieldCount++;
@@ -93,9 +93,8 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) {
-			return DefDatabase<PawnFilterPartDef>.AllDefsListForReading.Where((PawnFilterPartDef def) => filter.Parts.Count((PawnFilterPart part) => part.Def == def) < def.MaxUses);
-		}
+		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) => DefDatabase<PawnFilterPartDef>.AllDefsListForReading
+			.Where((PawnFilterPartDef def) => filter.Parts.Count((PawnFilterPart part) => part.Def == def) < def.maxUses);
 
 		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) => filter.Parts.All((PawnFilterPart existingPart) => part.CanCoexistWith(existingPart));
 
@@ -104,7 +103,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				throw new ArgumentNullException(nameof(def));
 			}
 
-			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.FilterPartClass);
+			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.filterPartClass);
 			part.Def = def;
 			return part;
 		}

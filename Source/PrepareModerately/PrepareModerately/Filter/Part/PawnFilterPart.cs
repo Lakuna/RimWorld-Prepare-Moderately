@@ -50,9 +50,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		}
 
 		// Helper method for Randomize().
-#pragma warning disable IDE0060 // t is used only for its type (T).
-		public static T GetRandomOfDef<T>(T t) where T : Def, new() {
-#pragma warning restore IDE0060
+		public static T GetRandomOfDef<T>() where T : Def, new() {
 			List<T> values = DefDatabase<T>.AllDefsListForReading;
 			return values[Rand.Range(0, values.Count - 1)];
 		}

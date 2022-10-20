@@ -21,8 +21,7 @@ namespace Lakuna.PrepareModerately.Utility {
 
 			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(output);
-			}
-			else {
+			} else {
 				Log.ErrorOnce(output, (int)category);
 			}
 		}
@@ -31,8 +30,7 @@ namespace Lakuna.PrepareModerately.Utility {
 			e = "Prepare Moderately encountered an issue: " + e;
 			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(e);
-			}
-			else {
+			} else {
 				Log.ErrorOnce(e, (int)category);
 			}
 		}

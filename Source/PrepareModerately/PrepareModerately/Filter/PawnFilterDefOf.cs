@@ -3,9 +3,9 @@
 namespace Lakuna.PrepareModerately.Filter {
 	[DefOf]
 	public static class PawnFilterDefOf {
-		public static PawnFilterDef Empty { get; }
+		public static readonly PawnFilterDef Empty;
 
-		public static PawnFilterDef Basic { get; }
+		// TODO: Basic filter.
 
 		static PawnFilterDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterDefOf));
 	}

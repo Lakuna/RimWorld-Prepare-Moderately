@@ -5,9 +5,9 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public static class PawnFilterSaveLoader {
-		private const string savedFilterParentNodeName = "savedfilter";
+		private const string SavedFilterParentNodeName = "savedfilter";
 
-		private const string filterNodeName = "filter";
+		private const string FilterNodeName = "filter";
 
 		public static void Save(PawnFilter filter, string absolutePath) {
 			if (filter == null) {
@@ -16,9 +16,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			try {
 				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
-				SafeSaver.Save(absolutePath, savedFilterParentNodeName, delegate {
+				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, delegate {
 					ScribeMetaHeaderUtility.WriteMetaHeader();
-					Scribe_Deep.Look(ref filter, filterNodeName);
+					Scribe_Deep.Look(ref filter, FilterNodeName);
 				});
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				try {
 					// Using the scenario scribe header mode works fine.
 					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false);
-					Scribe_Deep.Look(ref filter, filterNodeName);
+					Scribe_Deep.Look(ref filter, FilterNodeName);
 					Scribe.loader.FinalizeLoading();
 				} catch {
 					Scribe.ForceStop();

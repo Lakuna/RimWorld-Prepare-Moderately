@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Patches {
 			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) { return; }
 			if (ActivelyRolling) { return; }
 
-			Find.WindowStack.Add(new RollingDialog(delegate { __originalMethod.Invoke(__instance, null); }));
+			Find.WindowStack.Add(new RollingDialog(delegate { _ = __originalMethod.Invoke(__instance, null); }));
 
 			ActivelyRolling = true;
 		}

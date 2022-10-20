@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) => "HasLevelInSkill".Translate(this.level, this.skill.label);
 
 		public override void Randomize() {
-			this.skill = GetRandomOfDef(new SkillDef());
+			this.skill = GetRandomOfDef<SkillDef>();
 			this.level = Rand.Range(5, 10);
 		}
 

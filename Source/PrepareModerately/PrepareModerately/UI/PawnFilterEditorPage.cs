@@ -18,11 +18,11 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private bool editMode;
 
-		private const float configControlsScreenShare = 0.35f;
+		private const float ConfigControlsScreenShare = 0.35f;
 
-		private const float gapBetweenColumns = 17;
+		private const float GapBetweenColumns = 17;
 
-		private static readonly float invalidSeedGap = Text.LineHeight + Text.LineHeight + 2;
+		private static readonly float InvalidSeedGap = Text.LineHeight + Text.LineHeight + 2;
 
 		public override string PageTitle => "FilterEditor".Translate().CapitalizeFirst();
 
@@ -52,11 +52,11 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.BeginGroup(mainRect);
 #endif
 
-			Rect configControlsRect = new Rect(0, 0, mainRect.width * configControlsScreenShare, mainRect.height).Rounded();
+			Rect configControlsRect = new Rect(0, 0, mainRect.width * ConfigControlsScreenShare, mainRect.height).Rounded();
 			this.DoConfigControls(configControlsRect);
 
-			Rect filterEditRect = new Rect(configControlsRect.xMax + gapBetweenColumns, 0,
-				mainRect.width - configControlsRect.width - gapBetweenColumns, mainRect.height).Rounded();
+			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0,
+				mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
 			if (this.editMode) {
 				PawnFilterUI.DrawEditInterface(filterEditRect, this.Filter, ref this.infoScrollPosition);
 			} else {
@@ -106,7 +106,7 @@ namespace Lakuna.PrepareModerately.UI {
 					this.Filter = PawnFilterMaker.Random(this.seed);
 				}
 			} else {
-				listing.Gap(invalidSeedGap);
+				listing.Gap(InvalidSeedGap);
 			}
 
 			listing.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode);
@@ -124,7 +124,7 @@ namespace Lakuna.PrepareModerately.UI {
 				int num = 0;
 				foreach (PawnFilterPart part2 in filter.Parts) {
 					if (part2.Def == part.Def) { num++; }
-					if (num > part.Def.MaxUses) {
+					if (num > part.Def.maxUses) {
 						Messages.Message("Too many of filter part.", MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
@@ -137,12 +137,12 @@ namespace Lakuna.PrepareModerately.UI {
 			return true;
 		}
 
-		private void OpenAddFilterPartMenu() {
-			FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.Filter)
-				where part.Category != PawnFilterPartCategory.Fixed orderby part.label select part,
+		private void OpenAddFilterPartMenu() => FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.Filter)
+																		  where part.category != PawnFilterPartCategory.Fixed
+																		  orderby part.label
+																		  select part,
 				(PawnFilterPartDef def) => def.LabelCap,
 				(PawnFilterPartDef def) => () => this.AddFilterPart(def));
-		}
 
 		private void AddFilterPart(PawnFilterPartDef def) {
 			PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);

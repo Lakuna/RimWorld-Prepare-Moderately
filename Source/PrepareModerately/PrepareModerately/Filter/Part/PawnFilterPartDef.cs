@@ -4,32 +4,34 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	public class PawnFilterPartDef : Def {
-		public PawnFilterPartCategory Category { get; }
+#pragma warning disable CA1051 // Definitions loaded from XML files must use instance fields.
+		public readonly PawnFilterPartCategory category;
 
-		public Type FilterPartClass { get; }
+		public readonly Type filterPartClass;
 
-		public float SummaryPriority { get; }
+		public readonly float summaryPriority;
 
-		public float SelectionWeight { get; }
+		public readonly float selectionWeight;
 
-		public int MaxUses { get; }
+		public readonly int maxUses;
+#pragma warning restore CA1051
 
-		public bool PlayerAddRemovable => this.Category != PawnFilterPartCategory.Fixed;
+		public bool PlayerAddRemovable => this.category != PawnFilterPartCategory.Fixed;
 
 		public override IEnumerable<string> ConfigErrors() {
 			foreach (string item in base.ConfigErrors()) {
 				yield return item;
 			}
 
-			if (this.FilterPartClass == null) {
+			if (this.filterPartClass == null) {
 				yield return "Filter part class is null.";
 			}
 		}
 
 		public PawnFilterPartDef() {
-			this.SummaryPriority = 1;
-			this.SelectionWeight = 1;
-			this.MaxUses = 999999;
+			this.summaryPriority = 1;
+			this.selectionWeight = 1;
+			this.maxUses = 999999;
 		}
 	}
 }

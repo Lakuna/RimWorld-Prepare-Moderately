@@ -40,7 +40,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() {
 			this.passion = GetRandomOfEnum(new Passion());
-			this.skill = GetRandomOfDef(new SkillDef());
+			this.skill = GetRandomOfDef<SkillDef>();
 		}
 
 		public override void ExposeData() {

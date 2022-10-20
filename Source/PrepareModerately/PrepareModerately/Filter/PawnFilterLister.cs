@@ -4,11 +4,11 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public static class PawnFilterLister {
-		private static bool dirty = true;
+		private static bool Dirty = true;
 
 		public static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.Filter; }
+			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.filter; }
 			foreach (PawnFilter filter in PawnFilter.LocalFilters) { yield return filter; }
 		}
 
@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			RecacheIfDirty();
 			switch (category) {
 				case PawnFilterCategory.FromDef:
-					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.Filter; }
+					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.filter; }
 					break;
 				case PawnFilterCategory.CustomLocal:
 					foreach (PawnFilter filter in PawnFilter.LocalFilters) { yield return filter; }
@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		public static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
 			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
-				if (def.Filter == filter) { return true; }
+				if (def.filter == filter) { return true; }
 			}
 			foreach (PawnFilter localFilter in PawnFilter.LocalFilters) {
 				if (localFilter == filter) { return true; }
@@ -35,16 +35,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			return false;
 		}
 
-		public static void MarkDirty() {
-			dirty = true;
-		}
+		public static void MarkDirty() => Dirty = true;
 
 		private static void RecacheIfDirty() {
-			if (dirty) { Recache(); }
+			if (Dirty) { Recache(); }
 		}
 
 		private static void Recache() {
-			dirty = false;
+			Dirty = false;
 			int hash = FilterListHash();
 			PawnFilter.RecacheLocalFiles();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {

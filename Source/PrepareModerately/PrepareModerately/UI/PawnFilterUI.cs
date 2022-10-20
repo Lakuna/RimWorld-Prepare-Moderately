@@ -5,17 +5,17 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
 	internal class PawnFilterUI {
-		private static float editViewHeight;
+		private static float EditViewHeight;
 
-		private const float viewRectHorizontalPadding = 16;
+		private const float ViewRectHorizontalPadding = 16;
 
-		private const float viewRectVerticalPadding = 30;
+		private const float ViewRectVerticalPadding = 30;
 
-		private const float extraScrollHeight = 100;
+		private const float ExtraScrollHeight = 100;
 
-		private const float filterNameLabelHeight = 30;
+		private const float FilterNameLabelHeight = 30;
 
-		private const float listingRectHeight = 99999; // Arbitrary large number.
+		private const float ListingRectHeight = 99999; // Arbitrary large number.
 
 		public static void DrawInfo(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
 			Widgets.DrawMenuSection(rect);
@@ -25,17 +25,17 @@ namespace Lakuna.PrepareModerately.UI {
 
 			string fullInformationText = filter.FullInformationText;
 
-			float width = rect.width - viewRectHorizontalPadding;
-			float height = viewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + extraScrollHeight;
+			float width = rect.width - ViewRectHorizontalPadding;
+			float height = ViewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + ExtraScrollHeight;
 
 			Rect viewRect = new Rect(0, 0, width, height);
 			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
 
 			Text.Font = GameFont.Medium;
-			Widgets.Label(new Rect(0, 0, viewRect.width, filterNameLabelHeight), filter.Name);
+			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.Name);
 
 			Text.Font = GameFont.Small;
-			Widgets.Label(new Rect(0, filterNameLabelHeight, viewRect.width, viewRect.height - filterNameLabelHeight), fullInformationText);
+			Widgets.Label(new Rect(0, FilterNameLabelHeight, viewRect.width, viewRect.height - FilterNameLabelHeight), fullInformationText);
 
 			Widgets.EndScrollView();
 		}
@@ -46,10 +46,10 @@ namespace Lakuna.PrepareModerately.UI {
 
 			if (filter == null) { return; }
 
-			Rect viewRect = new Rect(0, 0, rect.width - viewRectHorizontalPadding, editViewHeight);
+			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, EditViewHeight);
 			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
 
-			Rect listingRect = new Rect(0, 0, viewRect.width, listingRectHeight);
+			Rect listingRect = new Rect(0, 0, viewRect.width, ListingRectHeight);
 			PawnFilterEditListing listing = new PawnFilterEditListing(filter) { ColumnWidth = listingRect.width };
 			listing.Begin(listingRect);
 
@@ -67,7 +67,7 @@ namespace Lakuna.PrepareModerately.UI {
 			foreach (PawnFilterPart part in filter.Parts) { part.DoEditInterface(listing); }
 
 			listing.End();
-			editViewHeight = listing.CurHeight + extraScrollHeight;
+			EditViewHeight = listing.CurHeight + ExtraScrollHeight;
 			Widgets.EndScrollView();
 		}
 	}

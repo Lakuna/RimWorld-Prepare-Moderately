@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.UI {
 				try {
 					SaveFileInfo saveFileinfo = new SaveFileInfo(fileInfo);
 #if V1_0 || V1_1 || V1_2
-					files.Add(saveFileinfo);
+					this.files.Add(saveFileinfo);
 #else
 					saveFileinfo.LoadData();
 					this.files.Add(saveFileinfo);

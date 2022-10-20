@@ -3,19 +3,21 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilterDef : Def {
-		public PawnFilter Filter { get; }
+#pragma warning disable CA1051 // Definitions loaded from XML files must use instance fields.
+		public readonly PawnFilter filter;
+#pragma warning restore CA1051
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.Filter.Name.NullOrEmpty()) { this.Filter.Name = this.label; }
-			if (this.Filter.Description.NullOrEmpty()) { this.Filter.Description = this.description; }
-			this.Filter.Category = PawnFilterCategory.FromDef;
+			if (this.filter.Name.NullOrEmpty()) { this.filter.Name = this.label; }
+			if (this.filter.Description.NullOrEmpty()) { this.filter.Description = this.description; }
+			this.filter.Category = PawnFilterCategory.FromDef;
 		}
 
 		public override IEnumerable<string> ConfigErrors() {
-			if (this.Filter == null) { yield return "Null filter."; }
+			if (this.filter == null) { yield return "Null filter."; }
 
-			foreach (string item in this.Filter.ConfigErrors()) {
+			foreach (string item in this.filter.ConfigErrors()) {
 				yield return item;
 			}
 		}

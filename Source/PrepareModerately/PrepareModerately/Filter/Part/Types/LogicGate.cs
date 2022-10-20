@@ -59,7 +59,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect addPartRect = new Rect(rect.x, typeRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(addPartRect, "AddPart".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.innerFilter)
-					where part.Category != PawnFilterPartCategory.Fixed orderby part.label select part,
+										  where part.category != PawnFilterPartCategory.Fixed
+										  orderby part.label
+										  select part,
 					(PawnFilterPartDef def) => def.LabelCap,
 					(PawnFilterPartDef def) => delegate {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
@@ -87,8 +89,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				part.Summarized = false;
 			}
 
-			foreach (PawnFilterPart part in from part in this.innerFilter.Parts orderby part.Def.SummaryPriority descending,
-				part.Def.defName where part.Visible select part) {
+			foreach (PawnFilterPart part in from part in this.innerFilter.Parts
+											orderby part.Def.summaryPriority descending,
+				part.Def.defName
+											where part.Visible
+											select part) {
 				string summary = part.Summary(this.innerFilter);
 				if (!summary.NullOrEmpty()) {
 					if (output.Length > 0) { output += ", "; }

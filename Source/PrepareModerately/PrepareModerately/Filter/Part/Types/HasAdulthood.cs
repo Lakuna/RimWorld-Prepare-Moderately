@@ -58,7 +58,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Backstory[] values = BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood).ToArray();
 			this.backstoryIdentifier = values[Rand.Range(0, values.Length - 1)].identifier;
 #else
-			this.backstory = GetRandomOfDef(new BackstoryDef());
+			this.backstory = GetRandomOfDef<BackstoryDef>();
 #endif
 		}
 

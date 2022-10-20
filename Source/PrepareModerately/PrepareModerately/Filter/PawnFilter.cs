@@ -7,6 +7,7 @@ using Verse;
 using System.Linq;
 using System.Text;
 using Lakuna.PrepareModerately.Utility;
+using System.Collections.ObjectModel;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {
@@ -119,8 +120,11 @@ namespace Lakuna.PrepareModerately.Filter {
 						part.Summarized = false;
 					}
 
-					foreach (PawnFilterPart part in from part in this.Parts orderby part.Def.SummaryPriority descending,
-						part.Def.defName where part.Visible select part) {
+					foreach (PawnFilterPart part in from part in this.Parts
+													orderby part.Def.summaryPriority descending,
+						part.Def.defName
+													where part.Visible
+													select part) {
 						string summary = part.Summary(this).CapitalizeFirst() + ".";
 						if (!summary.NullOrEmpty()) { _ = stringBuilder.AppendLine(summary); }
 					}
@@ -231,12 +235,10 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public static string AbsolutePathForName(string filterName) => Path.Combine(DataPath, filterName + FileExtension);
 
-		private static readonly List<PawnFilter> localFilters = new List<PawnFilter>();
-
-		public static IEnumerable<PawnFilter> LocalFilters => localFilters;
+		public static readonly Collection<PawnFilter> LocalFilters = new Collection<PawnFilter>();
 
 		public static void RecacheLocalFiles() {
-			localFilters.Clear();
+			LocalFilters.Clear();
 			foreach (FileInfo file in AllFiles) {
 				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
 					_ = LocalFilters.Append(filter);

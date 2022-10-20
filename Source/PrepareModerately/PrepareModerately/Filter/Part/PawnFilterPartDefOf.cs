@@ -3,43 +3,43 @@
 namespace Lakuna.PrepareModerately.Filter.Part {
 	[DefOf]
 	public static class PawnFilterPartDefOf {
-		public static PawnFilterPartDef HasAdulthood { get; }
+		public static readonly PawnFilterPartDef HasAdulthood;
 
-		public static PawnFilterPartDef HasAnyAddiction { get; }
+		public static readonly PawnFilterPartDef HasAnyAddiction;
 
-		public static PawnFilterPartDef HasAnyBodyModification { get; }
+		public static readonly PawnFilterPartDef HasAnyBodyModification;
 
-		public static PawnFilterPartDef HasAnyPermanentMedicalCondition { get; }
+		public static readonly PawnFilterPartDef HasAnyPermanentMedicalCondition;
 
-		public static PawnFilterPartDef HasAnyRelation { get; }
+		public static readonly PawnFilterPartDef HasAnyRelation;
 
-		public static PawnFilterPartDef HasChildhood { get; }
+		public static readonly PawnFilterPartDef HasChildhood;
 
-		public static PawnFilterPartDef HasPassion { get; }
+		public static readonly PawnFilterPartDef HasPassion;
 
-		public static PawnFilterPartDef HasPassionsAtLevel { get; }
+		public static readonly PawnFilterPartDef HasPassionsAtLevel;
 
-		public static PawnFilterPartDef HasRelation { get; }
+		public static readonly PawnFilterPartDef HasRelation;
 
-		public static PawnFilterPartDef HasSkill { get; }
+		public static readonly PawnFilterPartDef HasSkill;
 
-		public static PawnFilterPartDef HasSkillsAtLevel { get; }
+		public static readonly PawnFilterPartDef HasSkillsAtLevel;
 
-		public static PawnFilterPartDef HasTrait { get; }
+		public static readonly PawnFilterPartDef HasTrait;
 
-		public static PawnFilterPartDef IsAge { get; }
+		public static readonly PawnFilterPartDef IsAge;
 
-		public static PawnFilterPartDef IsCapableOfEverything { get; }
+		public static readonly PawnFilterPartDef IsCapableOfEverything;
 
-		public static PawnFilterPartDef IsCapableOf { get; }
+		public static readonly PawnFilterPartDef IsCapableOf;
 
-		public static PawnFilterPartDef IsGender { get; }
+		public static readonly PawnFilterPartDef IsGender;
 
-		public static PawnFilterPartDef IsSpecies { get; }
+		public static readonly PawnFilterPartDef IsSpecies;
 
-		public static PawnFilterPartDef LogicGate { get; }
+		public static readonly PawnFilterPartDef LogicGate;
 
-		public static PawnFilterPartDef NameMatches { get; }
+		public static readonly PawnFilterPartDef NameMatches;
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

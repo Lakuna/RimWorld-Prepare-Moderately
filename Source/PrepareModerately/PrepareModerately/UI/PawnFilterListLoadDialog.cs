@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.UI {
 			string filePath = PawnFilter.AbsolutePathForName(fileName);
 			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, delegate {
 				if (PawnFilterSaveLoader.Load(filePath, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					filterReturner(filter);
+					this.filterReturner(filter);
 				}
 				this.Close();
 			});
