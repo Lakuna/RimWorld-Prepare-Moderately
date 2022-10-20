@@ -46,10 +46,19 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Filter\PawnFilterDefOf.cs" />
     <Compile Include="Filter\Part\PawnFilterPart.cs" />
+    <Compile Include="Filter\Part\PawnFilterPartCategory.cs" />
     <Compile Include="Filter\Part\PawnFilterPartDef.cs" />
+    <Compile Include="Filter\Part\PawnFilterPartDefOf.cs" />
     <Compile Include="Filter\PawnFilter.cs" />
+    <Compile Include="Filter\PawnFilterCategory.cs" />
+    <Compile Include="Filter\PawnFilterDef.cs" />
+    <Compile Include="Filter\PawnFilterLister.cs" />
+    <Compile Include="Filter\PawnFilterMaker.cs" />
+    <Compile Include="Filter\PawnFilterSaveLoader.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="LoggerCategory.cs" />
     <Compile Include="Patches\ButtonPatch.cs" />
     <Compile Include="Patches\HarmonyPatcher.cs" />
     <Compile Include="Patches\RandomizePatch.cs" />

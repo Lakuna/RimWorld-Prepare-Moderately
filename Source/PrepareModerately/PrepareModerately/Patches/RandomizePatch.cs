@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.Patches {
 #pragma warning restore CA1707
 			LastRandomizedPawn = ___curPawn;
 
-			if (PawnFilter.Current == null || !PawnFilter.Current.AllParts.Any()) { return; }
+			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) { return; }
 			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) { return; }
 			if (ActivelyRolling) { return; }
 

@@ -4,7 +4,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	public class PawnFilterPartDef : Def {
-		public PawnFilterPart.Category Category { get; }
+		public PawnFilterPartCategory Category { get; }
 
 		public Type FilterPartClass { get; }
 
@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public int MaxUses { get; }
 
-		public bool PlayerAddRemovable => this.Category != PawnFilterPart.Category.Fixed;
+		public bool PlayerAddRemovable => this.Category != PawnFilterPartCategory.Fixed;
 
 		public override IEnumerable<string> ConfigErrors() {
 			foreach (string item in base.ConfigErrors()) {

@@ -3,11 +3,6 @@ using Verse;
 
 namespace Lakuna.PrepareModerately {
 	public static class Logger {
-		public enum LoggerCategory {
-			Unrestricted,
-			GetFullInformationText
-		}
-
 		public static void LogException(Exception e, string description = "No description provided.", LoggerCategory category = LoggerCategory.Unrestricted) {
 			if (e == null) {
 				throw new ArgumentNullException(nameof(e));
@@ -31,6 +26,7 @@ namespace Lakuna.PrepareModerately {
 		}
 
 		public static void LogErrorMessage(string e, LoggerCategory category = LoggerCategory.Unrestricted) {
+			e = "Prepare Moderately encountered an issue: " + e;
 			if (category == LoggerCategory.Unrestricted) {
 				Log.Error(e);
 			} else {

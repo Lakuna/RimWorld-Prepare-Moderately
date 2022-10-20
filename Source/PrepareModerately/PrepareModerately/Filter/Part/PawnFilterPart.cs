@@ -5,17 +5,13 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	public class PawnFilterPart : IExposable {
-		public enum Category {
-			Undefined,
-			Fixed,
-			Normal,
-			LogicGate
-		}
-
 		[TranslationHandle]
 		private PawnFilterPartDef def;
 
-		public PawnFilterPartDef Def => this.def;
+		public PawnFilterPartDef Def {
+			get => this.def;
+			set => this.def = value;
+		}
 
 		public bool Visible { get; }
 

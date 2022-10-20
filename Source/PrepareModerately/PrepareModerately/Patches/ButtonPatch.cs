@@ -8,18 +8,15 @@ using Verse.Sound;
 namespace Lakuna.PrepareModerately.Patches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.DoWindowContents))]
 	public static class ButtonPatch {
+		private static readonly Vector2 buttonSize = new Vector2(150, 38);
+
+		private const float buttonY = 45;
+
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
 #pragma warning restore CA1707
-			Vector2 buttonSize = new Vector2(150, 38);
-			int buttonY = 45;
-			Vector2 buttonPos = new Vector2((rect.x + rect.width) / 2 - buttonSize.x / 2, rect.y - buttonY);
-			Rect buttonRect = new Rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
-
-			string buttonText = "PrepareModerately".Translate().CapitalizeFirst();
-
-			if (Widgets.ButtonText(buttonRect, buttonText)) {
+			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - buttonSize.x / 2, rect.y - buttonY, buttonSize.x, buttonSize.y), "PrepareModerately".Translate().CapitalizeFirst())) {
 				try {
 					/*
 					 * TODO:

@@ -9,41 +9,61 @@ using System.Text;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {
-		public enum PawnFilterCategory {
-			Undefined,
-			FromDef,
-			CustomLocal
-		}
-
-		public static PawnFilter Current { get; set; }
+		public static PawnFilter Current { get; }
 
 		[MustTranslate]
 		private string name;
 
-		public string Name => this.name;
+		public string Name {
+			get => this.name;
+			set => this.name = value;
+		}
 
 		[MustTranslate]
 		private string summary;
 
-		public string Summary => this.summary;
+		public string Summary {
+			get => this.summary;
+			set => this.summary = value;
+		}
 
 		[MustTranslate]
 		private string description;
 
-		public string Description => this.description;
+		public string Description {
+			get => this.description;
+			set => this.description = value;
+		}
 
 		private List<PawnFilterPart> parts;
 
+		public IEnumerable<PawnFilterPart> Parts => this.parts;
+
 		private PawnFilterCategory category;
+
+		public PawnFilterCategory Category {
+			get {
+				if (this.category == PawnFilterCategory.Undefined) {
+					Logger.LogErrorMessage("Filter category is undefined.");
+				}
+
+				return this.category;
+			}
+
+			set => this.category = value;
+		}
 
 		[NoTranslate]
 		private string fileName;
 
-		public string FileName => this.fileName;
+		public string FileName {
+			get => this.fileName;
+			set => this.fileName = value;
+		}
 
-		public bool Enabled { get; set; }
+		public bool Enabled { get; }
 
-		public bool ShowInUi { get; set; }
+		public bool ShowInUi { get; }
 
 		public const int NameMaxLength = 55;
 
@@ -57,27 +77,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public FileInfo File => new FileInfo(AbsolutePathForPawnFilter(this.FileName));
-
-		public IEnumerable<PawnFilterPart> AllParts {
-			get {
-				for (int i = 0; i < this.parts.Count; i++) {
-					yield return this.parts[i];
-				}
-			}
-		}
-
-		public PawnFilterCategory Category {
-			get {
-				if (this.category == PawnFilterCategory.Undefined) {
-					Logger.LogErrorMessage("Filter category is undefined.");
-				}
-
-				return this.category;
-			}
-
-			set => this.category = value;
-		}
+		public FileInfo File => new FileInfo(AbsolutePathForName(this.FileName));
 
 		public void ExposeData() {
 			Scribe_Values.Look(ref this.name, nameof(this.name));
@@ -97,10 +97,10 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public IEnumerable<string> ConfigErrors() {
-			if (this.name.NullOrEmpty()) { yield return "No title."; }
+			if (this.Name.NullOrEmpty()) { yield return "No title."; }
 			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
-			foreach (PawnFilterPart part in this.AllParts) {
+			foreach (PawnFilterPart part in this.Parts) {
 				foreach (string item in part.ConfigErrors()) {
 					yield return item;
 				}
@@ -111,14 +111,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			get {
 				try {
 					StringBuilder stringBuilder = new StringBuilder();
-					_ = stringBuilder.AppendLine(this.description);
+					_ = stringBuilder.AppendLine(this.Description);
 					_ = stringBuilder.AppendLine();
 
-					foreach (PawnFilterPart part in this.AllParts) {
+					foreach (PawnFilterPart part in this.Parts) {
 						part.Summarized = false;
 					}
 
-					foreach (PawnFilterPart part in from part in this.AllParts orderby part.Def.SummaryPriority descending, part.Def.defName where part.Visible select part) {
+					foreach (PawnFilterPart part in from part in this.Parts orderby part.Def.SummaryPriority descending, part.Def.defName where part.Visible select part) {
 						string summary = part.Summary(this).CapitalizeFirst() + ".";
 						if (!summary.NullOrEmpty()) { _ = stringBuilder.AppendLine(summary); }
 					}
@@ -127,25 +127,27 @@ namespace Lakuna.PrepareModerately.Filter {
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {
 #pragma warning restore CA1031
-					Logger.LogException(e, "Failed to get full information text.", Logger.LoggerCategory.GetFullInformationText);
+					Logger.LogException(e, "Failed to get full information text.", LoggerCategory.GetFullInformationText);
 					return "FailedToGetFullInformationText".Translate().CapitalizeFirst() + ".";
 				}
 			}
 		}
 
-		public PawnFilter CopyForEditing() {
-			PawnFilter copyForEditing = new PawnFilter {
-				name = this.Name,
-				summary = this.Summary,
-				description = this.Description,
-				category = PawnFilterCategory.CustomLocal
-			};
-			copyForEditing.parts.AddRange(this.parts.Select((PawnFilterPart part) => part.CopyForEditing()));
-			return copyForEditing;
+		public PawnFilter CopyForEditing {
+			get {
+				PawnFilter copyForEditing = new PawnFilter {
+					Name = this.Name,
+					Summary = this.Summary,
+					Description = this.Description,
+					Category = PawnFilterCategory.CustomLocal
+				};
+				copyForEditing.parts.AddRange(this.parts.Select((PawnFilterPart part) => part.CopyForEditing()));
+				return copyForEditing;
+			}
 		}
 
 		public bool Matches(Pawn pawn) {
-			foreach (PawnFilterPart part in this.AllParts) {
+			foreach (PawnFilterPart part in this.Parts) {
 				if (!part.Matches(pawn)) { return false; }
 			}
 			return true;
@@ -191,7 +193,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public override string ToString() => this.name.NullOrEmpty() ? "UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.name;
+		public override string ToString() => this.Name.NullOrEmpty() ? "UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.Name;
 
 		public override int GetHashCode() {
 			int hash = 5251977;
@@ -207,22 +209,33 @@ namespace Lakuna.PrepareModerately.Filter {
 			this.ShowInUi = true;
 		}
 
-		public const string PawnFilterExtension = ".rpf";
+		public const string FileExtension = ".rpf";
 
-		public const string PawnFiltersFolder = "PawnFilters/";
+		public const string DataFolder = "PawnFilters/";
 
-		public static string DefaultPawnFiltersFolderPath => (string)typeof(GenFilePaths).GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).Invoke(null, new object[] { PawnFiltersFolder });
+		public static string DefaultDataPath => (string)typeof(GenFilePaths).GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).Invoke(null, new object[] { DataFolder });
 
-		public static string PawnFiltersFolderPath => PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty() ? DefaultPawnFiltersFolderPath : PrepareModeratelyMod.Settings.FilterSavePath;
+		public static string DataPath => PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty() ? DefaultDataPath : PrepareModeratelyMod.Settings.FilterSavePath;
 
-		public static IEnumerable<FileInfo> AllCustomFilterFiles {
+		public static IEnumerable<FileInfo> AllFiles {
 			get {
-				DirectoryInfo directoryInfo = new DirectoryInfo(PawnFiltersFolderPath);
+				DirectoryInfo directoryInfo = new DirectoryInfo(DataPath);
 				if (!directoryInfo.Exists) { directoryInfo.Create(); }
-				return from file in directoryInfo.GetFiles() where file.Extension == PawnFilterExtension orderby file.LastWriteTime descending select file;
+				return from file in directoryInfo.GetFiles() where file.Extension == FileExtension orderby file.LastWriteTime descending select file;
 			}
 		}
 
-		public static string AbsolutePathForPawnFilter(string filterName) => Path.Combine(PawnFiltersFolderPath, filterName + PawnFilterExtension);
+		public static string AbsolutePathForName(string filterName) => Path.Combine(DataPath, filterName + FileExtension);
+
+		private static readonly List<PawnFilter> localFilters = new List<PawnFilter>();
+
+		public static IEnumerable<PawnFilter> LocalFilters => localFilters;
+
+		public static void RecacheLocalFiles() {
+			localFilters.Clear();
+			foreach (FileInfo file in AllFiles) {
+				// TODO: if (FilterSaveLoader.TryLoadFilter(customFilterFile.FullName, FilterCategory.CustomLocal, out Filter filter)) { FilterFiles.filtersLocal.Add(filter); }
+			}
+		}
 	}
 }
