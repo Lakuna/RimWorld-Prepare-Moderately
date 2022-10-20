@@ -7,14 +7,14 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class LogicGateFilterPart : PawnFilterPart {
+	public class LogicGate : PawnFilterPart {
 		private PawnFilter innerFilter;
 
 		private LogicGateType type;
 
 		private float editViewHeight;
 
-		public LogicGateFilterPart() : base() => this.innerFilter = new PawnFilter {
+		public LogicGate() : base() => this.innerFilter = new PawnFilter {
 			Name = "Inner filter",
 			Description = "This filter exists inside of a logic gate. It is part of another filter.",
 			Summary = "If you are seeing this summary in the UI, something has gone wrong."

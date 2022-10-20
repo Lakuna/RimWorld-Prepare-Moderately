@@ -1,124 +1,124 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Defs>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasAdulthood">
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAdulthood">
 		<defName>HasAdulthood</defName>
 		<label>has adulthood</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAdulthood</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasAnyAddiction">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyAddiction">
 		<defName>HasAnyAddiction</defName>
 		<label>has any addiction</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction</filterPartClass>
 		<maxUses>1</maxUses>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasAnyBodyModification">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyBodyModification">
 		<defName>HasAnyBodyModification</defName>
 		<label>has any body modification</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification</filterPartClass>
 		<maxUses>1</maxUses>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasAnyPermanentMedicalCondition">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyPermanentMedicalCondition">
 		<defName>HasAnyPermanentMedicalCondition</defName>
 		<label>has any permanent medical condition</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition</filterPartClass>
 		<maxUses>1</maxUses>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasAnyRelation">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyRelation">
 		<defName>HasAnyRelation</defName>
 		<label>has any relation</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyRelation</filterPartClass>
 		<maxUses>1</maxUses>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasChildhood">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasChildhood">
 		<defName>HasChildhood</defName>
 		<label>has childhood</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasChildhood</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasPassion">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPassion">
 		<defName>HasPassion</defName>
 		<label>has passion</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPassion</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasPassionsAtLevel">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPassionsAtLevel">
 		<defName>HasPassionsAtLevel</defName>
 		<label>has passions at level</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPassionsAtLevel</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasRelation">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasRelation">
 		<defName>HasRelation</defName>
 		<label>has relation</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasRelation</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasSkill">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasSkill">
 		<defName>HasSkill</defName>
 		<label>has skill</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasSkill</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasSkillsAtLevel">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasSkillsAtLevel">
 		<defName>HasSkillsAtLevel</defName>
 		<label>has skills at level</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasSkillsAtLevel</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="HasTrait">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasTrait">
 		<defName>HasTrait</defName>
 		<label>has trait</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasTrait</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="IsAge">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsAge">
 		<defName>IsAge</defName>
 		<label>is age</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsAge</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="IsCapableOfEverything">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsCapableOfEverything">
 		<defName>IsCapableOfEverything</defName>
 		<label>is capable of everything</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOfEverything</filterPartClass>
 		<maxUses>1</maxUses>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="IsCapableOf">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsCapableOf">
 		<defName>IsCapableOf</defName>
 		<label>is capable of</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="IsGender">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsGender">
 		<defName>IsGender</defName>
 		<label>is gender</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsGender</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="IsSpecies">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsSpecies">
 		<defName>IsSpecies</defName>
 		<label>is species</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsSpecies</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="LogicGate">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="LogicGate">
 		<defName>LogicGate</defName>
 		<label>logic gate</label>
 		<category>LogicGate</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.LogicGate</filterPartClass>
 		<selectionWeight>0</selectionWeight>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
-	<Lakuna.PrepareModerately.Filter.Part.FilterPartDef Name="NameMatches">
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="NameMatches">
 		<defName>NameMatches</defName>
 		<label>name matches</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.NameMatches</filterPartClass>
-	</Lakuna.PrepareModerately.Filter.Part.FilterPartDef>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>
