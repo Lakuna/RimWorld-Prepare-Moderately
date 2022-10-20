@@ -1,5 +1,10 @@
-﻿using Harmony;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using UnityEngine;
@@ -29,7 +34,7 @@ namespace Lakuna.PrepareModerately.Patches {
 #pragma warning restore CA1031
 					SoundDefOf.ClickReject.PlayOneShotOnCamera();
 					Find.WindowStack.Add(new ExceptionDialog(e));
-					Logger.LogException(e, "Failed to initialize.");
+					PrepareModeratelyLogger.LogException(e, "Failed to initialize.");
 				}
 			}
 		}

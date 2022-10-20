@@ -1,4 +1,5 @@
 ﻿using Lakuna.PrepareModerately.Filter.Part;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 			}
 
-			foreach (string item in Filter.ConfigErrors()) { Logger.LogErrorMessage(item); }
+			foreach (string item in Filter.ConfigErrors()) { PrepareModeratelyLogger.LogErrorMessage(item); }
 
 			Rand.PopState();
 
@@ -86,7 +87,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 				tryCount++;
 				if (tryCount > MaximumRandomPartTries) {
-					Logger.LogErrorMessage("Failed to add filter part.");
+					PrepareModeratelyLogger.LogErrorMessage("Failed to add filter part.");
 					break;
 				}
 			}

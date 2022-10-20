@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lakuna.PrepareModerately.Utility;
+using System;
 using System.IO;
 using Verse;
 
@@ -22,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031
-				Logger.LogException(e, "Failed to save pawn filter.");
+				PrepareModeratelyLogger.LogException(e, "Failed to save pawn filter.");
 			}
 		}
 
@@ -32,7 +33,8 @@ namespace Lakuna.PrepareModerately.Filter {
 			try {
 				Scribe.loader.InitLoading(absolutePath);
 				try {
-					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false); // Using the scenario scribe header mode works fine.
+					// Using the scenario scribe header mode works fine.
+					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false);
 					Scribe_Deep.Look(ref filter, filterNodeName);
 					Scribe.loader.FinalizeLoading();
 				} catch {
@@ -44,7 +46,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031
-				Logger.LogException(e, "Failed to load pawn filter.");
+				PrepareModeratelyLogger.LogException(e, "Failed to load pawn filter.");
 				filter = null;
 				Scribe.ForceStop();
 			}

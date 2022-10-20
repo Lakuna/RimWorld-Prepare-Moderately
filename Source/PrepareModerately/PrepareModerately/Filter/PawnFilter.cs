@@ -6,6 +6,7 @@ using System.IO;
 using Verse;
 using System.Linq;
 using System.Text;
+using Lakuna.PrepareModerately.Utility;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {
@@ -44,7 +45,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		public PawnFilterCategory Category {
 			get {
 				if (this.category == PawnFilterCategory.Undefined) {
-					Logger.LogErrorMessage("Filter category is undefined.");
+					PrepareModeratelyLogger.LogErrorMessage("Filter category is undefined.");
 				}
 
 				return this.category;
@@ -87,11 +88,11 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
 				if (this.parts.RemoveAll((PawnFilterPart part) => part == null) != 0) {
-					Logger.LogErrorMessage("Some filter parts were null after loading.");
+					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
 				if (this.parts.RemoveAll((PawnFilterPart part) => part.HasNullDefs()) != 0) {
-					Logger.LogErrorMessage("Some filter parts had null definitions.");
+					PrepareModeratelyLogger.LogErrorMessage("Some filter parts had null definitions.");
 				}
 			}
 		}
@@ -118,7 +119,8 @@ namespace Lakuna.PrepareModerately.Filter {
 						part.Summarized = false;
 					}
 
-					foreach (PawnFilterPart part in from part in this.Parts orderby part.Def.SummaryPriority descending, part.Def.defName where part.Visible select part) {
+					foreach (PawnFilterPart part in from part in this.Parts orderby part.Def.SummaryPriority descending,
+						part.Def.defName where part.Visible select part) {
 						string summary = part.Summary(this).CapitalizeFirst() + ".";
 						if (!summary.NullOrEmpty()) { _ = stringBuilder.AppendLine(summary); }
 					}
@@ -127,7 +129,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {
 #pragma warning restore CA1031
-					Logger.LogException(e, "Failed to get full information text.", LoggerCategory.GetFullInformationText);
+					PrepareModeratelyLogger.LogException(e, "Failed to get full information text.", PrepareModeratelyLoggerCategory.GetFullInformationText);
 					return "FailedToGetFullInformationText".Translate().CapitalizeFirst() + ".";
 				}
 			}
@@ -154,7 +156,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(PawnFilterPart part) {
-			if (!this.parts.Contains(part)) { Logger.LogErrorMessage("Failed to remove filter part."); }
+			if (!this.parts.Contains(part)) { PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part."); }
 			_ = this.parts.Remove(part);
 		}
 
@@ -213,7 +215,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public const string DataFolder = "PawnFilters/";
 
-		public static string DefaultDataPath => (string)typeof(GenFilePaths).GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).Invoke(null, new object[] { DataFolder });
+		public static string DefaultDataPath => (string)typeof(GenFilePaths)
+			.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+			.Invoke(null, new object[] { DataFolder });
 
 		public static string DataPath => PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty() ? DefaultDataPath : PrepareModeratelyMod.Settings.FilterSavePath;
 

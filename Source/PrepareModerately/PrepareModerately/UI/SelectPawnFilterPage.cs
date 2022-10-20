@@ -36,7 +36,12 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float tinyFontCorrectionMargin = 2;
 
-		private static readonly Texture2D deleteXTexture = ContentFinder<Texture2D>.Get("UI/Widgets/Delete"); // TODO: TexButton.DeleteX
+		private static readonly Texture2D deleteXTexture =
+#if V1_0 || V1_1 || V1_2
+			ContentFinder<Texture2D>.Get("UI/Widgets/Delete");
+#else
+			TexButton.DeleteX;
+#endif
 
 		public override string PageTitle => "ChooseFilter".Translate().CapitalizeFirst();
 
@@ -51,7 +56,11 @@ namespace Lakuna.PrepareModerately.UI {
 			this.DrawPageTitle(inRect);
 
 			Rect mainRect = this.GetMainRect(inRect);
-			GUI.BeginGroup(mainRect); // TODO [1.?,): Widgets.BeginGroup
+#if V1_0 || V1_1 || V1_2
+			GUI.BeginGroup(mainRect);
+#else
+			Widgets.BeginGroup(mainRect);
+#endif
 
 			Rect filterSelectionListRect = new Rect(0, 0, mainRect.width * filterSelectionListScreenShare, mainRect.height);
 			this.DoFilterSelectionList(filterSelectionListRect);
@@ -60,7 +69,11 @@ namespace Lakuna.PrepareModerately.UI {
 				mainRect.width - filterSelectionListRect.width - gapBetweenColumns, mainRect.height).Rounded(),
 				this.filter, ref this.infoScrollPosition);
 
-			GUI.EndGroup(); // TODO [1.?,): Widgets.EndGroup
+#if V1_0 || V1_1 || V1_2
+			GUI.EndGroup();
+#else
+			Widgets.EndGroup();
+#endif
 
 			this.DoBottomButtons(inRect, null, "FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
 		}
@@ -134,10 +147,14 @@ namespace Lakuna.PrepareModerately.UI {
 			Text.Font = GameFont.Tiny;
 			Rect filterSummaryRect = rect2;
 			filterSummaryRect.yMin = filterNameRect.yMax;
-			// TODO [1.?,): if (Text.TinyFontSupported) {
-			filterSummaryRect.yMin -= tinyFontCorrectionMargin;
-			filterSummaryRect.height += tinyFontCorrectionMargin;
-			// TODO [1.?,): }
+#if V1_0 || V1_1 || V1_2
+			if (true) {
+#else
+			if (Text.TinyFontSupported) {
+#endif
+				filterSummaryRect.yMin -= tinyFontCorrectionMargin;
+				filterSummaryRect.height += tinyFontCorrectionMargin;
+			}
 			Widgets.Label(filterSummaryRect, filter.Summary);
 
 			if (!filter.Enabled) { return; }

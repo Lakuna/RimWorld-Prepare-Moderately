@@ -1,4 +1,5 @@
 ﻿using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using System.IO;
@@ -10,17 +11,17 @@ namespace Lakuna.PrepareModerately.UI {
 			this.files.Clear();
 			foreach (FileInfo fileInfo in PawnFilter.AllFiles) {
 				try {
-					files.Add(new SaveFileInfo(fileInfo));
-					/*
-					 * TODO (1.?+):
-					 * SaveFileInfo saveFileInfo = new SaveFileInfo(fileInfo);
-					 * saveFileinfo.LoadData();
-					 * this.files.Add(saveFileInfo);
-					 */
+					SaveFileInfo saveFileinfo = new SaveFileInfo(fileInfo);
+#if V1_0 || V1_1 || V1_2
+					files.Add(saveFileinfo);
+#else
+					saveFileinfo.LoadData();
+					this.files.Add(saveFileinfo);
+#endif
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {
 #pragma warning restore CA1031
-					Logger.LogException(e, "Failed to load filter.");
+					PrepareModeratelyLogger.LogException(e, "Failed to load filter.");
 				}
 			}
 		}

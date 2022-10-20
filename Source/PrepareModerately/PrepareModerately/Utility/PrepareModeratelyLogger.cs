@@ -1,9 +1,10 @@
 ﻿using System;
 using Verse;
 
-namespace Lakuna.PrepareModerately {
-	public static class Logger {
-		public static void LogException(Exception e, string description = "No description provided.", LoggerCategory category = LoggerCategory.Unrestricted) {
+namespace Lakuna.PrepareModerately.Utility {
+	public static class PrepareModeratelyLogger {
+		public static void LogException(Exception e, string description = "No description provided.",
+			PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
 			if (e == null) {
 				throw new ArgumentNullException(nameof(e));
 			}
@@ -18,18 +19,20 @@ namespace Lakuna.PrepareModerately {
 
 			output += "\n\nStack trace:\n" + e.StackTrace + "\n\n";
 
-			if (category == LoggerCategory.Unrestricted) {
+			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(output);
-			} else {
+			}
+			else {
 				Log.ErrorOnce(output, (int)category);
 			}
 		}
 
-		public static void LogErrorMessage(string e, LoggerCategory category = LoggerCategory.Unrestricted) {
+		public static void LogErrorMessage(string e, PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
 			e = "Prepare Moderately encountered an issue: " + e;
-			if (category == LoggerCategory.Unrestricted) {
+			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(e);
-			} else {
+			}
+			else {
 				Log.ErrorOnce(e, (int)category);
 			}
 		}

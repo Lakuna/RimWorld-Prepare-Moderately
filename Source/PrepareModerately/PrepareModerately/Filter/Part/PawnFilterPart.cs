@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
-	public class PawnFilterPart : IExposable {
+	public abstract class PawnFilterPart : IExposable {
 		[TranslationHandle]
 		private PawnFilterPartDef def;
 
-		public PawnFilterPartDef Def {
+		public virtual PawnFilterPartDef Def {
 			get => this.def;
 			set => this.def = value;
 		}
 
-		public bool Visible { get; }
+		public virtual bool Visible => true;
 
-		public bool Summarized { get; set; }
+		public virtual bool Summarized { get; set; }
 
-		public string Label => this.def.label;
+		public virtual string Label => this.def.label;
 
-		public void ExposeData() => Scribe_Defs.Look(ref this.def, nameof(this.def));
+		public virtual void ExposeData() => Scribe_Defs.Look(ref this.def, nameof(this.def));
 
-		public PawnFilterPart CopyForEditing() {
+		public virtual PawnFilterPart CopyForEditing() {
 			PawnFilterPart copyForEditing = this.CopyForEditingInner();
 			copyForEditing.def = this.def;
 			return copyForEditing;
@@ -29,7 +29,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
 
-		public void DoEditInterface(PawnFilterEditListing listing) {
+		public virtual void DoEditInterface(PawnFilterEditListing listing) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
@@ -37,13 +37,9 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			_ = listing.GetPawnFilterPartRect(this, 0);
 		}
 
-#pragma warning disable IDE0060 // filter parameter exists so that subclasses may utilize it.
-		public string Summary(PawnFilter filter) => this.def.description;
-#pragma warning restore IDE0060
+		public virtual string Summary(PawnFilter filter) => this.def.description;
 
-#pragma warning disable IDE0060, CA1822 // tag parameter exists so that subclasses may utilize it.
-		public IEnumerable<string> GetSummaryListEntries(string tag) {
-#pragma warning restore IDE0060, CA1822
+		public virtual IEnumerable<string> GetSummaryListEntries(string tag) {
 			yield break;
 		}
 
@@ -61,30 +57,20 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			return values[Rand.Range(0, values.Count - 1)];
 		}
 
-#pragma warning disable CA1822 // Randomize is defined so that subclasses may utilize it.
-		public void Randomize() { }
-#pragma warning restore CA1822
+		public virtual void Randomize() { }
 
-#pragma warning disable IDE0060, CA1822 // other parameter exists so that subclasses may utilize it.
-		public bool TryMerge(PawnFilterPart other) => false;
-#pragma warning restore IDE0060, CA1822
+		public virtual bool TryMerge(PawnFilterPart other) => false;
 
-#pragma warning disable IDE0060, CA1822 // other parameter exists so that subclasses may utilize it.
-		public bool CanCoexistWith(PawnFilterPart other) => false;
-#pragma warning restore IDE0060, CA1822
+		public virtual bool CanCoexistWith(PawnFilterPart other) => false;
 
-#pragma warning disable IDE0060, CA1822 // pawn parameter exists so that subclasses may utilize it.
-		public bool Matches(Pawn pawn) => true;
-#pragma warning restore IDE0060, CA1822
+		public virtual bool Matches(Pawn pawn) => true;
 
-		public IEnumerable<string> ConfigErrors() {
+		public virtual IEnumerable<string> ConfigErrors() {
 			if (this.def == null) {
 				yield return (this.GetType().ToString() + " has a null definition.").CapitalizeFirst();
 			}
 		}
 
-		public bool HasNullDefs() => this.def == null;
-
-		public PawnFilterPart() => this.Visible = true;
+		public virtual bool HasNullDefs() => this.def == null;
 	}
 }

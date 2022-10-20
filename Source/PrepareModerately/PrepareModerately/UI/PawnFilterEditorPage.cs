@@ -46,7 +46,11 @@ namespace Lakuna.PrepareModerately.UI {
 			this.DrawPageTitle(inRect);
 
 			Rect mainRect = this.GetMainRect(inRect);
-			GUI.BeginGroup(mainRect); // TODO [1.?,): Widgets.BeginGroup
+#if V1_0 || V1_1 || V1_2
+			GUI.BeginGroup(mainRect);
+#else
+			Widgets.BeginGroup(mainRect);
+#endif
 
 			Rect configControlsRect = new Rect(0, 0, mainRect.width * configControlsScreenShare, mainRect.height).Rounded();
 			this.DoConfigControls(configControlsRect);
@@ -59,7 +63,11 @@ namespace Lakuna.PrepareModerately.UI {
 				PawnFilterUI.DrawInfo(filterEditRect, this.Filter, ref this.infoScrollPosition);
 			}
 
-			GUI.EndGroup(); // TODO [1.?,): Widgets.EndGroup
+#if V1_0 || V1_1 || V1_2
+			GUI.EndGroup();
+#else
+			Widgets.EndGroup();
+#endif
 
 			this.DoBottomButtons(inRect);
 		}
@@ -130,7 +138,8 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void OpenAddFilterPartMenu() {
-			FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.Filter) where part.Category != PawnFilterPartCategory.Fixed orderby part.label select part,
+			FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.Filter)
+				where part.Category != PawnFilterPartCategory.Fixed orderby part.label select part,
 				(PawnFilterPartDef def) => def.LabelCap,
 				(PawnFilterPartDef def) => () => this.AddFilterPart(def));
 		}

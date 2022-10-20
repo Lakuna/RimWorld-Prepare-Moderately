@@ -46,6 +46,25 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Filter\Part\Types\HasAdulthood.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyAddiction.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyBodyModification.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyPermanentMedicalCondition.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyRelation.cs" />
+    <Compile Include="Filter\Part\Types\HasChildhood.cs" />
+    <Compile Include="Filter\Part\Types\HasPassion.cs" />
+    <Compile Include="Filter\Part\Types\HasPassionsAtLevel.cs" />
+    <Compile Include="Filter\Part\Types\HasRelation.cs" />
+    <Compile Include="Filter\Part\Types\HasSkill.cs" />
+    <Compile Include="Filter\Part\Types\HasSkillsAtLevel.cs" />
+    <Compile Include="Filter\Part\Types\HasTrait.cs" />
+    <Compile Include="Filter\Part\Types\IsAge.cs" />
+    <Compile Include="Filter\Part\Types\IsCapableOf.cs" />
+    <Compile Include="Filter\Part\Types\IsCapableOfEverything.cs" />
+    <Compile Include="Filter\Part\Types\IsGender.cs" />
+    <Compile Include="Filter\Part\Types\IsSpecies.cs" />
+    <Compile Include="Filter\Part\Types\LogicGate.cs" />
+    <Compile Include="Filter\Part\Types\NameMatches.cs" />
     <Compile Include="Filter\PawnFilterDefOf.cs" />
     <Compile Include="Filter\Part\PawnFilterPart.cs" />
     <Compile Include="Filter\Part\PawnFilterPartCategory.cs" />
@@ -57,8 +76,9 @@
     <Compile Include="Filter\PawnFilterLister.cs" />
     <Compile Include="Filter\PawnFilterMaker.cs" />
     <Compile Include="Filter\PawnFilterSaveLoader.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="LoggerCategory.cs" />
+    <Compile Include="Utility\LogicGateType.cs" />
+    <Compile Include="Utility\PrepareModeratelyLogger.cs" />
+    <Compile Include="Utility\PrepareModeratelyLoggerCategory.cs" />
     <Compile Include="Patches\ButtonPatch.cs" />
     <Compile Include="Patches\HarmonyPatcher.cs" />
     <Compile Include="Patches\RandomizePatch.cs" />
@@ -73,6 +93,7 @@
     <Compile Include="UI\PawnFilterUI.cs" />
     <Compile Include="UI\RollingDialog.cs" />
     <Compile Include="UI\SelectPawnFilterPage.cs" />
+    <Compile Include="Utility\TraitDegreePair.cs" />
   </ItemGroup>
 
 	<Choose>

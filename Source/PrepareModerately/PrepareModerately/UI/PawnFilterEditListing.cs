@@ -19,11 +19,26 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float widgetRowMaxWidth = 72;
 
-		private static readonly Texture2D deleteXTexture = ContentFinder<Texture2D>.Get("UI/Widgets/Delete"); // TODO: TexButton.DeleteX
+		private static readonly Texture2D deleteXTexture =
+#if V1_0 || V1_1 || V1_2
+			ContentFinder<Texture2D>.Get("UI/Widgets/Delete");
+#else
+			TexButton.DeleteX;
+#endif
 
-		private static readonly Texture2D reorderUpTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderUp"); // TODO: TexButton.ReorderUp
+		private static readonly Texture2D reorderUpTexture =
+#if V1_0 || V1_1 || V1_2
+			ContentFinder<Texture2D>.Get("UI/Buttons/ReorderUp");
+#else
+			TexButton.ReorderUp;
+#endif
 
-		private static readonly Texture2D reorderDownTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderDown"); // TODO: TexButton.ReorderDown
+		private static readonly Texture2D reorderDownTexture =
+#if V1_0 || V1_1 || V1_2
+			ContentFinder<Texture2D>.Get("UI/Buttons/ReorderDown");
+#else
+			TexButton.ReorderDown;
+#endif
 
 		private const float gap = 4;
 

@@ -67,7 +67,7 @@ namespace Lakuna.PrepareModerately.UI {
 			foreach (PawnFilterPart part in filter.Parts) { part.DoEditInterface(listing); }
 
 			listing.End();
-			PawnFilterUI.editViewHeight = listing.CurHeight + extraScrollHeight;
+			editViewHeight = listing.CurHeight + extraScrollHeight;
 			Widgets.EndScrollView();
 		}
 	}

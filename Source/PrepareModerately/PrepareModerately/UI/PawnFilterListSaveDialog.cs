@@ -1,4 +1,5 @@
 ﻿using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using Verse;
@@ -25,7 +26,7 @@ namespace Lakuna.PrepareModerately.UI {
 			LongEventHandler.QueueLongEvent(delegate {
 				PawnFilterSaveLoader.Save(this.filter, absolutePath);
 			}, "SavingLongEvent", false, delegate (Exception e) {
-				Logger.LogException(e, "Failed to save filter.");
+				PrepareModeratelyLogger.LogException(e, "Failed to save filter.");
 			});
 			Messages.Message("SavedAs".Translate(fileName).CapitalizeFirst(), MessageTypeDefOf.SilentInput, false);
 			this.Close();

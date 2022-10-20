@@ -1,4 +1,8 @@
-﻿using Harmony;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.UI;
 using RimWorld;

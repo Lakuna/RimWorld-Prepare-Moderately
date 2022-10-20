@@ -2,8 +2,10 @@
 
 namespace Lakuna.PrepareModerately.Filter {
 	[DefOf]
-	public class PawnFilterDefOf {
-		// TODO: public static PawnFilterDef Empty; etc.
+	public static class PawnFilterDefOf {
+		public static PawnFilterDef Empty { get; }
+
+		public static PawnFilterDef Basic { get; }
 
 		static PawnFilterDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterDefOf));
 	}
