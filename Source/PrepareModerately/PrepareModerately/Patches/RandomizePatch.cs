@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System.Linq;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace Lakuna.PrepareModerately.Patches {
 			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) { return; }
 			if (ActivelyRolling) { return; }
 
-			// Find.WindowStack.Add(new RollingDialog(delegate { __originalMethod.Invoke(__instance, null); })); // TODO
+			Find.WindowStack.Add(new RollingDialog(delegate { __originalMethod.Invoke(__instance, null); }));
 
 			ActivelyRolling = true;
 		}

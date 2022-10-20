@@ -64,7 +64,15 @@
     <Compile Include="Patches\RandomizePatch.cs" />
     <Compile Include="PrepareModeratelyMod.cs" />
     <Compile Include="PrepareModeratelySettings.cs" />
-    <Compile Include="UI\FilterEditListing.cs" />
+    <Compile Include="UI\ExceptionDialog.cs" />
+    <Compile Include="UI\PawnFilterEditListing.cs" />
+    <Compile Include="UI\PawnFilterEditorPage.cs" />
+    <Compile Include="UI\PawnFilterListDialog.cs" />
+    <Compile Include="UI\PawnFilterListLoadDialog.cs" />
+    <Compile Include="UI\PawnFilterListSaveDialog.cs" />
+    <Compile Include="UI\PawnFilterUI.cs" />
+    <Compile Include="UI\RollingDialog.cs" />
+    <Compile Include="UI\SelectPawnFilterPage.cs" />
   </ItemGroup>
 
 	<Choose>

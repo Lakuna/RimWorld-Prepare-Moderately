@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Lakuna.PrepareModerately.UI;
+using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
@@ -47,7 +48,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			int hash = FilterListHash();
 			PawnFilter.RecacheLocalFiles();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
-				// TODO: Find.WindowStack.WindowOfType<SelectFilterPage>()?.NotifyFilterListChanged();
+				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.NotifyFilterListChanged();
 			}
 		}
 

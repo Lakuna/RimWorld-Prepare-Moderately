@@ -29,7 +29,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
 
-		public void DoEditInterface(FilterEditListing listing) {
+		public void DoEditInterface(PawnFilterEditListing listing) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}

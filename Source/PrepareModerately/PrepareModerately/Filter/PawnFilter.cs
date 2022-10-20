@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {
-		public static PawnFilter Current { get; }
+		public static PawnFilter Current { get; set; }
 
 		[MustTranslate]
 		private string name;
@@ -234,7 +234,9 @@ namespace Lakuna.PrepareModerately.Filter {
 		public static void RecacheLocalFiles() {
 			localFilters.Clear();
 			foreach (FileInfo file in AllFiles) {
-				// TODO: if (FilterSaveLoader.TryLoadFilter(customFilterFile.FullName, FilterCategory.CustomLocal, out Filter filter)) { FilterFiles.filtersLocal.Add(filter); }
+				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
+					_ = LocalFilters.Append(filter);
+				}
 			}
 		}
 	}

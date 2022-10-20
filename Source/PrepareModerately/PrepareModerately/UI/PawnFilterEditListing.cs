@@ -8,10 +8,10 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
-	public class FilterEditListing : Listing_Standard {
+	public class PawnFilterEditListing : Listing_Standard {
 		private readonly PawnFilter filter;
 
-		public FilterEditListing(PawnFilter filter) => this.filter = filter;
+		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
 
 		private static readonly float labelHeight = new float[] { deleteXTexture.height, reorderUpTexture.height, reorderDownTexture.height, Text.LineHeight }.Max();
 
