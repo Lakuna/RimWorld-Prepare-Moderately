@@ -26,6 +26,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private static readonly Texture2D ReorderDownTexture;
 
+		private const float GapSize = 4;
+
 #pragma warning disable CA1810 // Textures must be loaded from the main thread.
 		static PawnFilterEditListing() {
 #pragma warning restore CA1810
@@ -45,8 +47,6 @@ namespace Lakuna.PrepareModerately.UI {
 				Text.LineHeight
 			}.Max();
 		}
-
-		private const float GapSize = 4;
 
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) {
 			if (part == null) {

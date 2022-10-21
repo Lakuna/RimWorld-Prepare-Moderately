@@ -22,6 +22,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float GapBetweenColumns = 17;
 
+		private const float ConfigControlsColumnWidth = 200;
+
 		private static readonly float InvalidSeedGap = Text.LineHeight + Text.LineHeight + 2;
 
 		public override string PageTitle => "FilterEditor".Translate().CapitalizeFirst();
@@ -78,7 +80,7 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void DoConfigControls(Rect inRect) {
-			Listing_Standard listing = new Listing_Standard() { ColumnWidth = 200 };
+			Listing_Standard listing = new Listing_Standard() { ColumnWidth = ConfigControlsColumnWidth };
 			listing.Begin(inRect);
 
 			if (listing.ButtonText("Load".Translate().CapitalizeFirst())) {
@@ -137,17 +139,19 @@ namespace Lakuna.PrepareModerately.UI {
 			return true;
 		}
 
-		private void OpenAddFilterPartMenu() => FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.Filter)
-																		  where part.category != PawnFilterPartCategory.Fixed
-																		  orderby part.label
-																		  select part,
+		private void OpenAddFilterPartMenu() =>
+			FloatMenuUtility.MakeMenu(
+				from part in PawnFilterMaker.AddableParts(this.Filter)
+				where part.category != PawnFilterPartCategory.Fixed
+				orderby part.label
+				select part,
 				(PawnFilterPartDef def) => def.LabelCap,
 				(PawnFilterPartDef def) => () => this.AddFilterPart(def));
 
 		private void AddFilterPart(PawnFilterPartDef def) {
 			PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 			part.Randomize();
-			_ = this.Filter.Parts.Append(part);
+			this.Filter.AddPart(part);
 		}
 
 		protected override bool CanDoNext() {

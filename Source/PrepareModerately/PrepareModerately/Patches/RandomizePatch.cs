@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Patches {
 			LastRandomizedPawn = ___curPawn;
 
 			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) { return; }
-			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) { return; }
+			if (PawnFilter.Current.Matches(LastRandomizedPawn)) { return; }
 			if (ActivelyRolling) { return; }
 
 			Find.WindowStack.Add(new RollingDialog(delegate { _ = __originalMethod.Invoke(__instance, null); }));

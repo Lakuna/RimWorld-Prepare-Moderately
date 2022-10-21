@@ -68,7 +68,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			IEnumerable<PawnFilterPart> parts = RandomPartsFromCategory(filter, category, count);
 			for (int i = 0; i < parts.Count(); i++) {
-				_ = filter.Parts.Append(parts.ElementAt(i));
+				filter.AddPart(parts.ElementAt(i));
 			}
 		}
 

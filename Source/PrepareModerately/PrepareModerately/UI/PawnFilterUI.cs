@@ -1,5 +1,6 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
+using System;
 using UnityEngine;
 using Verse;
 
@@ -41,10 +42,12 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		public static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
+			if (filter == null) {
+				throw new ArgumentNullException(nameof(filter));
+			}
+
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
-
-			if (filter == null) { return; }
 
 			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, EditViewHeight);
 			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);

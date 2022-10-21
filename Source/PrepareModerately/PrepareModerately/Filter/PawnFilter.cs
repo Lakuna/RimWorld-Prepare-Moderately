@@ -39,7 +39,20 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private List<PawnFilterPart> parts;
 
-		public IEnumerable<PawnFilterPart> Parts => this.parts;
+		public IEnumerable<PawnFilterPart> Parts {
+			get {
+				foreach (PawnFilterPart part in this.parts) {
+					yield return part;
+				}
+			}
+		}
+
+		public void AddPart(PawnFilterPart part) => this.parts.Add(part);
+
+		public void RemovePart(PawnFilterPart part) {
+			if (!this.parts.Contains(part)) { PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part."); }
+			_ = this.parts.Remove(part);
+		}
 
 		private PawnFilterCategory category;
 
@@ -120,11 +133,12 @@ namespace Lakuna.PrepareModerately.Filter {
 						part.Summarized = false;
 					}
 
-					foreach (PawnFilterPart part in from part in this.Parts
-													orderby part.Def.summaryPriority descending,
+					foreach (PawnFilterPart part in
+						from part in this.Parts
+						orderby part.Def.summaryPriority descending,
 						part.Def.defName
-													where part.Visible
-													select part) {
+						where part.Visible
+						select part) {
 						string summary = part.Summary(this).CapitalizeFirst() + ".";
 						if (!summary.NullOrEmpty()) { _ = stringBuilder.AppendLine(summary); }
 					}
@@ -157,11 +171,6 @@ namespace Lakuna.PrepareModerately.Filter {
 				if (!part.Matches(pawn)) { return false; }
 			}
 			return true;
-		}
-
-		public void RemovePart(PawnFilterPart part) {
-			if (!this.parts.Contains(part)) { PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part."); }
-			_ = this.parts.Remove(part);
 		}
 
 		public bool CanReorder(PawnFilterPart part, ReorderDirection dir) {

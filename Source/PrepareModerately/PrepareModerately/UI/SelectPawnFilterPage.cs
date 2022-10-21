@@ -35,7 +35,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private static readonly Color MinorTextColor = new Color(1, 1, 1, 0.5f);
 
+#if !(V1_0 || V1_1 || V1_2)
 		private const float TinyFontCorrectionMargin = 2;
+#endif
 
 		private static readonly Texture2D DeleteXTexture;
 
@@ -67,7 +69,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.BeginGroup(mainRect);
 #endif
 
-			Rect filterSelectionListRect = new Rect(0, 0, mainRect.width * FilterSelectionListScreenShare, mainRect.height);
+			Rect filterSelectionListRect = new Rect(0, 0, mainRect.width * FilterSelectionListScreenShare, mainRect.height).Rounded();
 			this.DoFilterSelectionList(filterSelectionListRect);
 
 			PawnFilterUI.DrawInfo(new Rect(filterSelectionListRect.xMax + GapBetweenColumns, 0,
@@ -86,7 +88,11 @@ namespace Lakuna.PrepareModerately.UI {
 		private static bool CanEditFilter(PawnFilter filter) => filter.Category == PawnFilterCategory.CustomLocal;
 
 		private void GoToFilterEditor() {
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) { prev = this };
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter)
+				? this.filter
+				: this.filter.CopyForEditing) {
+					prev = this
+				};
 			Find.WindowStack.Add(pawnFilterEditorPage);
 			this.Close();
 		}
@@ -152,14 +158,12 @@ namespace Lakuna.PrepareModerately.UI {
 			Text.Font = GameFont.Tiny;
 			Rect filterSummaryRect = rect2;
 			filterSummaryRect.yMin = filterNameRect.yMax;
-#if V1_0 || V1_1 || V1_2
-			if (true) {
-#else
-			if (Text.TinyFontSupported) {
-#endif
+#if !(V1_0 || V1_1 || V1_2)
+			if (!Text.TinyFontSupported) {
 				filterSummaryRect.yMin -= TinyFontCorrectionMargin;
 				filterSummaryRect.height += TinyFontCorrectionMargin;
 			}
+#endif
 			Widgets.Label(filterSummaryRect, filter.Summary);
 
 			if (!filter.Enabled) { return; }
