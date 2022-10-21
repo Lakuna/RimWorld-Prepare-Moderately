@@ -12,7 +12,7 @@
 	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Basic">
 		<defName>Basic</defName>
-		<label>Basic</defName>
+		<label>Basic</label>
 		<filter>
 			<name>Basic</name>
 			<summary>An basic filter. Uses conservative settings to filter out undesirable pawns.</summary>
