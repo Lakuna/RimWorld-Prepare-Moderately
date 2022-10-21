@@ -171,9 +171,15 @@
 									<degree>-1</degree>
 								</traitDegreePair>
 							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait" V1_0="false" V1_1="false" V1_2="false" V1_3="false">
+							<def>HasTrait</def>
+							<traitDegreePair>
+								<trait>Delicate</trait>
+							</traitDegreePair>
+						</li>
 						</parts>
 					</innerFilter>
-					<editViewHeight>1186</editViewHeight>
+					<editViewHeight>1234</editViewHeight>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
 					<def>LogicGate</def>
