@@ -40,7 +40,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(DefDatabase<BackstoryDef>.AllDefsListForReading.Where((BackstoryDef def) => def.slot == BackstorySlot.Childhood),
-					(BackstoryDef def) => def.LabelCap,
+					(BackstoryDef def) => def.title.CapitalizeFirst(),
 					(BackstoryDef def) => () => this.backstory = def);
 			}
 #endif
