@@ -82,6 +82,7 @@
 								<traitDegreePair>
 									<trait>SlowLearner</trait>
 								</traitDegreePair>
+								<No1_0/>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 								<def>HasTrait</def>
