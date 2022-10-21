@@ -45,7 +45,7 @@ namespace Lakuna.PrepareModerately.UI {
 		static SelectPawnFilterPage() =>
 #pragma warning restore CA1810
 #if V1_0 || V1_1 || V1_2
-			DeleteXTexture = ContentFinder<Texture2D>.Get("UI/Button/Delete");
+			DeleteXTexture = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");
 #else
 			DeleteXTexture = TexButton.DeleteX;
 #endif
