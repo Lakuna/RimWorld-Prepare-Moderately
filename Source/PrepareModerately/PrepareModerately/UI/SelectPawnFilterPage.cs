@@ -91,8 +91,8 @@ namespace Lakuna.PrepareModerately.UI {
 			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter)
 				? this.filter
 				: this.filter.CopyForEditing) {
-					prev = this
-				};
+				prev = this
+			};
 			Find.WindowStack.Add(pawnFilterEditorPage);
 			this.Close();
 		}

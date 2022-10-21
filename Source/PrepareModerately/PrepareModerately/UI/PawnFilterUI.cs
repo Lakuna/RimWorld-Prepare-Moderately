@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -67,7 +68,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 			listing.Gap();
 
-			foreach (PawnFilterPart part in filter.Parts) { part.DoEditInterface(listing); }
+			for (int i = 0; i < filter.Parts.Count(); i++) {
+				filter.Parts.ElementAt(i).DoEditInterface(listing);
+			}
 
 			listing.End();
 			EditViewHeight = listing.CurHeight + ExtraScrollHeight;

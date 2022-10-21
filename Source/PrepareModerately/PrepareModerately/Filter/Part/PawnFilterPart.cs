@@ -59,7 +59,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public virtual bool TryMerge(PawnFilterPart other) => false;
 
-		public virtual bool CanCoexistWith(PawnFilterPart other) => false;
+		public virtual bool CanCoexistWith(PawnFilterPart other) => true;
 
 		public virtual bool Matches(Pawn pawn) => true;
 

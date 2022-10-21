@@ -58,15 +58,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect addPartRect = new Rect(rect.x, typeRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(addPartRect, "AddPart".Translate().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(from part in PawnFilterMaker.AddableParts(this.innerFilter)
-										  where part.category != PawnFilterPartCategory.Fixed
-										  orderby part.label
-										  select part,
+				FloatMenuUtility.MakeMenu(
+					from part in PawnFilterMaker.AddableParts(this.innerFilter)
+					where part.category != PawnFilterPartCategory.Fixed
+					orderby part.label
+					select part,
 					(PawnFilterPartDef def) => def.LabelCap,
 					(PawnFilterPartDef def) => delegate {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 						part.Randomize();
-						_ = this.innerFilter.Parts.Append(part);
+						this.innerFilter.AddPart(part);
 					});
 			}
 
@@ -76,7 +77,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			};
 			innerListing.Begin(listingRect);
 
-			foreach (PawnFilterPart part in this.innerFilter.Parts) { part.DoEditInterface(innerListing); }
+			for (int i = 0; i < this.innerFilter.Parts.Count(); i++) {
+				this.innerFilter.Parts.ElementAt(i).DoEditInterface(innerListing);
+			}
 
 			innerListing.End();
 			this.editViewHeight = innerListing.CurHeight + 100;
@@ -89,11 +92,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				part.Summarized = false;
 			}
 
-			foreach (PawnFilterPart part in from part in this.innerFilter.Parts
-											orderby part.Def.summaryPriority descending,
+			foreach (PawnFilterPart part in
+				from part in this.innerFilter.Parts
+				orderby part.Def.summaryPriority descending,
 				part.Def.defName
-											where part.Visible
-											select part) {
+				where part.Visible
+				select part) {
 				string summary = part.Summary(this.innerFilter);
 				if (!summary.NullOrEmpty()) {
 					if (output.Length > 0) { output += ", "; }

@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
 
-		private static readonly float LabelHeight;
+		private static readonly float LabelHeight = Text.LineHeight;
 
 		private static readonly Color PartRectBgColor = new Color(1, 1, 1, 0.08f);
 
@@ -40,12 +40,6 @@ namespace Lakuna.PrepareModerately.UI {
 			ReorderUpTexture = TexButton.ReorderUp;
 			ReorderDownTexture = TexButton.ReorderDown;
 #endif
-			LabelHeight = new float[] {
-				DeleteXTexture.height,
-				ReorderUpTexture.height,
-				ReorderDownTexture.height,
-				Text.LineHeight
-			}.Max();
 		}
 
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) {

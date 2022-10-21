@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using System.Collections.Generic;
 using Verse;
+using Verse.Noise;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public static class PawnFilterLister {
@@ -16,10 +17,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			RecacheIfDirty();
 			switch (category) {
 				case PawnFilterCategory.FromDef:
-					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.filter; }
+					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
+						yield return def.filter;
+					}
 					break;
 				case PawnFilterCategory.CustomLocal:
-					foreach (PawnFilter filter in PawnFilter.LocalFilters) { yield return filter; }
+					foreach (PawnFilter filter in PawnFilter.LocalFilters) {
+						yield return filter;
+					}
 					break;
 			}
 		}
@@ -44,7 +49,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static void Recache() {
 			Dirty = false;
 			int hash = FilterListHash();
-			PawnFilter.RecacheLocalFiles();
+			PawnFilter.RecacheLocalFilters();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
 				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.NotifyFilterListChanged();
 			}

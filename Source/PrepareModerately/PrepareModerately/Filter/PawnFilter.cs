@@ -39,13 +39,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private List<PawnFilterPart> parts;
 
-		public IEnumerable<PawnFilterPart> Parts {
-			get {
-				foreach (PawnFilterPart part in this.parts) {
-					yield return part;
-				}
-			}
-		}
+		public IEnumerable<PawnFilterPart> Parts => this.parts;
 
 		public void AddPart(PawnFilterPart part) => this.parts.Add(part);
 
@@ -244,13 +238,15 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public static string AbsolutePathForName(string filterName) => Path.Combine(DataPath, filterName + FileExtension);
 
-		public static readonly Collection<PawnFilter> LocalFilters = new Collection<PawnFilter>();
+		private static readonly List<PawnFilter> LocalFiltersInternal = new List<PawnFilter>();
 
-		public static void RecacheLocalFiles() {
-			LocalFilters.Clear();
+		public static IEnumerable<PawnFilter> LocalFilters => LocalFiltersInternal;
+
+		public static void RecacheLocalFilters() {
+			LocalFiltersInternal.Clear();
 			foreach (FileInfo file in AllFiles) {
 				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					_ = LocalFilters.Append(filter);
+					LocalFiltersInternal.Add(filter);
 				}
 			}
 		}
