@@ -28,7 +28,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			if (Widgets.ButtonText(rect, this.color.LabelCap)) {
 				FloatMenuUtility.MakeMenu(PossibleFavoriteColors,
-					(ColorDef def) => def.ToString(),
+					(ColorDef def) => def.LabelCap,
 					(ColorDef def) => () => this.color = def);
 			}
 		}

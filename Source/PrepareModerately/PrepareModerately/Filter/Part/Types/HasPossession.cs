@@ -20,6 +20,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return startingPossessions.TryGetValue(pawn, out List<ThingDefCount> output) ? output : new List<ThingDefCount>();
 		}
 
+		private static IEnumerable<ThingDef> PossiblePossessions = DefDatabase<ThingDef>.AllDefsListForReading.Where((ThingDef def) => def.category == ThingCategory.Item);
+
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
 			: StartingPossessionsOf(pawn).Any((ThingDefCount defCount) => defCount.ThingDef == this.possession);
@@ -32,7 +34,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<ThingDef>.AllDefsListForReading,
+				FloatMenuUtility.MakeMenu(PossiblePossessions,
 					(ThingDef def) => def.LabelCap,
 					(ThingDef def) => () => this.possession = def);
 			}
@@ -40,7 +42,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "HasPossession".Translate(this.possession.label);
 
-		public override void Randomize() => this.possession = GetRandomOfDef<ThingDef>();
+		public override void Randomize() => this.possession = PossiblePossessions.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();
