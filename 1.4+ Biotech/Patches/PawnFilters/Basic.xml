@@ -2,7 +2,7 @@
 
 <Patch>
 	<Operation Class="PatchOperationInsert">
-		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/filter/parts/li[def="LogicGate" and type="Not"]/innerFilter/parts/li</xpath>
+		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/filter/parts/li[def="LogicGate" and type="Not"]/innerFilter/parts/li[last()]</xpath>
 		<value>
 			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 				<def>HasTrait</def>
