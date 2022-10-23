@@ -39,6 +39,7 @@
 	<HasAdulthood>has adulthood {0}</HasAdulthood>
 	<HasPossession>has possession {0}</HasPossession>
 	<HasFavoriteColor>has favorite color {0}</HasFavoriteColor>
+	<UnnamedColor>unnamed color</UnnamedColor>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>

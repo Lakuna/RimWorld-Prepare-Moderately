@@ -49,12 +49,6 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			return (T)values.GetValue(Rand.Range(0, values.Length - 1));
 		}
 
-		// Helper method for Randomize().
-		public static T GetRandomOfDef<T>() where T : Def, new() {
-			List<T> values = DefDatabase<T>.AllDefsListForReading;
-			return values[Rand.Range(0, values.Count - 1)];
-		}
-
 		public virtual void Randomize() { }
 
 		public virtual bool TryMerge(PawnFilterPart other) => false;

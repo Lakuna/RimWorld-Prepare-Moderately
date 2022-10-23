@@ -1,19 +1,19 @@
-﻿#if !(V1_0 || V1_1 || V1_2)
-using Lakuna.PrepareModerately.UI;
+﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !V1_0
 using System.Threading.Tasks;
+#endif
 using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasFavoriteColor : PawnFilterPart {
+#if !(V1_0 || V1_1 || V1_2)
 		private ColorDef color;
-
-		private static IEnumerable<ColorDef> PossibleFavoriteColors => DefDatabase<ColorDef>.AllDefsListForReading.Where((ColorDef def) => !string.IsNullOrEmpty(def.LabelCap));
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
@@ -26,21 +26,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
 
-			if (Widgets.ButtonText(rect, this.color.LabelCap)) {
-				FloatMenuUtility.MakeMenu(PossibleFavoriteColors,
-					(ColorDef def) => def.LabelCap,
+			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : this.color.LabelCap)) {
+				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading,
+					(ColorDef def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : def.LabelCap,
 					(ColorDef def) => () => this.color = def);
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "HasFavoriteColor".Translate(this.color.ToString());
+		public override string Summary(PawnFilter filter) => "HasFavoriteColor".Translate(this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : this.color.LabelCap);
 
-		public override void Randomize() => this.color = PossibleFavoriteColors.RandomElement();
+		public override void Randomize() => this.color = DefDatabase<ColorDef>.AllDefsListForReading.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.color, nameof(this.color));
 		}
+#endif
 	}
 }
-#endif
