@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Defs>
-	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Empty">
-		<defName>Empty</defName>
-		<label>Empty</label>
-		<filter>
-			<name>Empty</name>
-			<summary>An empty filter. Does not affect pawn generation.</summary>
-			<description>This filter does not filter out any pawns, leaving you with the vanilla pawn generation experience.</description>
-		</filter>
-	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Basic">
 		<defName>Basic</defName>
 		<label>Basic</label>
@@ -77,7 +68,7 @@
 									<trait>Wimp</trait>
 								</traitDegreePair>
 							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait" V1_0="false">
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 								<def>HasTrait</def>
 								<traitDegreePair>
 									<trait>SlowLearner</trait>
@@ -104,8 +95,34 @@
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 								<def>HasTrait</def>
 								<traitDegreePair>
+									<trait>TorturedArtist</trait>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>Gourmand</trait>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
 									<trait>SpeedOffset</trait>
 									<degree>-1</degree>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>DrugDesire</trait>
+									<degree>2</degree>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>DrugDesire</trait>
+									<degree>1</degree>
 								</traitDegreePair>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
@@ -171,9 +188,28 @@
 									<degree>-1</degree>
 								</traitDegreePair>
 							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>Delicate</trait>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>Recluse</trait>
+								</traitDegreePair>
+							</li>
 						</parts>
 					</innerFilter>
-					<editViewHeight>1186</editViewHeight>
+					<editViewHeight>1474</editViewHeight>
+				</li>
+				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsAge">
+					<def>IsAge</def>
+					<range>20~60</range>
+				</li>
+				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOfEverything">
+					<def>IsCapableOfEverything</def>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
 					<def>LogicGate</def>
@@ -196,13 +232,6 @@
 						</parts>
 					</innerFilter>
 					<editViewHeight>240</editViewHeight>
-				</li>
-				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsAge">
-					<def>IsAge</def>
-					<range>20~60</range>
-				</li>
-				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOfEverything">
-					<def>IsCapableOfEverything</def>
 				</li>
 			</parts>
 		</filter>

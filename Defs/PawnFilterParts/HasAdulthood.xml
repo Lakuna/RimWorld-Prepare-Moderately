@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAdulthood">
+		<defName>HasAdulthood</defName>
+		<label>has adulthood</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAdulthood</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

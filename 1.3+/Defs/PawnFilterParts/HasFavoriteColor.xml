@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasFavoriteColor">
+		<defName>HasFavoriteColor</defName>
+		<label>has favorite color</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasFavoriteColor</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

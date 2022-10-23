@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPassionsAtLevel">
+		<defName>HasPassionsAtLevel</defName>
+		<label>has passions at level</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPassionsAtLevel</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

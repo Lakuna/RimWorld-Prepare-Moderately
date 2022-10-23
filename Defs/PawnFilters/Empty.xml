@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Empty">
+		<defName>Empty</defName>
+		<label>Empty</label>
+		<filter>
+			<name>Empty</name>
+			<summary>An empty filter. Does not affect pawn generation.</summary>
+			<description>This filter does not filter out any pawns, leaving you with the vanilla pawn generation experience.</description>
+		</filter>
+	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
+</Defs>
