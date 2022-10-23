@@ -11,12 +11,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.ageTracker.AgeBiologicalYears <= this.range.max && pawn.ageTracker.AgeBiologicalYears >= this.range.min;
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 			Widgets.IntRange(rect, Rand.Int, ref this.range, 14, 120);
 		}
 

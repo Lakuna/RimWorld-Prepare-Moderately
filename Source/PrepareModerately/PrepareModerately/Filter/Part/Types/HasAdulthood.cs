@@ -25,12 +25,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: pawn.story.Adulthood == this.backstory;
 #endif
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 #if V1_0 || V1_1 || V1_2 || V1_3
 			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood),
@@ -53,14 +53,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			"HasAdulthood".Translate(this.backstory.title);
 #endif
 
-		public override void Randomize() {
+		public override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Backstory[] values = BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood).ToArray();
-			this.backstoryIdentifier = values[Rand.Range(0, values.Length - 1)].identifier;
+			this.backstoryIdentifier = BackstoryDatabase.allBackstories.Values
+				.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood)
+				.RandomElement().identifier;
 #else
-			this.backstory = DefDatabase<BackstoryDef>.AllDefsListForReading.RandomElement();
+			this.backstory = DefDatabase<BackstoryDef>.AllDefsListForReading
+				.Where((BackstoryDef def) => def.slot == BackstorySlot.Adulthood)
+				.RandomElement();
 #endif
-		}
 
 		public override void ExposeData() {
 			base.ExposeData();

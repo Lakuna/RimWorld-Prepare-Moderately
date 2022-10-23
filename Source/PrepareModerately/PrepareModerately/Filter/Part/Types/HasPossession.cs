@@ -27,12 +27,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: StartingPossessionsOf(pawn).Any((ThingDefCount defCount) => defCount.ThingDef == this.possession);
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
 				FloatMenuUtility.MakeMenu(PossiblePossessions,

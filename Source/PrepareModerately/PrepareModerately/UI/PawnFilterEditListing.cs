@@ -42,12 +42,15 @@ namespace Lakuna.PrepareModerately.UI {
 #endif
 		}
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) {
+		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) => this.GetPawnFilterPartRect(part, height, out _);
+
+		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) {
 			if (part == null) {
 				throw new ArgumentNullException(nameof(part));
 			}
 
-			Rect rect = this.GetRect(LabelHeight + height);
+			float rectHeight = LabelHeight + height;
+			Rect rect = this.GetRect(rectHeight);
 			Widgets.DrawBoxSolid(rect, PartRectBgColor);
 			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, WidgetRowMaxWidth, 0);
 
@@ -73,6 +76,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 			this.Gap(GapSize);
 
+			totalAddedListHeight = rectHeight + GapSize;
 			return new Rect(rect.x, rect.y + labelRect.height, rect.width, rect.height - labelRect.height).Rounded();
 		}
 	}

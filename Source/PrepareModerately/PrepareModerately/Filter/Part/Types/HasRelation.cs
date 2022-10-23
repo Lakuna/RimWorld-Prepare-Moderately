@@ -12,12 +12,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.relations.DirectRelations.Find((DirectPawnRelation relation) => relation.def == this.relation) != null;
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading,
 					(PawnRelationDef def) => def.LabelCap,

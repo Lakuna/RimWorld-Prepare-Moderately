@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
@@ -29,12 +30,12 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
 
-		public virtual void DoEditInterface(PawnFilterEditListing listing) {
+		public virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			_ = listing.GetPawnFilterPartRect(this, 0);
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight);
 		}
 
 		public virtual string Summary(PawnFilter filter) => this.def.description;

@@ -57,6 +57,7 @@ namespace Lakuna.PrepareModerately.UI {
 			PawnFilterEditListing listing = new PawnFilterEditListing(filter) { ColumnWidth = listingRect.width };
 			listing.Begin(listingRect);
 
+#if V1_0
 			listing.Label("Title".Translate().CapitalizeFirst());
 			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
 
@@ -65,11 +66,21 @@ namespace Lakuna.PrepareModerately.UI {
 
 			listing.Label("Description".Translate().CapitalizeFirst());
 			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+#else
+			_ = listing.Label("Title".Translate().CapitalizeFirst());
+			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
+
+			_ = listing.Label("Summary".Translate().CapitalizeFirst());
+			filter.Summary = listing.TextEntry(filter.Summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+
+			_ = listing.Label("Description".Translate().CapitalizeFirst());
+			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+#endif
 
 			listing.Gap();
 
 			for (int i = 0; i < filter.Parts.Count(); i++) {
-				filter.Parts.ElementAt(i).DoEditInterface(listing);
+				filter.Parts.ElementAt(i).DoEditInterface(listing, out _);
 			}
 
 			listing.End();

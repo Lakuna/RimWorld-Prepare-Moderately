@@ -14,6 +14,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private float editViewHeight;
 
+		private const float EditViewHeightBuffer = 10;
+
 		public LogicGate() : base() => this.innerFilter = new PawnFilter {
 			Name = "Inner filter",
 			Description = "This filter exists inside of a logic gate. It is part of another filter.",
@@ -49,12 +51,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight, out totalAddedListHeight);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
@@ -80,18 +82,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					});
 			}
 
-			Rect listingRect = new Rect(rect.x, addPartRect.yMax, rect.width - 16, this.editViewHeight);
+			Rect listingRect = new Rect(rect.x, addPartRect.yMax, rect.width, this.editViewHeight);
 			PawnFilterEditListing innerListing = new PawnFilterEditListing(this.innerFilter) {
 				ColumnWidth = listingRect.width
 			};
 			innerListing.Begin(listingRect);
 
+			bool flag = this.editViewHeight == 0;
 			for (int i = 0; i < this.innerFilter.Parts.Count(); i++) {
-				this.innerFilter.Parts.ElementAt(i).DoEditInterface(innerListing);
+				this.innerFilter.Parts.ElementAt(i).DoEditInterface(innerListing, out float partAddedListHeight);
+				if (flag) { this.editViewHeight += partAddedListHeight; }
 			}
-
 			innerListing.End();
-			this.editViewHeight = innerListing.CurHeight + 100;
+			if (!flag) { this.editViewHeight = innerListing.CurHeight; }
+			this.editViewHeight += EditViewHeightBuffer;
 		}
 
 		public override string Summary(PawnFilter filter) {
@@ -133,7 +137,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.type, nameof(this.type));
 			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
-			Scribe_Values.Look(ref this.editViewHeight, nameof(this.editViewHeight));
 		}
 	}
 }

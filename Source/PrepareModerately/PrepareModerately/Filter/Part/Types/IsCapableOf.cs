@@ -17,12 +17,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
 					(WorkTags workTag) => workTag.ToString().CapitalizeFirst(),

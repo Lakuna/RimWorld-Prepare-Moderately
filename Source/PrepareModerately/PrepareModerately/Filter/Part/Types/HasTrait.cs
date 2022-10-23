@@ -14,12 +14,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.story.traits.allTraits.Find((Trait trait) => trait.def == this.traitDegreePair.Trait)?.Degree == this.traitDegreePair.Degree;
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
 #if V1_0
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.label.CapitalizeFirst())) {
 #else
@@ -37,9 +37,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "HasTrait".Translate(this.traitDegreePair.TraitDegreeData.label);
 
-		public override void Randomize() {
-			this.traitDegreePair = TraitDegreePair.TraitDegreePairs.ElementAt(Rand.Range(0, TraitDegreePair.TraitDegreePairs.Count() - 1));
-		}
+		public override void Randomize() => this.traitDegreePair = TraitDegreePair.TraitDegreePairs
+			.ElementAt(Rand.Range(0, TraitDegreePair.TraitDegreePairs.Count() - 1));
 
 		public override void ExposeData() {
 			base.ExposeData();

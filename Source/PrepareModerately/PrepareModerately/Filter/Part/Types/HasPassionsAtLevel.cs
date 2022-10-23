@@ -14,12 +14,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.skills.FindAll((SkillRecord skill) => skill.passion == this.passion).Count >= this.count;
 
-		public override void DoEditInterface(PawnFilterEditListing listing) {
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
 
 			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
