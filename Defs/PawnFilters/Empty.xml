@@ -3,7 +3,7 @@
 <Defs>
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Empty">
 		<defName>Empty</defName>
-		<label>Empty</label>
+		<label>empty</label>
 		<filter>
 			<name>Empty</name>
 			<summary>An empty filter. Does not affect pawn generation.</summary>

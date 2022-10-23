@@ -26,9 +26,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight);
 
-			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : this.color.LabelCap)) {
+			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : this.color.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading,
-					(ColorDef def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : def.LabelCap,
+					(ColorDef def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : def.LabelCap,
 					(ColorDef def) => () => this.color = def);
 			}
 		}

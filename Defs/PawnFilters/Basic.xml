@@ -3,7 +3,7 @@
 <Defs>
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Basic">
 		<defName>Basic</defName>
-		<label>Basic</label>
+		<label>basic</label>
 		<filter>
 			<name>Basic</name>
 			<summary>A basic filter. Uses conservative settings to filter out undesirable pawns.</summary>
@@ -178,7 +178,6 @@
 							</li>
 						</parts>
 					</innerFilter>
-					<editViewHeight>1282</editViewHeight>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsAge">
 					<def>IsAge</def>
@@ -207,7 +206,6 @@
 							</li>
 						</parts>
 					</innerFilter>
-					<editViewHeight>240</editViewHeight>
 				</li>
 			</parts>
 		</filter>
