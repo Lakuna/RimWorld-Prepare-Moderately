@@ -2,6 +2,6 @@
 
 <Patch>
 	<Operation Class="PatchOperationRemove">
-		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterPartDef//*[@V1_1="false"]</xpath>
+		<xpath>/Defs/Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef[@V1_1="false"]</xpath>
 	</Operation>
 </Patch>
