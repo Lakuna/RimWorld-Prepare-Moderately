@@ -34,6 +34,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 						if (part.Matches(pawn)) { return false; }
 					}
 					return true;
+				case LogicGateType.Xor:
+					bool flag = false;
+					foreach (PawnFilterPart part in this.innerFilter.Parts) {
+						if (part.Matches(pawn)) {
+							if (flag) { return false; }
+							flag = true;
+						}
+					}
+					return flag;
 				default:
 					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
 					return true;
@@ -109,9 +118,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				case LogicGateType.And:
 					return "AllOf".Translate(output);
 				case LogicGateType.Or:
-					return "OneOf".Translate(output);
+					return "AtLeastOneOf".Translate(output);
 				case LogicGateType.Not:
 					return "NoneOf".Translate(output);
+				case LogicGateType.Xor:
+					return "ExactlyOneOf".Translate(output);
 				default:
 					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
 					return output;

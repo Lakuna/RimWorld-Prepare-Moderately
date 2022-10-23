@@ -18,8 +18,8 @@
 	<HasAnyBodyModification>has any body modification</HasAnyBodyModification>
 	<HasAnyPermanentMedicalConditions>has any permanent medical conditions</HasAnyPermanentMedicalConditions>
 	<HasAnyRelation>has any relation</HasAnyRelation>
-	<HasAPassionForSkill>has a(n) {0} passion for {1}</HasAPassionForSkill>
-	<HasPassions>has {0} {1} passions</HasPassions>
+	<HasAtLeastPassionForSkill>has at least a(n) {0} passion for {1}</HasAtLeastPassionForSkill>
+	<HasAtLeastPassionForAtLeastSkills>has at least a(n) {0} passion at at least {1} skills</HasAtLeastPassionForAtLeastSkills>
 	<IsARelation>is a(n) {0}</IsARelation>
 	<HasLevelInSkill>has level {0} in {1}</HasLevelInSkill>
 	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
@@ -27,15 +27,18 @@
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
 	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
 	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>
-	<IsGender>is {0}</IsGender>
+	<IsGender>is gender {0}</IsGender>
 	<IsSpecies>is a(n) {0}</IsSpecies>
 	<InvalidLogicGateType>invalid logic gate type</InvalidLogicGateType>
 	<NoneOf>none of ({0})</NoneOf>
-	<OneOf>one of ({0})</OneOf>
 	<AllOf>all of ({0})</AllOf>
+	<AtLeastOneOf>at least one of ({0})</AtLeastOneOf>
+	<ExactlyOneOf>exactly one of ({0})</ExactlyOneOf>
 	<NameMatches>name matches "{0}"</NameMatches>
 	<HasChildhood>has childhood {0}</HasChildhood>
 	<HasAdulthood>has adulthood {0}</HasAdulthood>
+	<HasPossession>has possession {0}</HasPossession>
+	<HasFavoriteColor>has favorite color {0}</HasFavoriteColor>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>

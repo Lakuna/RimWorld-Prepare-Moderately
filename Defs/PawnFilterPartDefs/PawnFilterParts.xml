@@ -41,6 +41,12 @@
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasChildhood</filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasFavoriteColor" V1_0="false" V1_1="false" V1_2="false">
+		<defName>HasFavoriteColor</defName>
+		<label>has favorite color</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasFavoriteColor</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPassion">
 		<defName>HasPassion</defName>
 		<label>has passion</label>
@@ -52,6 +58,12 @@
 		<label>has passions at level</label>
 		<category>Normal</category>
 		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPassionsAtLevel</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPossession" V1_0="false" V1_1="false" V1_2="false" V1_3="false">
+		<defName>HasPossession</defName>
+		<label>has possession</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPossession</filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasRelation">
 		<defName>HasRelation</defName>

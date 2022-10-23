@@ -2,6 +2,7 @@
 	public enum LogicGateType {
 		And,
 		Or,
-		Not
+		Not,
+		Xor
 	}
 }

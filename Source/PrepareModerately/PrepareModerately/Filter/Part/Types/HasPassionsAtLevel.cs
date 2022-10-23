@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "HasPassions".Translate(this.count, this.passion.ToString());
+		public override string Summary(PawnFilter filter) => "HasAtLeastPassionForAtLeastSkills".Translate(this.passion.ToString(), this.count);
 
 		public override void Randomize() {
 			this.passion = GetRandomOfEnum(new Passion());
