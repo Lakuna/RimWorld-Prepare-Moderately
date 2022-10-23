@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private float editViewHeight;
 
-		private const float EditViewHeightBuffer = 10;
+		private const float EditViewHeightBuffer = 100;
 
 		public LogicGate() : base() => this.innerFilter = new PawnFilter {
 			Name = "Inner filter",
