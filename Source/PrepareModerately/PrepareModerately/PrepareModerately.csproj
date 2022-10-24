@@ -9,7 +9,7 @@
     <PackageId>Lakuna.PrepareModerately</PackageId>
     <Title>Prepare Moderately</Title>
     <Authors>Travis Martin</Authors>
-    <Description>A RimWorld mod that rerolls pawns until they meet user-defined criteria.</Description>
+    <Description>A RimWorld mod that re-rolls pawns until they meet user-defined criteria.</Description>
     <Copyright>Travis Martin 2022</Copyright>
     <PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2057362949</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
