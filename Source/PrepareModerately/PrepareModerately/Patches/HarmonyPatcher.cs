@@ -7,7 +7,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[StaticConstructorOnStartup]
-	public class HarmonyPatcher {
+	public static class HarmonyPatcher {
 		static HarmonyPatcher() =>
 #if V1_0
 			HarmonyInstance.Create(nameof(PrepareModerately)).PatchAll();
