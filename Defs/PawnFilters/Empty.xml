@@ -6,8 +6,8 @@
 		<label>empty</label>
 		<filter>
 			<name>Empty</name>
-			<summary>An empty filter. Does not affect pawn generation.</summary>
-			<description>This filter does not filter out any pawns, leaving you with the vanilla pawn generation experience.</description>
+			<summary>An empty filter. Does not affect colonist generation.</summary>
+			<description>This filter does not filter out any colonists, leaving you with the vanilla colonist generation experience.</description>
 		</filter>
 	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 </Defs>

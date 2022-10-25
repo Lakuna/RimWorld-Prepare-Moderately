@@ -6,8 +6,8 @@
 		<label>basic</label>
 		<filter>
 			<name>Basic</name>
-			<summary>A basic filter. Uses conservative settings to filter out undesirable pawns.</summary>
-			<description>Filters out pawns with addictions, permanent injuries, or strictly negative traits, and those that are incapable of certain tasks, incapable of self defense, too young, or too old.</description>
+			<summary>A basic filter. Filters out colonists with any undesirable properties.</summary>
+			<description>Filters out colonists with addictions, permanent injuries, or strictly negative traits, and those that are incapable of certain tasks, incapable of self defense, too young, or too old.</description>
 			<parts>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
 					<def>LogicGate</def>

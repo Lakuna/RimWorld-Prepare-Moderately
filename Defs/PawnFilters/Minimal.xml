@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Minimal">
+		<defName>Minimal</defName>
+		<label>minimal</label>
+		<filter>
+			<name>Minimal</name>
+			<summary>A minimal filter. Uses conservative settings to filter out bad starting colonists.</summary>
+			<description>Filters out colonists with addictions or extraordinarily bad traits and those that are incapable of violence or firefighting.</description>
+			<parts>
+				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
+					<def>LogicGate</def>
+					<type>Not</type>
+					<innerFilter>
+						<name>Inner filter</name>
+						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
+						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
+						<parts>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction">
+								<def>HasAnyAddiction</def>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>Pyromaniac</trait>
+								</traitDegreePair>
+							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+								<def>HasTrait</def>
+								<traitDegreePair>
+									<trait>Wimp</trait>
+								</traitDegreePair>
+							</li>
+						</parts>
+					</innerFilter>
+				</li>
+				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
+					<def>IsCapableOf</def>
+					<workTag>Violent</def>
+				</li>
+				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
+					<def>IsCapableOf</def>
+					<workTag>Firefighting</def>
+				</li>
+			</parts>
+		</filter>
+	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
+</Defs>
