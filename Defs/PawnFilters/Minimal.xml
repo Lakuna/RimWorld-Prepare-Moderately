@@ -37,11 +37,11 @@
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
 					<def>IsCapableOf</def>
-					<workTag>Violent</def>
+					<workTag>Violent</workTag>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
 					<def>IsCapableOf</def>
-					<workTag>Firefighting</def>
+					<workTag>Firefighting</workTag>
 				</li>
 			</parts>
 		</filter>

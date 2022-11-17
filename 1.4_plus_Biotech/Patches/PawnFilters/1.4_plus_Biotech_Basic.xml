@@ -3,17 +3,18 @@
 <Patch>
 	<Operation Class="PatchOperationInsert">
 		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/filter/parts/li[def="LogicGate" and type="Not"]/innerFilter/parts/li[last()]</xpath>
+		<order>Append</order>
 		<value>
 			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 				<def>HasTrait</def>
 				<traitDegreePair>
-					<trait>SlowLearner</trait>
+					<trait>Delicate</trait>
 				</traitDegreePair>
 			</li>
 			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 				<def>HasTrait</def>
 				<traitDegreePair>
-					<trait>TorturedArtist</trait>
+					<trait>Recluse</trait>
 				</traitDegreePair>
 			</li>
 		</value>

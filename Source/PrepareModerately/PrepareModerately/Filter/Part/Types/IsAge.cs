@@ -17,7 +17,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
-			Widgets.IntRange(rect, Rand.Int, ref this.range, 14, 120);
+			Widgets.IntRange(rect, Rand.Int, ref this.range, 0, 120);
 		}
 
 		public override string Summary(PawnFilter filter) => "IsBetweenYearsOld".Translate(this.range.min, this.range.max);
