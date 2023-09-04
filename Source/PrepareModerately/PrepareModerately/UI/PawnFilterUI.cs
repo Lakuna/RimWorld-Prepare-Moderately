@@ -1,12 +1,11 @@
 ﻿using Lakuna.PrepareModerately.Filter;
-using Lakuna.PrepareModerately.Filter.Part;
 using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
-	internal class PawnFilterUI {
+	static internal class PawnFilterUI {
 		private static float EditViewHeight;
 
 		private const float ViewRectHorizontalPadding = 16;

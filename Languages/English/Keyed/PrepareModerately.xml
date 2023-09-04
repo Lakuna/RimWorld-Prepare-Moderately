@@ -4,6 +4,7 @@
 	<!-- UI -->
 	<PrepareModerately>Prepare Moderately</PrepareModerately>
 	<FilterSavePath>filter save path</FilterSavePath>
+	<RollSpeedMultiplierNumber>roll speed multiplier ({0})</RollSpeedMultiplierNumber>
 	<ChooseFilter>choose filter</ChooseFilter>
 	<FilterEditor>filter editor</FilterEditor>
 	<FiltersCustom>custom</FiltersCustom>

@@ -1,12 +1,6 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#if !V1_0
-using System.Threading.Tasks;
-#endif
 using UnityEngine;
 using Verse;
 

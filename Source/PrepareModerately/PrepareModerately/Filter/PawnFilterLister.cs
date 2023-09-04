@@ -1,7 +1,6 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using System.Collections.Generic;
 using Verse;
-using Verse.Noise;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public static class PawnFilterLister {

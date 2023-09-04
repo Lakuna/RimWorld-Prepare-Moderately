@@ -66,8 +66,8 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		private static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-			IEnumerable<PawnFilterPart> parts = RandomPartsFromCategory(filter, category, count);
-			for (int i = 0; i < parts.Count(); i++) {
+			List<PawnFilterPart> parts = (List<PawnFilterPart>)RandomPartsFromCategory(filter, category, count);
+			for (int i = 0; i < parts.Count; i++) {
 				filter.AddPart(parts.ElementAt(i));
 			}
 		}
@@ -75,7 +75,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			if (count <= 0) { yield break; }
 
-			IEnumerable<PawnFilterPartDef> allowedParts = from def in AddableParts(filter) where def.category == category select def;
+			List<PawnFilterPartDef> allowedParts = (List<PawnFilterPartDef>)(from def in AddableParts(filter) where def.category == category select def);
 			int yieldCount = 0;
 			int tryCount = 0;
 			while (yieldCount < count && allowedParts.Any()) {

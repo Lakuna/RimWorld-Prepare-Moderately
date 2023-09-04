@@ -7,7 +7,6 @@ using Verse;
 using System.Linq;
 using System.Text;
 using Lakuna.PrepareModerately.Utility;
-using System.Collections.ObjectModel;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {

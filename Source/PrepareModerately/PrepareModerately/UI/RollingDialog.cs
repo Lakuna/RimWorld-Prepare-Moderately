@@ -7,7 +7,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
 	public class RollingDialog : Page {
-		private int iterations;
+		private int iterations; // Will always be off by one (the "vanilla" iteration), but this should cause less confusion for the user.
 
 		private readonly Action rollAction;
 
@@ -23,18 +23,19 @@ namespace Lakuna.PrepareModerately.UI {
 		public override string PageTitle => "Rolling".Translate().CapitalizeFirst();
 
 		public override void DoWindowContents(Rect inRect) {
-			this.iterations++;
-
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(inRect, "RollingNumber".Translate(this.iterations).CapitalizeFirst() + "\n" + "ClickOutsideToStop".Translate().CapitalizeFirst());
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
-			if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) {
-				this.Close();
-				return;
-			}
+			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplier; i++) {
+				if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) {
+					this.Close();
+					return;
+				}
 
-			this.rollAction();
+				this.rollAction();
+				this.iterations++;
+			}
 		}
 
 		public override void PreClose() {

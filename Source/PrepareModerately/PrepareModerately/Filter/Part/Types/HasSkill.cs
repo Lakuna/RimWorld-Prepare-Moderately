@@ -31,7 +31,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			float labelWidthPercentage = 0.2f;
 			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "LevelNumber".Translate(this.level).CapitalizeFirst());
+#if V1_0 || V1_1 || V1_2 || V1_3
 			this.level = (int)Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), this.level, 1, 20);
+#else
+			float level = this.level;
+			Widgets.HorizontalSlider(levelRect.RightPart(1 - labelWidthPercentage), ref level, new FloatRange(1, 20));
+			this.level = (int)level;
+#endif
 		}
 
 		public override string Summary(PawnFilter filter) => "HasLevelInSkill".Translate(this.level, this.skill.label);

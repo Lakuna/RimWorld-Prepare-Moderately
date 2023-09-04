@@ -1,7 +1,6 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
