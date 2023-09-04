@@ -78,7 +78,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					(PawnFilterPartDef def) => delegate {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 						part.Randomize();
-						this.innerFilter.AddPart(part);
+						this.innerFilter.AddPart(part, true);
 					});
 			}
 

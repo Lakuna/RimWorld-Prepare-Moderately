@@ -40,7 +40,13 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public IEnumerable<PawnFilterPart> Parts => this.parts;
 
-		public void AddPart(PawnFilterPart part) => this.parts.Add(part);
+		public void AddPart(PawnFilterPart part, bool prepend = false) {
+			if (prepend) {
+				this.parts.Insert(0, part);
+			} else {
+				this.parts.Add(part);
+			}
+		}
 
 		public void RemovePart(PawnFilterPart part) {
 			if (!this.parts.Contains(part)) { PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part."); }
