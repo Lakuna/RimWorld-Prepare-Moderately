@@ -13,10 +13,16 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public static readonly PawnFilterPartDef HasAnyRelation;
 
+		public static readonly PawnFilterPartDef HasAnyScar;
+
 		public static readonly PawnFilterPartDef HasChildhood;
 
 #if !(V1_0 || V1_1 || V1_2)
 		public static readonly PawnFilterPartDef HasFavoriteColor;
+#endif
+
+#if !V1_0
+		public static readonly PawnFilterPartDef HasMeditationFocus;
 #endif
 
 		public static readonly PawnFilterPartDef HasPassion;
@@ -37,9 +43,9 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public static readonly PawnFilterPartDef IsAge;
 
-		public static readonly PawnFilterPartDef IsCapableOfEverything;
-
 		public static readonly PawnFilterPartDef IsCapableOf;
+
+		public static readonly PawnFilterPartDef IsCapableOfEverything;
 
 		public static readonly PawnFilterPartDef IsGender;
 

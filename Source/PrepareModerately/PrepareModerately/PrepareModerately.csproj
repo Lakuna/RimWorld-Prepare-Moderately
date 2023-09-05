@@ -52,6 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <Compile Include="Filter\Part\Types\HasAnyScar.cs" />
     <Compile Include="PrepareModeratelyMod.cs" />
     <Compile Include="PrepareModeratelySettings.cs" />
 		<Compile Include="Filter\PawnFilter.cs" />

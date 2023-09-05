@@ -44,6 +44,7 @@
 	<HasFavoriteColor>has favorite color {0}</HasFavoriteColor>
 	<UnnamedColor>unnamed color</UnnamedColor>
 	<HasMeditationFocus>has meditation focus ({0})</HasMeditationFocus>
+	<HasAnyScar>has any scar</HasAnyScar>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>
