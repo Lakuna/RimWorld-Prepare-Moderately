@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "IsSpecies".Translate(this.species.label);
 
-		public override void Randomize() => this.species = AllHumanlikeThingDefs.ElementAt(Rand.Range(0, AllHumanlikeThingDefs.Count() - 1));
+		public override void Randomize() => this.species = AllHumanlikeThingDefs.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

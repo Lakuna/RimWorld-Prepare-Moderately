@@ -9,22 +9,6 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class LogicGate : PawnFilterPart {
-		private static readonly Texture2D CollapseTexture;
-
-		private static readonly Texture2D ExpandTexture;
-
-#pragma warning disable CA1810 // Textures must be loaded from the main thread.
-		static LogicGate() {
-#pragma warning restore CA1810
-#if V1_0 || V1_1 || V1_2
-			CollapseTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderUp");
-			ExpandTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderDown");
-#else
-			CollapseTexture = TexButton.ReorderUp;
-			ExpandTexture = TexButton.ReorderDown;
-#endif
-		}
-
 		private const float CollapseWidgetRowMaxWidth = 24;
 
 		private PawnFilter innerFilter;
@@ -88,12 +72,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			WidgetRow collapseWidgetRow = new WidgetRow(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, CollapseWidgetRowMaxWidth, 0);
 			if (this.collapsed) {
-				if (collapseWidgetRow.ButtonIcon(ExpandTexture, "Expand".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				if (collapseWidgetRow.ButtonIcon(Textures.ReorderDown, "Expand".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 					this.collapsed = false;
 					SoundDefOf.Tick_High.PlayOneShotOnCamera();
 				}
 				return;
-			} else if (collapseWidgetRow.ButtonIcon(CollapseTexture, "Collapse".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			} else if (collapseWidgetRow.ButtonIcon(Textures.ReorderUp, "Collapse".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				this.collapsed = true;
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}

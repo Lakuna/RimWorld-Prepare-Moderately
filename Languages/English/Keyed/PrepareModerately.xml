@@ -43,6 +43,7 @@
 	<HasPossession>has possession {0}</HasPossession>
 	<HasFavoriteColor>has favorite color {0}</HasFavoriteColor>
 	<UnnamedColor>unnamed color</UnnamedColor>
+	<HasMeditationFocus>has meditation focus ({0})</HasMeditationFocus>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>

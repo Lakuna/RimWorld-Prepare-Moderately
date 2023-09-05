@@ -7,7 +7,6 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
-	[StaticConstructorOnStartup]
 	public class PawnFilterEditListing : Listing_Standard {
 		private readonly PawnFilter filter;
 
@@ -19,27 +18,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float WidgetRowMaxWidth = 72;
 
-		private static readonly Texture2D DeleteXTexture;
-
-		private static readonly Texture2D ReorderUpTexture;
-
-		private static readonly Texture2D ReorderDownTexture;
-
 		private const float GapSize = 4;
-
-#pragma warning disable CA1810 // Textures must be loaded from the main thread.
-		static PawnFilterEditListing() {
-#pragma warning restore CA1810
-#if V1_0 || V1_1 || V1_2
-			DeleteXTexture = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");
-			ReorderUpTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderUp");
-			ReorderDownTexture = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderDown");
-#else
-			DeleteXTexture = TexButton.DeleteX;
-			ReorderUpTexture = TexButton.ReorderUp;
-			ReorderDownTexture = TexButton.ReorderDown;
-#endif
-		}
 
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) => this.GetPawnFilterPartRect(part, height, out _, out _);
 
@@ -56,17 +35,17 @@ namespace Lakuna.PrepareModerately.UI {
 			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
 			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, WidgetRowMaxWidth, 0);
 
-			if (part.Def.PlayerAddRemovable && widgetRow.ButtonIcon(DeleteXTexture, null, GenUI.SubtleMouseoverColor)) {
+			if (part.Def.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}
 
-			if (this.filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(ReorderUpTexture)) {
+			if (this.filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures.ReorderUp)) {
 				this.filter.Reorder(part, ReorderDirection.Up);
 				SoundDefOf.Tick_High.PlayOneShotOnCamera();
 			}
 
-			if (this.filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(ReorderDownTexture)) {
+			if (this.filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures.ReorderDown)) {
 				this.filter.Reorder(part, ReorderDirection.Down);
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
