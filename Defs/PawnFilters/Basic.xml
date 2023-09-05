@@ -26,6 +26,9 @@
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
 								<def>HasAnyPermanentMedicalCondition</def>
 							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyScar">
+								<def>HasAnyScar</def>
+							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 								<def>HasTrait</def>
 								<traitDegreePair>
