@@ -13,6 +13,8 @@
 	<LevelNumber>level ({0})</LevelNumber>
 	<RollingNumber>rolling ({0})</RollingNumber>
 	<Rolling>rolling</Rolling>
+	<Expand>expand</Expand>
+	<Collapse>collapse</Collapse>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>

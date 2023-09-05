@@ -2,7 +2,6 @@
 using Lakuna.PrepareModerately.Filter.Part;
 using RimWorld;
 using System;
-using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -14,7 +13,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
 
-		private static readonly float LabelHeight = Text.LineHeight;
+		private static readonly float HeaderHeight = Text.LineHeight;
 
 		private static readonly Color PartRectBgColor = new Color(1, 1, 1, 0.08f);
 
@@ -42,17 +41,20 @@ namespace Lakuna.PrepareModerately.UI {
 #endif
 		}
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) => this.GetPawnFilterPartRect(part, height, out _);
+		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) => this.GetPawnFilterPartRect(part, height, out _, out _);
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) {
+		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) => this.GetPawnFilterPartRect(part, height, out totalAddedListHeight, out _);
+
+		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight, out Rect headerRemainderRect) {
 			if (part == null) {
 				throw new ArgumentNullException(nameof(part));
 			}
 
-			float rectHeight = LabelHeight + height;
-			Rect rect = this.GetRect(rectHeight);
+			Rect rect = this.GetRect(HeaderHeight + height);
 			Widgets.DrawBoxSolid(rect, PartRectBgColor);
-			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, WidgetRowMaxWidth, 0);
+			Rect headerRect = new Rect(rect.x, rect.y, rect.width, HeaderHeight);
+			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
+			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, WidgetRowMaxWidth, 0);
 
 			if (part.Def.PlayerAddRemovable && widgetRow.ButtonIcon(DeleteXTexture, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
@@ -69,15 +71,16 @@ namespace Lakuna.PrepareModerately.UI {
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
-			Rect labelRect = new Rect(rect.x + WidgetRowMaxWidth, rect.y, rect.width - WidgetRowMaxWidth, LabelHeight);
-			Text.Anchor = TextAnchor.UpperRight;
-			Widgets.Label(labelRect, part.Label.CapitalizeFirst());
-			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
+			string label = part.Label.CapitalizeFirst();
+			Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height);
+			Widgets.Label(labelRect, label);
+
+			headerRemainderRect = new Rect(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);
 
 			this.Gap(GapSize);
 
-			totalAddedListHeight = rectHeight + GapSize;
-			return new Rect(rect.x, rect.y + labelRect.height, rect.width, rect.height - labelRect.height).Rounded();
+			totalAddedListHeight = rect.height + GapSize;
+			return new Rect(rect.x, rect.y + HeaderHeight, rect.width, rect.height - HeaderHeight).Rounded();
 		}
 	}
 }
