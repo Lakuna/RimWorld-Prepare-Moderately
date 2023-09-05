@@ -17,7 +17,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((Gender[])Enum.GetValues(typeof(Gender)),
 				(Gender gender) => gender.ToString().CapitalizeFirst(),

@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
 					(WorkTags workTag) => workTag.ToString().CapitalizeFirst(),

@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight, out totalAddedListHeight);
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0 || V1_1 || V1_2 || V1_3
 			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood),

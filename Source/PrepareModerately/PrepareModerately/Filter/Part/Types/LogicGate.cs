@@ -80,9 +80,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
-			Rect collapseRect;
 			Rect rect = this.collapsed
-				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out collapseRect)
+				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
 				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
