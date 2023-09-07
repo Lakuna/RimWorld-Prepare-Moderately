@@ -1,6 +1,9 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+using System.Linq;
+#endif
 using UnityEngine;
 using Verse;
 
@@ -10,9 +13,34 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private Passion passion;
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		private static bool PassionIsPossibleWithModifier(Passion passion, PassionMod.PassionModType modifier) => modifier == PassionMod.PassionModType.AddOneLevel
+			? passion != Passion.None
+			: modifier != PassionMod.PassionModType.DropAll || passion == Passion.None;
+#endif
+
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.skills.GetSkill(this.skill).passion == this.passion;
+			: pawn.skills.GetSkill(this.skill).passion == this.passion
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+			|| pawn.genes.GenesListForReading.Any((Gene gene) =>
+				gene.def.passionMod != null
+				&& gene.def.passionMod.skill == this.skill
+				&& !PassionIsPossibleWithModifier(this.passion, gene.def.passionMod.modType))
+#endif
+			;
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		// Override NOT gate functionality to disregard the gene override.
+		public override bool NotMatches(Pawn pawn) => pawn == null
+			? throw new ArgumentNullException(nameof(pawn))
+			: pawn.skills.GetSkill(this.skill).passion != this.passion
+			|| this.passion == Passion.None
+			&& pawn.genes.GenesListForReading.Any((Gene gene) =>
+				gene.def.passionMod != null
+				&& gene.def.passionMod.skill == this.skill
+				&& !PassionIsPossibleWithModifier(Passion.Minor, gene.def.passionMod.modType));
+#endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
