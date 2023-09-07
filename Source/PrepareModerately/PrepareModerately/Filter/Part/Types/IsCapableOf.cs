@@ -10,12 +10,23 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
+			:
 #if V1_0
-			: !pawn.story.WorkTagIsDisabled(this.workTag);
+			!pawn.story.WorkTagIsDisabled(this.workTag)
 #else
-			: !pawn.WorkTagIsDisabled(this.workTag);
+			!pawn.WorkTagIsDisabled(this.workTag)
+#if !(V1_1 || V1_2 || V1_3)
+			|| pawn.genes.DisabledWorkTags.HasFlag(this.workTag)
 #endif
+#endif
+			;
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		// Override NOT gate functionality to disregard the gene override.
+		public override bool NotMatches(Pawn pawn) => pawn == null
+			? throw new ArgumentNullException(nameof(pawn))
+			: pawn.WorkTagIsDisabled(this.workTag);
+#endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {

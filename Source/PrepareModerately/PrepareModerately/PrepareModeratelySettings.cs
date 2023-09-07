@@ -8,12 +8,22 @@ namespace Lakuna.PrepareModerately {
 		private int rollSpeedMultiplier;
 
 		public string FilterSavePath {
-			get => this.filterSavePath;
+			get {
+				if (string.IsNullOrEmpty(this.filterSavePath)) {
+					this.filterSavePath = PawnFilter.DefaultDataPath;
+				}
+				return this.filterSavePath;
+			}
 			set => this.filterSavePath = value;
 		}
 
 		public int RollSpeedMultiplier {
-			get => this.rollSpeedMultiplier;
+			get {
+				if (this.rollSpeedMultiplier < 1) {
+					this.rollSpeedMultiplier = 1;
+				}
+				return this.rollSpeedMultiplier;
+			}
 			set => this.rollSpeedMultiplier = value;
 		}
 

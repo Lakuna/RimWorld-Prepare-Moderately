@@ -41,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					return false;
 				case LogicGateType.Not:
 					foreach (PawnFilterPart part in this.innerFilter.Parts) {
-						if (part.Matches(pawn)) { return false; }
+						if (!part.NotMatches(pawn)) { return false; }
 					}
 					return true;
 				case LogicGateType.Xor:

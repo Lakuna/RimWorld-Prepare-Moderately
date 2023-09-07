@@ -34,5 +34,7 @@ namespace Lakuna.PrepareModerately.Utility {
 				Log.ErrorOnce(e, (int)category);
 			}
 		}
+
+		public static void LogMessage(string message) => Log.Message(message);
 	}
 }

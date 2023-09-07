@@ -57,6 +57,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public virtual bool Matches(Pawn pawn) => true;
 
+		public virtual bool NotMatches(Pawn pawn) => !this.Matches(pawn);
+
 		public virtual IEnumerable<string> ConfigErrors() {
 			if (this.def == null) {
 				yield return (this.GetType().ToString() + " has a null definition.").CapitalizeFirst();
