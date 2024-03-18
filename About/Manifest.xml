@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <Manifest>
 	<identifier>PrepareModerately</identifier>
-	<version>6.3.1.0</version>
+	<version>7.0.0.0</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
@@ -10,6 +10,7 @@
 		<li>Harmony</li>
 	</loadAfter>
 	<showCrossPromotions>true</showCrossPromotions>
-	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
+	<manifestUri>
+		https://raw.githubusercontent.com/Lakuna/RimWorld-Prepare-Moderately/master/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/Lakuna/RimWorld-Prepare-Moderately/releases/latest</downloadUri>
 </Manifest>

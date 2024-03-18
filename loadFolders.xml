@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <loadFolders>
 	<!-- RimWorld v1.0 does not support loadFolders.xml. The following block is for reference. -->
@@ -34,4 +34,13 @@
 		<li IfModActive="Ludeon.RimWorld.Biotech">1.4_plus_Biotech</li>
 		<li>1.4</li>
 	</v1.4>
+
+	<v1.5>
+		<li>/</li>
+		<li>1.1_plus</li>
+		<li>1.3_plus</li>
+		<li>1.4_plus</li>
+		<li IfModActive="Ludeon.RimWorld.Biotech">1.4_plus_Biotech</li>
+		<li>1.5</li>
+	</v1.5>
 </loadFolders>

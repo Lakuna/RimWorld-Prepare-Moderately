@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <Defs>
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Basic">
@@ -7,7 +7,9 @@
 		<filter>
 			<name>Basic</name>
 			<summary>A basic filter. Filters out colonists with any undesirable properties.</summary>
-			<description>Filters out colonists with addictions, permanent injuries, or strictly negative traits, and those that are incapable of certain tasks, incapable of self defense, too young, or too old.</description>
+			<description>Filters out colonists with addictions, permanent injuries, or strictly
+				negative traits, and those that are incapable of certain tasks, incapable of self
+				defense, too young, or too old.</description>
 			<parts>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
 					<def>LogicGate</def>
@@ -15,15 +17,18 @@
 					<innerFilter>
 						<name>Inner filter</name>
 						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
-						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
+						<description>This filter exists inside of a logic gate. It is part of
+							another filter.</description>
 						<parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction">
 								<def>HasAnyAddiction</def>
 							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification">
+							<li
+								Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification">
 								<def>HasAnyBodyModification</def>
 							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
+							<li
+								Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
 								<def>HasAnyPermanentMedicalCondition</def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyScar">
@@ -195,7 +200,8 @@
 					<innerFilter>
 						<name>Inner filter</name>
 						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
-						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
+						<description>This filter exists inside of a logic gate. It is part of
+							another filter.</description>
 						<parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasSkill">
 								<def>HasSkill</def>
