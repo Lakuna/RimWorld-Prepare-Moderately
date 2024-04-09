@@ -15,6 +15,8 @@
 	<Rolling>rolling</Rolling>
 	<Expand>expand</Expand>
 	<Collapse>collapse</Collapse>
+	<Days>days</Days>
+	<Hours>hours</Hours>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>
@@ -28,6 +30,8 @@
 	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
 	<HasTrait>has trait {0}</HasTrait>
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
+	<IsBetweenDaysOld>is between {0} and {1} days old</IsBetweenDaysOld>
+	<IsBetweenHoursOld>is between {0} and {1} hours old</IsBetweenHoursOld>
 	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
 	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>
 	<IsGender>is gender {0}</IsGender>

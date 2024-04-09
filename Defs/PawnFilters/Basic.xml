@@ -185,6 +185,8 @@
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsAge">
 					<def>IsAge</def>
 					<range>20~60</range>
+					<daysRange>0~60</daysRange>
+					<hoursRange>0~24</hoursRange>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOfEverything">
 					<def>IsCapableOfEverything</def>
