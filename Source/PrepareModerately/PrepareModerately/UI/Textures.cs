@@ -17,8 +17,12 @@ namespace Lakuna.PrepareModerately.UI {
 			DeleteX = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");
 			ReorderUp = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderUp");
 			ReorderDown = ContentFinder<Texture2D>.Get("UI/Buttons/ReorderDown");
-#else
+#elif V1_3 || V1_4
 			DeleteX = TexButton.DeleteX;
+			ReorderUp = TexButton.ReorderUp;
+			ReorderDown = TexButton.ReorderDown;
+#else
+			DeleteX = TexButton.Delete;
 			ReorderUp = TexButton.ReorderUp;
 			ReorderDown = TexButton.ReorderDown;
 #endif

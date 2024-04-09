@@ -39,17 +39,6 @@ namespace Lakuna.PrepareModerately.UI {
 		private const float TinyFontCorrectionMargin = 2;
 #endif
 
-		private static readonly Texture2D DeleteXTexture;
-
-#pragma warning disable CA1810 // Textures must be loaded from the main thread.
-		static SelectPawnFilterPage() =>
-#pragma warning restore CA1810
-#if V1_0 || V1_1 || V1_2
-			DeleteXTexture = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");
-#else
-			DeleteXTexture = TexButton.DeleteX;
-#endif
-
 		public override string PageTitle => "ChooseFilter".Translate().CapitalizeFirst();
 
 		public override void PreOpen() {
@@ -170,7 +159,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 			WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
-			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(DeleteXTexture, "Delete".Translate().CapitalizeFirst(),
+			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "Delete".Translate().CapitalizeFirst(),
 				GenUI.SubtleMouseoverColor)) {
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name).CapitalizeFirst(), delegate {
 					filter.File.Delete();

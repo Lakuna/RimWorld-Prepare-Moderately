@@ -1,5 +1,6 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Patches;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		public override void PreClose() {
-			RandomizePatch.ActivelyRolling = false;
+			RandomizePatch.IsActivelyRolling = false;
 			base.PreClose();
 		}
 	}
