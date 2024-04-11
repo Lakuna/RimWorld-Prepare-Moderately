@@ -1,4 +1,5 @@
-﻿using Lakuna.PrepareModerately.UI;
+﻿#if !(V1_0 || V1_1 || V1_2)
+using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
 using UnityEngine;
@@ -6,7 +7,6 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasFavoriteColor : PawnFilterPart {
-#if !(V1_0 || V1_1 || V1_2)
 		private ColorDef color;
 
 		public override bool Matches(Pawn pawn) => pawn == null
@@ -35,6 +35,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.color, nameof(this.color));
 		}
-#endif
 	}
 }
+#endif

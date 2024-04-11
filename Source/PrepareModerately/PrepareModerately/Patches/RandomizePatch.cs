@@ -5,42 +5,39 @@ using HarmonyLib;
 #endif
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.UI;
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-using RimWorld;
-#endif
+using Lakuna.PrepareModerately.Utility;
 using System.Linq;
 using System.Reflection;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "RandomizeCurPawn")]
-#else
-	[HarmonyPatch(typeof(StartingPawnUtility), "RegenerateStartingPawnInPlace")]
-#endif
+	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
 	public static class RandomizePatch {
 		public static bool IsActivelyRolling { get; set; }
 
-		public static Pawn LastRandomizedPawn { get; set; }
+		public static Pawn Result { get; set; }
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-		public static void Postfix(Page_ConfigureStartingPawns __instance, MethodBase __originalMethod, Pawn ___curPawn) {
-			LastRandomizedPawn = ___curPawn;
-			void rollAction() => _ = __originalMethod.Invoke(__instance, null);
-#else
-		public static void Postfix(int index, MethodBase __originalMethod) {
-			LastRandomizedPawn = Find.GameInitData.startingAndOptionalPawns[index];
-			void rollAction() => _ = __originalMethod.Invoke(null, new object[] { index });
-#endif
+		public static void Postfix(Pawn __result, MethodBase __originalMethod) {
 #pragma warning restore CA1707
+			/*
+			 * Prepare Moderately causes pawns to be randomized asynchronously, since it can take a long time and users will
+			 * need visual feedback. As a result, the return value of `Verse.StartingPawnUtility.RandomizeInPlace` will not
+			 * always be accurate when Prepare Moderately is installed - instead, it will represent the first randomized pawn
+			 * (as it would in vanilla). If anything in Prepare Moderately will cause an incompatibility, it will be this.
+			 * 
+			 * If you are a mod developer and you would like to account for this inconsistency, you will need to wait until
+			 * `RandomizePatch.IsActivelyRolling` is `false` and then read the value of `RandomizePatch.Result`.
+			 */
+
+			Result = __result;
 
 			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) { return; }
-			if (PawnFilter.Current.Matches(LastRandomizedPawn)) { return; }
+			if (PawnFilter.Current.Matches(Result)) { return; }
 			if (IsActivelyRolling) { return; }
 
-			Find.WindowStack.Add(new RollingDialog(rollAction));
+			Find.WindowStack.Add(new RollingDialog(delegate { Result = (Pawn)__originalMethod.Invoke(null, new object[] { Result }); }));
 
 			IsActivelyRolling = true;
 		}

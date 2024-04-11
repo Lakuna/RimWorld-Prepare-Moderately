@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Patch>
+	<Operation Class="PatchOperationInsert">
+		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/filter/parts/li[def="LogicGate" and type="Not"]/innerFilter/parts/li[last()]</xpath>
+		<order>Append</order>
+		<value>
+			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
+				<def>HasTrait</def>
+				<traitDegreePair>
+					<trait>Disturbing</trait>
+				</traitDegreePair>
+			</li>
+		</value>
+	</Operation>
+</Patch>

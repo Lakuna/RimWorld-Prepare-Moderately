@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
-[assembly: CLSCompliant(false)]
 namespace Lakuna.PrepareModerately {
 	public class PrepareModeratelyMod : Mod {
 		public static PrepareModeratelySettings Settings { get; private set; }

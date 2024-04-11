@@ -17,21 +17,9 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public static readonly PawnFilterPartDef HasChildhood;
 
-#if !(V1_0 || V1_1 || V1_2)
-		public static readonly PawnFilterPartDef HasFavoriteColor;
-#endif
-
-#if !V1_0
-		public static readonly PawnFilterPartDef HasMeditationFocus;
-#endif
-
 		public static readonly PawnFilterPartDef HasPassion;
 
 		public static readonly PawnFilterPartDef HasPassionsAtLevel;
-
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		public static readonly PawnFilterPartDef HasPossession;
-#endif
 
 		public static readonly PawnFilterPartDef HasRelation;
 
@@ -54,6 +42,18 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef LogicGate;
 
 		public static readonly PawnFilterPartDef NameMatches;
+
+#if !V1_0
+		public static readonly PawnFilterPartDef HasMeditationFocus;
+#endif
+
+#if !(V1_0 || V1_1 || V1_2)
+		public static readonly PawnFilterPartDef HasFavoriteColor;
+#endif
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		public static readonly PawnFilterPartDef HasPossession;
+#endif
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
 	}

@@ -1,10 +1,10 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
 using RimWorld;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using System.Linq;
 
 namespace Lakuna.PrepareModerately.UI {
 	public class PawnFilterEditorPage : Page {

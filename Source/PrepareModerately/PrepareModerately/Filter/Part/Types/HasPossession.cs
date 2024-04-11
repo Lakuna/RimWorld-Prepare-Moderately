@@ -1,4 +1,5 @@
-﻿using Lakuna.PrepareModerately.UI;
+﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
+using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasPossession : PawnFilterPart {
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private ThingDef possession;
 
 		private static List<ThingDefCount> StartingPossessionsOf(Pawn pawn) {
@@ -48,6 +48,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
 		}
-#endif
 	}
 }
+#endif

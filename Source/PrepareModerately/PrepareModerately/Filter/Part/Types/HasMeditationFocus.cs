@@ -1,4 +1,5 @@
-﻿using Lakuna.PrepareModerately.UI;
+﻿#if !V1_0
+using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
 using UnityEngine;
@@ -6,7 +7,6 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasMeditationFocus : PawnFilterPart {
-#if !V1_0
 		private MeditationFocusDef meditationFocus;
 
 		public override bool Matches(Pawn pawn) => pawn == null
@@ -34,6 +34,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
 		}
-#endif
 	}
 }
+#endif

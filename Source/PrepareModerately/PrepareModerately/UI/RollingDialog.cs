@@ -1,6 +1,5 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Patches;
-using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using UnityEngine;
@@ -29,7 +28,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplier; i++) {
-				if (PawnFilter.Current.Matches(RandomizePatch.LastRandomizedPawn)) {
+				if (PawnFilter.Current.Matches(RandomizePatch.Result)) {
 					this.Close();
 					return;
 				}

@@ -1,12 +1,12 @@
 ﻿using Lakuna.PrepareModerately.Filter.Part;
+using Lakuna.PrepareModerately.Utility;
 using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Verse;
 using System.Linq;
 using System.Text;
-using Lakuna.PrepareModerately.Utility;
+using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	public class PawnFilter : IExposable {
