@@ -53,6 +53,7 @@
 
 	<ItemGroup>
 		<Compile Include="Filter\Part\Types\HasAnyScar.cs" />
+		<Compile Include="Patches\PagePatch.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />
 		<Compile Include="PrepareModeratelySettings.cs" />
 		<Compile Include="Filter\PawnFilter.cs" />
