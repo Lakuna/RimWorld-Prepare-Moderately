@@ -23,6 +23,9 @@
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification">
 								<def>HasAnyBodyModification</def>
 							</li>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyMissingBodyPart">
+								<def>HasAnyMissingBodyPart</def>
+							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
 								<def>HasAnyPermanentMedicalCondition</def>
 							</li>

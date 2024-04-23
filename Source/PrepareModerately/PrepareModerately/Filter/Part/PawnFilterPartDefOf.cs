@@ -9,6 +9,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public static readonly PawnFilterPartDef HasAnyBodyModification;
 
+		public static readonly PawnFilterPartDef HasAnyMissingBodyPart;
+
 		public static readonly PawnFilterPartDef HasAnyPermanentMedicalCondition;
 
 		public static readonly PawnFilterPartDef HasAnyRelation;

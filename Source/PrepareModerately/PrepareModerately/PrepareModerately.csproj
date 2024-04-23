@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>PrepareModerately</AssemblyName>
-		<Version>6.5.0.0</Version>
+		<Version>6.5.1.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>
@@ -52,6 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="Filter\Part\Types\HasAnyMissingBodyPart.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyScar.cs" />
 		<Compile Include="Patches\PagePatch.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />

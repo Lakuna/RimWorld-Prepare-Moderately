@@ -48,6 +48,7 @@
 	<UnnamedColor>unnamed color</UnnamedColor>
 	<HasMeditationFocus>has meditation focus ({0})</HasMeditationFocus>
 	<HasAnyScar>has any scar</HasAnyScar>
+	<HasAnyMissingBodyPart>has any missing body part</HasAnyMissingBodyPart>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>
