@@ -66,8 +66,8 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		private static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-			List<PawnFilterPart> parts = (List<PawnFilterPart>)RandomPartsFromCategory(filter, category, count);
-			for (int i = 0; i < parts.Count; i++) {
+			List<PawnFilterPart> parts = RandomPartsFromCategory(filter, category, count).ToList();
+			for (int i = 0; i < parts.Count; i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
 				filter.AddPart(parts.ElementAt(i));
 			}
 		}
@@ -75,7 +75,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			if (count <= 0) { yield break; }
 
-			List<PawnFilterPartDef> allowedParts = (List<PawnFilterPartDef>)(from def in AddableParts(filter) where def.category == category select def);
+			List<PawnFilterPartDef> allowedParts = (from def in AddableParts(filter) where def.category == category select def).ToList();
 			int yieldCount = 0;
 			int tryCount = 0;
 			while (yieldCount < count && allowedParts.Any()) {

@@ -2,7 +2,7 @@
 
 <Manifest>
 	<identifier>PrepareModerately</identifier>
-	<version>6.5.1.0</version>
+	<version>6.5.2.0</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>

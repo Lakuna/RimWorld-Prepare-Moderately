@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private float editViewHeight;
 
-		private const float EditViewHeightBuffer = 100;
+		private const float Padding = 20;
 
 		public LogicGate() : base() {
 			this.innerFilter = new PawnFilter {
@@ -64,24 +64,24 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
+			// Container.
 			Rect rect = this.collapsed
 				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
-				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight, out totalAddedListHeight, out collapseRect);
+				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
+			// Collapse widget.
 			WidgetRow collapseWidgetRow = new WidgetRow(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, CollapseWidgetRowMaxWidth, 0);
-			if (this.collapsed) {
-				if (collapseWidgetRow.ButtonIcon(Textures.ReorderDown, "Expand".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
-					this.collapsed = false;
-					SoundDefOf.Tick_High.PlayOneShotOnCamera();
-				}
-				return;
-			} else if (collapseWidgetRow.ButtonIcon(Textures.ReorderUp, "Collapse".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
-				this.collapsed = true;
+			if (collapseWidgetRow.ButtonIcon(this.collapsed ? Textures.ReorderDown : Textures.ReorderUp, (this.collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				this.collapsed = !this.collapsed;
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
+			// Don't draw the rest of the UI if collapsed.
+			if (this.collapsed) { return; }
+
+			// Type button.
 			Rect typeRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((LogicGateType[])Enum.GetValues(typeof(LogicGateType)),
@@ -89,10 +89,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					(LogicGateType type) => () => this.type = type);
 			}
 
+			// Add part button.
 			Rect addPartRect = new Rect(rect.x, typeRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(addPartRect, "AddPart".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(
-					from part in PawnFilterMaker.AddableParts(this.innerFilter)
+					from part
+					in PawnFilterMaker.AddableParts(this.innerFilter)
 					where part.category != PawnFilterPartCategory.Fixed
 					orderby part.label
 					select part,
@@ -101,23 +103,28 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 						part.Randomize();
 						this.innerFilter.AddPart(part, true);
-					});
+					}
+				);
 			}
 
+			// Part listing.
 			Rect listingRect = new Rect(rect.x, addPartRect.yMax, rect.width, this.editViewHeight);
 			PawnFilterEditListing innerListing = new PawnFilterEditListing(this.innerFilter) {
 				ColumnWidth = listingRect.width
 			};
 			innerListing.Begin(listingRect);
 
-			bool flag = this.editViewHeight == 0;
-			for (int i = 0; i < this.innerFilter.Parts.Count(); i++) {
-				this.innerFilter.Parts.ElementAt(i).DoEditInterface(innerListing, out float partAddedListHeight);
-				if (flag) { this.editViewHeight += partAddedListHeight; }
+			// Fill part listing.
+			float listingHeight = 0;
+			for (int i = 0; i < this.innerFilter.Parts.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
+				PawnFilterPart part = this.innerFilter.Parts.ElementAt(i);
+				part.DoEditInterface(innerListing, out float partAddedListHeight);
+				listingHeight += partAddedListHeight;
 			}
+
+			// End part listing.
 			innerListing.End();
-			if (!flag) { this.editViewHeight = innerListing.CurHeight; }
-			this.editViewHeight += EditViewHeightBuffer;
+			this.editViewHeight = Math.Max(innerListing.CurHeight, listingHeight);
 		}
 
 		public override string Summary(PawnFilter filter) {

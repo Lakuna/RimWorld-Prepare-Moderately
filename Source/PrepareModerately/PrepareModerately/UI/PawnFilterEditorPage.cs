@@ -30,10 +30,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public PawnFilterEditorPage(PawnFilter filter) {
 			this.infoScrollPosition = Vector2.zero;
-			this.seedIsValid = true;
-			if (filter != null) {
+			this.seedIsValid = filter == null;
+			if (!this.seedIsValid) {
 				this.Filter = filter;
-				this.seedIsValid = false;
 			} else {
 				this.RandomizeSeedAndFilter();
 			}
