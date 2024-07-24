@@ -50,7 +50,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.LabelCap)) {
 
-				var sortedPairs = TraitDegreePair.TraitDegreePairs.OrderBy(pair => pair.TraitDegreeData.LabelCap);
+				IOrderedEnumerable<TraitDegreePair> sortedPairs = TraitDegreePair.TraitDegreePairs.OrderBy((TraitDegreePair pair) => pair.TraitDegreeData.LabelCap);
 #endif
 				FloatMenuUtility.MakeMenu(sortedPairs,
 #if V1_0

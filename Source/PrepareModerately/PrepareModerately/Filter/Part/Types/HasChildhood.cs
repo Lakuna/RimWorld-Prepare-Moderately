@@ -40,8 +40,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
 
-				var sortedDefs = DefDatabase<BackstoryDef>.AllDefsListForReading.OrderBy(def => def.title);
-				
+				IOrderedEnumerable<BackstoryDef> sortedDefs = DefDatabase<BackstoryDef>.AllDefsListForReading.OrderBy((BackstoryDef def) => def.title);
+
 				FloatMenuUtility.MakeMenu(sortedDefs.Where((BackstoryDef def) => def.slot == BackstorySlot.Childhood),
 					(BackstoryDef def) => def.title.CapitalizeFirst(),
 					(BackstoryDef def) => () => this.backstory = def);
