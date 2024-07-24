@@ -49,8 +49,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.label.CapitalizeFirst())) {
 #else
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.LabelCap)) {
+
+				var sortedPairs = TraitDegreePair.TraitDegreePairs.OrderBy(pair => pair.TraitDegreeData.LabelCap);
 #endif
-				FloatMenuUtility.MakeMenu(TraitDegreePair.TraitDegreePairs,
+				FloatMenuUtility.MakeMenu(sortedPairs,
 #if V1_0
 					(TraitDegreePair traitDegreePair) => traitDegreePair.TraitDegreeData.label.CapitalizeFirst(),
 #else
