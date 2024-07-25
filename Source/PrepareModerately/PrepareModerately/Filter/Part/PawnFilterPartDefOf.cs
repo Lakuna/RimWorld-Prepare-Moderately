@@ -55,6 +55,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		public static readonly PawnFilterPartDef HasPossession;
+
+		public static readonly PawnFilterPartDef IsPregnant;
 #endif
 
 		static PawnFilterPartDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));
