@@ -33,15 +33,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0 || V1_1 || V1_2 || V1_3
 			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(BackstoryDatabase.allBackstories.Values.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood),
+				IOrderedEnumerable<Backstory> backstories = BackstoryDatabase.allBackstories.Values
+					.Where((Backstory backstory) => backstory.slot == BackstorySlot.Adulthood)
+					.OrderBy((Backstory backstory) => backstory.title);
+
+				FloatMenuUtility.MakeMenu(backstories,
 					(Backstory backstory) => backstory.title.CapitalizeFirst(),
 					(Backstory backstory) => () => this.backstoryIdentifier = backstory.identifier);
 			}
 #else
 			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
-				IOrderedEnumerable<BackstoryDef> sortedDefs = DefDatabase<BackstoryDef>.AllDefsListForReading.OrderBy((BackstoryDef def) => def.title);
+				IOrderedEnumerable<BackstoryDef> backstories = DefDatabase<BackstoryDef>.AllDefsListForReading
+					.Where((BackstoryDef def) => def.slot == BackstorySlot.Adulthood)
+					.OrderBy((BackstoryDef def) => def.title);
 
-				FloatMenuUtility.MakeMenu(sortedDefs.Where((BackstoryDef def) => def.slot == BackstorySlot.Adulthood),
+				FloatMenuUtility.MakeMenu(backstories,
 					(BackstoryDef def) => def.title.CapitalizeFirst(),
 					(BackstoryDef def) => () => this.backstory = def);
 			}

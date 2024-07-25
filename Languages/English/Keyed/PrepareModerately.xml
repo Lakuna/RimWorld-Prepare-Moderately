@@ -34,6 +34,7 @@
 	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
 	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>
 	<IsGender>is gender {0}</IsGender>
+	<IsPregnant>is pregnant</IsPregnant>
 	<IsSpecies>is a(n) {0}</IsSpecies>
 	<InvalidLogicGateType>invalid logic gate type</InvalidLogicGateType>
 	<NoneOf>none of ({0})</NoneOf>

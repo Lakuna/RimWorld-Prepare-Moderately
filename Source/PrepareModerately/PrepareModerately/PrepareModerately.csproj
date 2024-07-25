@@ -52,8 +52,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Filter\Part\Types\HasAnyMissingBodyPart.cs" />
-		<Compile Include="Filter\Part\Types\HasAnyScar.cs" />
 		<Compile Include="Patches\PagePatch.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />
 		<Compile Include="PrepareModeratelySettings.cs" />
@@ -71,8 +69,10 @@
 		<Compile Include="Filter\Part\Types\HasAdulthood.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyAddiction.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyBodyModification.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyMissingBodyPart.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyPermanentMedicalCondition.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyRelation.cs" />
+    <Compile Include="Filter\Part\Types\HasAnyScar.cs" />
 		<Compile Include="Filter\Part\Types\HasChildhood.cs" />
 		<Compile Include="Filter\Part\Types\HasFavoriteColor.cs" />
 		<Compile Include="Filter\Part\Types\HasMeditationFocus.cs" />
@@ -87,6 +87,7 @@
 		<Compile Include="Filter\Part\Types\IsCapableOf.cs" />
 		<Compile Include="Filter\Part\Types\IsCapableOfEverything.cs" />
 		<Compile Include="Filter\Part\Types\IsGender.cs" />
+    <Compile Include="Filter\Part\Types\IsPregnant.cs" />
 		<Compile Include="Filter\Part\Types\IsSpecies.cs" />
 		<Compile Include="Filter\Part\Types\LogicGate.cs" />
 		<Compile Include="Filter\Part\Types\NameMatches.cs" />

@@ -47,19 +47,23 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.label.CapitalizeFirst())) {
-#else
-			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.LabelCap)) {
+				IOrderedEnumerable<TraitDegreePair> traits = TraitDegreePair.TraitDegreePairs
+					.OrderBy((TraitDegreePair pair) => pair.TraitDegreeData.label);
 
-				IOrderedEnumerable<TraitDegreePair> sortedPairs = TraitDegreePair.TraitDegreePairs.OrderBy((TraitDegreePair pair) => pair.TraitDegreeData.LabelCap);
-#endif
-				FloatMenuUtility.MakeMenu(sortedPairs,
-#if V1_0
+				FloatMenuUtility.MakeMenu(traits,
 					(TraitDegreePair traitDegreePair) => traitDegreePair.TraitDegreeData.label.CapitalizeFirst(),
-#else
-					(TraitDegreePair traitDegreePair) => traitDegreePair.TraitDegreeData.LabelCap,
-#endif
 					(TraitDegreePair traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
 			}
+#else
+			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.LabelCap)) {
+				IOrderedEnumerable <TraitDegreePair> traits = TraitDegreePair.TraitDegreePairs
+					.OrderBy((TraitDegreePair pair) => pair.TraitDegreeData.label);
+
+				FloatMenuUtility.MakeMenu(traits,
+					(TraitDegreePair traitDegreePair) => traitDegreePair.TraitDegreeData.LabelCap,
+					(TraitDegreePair traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
+			}
+#endif
 		}
 
 		public override string Summary(PawnFilter filter) => "HasTrait".Translate(this.traitDegreePair.TraitDegreeData.label);
