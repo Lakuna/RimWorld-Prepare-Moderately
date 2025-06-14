@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `RimWorld.ScenarioLister`.
 	public static class PawnFilterLister {
 		private static bool Dirty = true;
 
@@ -70,9 +71,9 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public static int FilterListHash() {
-			int hash = 9081966;
+			int hash = 9826121;
 			foreach (PawnFilter filter in All()) {
-				hash ^= 313 * filter.GetHashCode() * 1228;
+				hash ^= 791 * filter.GetHashCode() * 6121;
 			}
 
 			return hash;

@@ -2,6 +2,7 @@
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `Verse.TexButton`.
 	[StaticConstructorOnStartup]
 	internal static class Textures {
 		internal static readonly Texture2D DeleteX;

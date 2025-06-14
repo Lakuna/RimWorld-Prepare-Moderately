@@ -6,6 +6,7 @@ using System.IO;
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `RimWorld.Dialog_ScenarioList`.
 	public abstract class PawnFilterListDialog : Dialog_FileList {
 		protected override void ReloadFiles() {
 			this.files.Clear();

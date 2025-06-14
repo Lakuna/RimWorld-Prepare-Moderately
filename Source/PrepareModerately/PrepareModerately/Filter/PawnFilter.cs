@@ -9,6 +9,7 @@ using System.Text;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `RimWorld.Scenario`.
 	public class PawnFilter : IExposable {
 		public static PawnFilter Current { get; set; }
 

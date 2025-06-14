@@ -16,6 +16,8 @@
 	<Expand>expand</Expand>
 	<Collapse>collapse</Collapse>
 	<Hours>hours</Hours>
+	<TooManyOfFilterPart>too many of filter part</TooManyOfFilterPart>
+	<IncompatibleFilterPart>incompatible filter part</IncompatibleFilterPart>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>

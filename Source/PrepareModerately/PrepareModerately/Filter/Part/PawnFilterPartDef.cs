@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
+	// Based on `RimWorld.ScenPartDef`.
 	public class PawnFilterPartDef : Def {
 #pragma warning disable CA1051 // Definitions loaded from XML files must use instance fields.
 		public readonly PawnFilterPartCategory category;

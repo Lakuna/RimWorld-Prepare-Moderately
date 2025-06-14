@@ -7,6 +7,7 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `Verse.Listing_ScenEdit`.
 	public class PawnFilterEditListing : Listing_Standard {
 		private readonly PawnFilter filter;
 

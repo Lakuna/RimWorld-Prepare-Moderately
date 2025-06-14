@@ -4,6 +4,7 @@ using System.IO;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `Verse.GameDataSaveLoader`.
 	public static class PawnFilterSaveLoader {
 		private const string SavedFilterParentNodeName = "savedfilter";
 

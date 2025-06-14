@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
+	// Based on `RimWorld.ScenPart`.
 	public abstract class PawnFilterPart : IExposable {
 		[TranslationHandle]
 		private PawnFilterPartDef def;

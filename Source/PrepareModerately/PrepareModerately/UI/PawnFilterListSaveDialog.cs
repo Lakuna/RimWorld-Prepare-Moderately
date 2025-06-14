@@ -5,6 +5,7 @@ using System;
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `RimWorld.Dialog_ScenarioList_Save`.
 	public class PawnFilterListSaveDialog : PawnFilterListDialog {
 		private readonly PawnFilter filter;
 

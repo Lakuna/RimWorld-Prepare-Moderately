@@ -7,6 +7,7 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `RimWorld.Page_ScenarioEditor`.
 	public class PawnFilterEditorPage : Page {
 		public PawnFilter Filter { get; private set; }
 
@@ -58,9 +59,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0, mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
 			if (this.editMode) {
-				PawnFilterUI.DrawEditInterface(filterEditRect, this.Filter, ref this.infoScrollPosition);
+				PawnFilterUi.DrawEditInterface(filterEditRect, this.Filter, ref this.infoScrollPosition);
 			} else {
-				PawnFilterUI.DrawInfo(filterEditRect, this.Filter, ref this.infoScrollPosition);
+				PawnFilterUi.DrawInfo(filterEditRect, this.Filter, ref this.infoScrollPosition);
 			}
 
 #if V1_0 || V1_1 || V1_2
@@ -78,9 +79,7 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void DoConfigControls(Rect inRect) {
-			Listing_Standard listing = new Listing_Standard() {
-				ColumnWidth = ConfigControlsColumnWidth
-			};
+			Listing_Standard listing = new Listing_Standard() { ColumnWidth = ConfigControlsColumnWidth };
 			listing.Begin(inRect);
 
 			if (listing.ButtonText("Load".Translate().CapitalizeFirst())) {
@@ -136,12 +135,12 @@ namespace Lakuna.PrepareModerately.UI {
 					}
 
 					if (num > part.Def.maxUses) {
-						Messages.Message("Too many of filter part.", MessageTypeDefOf.RejectInput, false);
+						Messages.Message("TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 
 					if (part != part2 && !part.CanCoexistWith(part2)) {
-						Messages.Message("Incompatible filter part.", MessageTypeDefOf.RejectInput, false);
+						Messages.Message("IncompatibleFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}

@@ -2,6 +2,7 @@
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `RimWorld.ScenarioDef`.
 	public class PawnFilterDef : Def {
 #pragma warning disable CA1051 // Definitions loaded from XML files must use instance fields.
 		public readonly PawnFilter filter;

@@ -7,6 +7,7 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
+	// Based on `RimWorld.Page_SelectScenario`.
 	[StaticConstructorOnStartup]
 	public class SelectPawnFilterPage : Page {
 		private PawnFilter filter;
@@ -27,16 +28,16 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float ExtraScrollHeight = 250;
 
-		private const float ListingRectHeight = 99999; // Arbitrary large number.
+		private const float ListingRectHeight = 999999; // Arbitrary large number.
 
-		private const float PawnFilterListingEntryHeight = 62;
+		private const float PawnFilterListingEntryHeight = 68;
 
 		private const float PawnFilterListingEntryMargin = 4;
 
 		private static readonly Color MinorTextColor = new Color(1, 1, 1, 0.5f);
 
 #if !(V1_0 || V1_1 || V1_2)
-		private const float TinyFontCorrectionMargin = 2;
+		private const float TinyFontCorrectionMargin = 6;
 #endif
 
 		public override string PageTitle => "ChooseFilter".Translate().CapitalizeFirst();
@@ -61,7 +62,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Rect filterSelectionListRect = new Rect(0, 0, mainRect.width * FilterSelectionListScreenShare, mainRect.height).Rounded();
 			this.DoFilterSelectionList(filterSelectionListRect);
 
-			PawnFilterUI.DrawInfo(
+			PawnFilterUi.DrawInfo(
 				new Rect(filterSelectionListRect.xMax + GapBetweenColumns, 0, mainRect.width - filterSelectionListRect.width - GapBetweenColumns, mainRect.height).Rounded(),
 				this.filter,
 				ref this.infoScrollPosition);
@@ -78,9 +79,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private static bool CanEditFilter(PawnFilter filter) => filter.Category == PawnFilterCategory.CustomLocal;
 
 		private void GoToFilterEditor() {
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
-				prev = this
-			};
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) { prev = this };
 			Find.WindowStack.Add(pawnFilterEditorPage);
 			this.Close();
 		}
@@ -123,7 +122,7 @@ namespace Lakuna.PrepareModerately.UI {
 					}
 
 					PawnFilter filter2 = filter;
-					Rect rect = listing.GetRect(PawnFilterListingEntryHeight);
+					Rect rect = listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin);
 					this.DoFilterListEntry(rect, filter2);
 					flag = true;
 				}

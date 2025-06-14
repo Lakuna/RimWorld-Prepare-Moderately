@@ -1,11 +1,13 @@
 ﻿using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Filter.Part;
 using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {
-	static internal class PawnFilterUI {
+	// Based on `RimWorld.ScenarioUI`.
+	static internal class PawnFilterUi {
 		private static float EditViewHeight;
 
 		private const float ViewRectHorizontalPadding = 16;
@@ -80,8 +82,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 			listing.Gap();
 
-			for (int i = 0; i < filter.Parts.Count(); i++) {
-				filter.Parts.ElementAt(i).DoEditInterface(listing, out _);
+			foreach (PawnFilterPart part in filter.Parts) {
+				part.DoEditInterface(listing, out _);
 			}
 
 			listing.End();

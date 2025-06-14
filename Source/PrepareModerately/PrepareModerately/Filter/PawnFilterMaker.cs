@@ -7,6 +7,7 @@ using System.Linq;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `RimWorld.ScenarioMaker`.
 	public static class PawnFilterMaker {
 		public static PawnFilter Filter { get; private set; }
 

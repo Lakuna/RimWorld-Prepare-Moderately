@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
+	// Based on `RimWorld.ScenPartDefOf`.
 	[DefOf]
 	public static class PawnFilterPartDefOf {
 		public static readonly PawnFilterPartDef HasAdulthood;

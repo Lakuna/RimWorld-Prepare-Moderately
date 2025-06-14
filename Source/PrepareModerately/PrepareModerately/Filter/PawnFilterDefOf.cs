@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 
 namespace Lakuna.PrepareModerately.Filter {
+	// Based on `RimWorld.ScenarioDefOf`.
 	[DefOf]
 	public static class PawnFilterDefOf {
 		public static readonly PawnFilterDef Empty;
