@@ -9,7 +9,7 @@
 	<FilterEditor>filter editor</FilterEditor>
 	<FiltersCustom>custom</FiltersCustom>
 	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
-	<CountNumber>count ({0})</CountNumber>
+	<Count>count</Count>
 	<Level>level</Level>
 	<RollingNumber>rolling ({0})</RollingNumber>
 	<Rolling>rolling</Rolling>
@@ -27,6 +27,9 @@
 	<IsARelation>is a(n) {0}</IsARelation>
 	<IsBetweenLevelsInSkill>is between level {0} and {1} in {2}</IsBetweenLevelsInSkill>
 	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
+	<HasSkillsBetweenLevels>has {0} skills between level {1} and {2}</HasSkillsBetweenLevels>
+	<HasBetweenSkillsAtLevel>has between {0} and {1} skills at level {2}</HasBetweenSkillsAtLevel>
+	<HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between level {2} and {3}</HasBetweenSkillsBetweenLevels>
 	<HasTrait>has trait {0}</HasTrait>
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
 	<IsBetweenDaysOld>is between {0} and {1} days old</IsBetweenDaysOld>
