@@ -10,7 +10,7 @@
 	<FiltersCustom>custom</FiltersCustom>
 	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
 	<CountNumber>count ({0})</CountNumber>
-	<LevelNumber>level ({0})</LevelNumber>
+	<Level>level</Level>
 	<RollingNumber>rolling ({0})</RollingNumber>
 	<Rolling>rolling</Rolling>
 	<Expand>expand</Expand>
@@ -25,7 +25,7 @@
 	<HasAtLeastPassionForSkill>has at least a(n) {0} passion for {1}</HasAtLeastPassionForSkill>
 	<HasAtLeastPassionForAtLeastSkills>has at least a(n) {0} passion at at least {1} skills</HasAtLeastPassionForAtLeastSkills>
 	<IsARelation>is a(n) {0}</IsARelation>
-	<HasLevelInSkill>has level {0} in {1}</HasLevelInSkill>
+	<IsBetweenLevelsInSkill>is between level {0} and {1} in {2}</IsBetweenLevelsInSkill>
 	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
 	<HasTrait>has trait {0}</HasTrait>
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
