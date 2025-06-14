@@ -204,12 +204,12 @@
 						<parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasSkill">
 								<def>HasSkill</def>
-								<level>6</level>
+								<range>6~20</range>
 								<skill>Shooting</skill>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasSkill">
 								<def>HasSkill</def>
-								<level>6</level>
+								<range>6~20</range>
 								<skill>Melee</skill>
 							</li>
 						</parts>
