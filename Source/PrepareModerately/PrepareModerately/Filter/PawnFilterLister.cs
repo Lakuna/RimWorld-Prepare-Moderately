@@ -8,8 +8,13 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) { yield return def.filter; }
-			foreach (PawnFilter filter in PawnFilter.LocalFilters) { yield return filter; }
+			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
+				yield return def.filter;
+			}
+
+			foreach (PawnFilter filter in PawnFilter.LocalFilters) {
+				yield return filter;
+			}
 		}
 
 		public static IEnumerable<PawnFilter> InCategory(PawnFilterCategory category) {
@@ -19,11 +24,13 @@ namespace Lakuna.PrepareModerately.Filter {
 					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
 						yield return def.filter;
 					}
+
 					break;
 				case PawnFilterCategory.CustomLocal:
 					foreach (PawnFilter filter in PawnFilter.LocalFilters) {
 						yield return filter;
 					}
+
 					break;
 			}
 		}
@@ -31,18 +38,26 @@ namespace Lakuna.PrepareModerately.Filter {
 		public static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
 			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
-				if (def.filter == filter) { return true; }
+				if (def.filter == filter) {
+					return true;
+				}
 			}
+
 			foreach (PawnFilter localFilter in PawnFilter.LocalFilters) {
-				if (localFilter == filter) { return true; }
+				if (localFilter == filter) {
+					return true;
+				}
 			}
+
 			return false;
 		}
 
 		public static void MarkDirty() => Dirty = true;
 
 		private static void RecacheIfDirty() {
-			if (Dirty) { Recache(); }
+			if (Dirty) {
+				Recache();
+			}
 		}
 
 		private static void Recache() {
@@ -56,7 +71,10 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public static int FilterListHash() {
 			int hash = 9081966;
-			foreach (PawnFilter filter in All()) { hash ^= 313 * filter.GetHashCode() * 1228; }
+			foreach (PawnFilter filter in All()) {
+				hash ^= 313 * filter.GetHashCode() * 1228;
+			}
+
 			return hash;
 		}
 	}

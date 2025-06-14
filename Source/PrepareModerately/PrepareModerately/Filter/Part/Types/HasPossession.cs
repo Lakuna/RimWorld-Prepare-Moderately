@@ -19,12 +19,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return startingPossessions.TryGetValue(pawn, out List<ThingDefCount> output) ? output : new List<ThingDefCount>();
 		}
 
-		private static readonly IEnumerable<ThingDef> PossiblePossessions = DefDatabase<ThingDef>.AllDefsListForReading
-			.Where((ThingDef def) => def.category == ThingCategory.Item);
+		private static readonly IEnumerable<ThingDef> PossiblePossessions = DefDatabase<ThingDef>.AllDefsListForReading.Where((def) => def.category == ThingCategory.Item);
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: StartingPossessionsOf(pawn).Any((ThingDefCount defCount) => defCount.ThingDef == this.possession);
+			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
@@ -34,9 +33,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
-				FloatMenuUtility.MakeMenu(PossiblePossessions,
-					(ThingDef def) => def.LabelCap,
-					(ThingDef def) => () => this.possession = def);
+				FloatMenuUtility.MakeMenu(PossiblePossessions, (def) => def.LabelCap, (def) => () => this.possession = def);
 			}
 		}
 

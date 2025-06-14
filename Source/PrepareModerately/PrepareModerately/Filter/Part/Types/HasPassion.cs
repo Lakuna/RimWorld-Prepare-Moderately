@@ -20,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.GetSkill(this.skill).passion == this.passion
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-			|| pawn.genes.GenesListForReading.Any((Gene gene) =>
+			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.passionMod != null
 				&& gene.def.passionMod.skill == this.skill
 				&& !PassionIsPossibleWithModifier(this.passion, gene.def.passionMod.modType))
@@ -33,7 +33,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.GetSkill(this.skill).passion != this.passion
 			|| this.passion == Passion.None
-			&& pawn.genes.GenesListForReading.Any((Gene gene) =>
+			&& pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.passionMod != null
 				&& gene.def.passionMod.skill == this.skill
 				&& !PassionIsPossibleWithModifier(Passion.Minor, gene.def.passionMod.modType));
@@ -48,16 +48,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
-					(SkillDef def) => def.LabelCap,
-					(SkillDef def) => () => this.skill = def);
+				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading, (def) => def.LabelCap, (def) => () => this.skill = def);
 			}
 
 			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)),
-					(Passion passion) => passion.ToString().CapitalizeFirst(),
-					(Passion passion) => () => this.passion = passion);
+				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)), (passion) => passion.ToString().CapitalizeFirst(), (passion) => () => this.passion = passion);
 			}
 		}
 

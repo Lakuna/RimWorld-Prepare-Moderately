@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.skills.skills.FindAll((SkillRecord skill) => skill.passion == this.passion).Count >= this.count;
+			: pawn.skills.skills.FindAll((skill) => skill.passion == this.passion).Count >= this.count;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
@@ -34,10 +34,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(
-					(Passion[])Enum.GetValues(typeof(Passion)),
-					(Passion passion) => passion.ToString().CapitalizeFirst(),
-					(Passion passion) => () => this.passion = passion);
+				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)), (passion) => passion.ToString().CapitalizeFirst(), (passion) => () => this.passion = passion);
 			}
 		}
 

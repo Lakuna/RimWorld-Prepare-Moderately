@@ -10,7 +10,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.relations.DirectRelations.Find((DirectPawnRelation relation) => relation.def == this.relation) != null;
+			: pawn.relations.DirectRelations.Find((relation) => relation.def == this.relation) != null;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
@@ -20,8 +20,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading,
-					(PawnRelationDef def) => def.LabelCap,
-					(PawnRelationDef def) => () => this.relation = def);
+					(def) => def.LabelCap,
+					(def) => () => this.relation = def);
 			}
 		}
 

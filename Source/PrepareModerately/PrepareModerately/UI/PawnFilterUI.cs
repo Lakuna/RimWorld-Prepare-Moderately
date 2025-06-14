@@ -22,7 +22,9 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
-			if (filter == null) { return; }
+			if (filter == null) {
+				return;
+			}
 
 			string fullInformationText = filter.FullInformationText;
 

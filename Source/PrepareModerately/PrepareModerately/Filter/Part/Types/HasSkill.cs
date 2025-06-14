@@ -24,8 +24,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
-					(SkillDef def) => def.LabelCap,
-					(SkillDef def) => () => this.skill = def);
+					(def) => def.LabelCap,
+					(def) => () => this.skill = def);
 			}
 
 			float labelWidthPercentage = 0.2f;

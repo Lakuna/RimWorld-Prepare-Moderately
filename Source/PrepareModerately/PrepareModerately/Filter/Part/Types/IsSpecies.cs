@@ -10,7 +10,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<ThingDef> AllHumanlikeThingDefs {
 			get {
 				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading) {
-					if (def.race != null && def.race.Humanlike) { yield return def; }
+					if (def.race != null && def.race.Humanlike) {
+						yield return def;
+					}
 				}
 			}
 		}
@@ -29,8 +31,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
 				FloatMenuUtility.MakeMenu(AllHumanlikeThingDefs,
-					(ThingDef def) => def.LabelCap,
-					(ThingDef def) => () => this.species = def);
+					(def) => def.LabelCap,
+					(def) => () => this.species = def);
 			}
 		}
 

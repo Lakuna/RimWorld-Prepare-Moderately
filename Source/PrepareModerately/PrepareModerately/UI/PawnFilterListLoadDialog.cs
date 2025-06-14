@@ -13,10 +13,11 @@ namespace Lakuna.PrepareModerately.UI {
 
 		protected override void DoFileInteraction(string fileName) {
 			string filePath = PawnFilter.AbsolutePathForName(fileName);
-			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, delegate {
+			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, () => {
 				if (PawnFilterSaveLoader.Load(filePath, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
 					this.filterReturner(filter);
 				}
+
 				this.Close();
 			});
 		}

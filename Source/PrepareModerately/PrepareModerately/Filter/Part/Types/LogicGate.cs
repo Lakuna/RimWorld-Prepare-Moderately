@@ -36,22 +36,32 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					return this.innerFilter.Matches(pawn);
 				case LogicGateType.Or:
 					foreach (PawnFilterPart part in this.innerFilter.Parts) {
-						if (part.Matches(pawn)) { return true; }
+						if (part.Matches(pawn)) {
+							return true;
+						}
 					}
+
 					return false;
 				case LogicGateType.Not:
 					foreach (PawnFilterPart part in this.innerFilter.Parts) {
-						if (!part.NotMatches(pawn)) { return false; }
+						if (!part.NotMatches(pawn)) {
+							return false;
+						}
 					}
+
 					return true;
 				case LogicGateType.Xor:
 					bool flag = false;
 					foreach (PawnFilterPart part in this.innerFilter.Parts) {
 						if (part.Matches(pawn)) {
-							if (flag) { return false; }
+							if (flag) {
+								return false;
+							}
+
 							flag = true;
 						}
 					}
+
 					return flag;
 				default:
 					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
@@ -79,14 +89,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			// Don't draw the rest of the UI if collapsed.
-			if (this.collapsed) { return; }
+			if (this.collapsed) {
+				return;
+			}
 
 			// Type button.
 			Rect typeRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((LogicGateType[])Enum.GetValues(typeof(LogicGateType)),
-					(LogicGateType type) => type.ToString().CapitalizeFirst(),
-					(LogicGateType type) => () => this.type = type);
+					(type) => type.ToString().CapitalizeFirst(),
+					(type) => () => this.type = type);
 			}
 
 			// Add part button.
@@ -98,8 +110,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					where part.category != PawnFilterPartCategory.Fixed
 					orderby part.label
 					select part,
-					(PawnFilterPartDef def) => def.LabelCap,
-					(PawnFilterPartDef def) => delegate {
+					(def) => def.LabelCap,
+					(def) => () => {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 						part.Randomize();
 						this.innerFilter.AddPart(part, true);
@@ -142,7 +154,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				select part) {
 				string summary = part.Summary(this.innerFilter);
 				if (!summary.NullOrEmpty()) {
-					if (output.Length > 0) { output += ", "; }
+					if (output.Length > 0) {
+						output += ", ";
+					}
+
 					output += summary;
 				}
 			}

@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			try {
 				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
-				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, delegate {
+				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, () => {
 					ScribeMetaHeaderUtility.WriteMetaHeader();
 					Scribe_Deep.Look(ref filter, FilterNodeName);
 				});
@@ -41,6 +41,7 @@ namespace Lakuna.PrepareModerately.Filter {
 					Scribe.ForceStop();
 					throw;
 				}
+
 				filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
 				filter.Category = category;
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
@@ -50,6 +51,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				filter = null;
 				Scribe.ForceStop();
 			}
+
 			return filter != null;
 		}
 	}

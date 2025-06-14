@@ -23,11 +23,11 @@ namespace Lakuna.PrepareModerately.UI {
 		protected override void DoFileInteraction(string fileName) {
 			fileName = GenFile.SanitizedFileName(fileName);
 			string absolutePath = PawnFilter.AbsolutePathForName(fileName);
-			LongEventHandler.QueueLongEvent(delegate {
-				PawnFilterSaveLoader.Save(this.filter, absolutePath);
-			}, "SavingLongEvent", false, delegate (Exception e) {
-				PrepareModeratelyLogger.LogException(e, "Failed to save filter.");
-			});
+			LongEventHandler.QueueLongEvent(
+				() => PawnFilterSaveLoader.Save(this.filter, absolutePath),
+				"SavingLongEvent",
+				false,
+				(e) => PrepareModeratelyLogger.LogException(e, "Failed to save filter."));
 			Messages.Message("SavedAs".Translate(fileName).CapitalizeFirst(), MessageTypeDefOf.SilentInput, false);
 			this.Close();
 		}

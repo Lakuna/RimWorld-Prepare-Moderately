@@ -61,9 +61,10 @@ namespace Lakuna.PrepareModerately.UI {
 			Rect filterSelectionListRect = new Rect(0, 0, mainRect.width * FilterSelectionListScreenShare, mainRect.height).Rounded();
 			this.DoFilterSelectionList(filterSelectionListRect);
 
-			PawnFilterUI.DrawInfo(new Rect(filterSelectionListRect.xMax + GapBetweenColumns, 0,
-				mainRect.width - filterSelectionListRect.width - GapBetweenColumns, mainRect.height).Rounded(),
-				this.filter, ref this.infoScrollPosition);
+			PawnFilterUI.DrawInfo(
+				new Rect(filterSelectionListRect.xMax + GapBetweenColumns, 0, mainRect.width - filterSelectionListRect.width - GapBetweenColumns, mainRect.height).Rounded(),
+				this.filter,
+				ref this.infoScrollPosition);
 
 #if V1_0 || V1_1 || V1_2
 			GUI.EndGroup();
@@ -77,9 +78,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private static bool CanEditFilter(PawnFilter filter) => filter.Category == PawnFilterCategory.CustomLocal;
 
 		private void GoToFilterEditor() {
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter)
-				? this.filter
-				: this.filter.CopyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
 				prev = this
 			};
 			Find.WindowStack.Add(pawnFilterEditorPage);
@@ -89,8 +88,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private void DoFilterSelectionList(Rect inRect) {
 			inRect.xMax += PawnFilterSelectionListOverflow;
 
-			Rect scrollViewRect = new Rect(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow,
-				this.totalFilterListHeight + ExtraScrollHeight);
+			Rect scrollViewRect = new Rect(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow, this.totalFilterListHeight + ExtraScrollHeight);
 			Widgets.BeginScrollView(inRect, ref this.filtersScrollPosition, scrollViewRect);
 
 			Rect listingRect = scrollViewRect.AtZero();
@@ -104,7 +102,11 @@ namespace Lakuna.PrepareModerately.UI {
 			listing.Gap();
 
 			Text.Font = GameFont.Small;
+#if V1_0
 			listing.Label("FiltersCustom".Translate().CapitalizeFirst());
+#else
+			_ = listing.Label("FiltersCustom".Translate().CapitalizeFirst());
+#endif
 			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
 
 			listing.End();
@@ -116,16 +118,24 @@ namespace Lakuna.PrepareModerately.UI {
 			bool flag = false;
 			foreach (PawnFilter filter in filters) {
 				if (filter.ShowInUi) {
-					if (flag) { listing.Gap(); }
+					if (flag) {
+						listing.Gap();
+					}
+
 					PawnFilter filter2 = filter;
 					Rect rect = listing.GetRect(PawnFilterListingEntryHeight);
 					this.DoFilterListEntry(rect, filter2);
 					flag = true;
 				}
 			}
+
 			if (!flag) {
 				GUI.color = MinorTextColor;
+#if V1_0
 				listing.Label(("(" + "NoneLower".Translate() + ")").CapitalizeFirst());
+#else
+				_ = listing.Label(("(" + "NoneLower".Translate() + ")").CapitalizeFirst());
+#endif
 				GUI.color = Color.white;
 			}
 		}
@@ -155,13 +165,14 @@ namespace Lakuna.PrepareModerately.UI {
 #endif
 			Widgets.Label(filterSummaryRect, filter.Summary);
 
-			if (!filter.Enabled) { return; }
+			if (!filter.Enabled) {
+				return;
+			}
 
 			WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
-			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "Delete".Translate().CapitalizeFirst(),
-				GenUI.SubtleMouseoverColor)) {
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name).CapitalizeFirst(), delegate {
+			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name).CapitalizeFirst(), () => {
 					filter.File.Delete();
 					PawnFilterLister.MarkDirty();
 				}, true));
@@ -174,8 +185,14 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		protected override bool CanDoNext() {
-			if (!base.CanDoNext()) { return false; }
-			if (this.filter == null) { return false; }
+			if (!base.CanDoNext()) {
+				return false;
+			}
+
+			if (this.filter == null) {
+				return false;
+			}
+
 			BeginFilterConfiguration(this.filter);
 			return true;
 		}

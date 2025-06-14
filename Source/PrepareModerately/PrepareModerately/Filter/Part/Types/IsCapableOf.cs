@@ -36,8 +36,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
-					(WorkTags workTag) => workTag.ToString().CapitalizeFirst(),
-					(WorkTags workTag) => () => this.workTag = workTag);
+					(workTag) => workTag.ToString().CapitalizeFirst(),
+					(workTag) => () => this.workTag = workTag);
 			}
 		}
 

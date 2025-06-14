@@ -20,8 +20,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu((Gender[])Enum.GetValues(typeof(Gender)),
-				(Gender gender) => gender.ToString().CapitalizeFirst(),
-				(Gender gender) => () => this.gender = gender);
+				(gender) => gender.ToString().CapitalizeFirst(),
+				(gender) => () => this.gender = gender);
 			}
 		}
 

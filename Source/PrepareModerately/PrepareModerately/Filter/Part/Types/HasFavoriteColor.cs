@@ -11,7 +11,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
+#if V1_3 || V1_4 || V1_5
 			: pawn.story.favoriteColor == this.color.color;
+#else
+			: pawn.story.favoriteColor == this.color;
+#endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {
@@ -22,8 +26,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : this.color.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading,
-					(ColorDef def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : def.LabelCap,
-					(ColorDef def) => () => this.color = def);
+					(def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : def.LabelCap,
+					(def) => () => this.color = def);
 			}
 		}
 

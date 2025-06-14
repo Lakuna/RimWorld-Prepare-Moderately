@@ -49,7 +49,10 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(PawnFilterPart part) {
-			if (!this.parts.Contains(part)) { PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part."); }
+			if (!this.parts.Contains(part)) {
+				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
+			}
+
 			_ = this.parts.Remove(part);
 		}
 
@@ -67,13 +70,8 @@ namespace Lakuna.PrepareModerately.Filter {
 			set => this.category = value;
 		}
 
-		[NoTranslate]
-		private string fileName;
-
-		public string FileName {
-			get => this.fileName;
-			set => this.fileName = value;
-		}
+		[field: NoTranslate]
+		public string FileName { get; set; }
 
 		public bool Enabled { get; }
 
@@ -100,18 +98,21 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
-				if (this.parts.RemoveAll((PawnFilterPart part) => part == null) != 0) {
+				if (this.parts.RemoveAll((part) => part == null) != 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
-				if (this.parts.RemoveAll((PawnFilterPart part) => part.HasNullDefs()) != 0) {
+				if (this.parts.RemoveAll((part) => part.HasNullDefs()) != 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts had null definitions.");
 				}
 			}
 		}
 
 		public IEnumerable<string> ConfigErrors() {
-			if (this.Name.NullOrEmpty()) { yield return "No title."; }
+			if (this.Name.NullOrEmpty()) {
+				yield return "No title.";
+			}
+
 			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
 			foreach (PawnFilterPart part in this.Parts) {
@@ -139,7 +140,9 @@ namespace Lakuna.PrepareModerately.Filter {
 						where part.Visible
 						select part) {
 						string summary = part.Summary(this).CapitalizeFirst() + ".";
-						if (!summary.NullOrEmpty()) { _ = stringBuilder.AppendLine(summary); }
+						if (!summary.NullOrEmpty()) {
+							_ = stringBuilder.AppendLine(summary);
+						}
 					}
 
 					return stringBuilder.ToString().TrimEndNewlines();
@@ -160,15 +163,18 @@ namespace Lakuna.PrepareModerately.Filter {
 					Description = this.Description,
 					Category = PawnFilterCategory.CustomLocal
 				};
-				copyForEditing.parts.AddRange(this.parts.Select((PawnFilterPart part) => part.CopyForEditing()));
+				copyForEditing.parts.AddRange(this.parts.Select((part) => part.CopyForEditing()));
 				return copyForEditing;
 			}
 		}
 
 		public bool Matches(Pawn pawn) {
 			foreach (PawnFilterPart part in this.Parts) {
-				if (!part.Matches(pawn)) { return false; }
+				if (!part.Matches(pawn)) {
+					return false;
+				}
 			}
+
 			return true;
 		}
 
@@ -177,13 +183,21 @@ namespace Lakuna.PrepareModerately.Filter {
 				throw new ArgumentNullException(nameof(part));
 			}
 
-			if (!part.Def.PlayerAddRemovable) { return false; }
+			if (!part.Def.PlayerAddRemovable) {
+				return false;
+			}
 
 			int index = this.parts.IndexOf(part);
 			switch (dir) {
 				case ReorderDirection.Up:
-					if (index == 0) { return false; }
-					if (index > 0 && !this.parts[index - 1].Def.PlayerAddRemovable) { return false; }
+					if (index == 0) {
+						return false;
+					}
+
+					if (index > 0 && !this.parts[index - 1].Def.PlayerAddRemovable) {
+						return false;
+					}
+
 					return true;
 				case ReorderDirection.Down:
 					return index != this.parts.Count - 1;
@@ -211,9 +225,30 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public override int GetHashCode() {
 			int hash = 5251977;
-			if (this.Name != null) { hash ^= this.Name.GetHashCode(); }
-			if (this.Summary != null) { hash ^= this.Summary.GetHashCode(); }
-			if (this.Description != null) { hash ^= this.Description.GetHashCode(); }
+			if (this.Name != null) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				hash ^= this.Name.GetHashCode();
+#else
+				hash ^= this.Name.GetHashCode(StringComparison.Ordinal);
+#endif
+			}
+
+			if (this.Summary != null) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				hash ^= this.Summary.GetHashCode();
+#else
+				hash ^= this.Summary.GetHashCode(StringComparison.Ordinal);
+#endif
+			}
+
+			if (this.Description != null) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				hash ^= this.Description.GetHashCode();
+#else
+				hash ^= this.Description.GetHashCode(StringComparison.Ordinal);
+#endif
+			}
+
 			return hash;
 		}
 
@@ -236,7 +271,10 @@ namespace Lakuna.PrepareModerately.Filter {
 		public static IEnumerable<FileInfo> AllFiles {
 			get {
 				DirectoryInfo directoryInfo = new DirectoryInfo(DataPath);
-				if (!directoryInfo.Exists) { directoryInfo.Create(); }
+				if (!directoryInfo.Exists) {
+					directoryInfo.Create();
+				}
+
 				return from file in directoryInfo.GetFiles() where file.Extension == FileExtension orderby file.LastWriteTime descending select file;
 			}
 		}

@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private const float ConfigControlsColumnWidth = 200;
 
-		private static readonly float InvalidSeedGap = Text.LineHeight + Text.LineHeight + 2;
+		private static readonly float InvalidSeedGap = Text.LineHeight * 2 + 2;
 
 		public override string PageTitle => "FilterEditor".Translate().CapitalizeFirst();
 
@@ -56,8 +56,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Rect configControlsRect = new Rect(0, 0, mainRect.width * ConfigControlsScreenShare, mainRect.height).Rounded();
 			this.DoConfigControls(configControlsRect);
 
-			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0,
-				mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
+			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0, mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
 			if (this.editMode) {
 				PawnFilterUI.DrawEditInterface(filterEditRect, this.Filter, ref this.infoScrollPosition);
 			} else {
@@ -79,11 +78,13 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void DoConfigControls(Rect inRect) {
-			Listing_Standard listing = new Listing_Standard() { ColumnWidth = ConfigControlsColumnWidth };
+			Listing_Standard listing = new Listing_Standard() {
+				ColumnWidth = ConfigControlsColumnWidth
+			};
 			listing.Begin(inRect);
 
 			if (listing.ButtonText("Load".Translate().CapitalizeFirst())) {
-				Find.WindowStack.Add(new PawnFilterListLoadDialog(delegate (PawnFilter filter) {
+				Find.WindowStack.Add(new PawnFilterListLoadDialog((filter) => {
 					this.Filter = filter;
 					this.seedIsValid = false;
 				}));
@@ -100,7 +101,11 @@ namespace Lakuna.PrepareModerately.UI {
 			}
 
 			if (this.seedIsValid) {
+#if V1_0
 				listing.Label("Seed".Translate().CapitalizeFirst());
+#else
+				_ = listing.Label("Seed".Translate().CapitalizeFirst());
+#endif
 				string text = listing.TextEntry(this.seed);
 				if (text != this.seed) {
 					this.seed = text;
@@ -114,7 +119,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 			if (this.editMode) {
 				this.seedIsValid = false;
-				if (listing.ButtonText("AddPart".Translate().CapitalizeFirst())) { this.OpenAddFilterPartMenu(); }
+				if (listing.ButtonText("AddPart".Translate().CapitalizeFirst())) {
+					this.OpenAddFilterPartMenu();
+				}
 			}
 
 			listing.End();
@@ -124,28 +131,32 @@ namespace Lakuna.PrepareModerately.UI {
 			foreach (PawnFilterPart part in filter.Parts) {
 				int num = 0;
 				foreach (PawnFilterPart part2 in filter.Parts) {
-					if (part2.Def == part.Def) { num++; }
+					if (part2.Def == part.Def) {
+						num++;
+					}
+
 					if (num > part.Def.maxUses) {
 						Messages.Message("Too many of filter part.", MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
+
 					if (part != part2 && !part.CanCoexistWith(part2)) {
 						Messages.Message("Incompatible filter part.", MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}
 			}
+
 			return true;
 		}
 
-		private void OpenAddFilterPartMenu() =>
-			FloatMenuUtility.MakeMenu(
-				from part in PawnFilterMaker.AddableParts(this.Filter)
-				where part.category != PawnFilterPartCategory.Fixed
-				orderby part.label
-				select part,
-				(PawnFilterPartDef def) => def.LabelCap,
-				(PawnFilterPartDef def) => () => this.AddFilterPart(def));
+		private void OpenAddFilterPartMenu() => FloatMenuUtility.MakeMenu(
+			from part in PawnFilterMaker.AddableParts(this.Filter)
+			where part.category != PawnFilterPartCategory.Fixed
+			orderby part.label
+			select part,
+			(def) => def.LabelCap,
+			(def) => () => this.AddFilterPart(def));
 
 		private void AddFilterPart(PawnFilterPartDef def) {
 			PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
@@ -154,9 +165,18 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		protected override bool CanDoNext() {
-			if (!base.CanDoNext()) { return false; }
-			if (this.Filter == null) { return false; }
-			if (!CheckAllPartsCompatible(this.Filter)) { return false; }
+			if (!base.CanDoNext()) {
+				return false;
+			}
+
+			if (this.Filter == null) {
+				return false;
+			}
+
+			if (!CheckAllPartsCompatible(this.Filter)) {
+				return false;
+			}
+
 			SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
 			return true;
 		}

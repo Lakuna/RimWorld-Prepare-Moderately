@@ -12,6 +12,7 @@ namespace Lakuna.PrepareModerately {
 				if (string.IsNullOrEmpty(this.filterSavePath)) {
 					this.filterSavePath = PawnFilter.DefaultDataPath;
 				}
+
 				return this.filterSavePath;
 			}
 			set => this.filterSavePath = value;
@@ -22,6 +23,7 @@ namespace Lakuna.PrepareModerately {
 				if (this.rollSpeedMultiplier < 1) {
 					this.rollSpeedMultiplier = 1;
 				}
+
 				return this.rollSpeedMultiplier;
 			}
 			set => this.rollSpeedMultiplier = value;

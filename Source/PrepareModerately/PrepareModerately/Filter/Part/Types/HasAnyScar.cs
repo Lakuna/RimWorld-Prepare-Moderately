@@ -5,7 +5,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasAnyScar : PawnFilterPart {
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.health.hediffSet.hediffs.Any((Hediff hediff) => hediff.IsPermanent());
+			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.IsPermanent());
 
 		public override string Summary(PawnFilter filter) => "HasAnyScar".Translate();
 	}

@@ -23,11 +23,19 @@ namespace Lakuna.PrepareModerately.Patches {
 			Result = __result;
 			PagePatch.Instance.SelectPawn(Result);
 
-			if (IsActivelyRolling) { return; }
-			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) { return; }
-			if (PawnFilter.Current.Matches(Result)) { return; }
+			if (IsActivelyRolling) {
+				return;
+			}
 
-			Find.WindowStack.Add(new RollingDialog(delegate { _ = __originalMethod.Invoke(null, new object[] { Result }); }));
+			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) {
+				return;
+			}
+
+			if (PawnFilter.Current.Matches(Result)) {
+				return;
+			}
+
+			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, new object[] { Result })));
 
 			IsActivelyRolling = true;
 		}

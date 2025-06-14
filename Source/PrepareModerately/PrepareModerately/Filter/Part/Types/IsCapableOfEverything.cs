@@ -26,13 +26,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 #endif
 
-			return DefDatabase<WorkTypeDef>.AllDefsListForReading.All((WorkTypeDef def) =>
+			return DefDatabase<WorkTypeDef>.AllDefsListForReading.All((def) =>
 #if V1_0
 				!pawn.story.WorkTypeIsDisabled(def)
 #else
 				!pawn.WorkTypeIsDisabled(def)
 #if !(V1_1 || V1_2 || V1_3)
-				|| disabledWorkTags.Any((WorkTags workTags) => def.workTags.HasFlag(workTags))
+				|| disabledWorkTags.Any((workTags) => def.workTags.HasFlag(workTags))
 #endif
 #endif
 				);

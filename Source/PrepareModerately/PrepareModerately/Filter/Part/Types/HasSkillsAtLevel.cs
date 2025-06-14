@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.skills.skills.FindAll((SkillRecord skill) => skill.Level >= this.level).Count >= this.count;
+			: pawn.skills.skills.FindAll((skill) => skill.Level >= this.level).Count >= this.count;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing == null) {

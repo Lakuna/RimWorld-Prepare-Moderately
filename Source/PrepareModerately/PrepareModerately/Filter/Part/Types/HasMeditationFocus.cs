@@ -20,9 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.meditationFocus.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<MeditationFocusDef>.AllDefsListForReading,
-					(MeditationFocusDef def) => def.LabelCap,
-					(MeditationFocusDef def) => () => this.meditationFocus = def);
+				FloatMenuUtility.MakeMenu(DefDatabase<MeditationFocusDef>.AllDefsListForReading, (def) => def.LabelCap, (def) => () => this.meditationFocus = def);
 			}
 		}
 
