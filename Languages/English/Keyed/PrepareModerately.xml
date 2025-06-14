@@ -22,14 +22,16 @@
 	<HasAnyBodyModification>has any body modification</HasAnyBodyModification>
 	<HasAnyPermanentMedicalConditions>has any permanent medical conditions</HasAnyPermanentMedicalConditions>
 	<HasAnyRelation>has any relation</HasAnyRelation>
-	<HasAtLeastPassionForSkill>has at least a(n) {0} passion for {1}</HasAtLeastPassionForSkill>
-	<HasAtLeastPassionForAtLeastSkills>has at least a(n) {0} passion at at least {1} skills</HasAtLeastPassionForAtLeastSkills>
+	<HasPassionForSkill>has a(n) {0} passion for {1}</HasPassionForSkill>
+	<HasPassionForSkills>has a(n) {0} passion for {1} skill(s)</HasPassionForSkills>
+	<HasPassionForBetweenSkills>has a(n) {0} passion for between {1} and {2} skills</HasPassionForBetweenSkills>
 	<IsARelation>is a(n) {0}</IsARelation>
-	<IsBetweenLevelsInSkill>is between level {0} and {1} in {2}</IsBetweenLevelsInSkill>
-	<HasSkillsAtLevel>has {0} skills at level {1}</HasSkillsAtLevel>
-	<HasSkillsBetweenLevels>has {0} skills between level {1} and {2}</HasSkillsBetweenLevels>
+	<IsLevelAtSkill>is level {0} at {1}</IsLevelAtSkill>
+	<IsBetweenLevelsAtSkill>is between levels {0} and {1} at {2}</IsBetweenLevelsAtSkill>
+	<HasSkillsAtLevel>has {0} skill(s) at level {1}</HasSkillsAtLevel>
+	<HasSkillsBetweenLevels>has {0} skill(s) between levels {1} and {2}</HasSkillsBetweenLevels>
 	<HasBetweenSkillsAtLevel>has between {0} and {1} skills at level {2}</HasBetweenSkillsAtLevel>
-	<HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between level {2} and {3}</HasBetweenSkillsBetweenLevels>
+	<HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between levels {2} and {3}</HasBetweenSkillsBetweenLevels>
 	<HasTrait>has trait {0}</HasTrait>
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
 	<IsBetweenDaysOld>is between {0} and {1} days old</IsBetweenDaysOld>

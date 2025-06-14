@@ -39,7 +39,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(levelRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.range, 0, 20);
 		}
 
-		public override string Summary(PawnFilter filter) => "IsBetweenLevelsInSkill".Translate(this.range.min, this.range.max, this.skill.label);
+		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
+			? "IsLevelAtSkill".Translate(this.range.min, this.skill.label)
+			: "IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 
 		public override void Randomize() {
 			this.skill = DefDatabase<SkillDef>.AllDefsListForReading.RandomElement();
