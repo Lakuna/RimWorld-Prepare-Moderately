@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5</Configurations>
+		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5;v1.6</Configurations>
 		<RootNamespace>Lakuna.PrepareModerately</RootNamespace>
 		<IsPublishable>False</IsPublishable>
 		<BaseOutputPath />
@@ -10,7 +10,7 @@
 		<Title>Prepare Moderately</Title>
 		<Authors>Travis Martin</Authors>
 		<Description>A RimWorld mod that re-rolls pawns until they meet user-defined criteria.</Description>
-		<Copyright>Travis Martin 2024</Copyright>
+		<Copyright>Travis Martin 2025</Copyright>
 		<PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2057362949</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Prepare-Moderately.git</RepositoryUrl>
@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>PrepareModerately</AssemblyName>
-		<Version>6.6.0.0</Version>
+		<Version>6.7.0.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>
@@ -52,7 +52,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\PagePatch.cs" />
 		<Compile Include="PrepareModeratelyMod.cs" />
 		<Compile Include="PrepareModeratelySettings.cs" />
 		<Compile Include="Filter\PawnFilter.cs" />
@@ -69,10 +68,10 @@
 		<Compile Include="Filter\Part\Types\HasAdulthood.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyAddiction.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyBodyModification.cs" />
-    <Compile Include="Filter\Part\Types\HasAnyMissingBodyPart.cs" />
+		<Compile Include="Filter\Part\Types\HasAnyMissingBodyPart.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyPermanentMedicalCondition.cs" />
 		<Compile Include="Filter\Part\Types\HasAnyRelation.cs" />
-    <Compile Include="Filter\Part\Types\HasAnyScar.cs" />
+		<Compile Include="Filter\Part\Types\HasAnyScar.cs" />
 		<Compile Include="Filter\Part\Types\HasChildhood.cs" />
 		<Compile Include="Filter\Part\Types\HasFavoriteColor.cs" />
 		<Compile Include="Filter\Part\Types\HasMeditationFocus.cs" />
@@ -87,15 +86,15 @@
 		<Compile Include="Filter\Part\Types\IsCapableOf.cs" />
 		<Compile Include="Filter\Part\Types\IsCapableOfEverything.cs" />
 		<Compile Include="Filter\Part\Types\IsGender.cs" />
-    <Compile Include="Filter\Part\Types\IsPregnant.cs" />
+		<Compile Include="Filter\Part\Types\IsPregnant.cs" />
 		<Compile Include="Filter\Part\Types\IsSpecies.cs" />
 		<Compile Include="Filter\Part\Types\LogicGate.cs" />
 		<Compile Include="Filter\Part\Types\NameMatches.cs" />
 		<Compile Include="Patches\ButtonPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
+		<Compile Include="Patches\PagePatch.cs" />
 		<Compile Include="Patches\RandomizePatch.cs" />
 		<Compile Include="UI\ExceptionDialog.cs" />
-		<Compile Include="UI\Textures.cs" />
 		<Compile Include="UI\PawnFilterEditListing.cs" />
 		<Compile Include="UI\PawnFilterEditorPage.cs" />
 		<Compile Include="UI\PawnFilterListDialog.cs" />
@@ -104,6 +103,7 @@
 		<Compile Include="UI\PawnFilterUI.cs" />
 		<Compile Include="UI\RollingDialog.cs" />
 		<Compile Include="UI\SelectPawnFilterPage.cs" />
+		<Compile Include="UI\Textures.cs" />
 		<Compile Include="Utility\LogicGateType.cs" />
 		<Compile Include="Utility\PrepareModeratelyLogger.cs" />
 		<Compile Include="Utility\PrepareModeratelyLoggerCategory.cs" />
@@ -163,12 +163,22 @@
 		</When>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.5|AnyCPU'">
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4055-beta" />
-				<PackageReference Include="Lib.Harmony" Version="2.3.1.1" />
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4409" />
+				<PackageReference Include="Lib.Harmony" Version="2.3.3" />
 			</ItemGroup>
 			<PropertyGroup>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.5\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.6|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4489-beta" />
+				<PackageReference Include="Lib.Harmony" Version="2.3.6" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.6\Assemblies</OutputPath>
 			</PropertyGroup>
 		</When>
 	</Choose>
