@@ -35,8 +35,11 @@
 	<HasBetweenSkillsAtLevel>has between {0} and {1} skills at level {2}</HasBetweenSkillsAtLevel>
 	<HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between levels {2} and {3}</HasBetweenSkillsBetweenLevels>
 	<HasTrait>has trait {0}</HasTrait>
+	<IsYearsOld>is {0} year(s) old</IsYearsOld>
 	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
+	<IsDaysOld>is {0} day(s) old</IsDaysOld>
 	<IsBetweenDaysOld>is between {0} and {1} days old</IsBetweenDaysOld>
+	<IsHoursOld>is {0} hour(s) old</IsHoursOld>
 	<IsBetweenHoursOld>is between {0} and {1} hours old</IsBetweenHoursOld>
 	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
 	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>

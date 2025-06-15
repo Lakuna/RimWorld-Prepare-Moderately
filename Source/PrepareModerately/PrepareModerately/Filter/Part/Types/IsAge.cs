@@ -69,10 +69,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.max > 0
-			? "IsBetweenYearsOld".Translate(this.range.min, this.range.max)
+			? this.range.min == this.range.max
+				? "IsYearsOld".Translate(this.range.min)
+				: "IsBetweenYearsOld".Translate(this.range.min, this.range.max)
 			: this.daysRange.max > 0
-			? "IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
-			: "IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
+				? this.daysRange.min == this.daysRange.max
+					? "IsDaysOld".Translate(this.daysRange.min)
+					: "IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
+				: this.hoursRange.min == this.hoursRange.max
+					? "IsHoursOld".Translate(this.hoursRange.min)
+					: "IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
 
 		public override void Randomize() {
 			this.range = new IntRange(Rand.Range(14, 30), Rand.Range(30, 100));
