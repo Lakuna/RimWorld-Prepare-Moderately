@@ -2,6 +2,7 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -30,7 +31,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
-				FloatMenuUtility.MakeMenu(AllHumanlikeThingDefs,
+				FloatMenuUtility.MakeMenu(AllHumanlikeThingDefs.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.species = def);
 			}

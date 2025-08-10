@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -35,7 +36,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu((WorkTags[])Enum.GetValues(typeof(WorkTags)),
+				FloatMenuUtility.MakeMenu(((WorkTags[])Enum.GetValues(typeof(WorkTags))).OrderBy((workTag) => workTag.ToString()),
 					(workTag) => workTag.ToString().CapitalizeFirst(),
 					(workTag) => () => this.workTag = workTag);
 			}

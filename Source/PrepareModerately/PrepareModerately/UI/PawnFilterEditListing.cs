@@ -34,7 +34,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.DrawBoxSolid(rect, PartRectBgColor);
 			Rect headerRect = new Rect(rect.x, rect.y, rect.width, HeaderHeight);
 			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
-			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, WidgetRowMaxWidth, 0);
+			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 
 			if (part.Def.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);

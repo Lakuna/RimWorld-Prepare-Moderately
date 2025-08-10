@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasNumberOfTraits">
+		<defName>HasNumberOfTraits</defName>
+		<label>has number of traits</label>
+		<category>Normal</category>
+		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasNumberOfTraits</filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

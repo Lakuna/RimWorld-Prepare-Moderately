@@ -33,7 +33,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
-				FloatMenuUtility.MakeMenu(PossiblePossessions, (def) => def.LabelCap, (def) => () => this.possession = def);
+				FloatMenuUtility.MakeMenu(PossiblePossessions.OrderBy((def) => def.label),
+					(def) => def.LabelCap,
+					(def) => () => this.possession = def);
 			}
 		}
 

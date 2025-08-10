@@ -18,6 +18,7 @@
 	<Hours>hours</Hours>
 	<TooManyOfFilterPart>too many of filter part</TooManyOfFilterPart>
 	<IncompatibleFilterPart>incompatible filter part</IncompatibleFilterPart>
+	<AddSkill>add skill</AddSkill>
 
 	<!-- Filter Part Summaries -->
 	<HasAnyAddiction>has any addiction</HasAnyAddiction>
@@ -60,6 +61,10 @@
 	<HasMeditationFocus>has meditation focus ({0})</HasMeditationFocus>
 	<HasAnyScar>has any scar</HasAnyScar>
 	<HasAnyMissingBodyPart>has any missing body part</HasAnyMissingBodyPart>
+	<HasNumberOfTraits>has {0} trait(s)</HasNumberOfTraits>
+	<HasBetweenNumberOfTraits>has between {0} and {1} traits</HasBetweenNumberOfTraits>
+	<HasSumOfTraits>has sum {0} of traits {1}</HasSumOfTraits>
+	<HasBetweenSumOfTraits>has sum between {0} and {1} of traits {2}</HasBetweenSumOfTraits>
 
 	<!-- Exceptions and Handling -->
 	<UnnamedFilter>unnamed filter</UnnamedFilter>

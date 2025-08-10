@@ -2,6 +2,7 @@
 using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -20,7 +21,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.meditationFocus.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<MeditationFocusDef>.AllDefsListForReading, (def) => def.LabelCap, (def) => () => this.meditationFocus = def);
+				FloatMenuUtility.MakeMenu(DefDatabase<MeditationFocusDef>.AllDefsListForReading.OrderBy((def) => def.label),
+					(def) => def.LabelCap,
+					(def) => () => this.meditationFocus = def);
 			}
 		}
 

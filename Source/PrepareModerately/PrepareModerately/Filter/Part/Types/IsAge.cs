@@ -55,12 +55,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, MinAge, MaxAge);
 
 			float labelWidthPercentage = 0.2f;
-			if (this.range.max <= 0) {
+			if (displayedExtraRanges >= 1) {
 				Rect daysRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 				Widgets.Label(daysRect.LeftPart(labelWidthPercentage).Rounded(), "Days".Translate().CapitalizeFirst());
 				Widgets.IntRange(daysRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.daysRange, 0, 60);
 
-				if (this.daysRange.max <= 0) {
+				if (displayedExtraRanges >= 2) {
 					Rect hoursRect = new Rect(rect.x, daysRect.yMax, rect.width, Text.LineHeight);
 					Widgets.Label(hoursRect.LeftPart(labelWidthPercentage).Rounded(), "Hours".Translate().CapitalizeFirst());
 					Widgets.IntRange(hoursRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.hoursRange, 0, 24);

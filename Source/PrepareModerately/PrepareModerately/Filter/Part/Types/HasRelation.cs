@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -19,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading,
+				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.relation = def);
 			}

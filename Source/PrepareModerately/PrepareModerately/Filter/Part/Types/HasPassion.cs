@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -48,12 +49,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading, (def) => def.LabelCap, (def) => () => this.skill = def);
+				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.OrderBy((def) => def.label),
+					(def) => def.LabelCap,
+					(def) => () => this.skill = def);
 			}
 
 			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)), (passion) => passion.ToString().CapitalizeFirst(), (passion) => () => this.passion = passion);
+				FloatMenuUtility.MakeMenu(((Passion[])Enum.GetValues(typeof(Passion))).OrderBy((passion) => passion.ToString()),
+					(passion) => passion.ToString().CapitalizeFirst(),
+					(passion) => () => this.passion = passion);
 			}
 		}
 

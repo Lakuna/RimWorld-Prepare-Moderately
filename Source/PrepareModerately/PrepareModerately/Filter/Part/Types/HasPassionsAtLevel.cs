@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +15,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			if (pawn == null) {
 				throw new ArgumentNullException(nameof(pawn));
 			}
-			
+
 			int count = pawn.skills.skills.FindAll((skill) => skill.passion == this.passion).Count;
 			return count <= this.range.max && count >= this.range.min;
 		}
@@ -33,7 +34,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu((Passion[])Enum.GetValues(typeof(Passion)), (passion) => passion.ToString().CapitalizeFirst(), (passion) => () => this.passion = passion);
+				FloatMenuUtility.MakeMenu(((Passion[])Enum.GetValues(typeof(Passion))).OrderBy((passion) => passion.ToString()),
+					(passion) => passion.ToString().CapitalizeFirst(),
+					(passion) => () => this.passion = passion);
 			}
 		}
 

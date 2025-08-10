@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -82,7 +83,15 @@ namespace Lakuna.PrepareModerately.UI {
 
 			listing.Gap();
 
+			List<PawnFilterPart> parts = new List<PawnFilterPart>();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			foreach (PawnFilterPart part in filter.Parts) {
+				parts.Add(part);
+			}
+#else
+			filter.Parts.CopyToList(parts);
+#endif
+			foreach (PawnFilterPart part in parts) {
 				part.DoEditInterface(listing, out _);
 			}
 

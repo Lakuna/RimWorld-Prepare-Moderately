@@ -2,6 +2,7 @@
 using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -25,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : this.color.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading,
+				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading.Where((def) => !def.LabelCap.NullOrEmpty()).OrderBy((def) => def.label),
 					(def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : def.LabelCap,
 					(def) => () => this.color = def);
 			}

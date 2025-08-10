@@ -1,6 +1,7 @@
 ﻿using Lakuna.PrepareModerately.UI;
 using RimWorld;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -9,6 +10,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private SkillDef skill;
 
 		private IntRange range;
+
+		[Obsolete("`level` has been superceded by `range`.")]
+		private int level;
 
 		public override bool Matches(Pawn pawn) {
 			if (pawn == null) {
@@ -28,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading,
+				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
@@ -52,6 +56,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
+
+#pragma warning disable CS0618 // `level` has been superceded by `range`.
+			if (Scribe.mode == LoadSaveMode.LoadingVars) {
+				Scribe_Values.Look(ref this.level, nameof(this.level));
+			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.range == default) {
+				this.range.min = this.level;
+				this.range.max = this.level;
+			}
+#pragma warning restore CS0618
 		}
 	}
 }

@@ -96,7 +96,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// Type button.
 			Rect typeRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu((LogicGateType[])Enum.GetValues(typeof(LogicGateType)),
+				FloatMenuUtility.MakeMenu(((LogicGateType[])Enum.GetValues(typeof(LogicGateType))).OrderBy((type) => type.ToString()),
 					(type) => type.ToString().CapitalizeFirst(),
 					(type) => () => this.type = type);
 			}
