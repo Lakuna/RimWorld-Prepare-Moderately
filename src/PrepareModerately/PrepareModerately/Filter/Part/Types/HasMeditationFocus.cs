@@ -1,4 +1,4 @@
-﻿#if !V1_0
+#if !V1_0
 using System;
 using System.Linq;
 

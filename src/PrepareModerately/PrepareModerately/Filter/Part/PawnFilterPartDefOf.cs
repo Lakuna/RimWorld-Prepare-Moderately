@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDefOf`.

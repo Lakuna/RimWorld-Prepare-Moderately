@@ -1,4 +1,4 @@
-﻿#if V1_0
+#if V1_0
 using Harmony;
 #else
 using HarmonyLib;
@@ -8,12 +8,13 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[StaticConstructorOnStartup]
-	public static class HarmonyPatcher {
-		static HarmonyPatcher() =>
+	internal static class HarmonyPatcher {
 #if V1_0
-			HarmonyInstance.Create(nameof(PrepareModerately)).PatchAll();
+		internal static readonly HarmonyInstance Instance = HarmonyInstance.Create(nameof(PrepareModerately));
 #else
-			new Harmony(nameof(PrepareModerately)).PatchAll();
+		internal static readonly Harmony Instance = new Harmony(nameof(PrepareModerately));
 #endif
+
+		static HarmonyPatcher() => Instance.PatchAll();
 	}
 }

@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDefOf`.

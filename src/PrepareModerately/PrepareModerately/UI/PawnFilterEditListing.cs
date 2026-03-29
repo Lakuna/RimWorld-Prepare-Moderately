@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;

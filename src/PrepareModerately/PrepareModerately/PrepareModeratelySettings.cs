@@ -1,4 +1,4 @@
-﻿using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Filter;
 
 using Verse;
 

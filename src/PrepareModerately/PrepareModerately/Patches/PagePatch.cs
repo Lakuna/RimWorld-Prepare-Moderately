@@ -1,4 +1,4 @@
-﻿#if V1_0
+#if V1_0
 using Harmony;
 #else
 using HarmonyLib;

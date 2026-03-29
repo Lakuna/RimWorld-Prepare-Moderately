@@ -1,4 +1,4 @@
-﻿namespace Lakuna.PrepareModerately.Utility {
+namespace Lakuna.PrepareModerately.Utility {
 	public enum LogicGateType {
 		And,
 		Or,

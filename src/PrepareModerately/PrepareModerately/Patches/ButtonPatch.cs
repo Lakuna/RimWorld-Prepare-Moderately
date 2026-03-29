@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 #if V1_0
 using Harmony;
