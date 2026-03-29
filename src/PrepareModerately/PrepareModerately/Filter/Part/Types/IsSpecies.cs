@@ -41,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsSpecies".Translate(this.species.label);
 
-		public override void Randomize() => this.species = LegalThings.RandomElement();
+		public override void Randomize() => this.species = ThingDefOf.Human; // Other things wouldn't be legal for vanilla RimWorld.
 
 		public override void ExposeData() {
 			base.ExposeData();
