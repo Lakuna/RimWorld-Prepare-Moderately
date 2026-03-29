@@ -33,7 +33,6 @@
 	<PM.EditMode>edit mode</PM.EditMode>
 	<PM.AddPart>add part</PM.AddPart>
 	<PM.Days>days</PM.Days>
-	<PM.Hours>hours</PM.Hours>
 
 	<!-- Filter Part Summaries -->
 	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>
