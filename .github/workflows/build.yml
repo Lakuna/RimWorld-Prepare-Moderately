@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+  push:
+
+jobs:
+  build:
+    name: Build
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+      - name: .NET Build
+        run: dotnet build -c v${{ matrix.configuration }}
+        working-directory: src/PrepareModerately
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.configuration }}
+          path: ${{ matrix.configuration }}
+    strategy:
+      matrix:
+        configuration: ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6"]
+  
+  combine:
+    name: Combine
+    needs: build
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: .
+      - name: Remove Extraneous Files
+        run: |
+          rm -rf .git
+          rm -rf .github
+          rm -f 1.2/Assemblies/0Harmony.dll
+          rm -f 1.3/Assemblies/0Harmony.dll
+          rm -f 1.4/Assemblies/0Harmony.dll
+          rm -f 1.5/Assemblies/0Harmony.dll
+          rm -f 1.6/Assemblies/0Harmony.dll
+          rm -rf src
+          rm -f .gitignore
+          rm -f README.md
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Prepare-Moderately
+          path: .
