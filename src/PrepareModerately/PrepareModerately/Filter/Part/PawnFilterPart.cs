@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
 
@@ -46,12 +47,6 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public virtual IEnumerable<string> GetSummaryListEntries(string tag) {
 			yield break;
-		}
-
-		// Helper method for Randomize().
-		public static T GetRandomOfEnum<T>(T t) where T : Enum {
-			Array values = Enum.GetValues(t.GetType());
-			return (T)values.GetValue(Rand.Range(0, values.Length - 1));
 		}
 
 		public virtual void Randomize() {

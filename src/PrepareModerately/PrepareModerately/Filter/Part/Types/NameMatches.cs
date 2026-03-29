@@ -52,7 +52,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				"Skye"
 			};
 
-			this.regex = (string)names.GetValue(Rand.Range(0, names.Length - 1));
+			this.regex = names.RandomElement();
 		}
 
 		public override void ExposeData() {

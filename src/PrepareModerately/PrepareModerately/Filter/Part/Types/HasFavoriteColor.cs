@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		private static string ColorToHex(Color color) =>
-			$"#{color.r:X2}{color.g:X2}{color.b:X2}";
+			$"#{(int)color.r:X2}{(int)color.g:X2}{(int)color.b:X2}";
 
 		public override string Summary(PawnFilter filter) => "PM.HasFavoriteColor".Translate(this.color.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(this.color.color)) : this.color.LabelCap);
 

@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsGender".Translate(this.gender.ToString());
 
-		public override void Randomize() => this.gender = GetRandomOfEnum(new Gender());
+		public override void Randomize() => this.gender = Enum.GetValues(typeof(Gender)).OfType<Gender>().RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

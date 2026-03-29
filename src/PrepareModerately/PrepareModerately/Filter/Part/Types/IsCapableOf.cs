@@ -48,7 +48,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsCapableOfWorkTag".Translate(this.workTag.ToString());
 
-		public override void Randomize() => this.workTag = GetRandomOfEnum(new WorkTags());
+		public override void Randomize() => this.workTag = Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>().RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

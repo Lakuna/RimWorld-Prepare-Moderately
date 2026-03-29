@@ -49,7 +49,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
 
 		public override void Randomize() {
-			this.passion = GetRandomOfEnum(new Passion());
+			this.passion = Enum.GetValues(typeof(Passion)).OfType<Passion>().RandomElement();
 			this.range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
 		}
 

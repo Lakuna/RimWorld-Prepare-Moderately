@@ -69,7 +69,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) => "PM.HasPassionForSkill".Translate(this.passion.ToString(), this.skill.ToString());
 
 		public override void Randomize() {
-			this.passion = GetRandomOfEnum(new Passion());
+			this.passion = Enum.GetValues(typeof(Passion)).OfType<Passion>().RandomElement();
 			this.skill = DefDatabase<SkillDef>.AllDefsListForReading.RandomElement();
 		}
 
