@@ -13,9 +13,9 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasChildhood : PawnFilterPart {
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static IEnumerable<Backstory> LegalBackstories => BackstoryDatabase.allBackstories.Values.Where((backstory) => backstory.slot == BackstorySlot.Adulthood);
+		private static IEnumerable<Backstory> LegalBackstories => BackstoryDatabase.allBackstories.Values.Where((backstory) => backstory.slot == BackstorySlot.Childhood);
 #else
-		private static IEnumerable<BackstoryDef> LegalBackstories => DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Adulthood);
+		private static IEnumerable<BackstoryDef> LegalBackstories => DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Childhood);
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3
