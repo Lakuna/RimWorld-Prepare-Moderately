@@ -12,7 +12,13 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsSpecies : PawnFilterPart {
-		private static IEnumerable<ThingDef> LegalThings => DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null);
+		private static IEnumerable<ThingDef> LegalThings => DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null && !def.IsCorpse);
+
+#if V1_0
+		private static string GetUniqueLabelFor(ThingDef def) => LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})" : def.LabelCap;
+#else
+		private static TaggedString GetUniqueLabelFor(ThingDef def) => LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})") : def.LabelCap;
+#endif
 
 		private ThingDef species;
 
@@ -26,9 +32,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
+			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this.species))) {
 				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
-					(def) => def.LabelCap,
+					(def) => GetUniqueLabelFor(def),
 					(def) => () => this.species = def);
 			}
 		}
