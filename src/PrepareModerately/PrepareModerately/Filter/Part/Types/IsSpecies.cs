@@ -15,9 +15,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<ThingDef> LegalThings => DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null && !def.IsCorpse);
 
 #if V1_0
-		private static string GetUniqueLabelFor(ThingDef def) => LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})" : def.LabelCap;
+		private static string GetUniqueLabelFor(ThingDef def) =>
+			def.LabelCap.NullOrEmpty() ? def.defName
+			: LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
+			: def.LabelCap;
 #else
-		private static TaggedString GetUniqueLabelFor(ThingDef def) => LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})") : def.LabelCap;
+		private static TaggedString GetUniqueLabelFor(ThingDef def) =>
+			def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
+			: LegalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
+			: def.LabelCap;
 #endif
 
 		private ThingDef species;

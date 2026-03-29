@@ -80,6 +80,7 @@
 	<PM.HasBetweenNumberOfTraits>has between {0} and {1} traits</PM.HasBetweenNumberOfTraits>
 	<PM.HasSumOfSkills>has sum {0} of skills {1}</PM.HasSumOfSkills>
 	<PM.HasBetweenSumOfSkills>has sum between {0} and {1} of skills {2}</PM.HasBetweenSumOfSkills>
+	<PM.IsKind>is a(n) {0}</PM.IsKind>
 
 	<!-- Exceptions and Handling -->
 	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
