@@ -8,6 +8,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff is Hediff_MissingPart);
 
-		public override string Summary(PawnFilter filter) => "HasAnyMissingBodyPart".Translate();
+		public override string Summary(PawnFilter filter) => "PM.HasAnyMissingBodyPart".Translate();
 	}
 }

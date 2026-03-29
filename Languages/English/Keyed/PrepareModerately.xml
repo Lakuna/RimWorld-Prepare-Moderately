@@ -2,72 +2,88 @@
 
 <LanguageData>
 	<!-- UI -->
-	<PrepareModerately>Prepare Moderately</PrepareModerately>
-	<FilterSavePath>filter save path</FilterSavePath>
-	<RollSpeedMultiplierNumber>roll speed multiplier ({0})</RollSpeedMultiplierNumber>
-	<ChooseFilter>choose filter</ChooseFilter>
-	<FilterEditor>filter editor</FilterEditor>
-	<FiltersCustom>custom</FiltersCustom>
-	<ClickOutsideToStop>click outside to stop</ClickOutsideToStop>
-	<Count>count</Count>
-	<Level>level</Level>
-	<RollingNumber>rolling ({0})</RollingNumber>
-	<Rolling>rolling</Rolling>
-	<Expand>expand</Expand>
-	<Collapse>collapse</Collapse>
-	<Hours>hours</Hours>
-	<TooManyOfFilterPart>too many of filter part</TooManyOfFilterPart>
-	<IncompatibleFilterPart>incompatible filter part</IncompatibleFilterPart>
-	<AddSkill>add skill</AddSkill>
+	<PM.PrepareModerately>Prepare Moderately</PM.PrepareModerately>
+	<PM.FilterSavePath>filter save path</PM.FilterSavePath>
+	<PM.RollSpeedMultiplierNumber>roll speed multiplier ({0})</PM.RollSpeedMultiplierNumber>
+	<PM.ChooseFilter>choose filter</PM.ChooseFilter>
+	<PM.FilterEditor>filter editor</PM.FilterEditor>
+	<PM.FiltersCustom>custom</PM.FiltersCustom>
+	<PM.ClickOutsideToStop>click outside to stop</PM.ClickOutsideToStop>
+	<PM.Count>count</PM.Count>
+	<PM.Level>level</PM.Level>
+	<PM.RollingNumber>rolling ({0})</PM.RollingNumber>
+	<PM.Rolling>rolling</PM.Rolling>
+	<PM.Expand>expand</PM.Expand>
+	<PM.Collapse>collapse</PM.Collapse>
+	<PM.Hours>hours</PM.Hours>
+	<PM.TooManyOfFilterPart>too many of filter part</PM.TooManyOfFilterPart>
+	<PM.IncompatibleFilterPart>incompatible filter part</PM.IncompatibleFilterPart>
+	<PM.AddSkill>add skill</PM.AddSkill>
+	<PM.Delete>delete</PM.Delete>
+	<PM.ReallyDeleteFile>really delete {0}?</PM.ReallyDeleteFile>
+	<PM.Title>title</PM.Title>
+	<PM.Summary>summary</PM.Summary>
+	<PM.Description>description</PM.Description>
+	<PM.Overwrite>overwrite</PM.Overwrite>
+	<PM.SavedAsFile>saved as {0}</PM.SavedAsFile>
+	<PM.Load>load</PM.Load>
+	<PM.Save>save</PM.Save>
+	<PM.Seed>seed</PM.Seed>
+	<PM.RandomizeSeed>randomize seed</PM.RandomizeSeed>
+	<PM.EditMode>edit mode</PM.EditMode>
+	<PM.AddPart>add part</PM.AddPart>
+	<PM.Days>days</PM.Days>
+	<PM.Hours>hours</PM.Hours>
 
 	<!-- Filter Part Summaries -->
-	<HasAnyAddiction>has any addiction</HasAnyAddiction>
-	<HasAnyBodyModification>has any body modification</HasAnyBodyModification>
-	<HasAnyPermanentMedicalConditions>has any permanent medical conditions</HasAnyPermanentMedicalConditions>
-	<HasAnyRelation>has any relation</HasAnyRelation>
-	<HasPassionForSkill>has a(n) {0} passion for {1}</HasPassionForSkill>
-	<HasPassionForSkills>has a(n) {0} passion for {1} skill(s)</HasPassionForSkills>
-	<HasPassionForBetweenSkills>has a(n) {0} passion for between {1} and {2} skills</HasPassionForBetweenSkills>
-	<IsARelation>is a(n) {0}</IsARelation>
-	<IsLevelAtSkill>is level {0} at {1}</IsLevelAtSkill>
-	<IsBetweenLevelsAtSkill>is between levels {0} and {1} at {2}</IsBetweenLevelsAtSkill>
-	<HasSkillsAtLevel>has {0} skill(s) at level {1}</HasSkillsAtLevel>
-	<HasSkillsBetweenLevels>has {0} skill(s) between levels {1} and {2}</HasSkillsBetweenLevels>
-	<HasBetweenSkillsAtLevel>has between {0} and {1} skills at level {2}</HasBetweenSkillsAtLevel>
-	<HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between levels {2} and {3}</HasBetweenSkillsBetweenLevels>
-	<HasTrait>has trait {0}</HasTrait>
-	<IsYearsOld>is {0} year(s) old</IsYearsOld>
-	<IsBetweenYearsOld>is between {0} and {1} years old</IsBetweenYearsOld>
-	<IsDaysOld>is {0} day(s) old</IsDaysOld>
-	<IsBetweenDaysOld>is between {0} and {1} days old</IsBetweenDaysOld>
-	<IsHoursOld>is {0} hour(s) old</IsHoursOld>
-	<IsBetweenHoursOld>is between {0} and {1} hours old</IsBetweenHoursOld>
-	<IsCapableOfEverything>is capable of everything</IsCapableOfEverything>
-	<IsCapableOfWorkTag>is capable of {0}</IsCapableOfWorkTag>
-	<IsGender>is gender {0}</IsGender>
-	<IsPregnant>is pregnant</IsPregnant>
-	<IsSpecies>is a(n) {0}</IsSpecies>
-	<InvalidLogicGateType>invalid logic gate type</InvalidLogicGateType>
-	<NoneOf>none of ({0})</NoneOf>
-	<AllOf>all of ({0})</AllOf>
-	<AtLeastOneOf>at least one of ({0})</AtLeastOneOf>
-	<ExactlyOneOf>exactly one of ({0})</ExactlyOneOf>
-	<NameMatches>name matches "{0}"</NameMatches>
-	<HasChildhood>has childhood {0}</HasChildhood>
-	<HasAdulthood>has adulthood {0}</HasAdulthood>
-	<HasPossession>has possession {0}</HasPossession>
-	<HasFavoriteColor>has favorite color {0}</HasFavoriteColor>
-	<UnnamedColor>unnamed color</UnnamedColor>
-	<HasMeditationFocus>has meditation focus ({0})</HasMeditationFocus>
-	<HasAnyScar>has any scar</HasAnyScar>
-	<HasAnyMissingBodyPart>has any missing body part</HasAnyMissingBodyPart>
-	<HasNumberOfTraits>has {0} trait(s)</HasNumberOfTraits>
-	<HasBetweenNumberOfTraits>has between {0} and {1} traits</HasBetweenNumberOfTraits>
-	<HasSumOfTraits>has sum {0} of traits {1}</HasSumOfTraits>
-	<HasBetweenSumOfTraits>has sum between {0} and {1} of traits {2}</HasBetweenSumOfTraits>
+	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>
+	<PM.HasAnyBodyModification>has any body modification</PM.HasAnyBodyModification>
+	<PM.HasAnyPermanentMedicalConditions>has any permanent medical conditions</PM.HasAnyPermanentMedicalConditions>
+	<PM.HasAnyRelation>has any relation</PM.HasAnyRelation>
+	<PM.HasPassionForSkill>has a(n) {0} passion for {1}</PM.HasPassionForSkill>
+	<PM.HasPassionForSkills>has a(n) {0} passion for {1} skill(s)</PM.HasPassionForSkills>
+	<PM.HasPassionForBetweenSkills>has a(n) {0} passion for between {1} and {2} skills</PM.HasPassionForBetweenSkills>
+	<PM.IsARelation>is a(n) {0}</PM.IsARelation>
+	<PM.IsLevelAtSkill>is level {0} at {1}</PM.IsLevelAtSkill>
+	<PM.IsBetweenLevelsAtSkill>is between levels {0} and {1} at {2}</PM.IsBetweenLevelsAtSkill>
+	<PM.HasSkillsAtLevel>has {0} skill(s) at level {1}</PM.HasSkillsAtLevel>
+	<PM.HasSkillsBetweenLevels>has {0} skill(s) between levels {1} and {2}</PM.HasSkillsBetweenLevels>
+	<PM.HasBetweenSkillsAtLevel>has between {0} and {1} skills at level {2}</PM.HasBetweenSkillsAtLevel>
+	<PM.HasBetweenSkillsBetweenLevels>has between {0} and {1} skills between levels {2} and {3}</PM.HasBetweenSkillsBetweenLevels>
+	<PM.HasTrait>has trait {0}</PM.HasTrait>
+	<PM.IsYearsOld>is {0} year(s) old</PM.IsYearsOld>
+	<PM.IsBetweenYearsOld>is between {0} and {1} years old</PM.IsBetweenYearsOld>
+	<PM.IsDaysOld>is {0} day(s) old</PM.IsDaysOld>
+	<PM.IsBetweenDaysOld>is between {0} and {1} days old</PM.IsBetweenDaysOld>
+	<PM.IsHoursOld>is {0} hour(s) old</PM.IsHoursOld>
+	<PM.IsBetweenHoursOld>is between {0} and {1} hours old</PM.IsBetweenHoursOld>
+	<PM.IsCapableOfEverything>is capable of everything</PM.IsCapableOfEverything>
+	<PM.IsCapableOfWorkTag>is capable of {0}</PM.IsCapableOfWorkTag>
+	<PM.IsGender>is gender {0}</PM.IsGender>
+	<PM.IsPregnant>is pregnant</PM.IsPregnant>
+	<PM.IsSpecies>is a(n) {0}</PM.IsSpecies>
+	<PM.InvalidLogicGateType>invalid logic gate type</PM.InvalidLogicGateType>
+	<PM.NoneOf>none of ({0})</PM.NoneOf>
+	<PM.AllOf>all of ({0})</PM.AllOf>
+	<PM.AtLeastOneOf>at least one of ({0})</PM.AtLeastOneOf>
+	<PM.ExactlyOneOf>exactly one of ({0})</PM.ExactlyOneOf>
+	<PM.NameMatches>name matches "{0}"</PM.NameMatches>
+	<PM.HasChildhood>has childhood {0}</PM.HasChildhood>
+	<PM.HasAdulthood>has adulthood {0}</PM.HasAdulthood>
+	<PM.HasPossession>has possession {0}</PM.HasPossession>
+	<PM.HasFavoriteColor>has favorite color {0}</PM.HasFavoriteColor>
+	<PM.UnnamedColor>unnamed color</PM.UnnamedColor>
+	<PM.UnnamedColorHex>unnamed color ({0})</PM.UnnamedColorHex>
+	<PM.HasMeditationFocus>has meditation focus ({0})</PM.HasMeditationFocus>
+	<PM.HasAnyScar>has any scar</PM.HasAnyScar>
+	<PM.HasAnyMissingBodyPart>has any missing body part</PM.HasAnyMissingBodyPart>
+	<PM.HasNumberOfTraits>has {0} trait(s)</PM.HasNumberOfTraits>
+	<PM.HasBetweenNumberOfTraits>has between {0} and {1} traits</PM.HasBetweenNumberOfTraits>
+	<PM.HasSumOfTraits>has sum {0} of traits {1}</PM.HasSumOfTraits>
+	<PM.HasBetweenSumOfTraits>has sum between {0} and {1} of traits {2}</PM.HasBetweenSumOfTraits>
 
 	<!-- Exceptions and Handling -->
-	<UnnamedFilter>unnamed filter</UnnamedFilter>
-	<FailedToGetFullInformationText>failed to get full information text</FailedToGetFullInformationText>
-	<PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PrepareModeratelyEncounteredAnException>
+	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
+	<PM.FailedToGetFullInformationText>failed to get full information text</PM.FailedToGetFullInformationText>
+	<PM.PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PM.PrepareModeratelyEncounteredAnException>
 </LanguageData>

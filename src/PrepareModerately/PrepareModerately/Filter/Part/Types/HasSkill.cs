@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private IntRange range;
 
-		[Obsolete("`level` has been superceded by `range`.")]
+		[Obsolete("`level` has been superseded by `range`.")]
 		private int level;
 
 		public override bool Matches(Pawn pawn) {
@@ -43,13 +43,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			float labelWidthPercentage = 0.2f;
 			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate().CapitalizeFirst());
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
 			Widgets.IntRange(levelRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.range, 0, 20);
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "IsLevelAtSkill".Translate(this.range.min, this.skill.label)
-			: "IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
+			? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
+			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 
 		public override void Randomize() {
 			this.skill = DefDatabase<SkillDef>.AllDefsListForReading.RandomElement();
@@ -61,7 +61,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
 
-#pragma warning disable CS0618 // `level` has been superceded by `range`.
+#pragma warning disable CS0618 // `level` has been superseded by `range`.
 			if (Scribe.mode == LoadSaveMode.LoadingVars) {
 				Scribe_Values.Look(ref this.level, nameof(this.level));
 			}

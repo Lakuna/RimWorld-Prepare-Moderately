@@ -43,7 +43,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "HasPossession".Translate(this.possession.label);
+		public override string Summary(PawnFilter filter) => "PM.HasPossession".Translate(this.possession.label);
 
 		public override void Randomize() => this.possession = PossiblePossessions.RandomElement();
 

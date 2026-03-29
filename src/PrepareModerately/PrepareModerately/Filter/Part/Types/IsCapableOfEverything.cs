@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			List<WorkTags> disabledWorkTags = new List<WorkTags>();
-			foreach (WorkTags workTags in Enum.GetValues(typeof(WorkTags))) {
+			foreach (WorkTags workTags in Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>().ToArray()) {
 				if (workTags == WorkTags.None) {
 					continue;
 				}
@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				);
 		}
 
-		public override string Summary(PawnFilter filter) => "IsCapableOfEverything".Translate();
+		public override string Summary(PawnFilter filter) => "PM.IsCapableOfEverything".Translate();
 
 		public override bool CanCoexistWith(PawnFilterPart other) => other == null
 			? throw new ArgumentNullException(nameof(other))

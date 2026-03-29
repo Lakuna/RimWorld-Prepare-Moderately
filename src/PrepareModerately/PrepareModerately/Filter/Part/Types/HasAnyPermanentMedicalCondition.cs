@@ -12,6 +12,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.IsPermanent() || hediff.def.chronic);
 #endif
 
-		public override string Summary(PawnFilter filter) => "HasAnyPermanentMedicalConditions".Translate();
+		public override string Summary(PawnFilter filter) => "PM.HasAnyPermanentMedicalConditions".Translate();
 	}
 }

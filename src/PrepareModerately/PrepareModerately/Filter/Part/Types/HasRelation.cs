@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "IsARelation".Translate(this.relation.label);
+		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(this.relation.label);
 
 		public override void Randomize() => this.relation = DefDatabase<PawnRelationDef>.AllDefsListForReading.RandomElement();
 

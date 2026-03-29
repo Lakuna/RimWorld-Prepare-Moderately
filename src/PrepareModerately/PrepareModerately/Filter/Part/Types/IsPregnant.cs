@@ -11,7 +11,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.def == HediffDefOf.PregnantHuman);
 
-		public override string Summary(PawnFilter filter) => "IsPregnant".Translate();
+		public override string Summary(PawnFilter filter) => "PM.IsPregnant".Translate();
 	}
 }
 #endif

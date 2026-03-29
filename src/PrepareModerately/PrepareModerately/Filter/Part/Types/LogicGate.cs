@@ -107,7 +107,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Add part button.
 			Rect addPartRect = new Rect(rect.x, typeRect.yMax, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(addPartRect, "AddPart".Translate().CapitalizeFirst())) {
+			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(
 					from part
 					in PawnFilterMaker.AddableParts(this.innerFilter)
@@ -168,13 +168,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			switch (this.type) {
 				case LogicGateType.And:
-					return "AllOf".Translate(output);
+					return "PM.AllOf".Translate(output);
 				case LogicGateType.Or:
-					return "AtLeastOneOf".Translate(output);
+					return "PM.AtLeastOneOf".Translate(output);
 				case LogicGateType.Not:
-					return "NoneOf".Translate(output);
+					return "PM.NoneOf".Translate(output);
 				case LogicGateType.Xor:
-					return "ExactlyOneOf".Translate(output);
+					return "PM.ExactlyOneOf".Translate(output);
 				default:
 					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
 					return output;

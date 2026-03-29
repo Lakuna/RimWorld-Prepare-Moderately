@@ -44,7 +44,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private const float TinyFontCorrectionMargin = 6;
 #endif
 
-		public override string PageTitle => "ChooseFilter".Translate().CapitalizeFirst();
+		public override string PageTitle => "PM.ChooseFilter".Translate().CapitalizeFirst();
 
 		public override void PreOpen() {
 			base.PreOpen();
@@ -77,7 +77,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.EndGroup();
 #endif
 
-			this.DoBottomButtons(inRect, null, "FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
+			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
 		}
 
 		private static bool CanEditFilter(PawnFilter filter) => filter.Category == PawnFilterCategory.CustomLocal;
@@ -106,9 +106,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 			Text.Font = GameFont.Small;
 #if V1_0
-			listing.Label("FiltersCustom".Translate().CapitalizeFirst());
+			listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
 #else
-			_ = listing.Label("FiltersCustom".Translate().CapitalizeFirst());
+			_ = listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
 #endif
 			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
 
@@ -174,8 +174,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 			WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
-			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(filter.File.Name).CapitalizeFirst(), () => {
+			if (filter.Category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter.File.Name).CapitalizeFirst(), () => {
 					filter.File.Delete();
 					PawnFilterLister.MarkDirty();
 				}, true));

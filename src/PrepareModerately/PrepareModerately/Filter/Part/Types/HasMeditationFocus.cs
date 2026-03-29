@@ -31,7 +31,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "HasMeditationFocus".Translate(this.meditationFocus.label);
+		public override string Summary(PawnFilter filter) => "PM.HasMeditationFocus".Translate(this.meditationFocus.label);
 
 		public override void Randomize() => this.meditationFocus = DefDatabase<MeditationFocusDef>.AllDefsListForReading.RandomElement();
 

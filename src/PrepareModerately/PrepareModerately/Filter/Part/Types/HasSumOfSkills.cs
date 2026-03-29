@@ -42,7 +42,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, SkillRecord.MinLevel * this.skills.Count, SkillRecord.MaxLevel * this.skills.Count);
 
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			if (Widgets.ButtonText(addSkillRect, "AddSkill".Translate().CapitalizeFirst())) {
+			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.Where((def) => !this.skills.Contains(def)).OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skills.Add(def));
@@ -69,8 +69,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "HasSumOfTraits".Translate(this.range.min, this.skills.OrderBy((def) => def.label).ToString())
-			: "HasBetweenSumOfTraits".Translate(this.range.min, this.range.max, this.skills.OrderBy((def) => def.label).ToString());
+			? "PM.HasSumOfTraits".Translate(this.range.min, this.skills.OrderBy((def) => def.label).ToString())
+			: "PM.HasBetweenSumOfTraits".Translate(this.range.min, this.range.max, this.skills.OrderBy((def) => def.label).ToString());
 
 		public override void Randomize() {
 			int skillCount = Rand.Range(2, 5);

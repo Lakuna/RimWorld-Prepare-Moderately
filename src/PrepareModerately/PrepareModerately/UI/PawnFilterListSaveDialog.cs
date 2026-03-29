@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.UI {
 				throw new ArgumentNullException(nameof(filter));
 			}
 
-			this.interactButLabel = "OverwriteButton".Translate().CapitalizeFirst();
+			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst();
 			this.typingName = filter.Name;
 			this.filter = filter;
 		}
@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.UI {
 				"SavingLongEvent",
 				false,
 				(e) => PrepareModeratelyLogger.LogException(e, "Failed to save filter."));
-			Messages.Message("SavedAs".Translate(fileName).CapitalizeFirst(), MessageTypeDefOf.SilentInput, false);
+			Messages.Message("PM.SavedAsFile".Translate(fileName).CapitalizeFirst().EndWithPeriod(), MessageTypeDefOf.SilentInput, false);
 			this.Close();
 		}
 	}

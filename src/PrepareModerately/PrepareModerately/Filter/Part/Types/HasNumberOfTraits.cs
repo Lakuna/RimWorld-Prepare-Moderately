@@ -37,8 +37,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "HasNumberOfTraits".Translate(this.range.min)
-			: "HasBetweenNumberOfTraits".Translate(this.range.min, this.range.max);
+			? "PM.HasNumberOfTraits".Translate(this.range.min)
+			: "PM.HasBetweenNumberOfTraits".Translate(this.range.min, this.range.max);
 
 		public override void Randomize() => this.range = new IntRange(Rand.Range(1, 2), Rand.Range(2, 4));
 

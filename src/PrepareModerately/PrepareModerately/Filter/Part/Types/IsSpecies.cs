@@ -41,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "IsSpecies".Translate(this.species.label);
+		public override string Summary(PawnFilter filter) => "PM.IsSpecies".Translate(this.species.label);
 
 		public override void Randomize() => this.species = AllHumanlikeThingDefs.RandomElement();
 

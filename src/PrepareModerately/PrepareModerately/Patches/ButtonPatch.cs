@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Patches {
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
 #pragma warning restore CA1707
-			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - ButtonSize.x / 2, rect.y - ButtonY, ButtonSize.x, ButtonSize.y), "PrepareModerately".Translate().CapitalizeFirst())) {
+			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - ButtonSize.x / 2, rect.y - ButtonY, ButtonSize.x, ButtonSize.y), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
 				try {
 					SelectPawnFilterPage page = new SelectPawnFilterPage {
 						// prev = __instance, // Disable "Back" button to prevent people from accidentally not setting filters.

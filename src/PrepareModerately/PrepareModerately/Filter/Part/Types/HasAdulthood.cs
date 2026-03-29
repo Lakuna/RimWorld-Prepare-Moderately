@@ -56,9 +56,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			"HasAdulthood".Translate(this.Backstory.title);
+			"PM.HasAdulthood".Translate(this.Backstory.title);
 #else
-			"HasAdulthood".Translate(this.backstory.title);
+			"PM.HasAdulthood".Translate(this.backstory.title);
 #endif
 
 		public override void Randomize() =>

@@ -60,12 +60,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			float labelWidthPercentage = 0.2f;
 			if (displayedExtraRanges >= 1) {
 				Rect daysRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-				Widgets.Label(daysRect.LeftPart(labelWidthPercentage).Rounded(), "Days".Translate().CapitalizeFirst());
+				Widgets.Label(daysRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Days".Translate().CapitalizeFirst());
 				Widgets.IntRange(daysRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.daysRange, 0, 60);
 
 				if (displayedExtraRanges >= 2) {
 					Rect hoursRect = new Rect(rect.x, daysRect.yMax, rect.width, Text.LineHeight);
-					Widgets.Label(hoursRect.LeftPart(labelWidthPercentage).Rounded(), "Hours".Translate().CapitalizeFirst());
+					Widgets.Label(hoursRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Hours".Translate().CapitalizeFirst());
 					Widgets.IntRange(hoursRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.hoursRange, 0, 24);
 				}
 			}
@@ -73,15 +73,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => this.range.max > 0
 			? this.range.min == this.range.max
-				? "IsYearsOld".Translate(this.range.min)
-				: "IsBetweenYearsOld".Translate(this.range.min, this.range.max)
+				? "PM.IsYearsOld".Translate(this.range.min)
+				: "PM.IsBetweenYearsOld".Translate(this.range.min, this.range.max)
 			: this.daysRange.max > 0
 				? this.daysRange.min == this.daysRange.max
-					? "IsDaysOld".Translate(this.daysRange.min)
-					: "IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
+					? "PM.IsDaysOld".Translate(this.daysRange.min)
+					: "PM.IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
 				: this.hoursRange.min == this.hoursRange.max
-					? "IsHoursOld".Translate(this.hoursRange.min)
-					: "IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
+					? "PM.IsHoursOld".Translate(this.hoursRange.min)
+					: "PM.IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
 
 		public override void Randomize() {
 			this.range = new IntRange(Rand.Range(14, 30), Rand.Range(30, 100));

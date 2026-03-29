@@ -29,14 +29,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
-			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : this.color.LabelCap)) {
+			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(this.color.color)).CapitalizeFirst() : this.color.LabelCap)) {
 				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading.Where((def) => !def.LabelCap.NullOrEmpty()).OrderBy((def) => def.label),
-					(def) => def.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate().CapitalizeFirst() : def.LabelCap,
+					(def) => def.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).CapitalizeFirst() : def.LabelCap,
 					(def) => () => this.color = def);
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "HasFavoriteColor".Translate(this.color.LabelCap.NullOrEmpty() ? "UnnamedColor".Translate() : this.color.LabelCap);
+		private static string ColorToHex(Color color) =>
+			$"#{color.r:X2}{color.g:X2}{color.b:X2}";
+
+		public override string Summary(PawnFilter filter) => "PM.HasFavoriteColor".Translate(this.color.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(this.color.color)) : this.color.LabelCap);
 
 		public override void Randomize() => this.color = DefDatabase<ColorDef>.AllDefsListForReading.RandomElement();
 

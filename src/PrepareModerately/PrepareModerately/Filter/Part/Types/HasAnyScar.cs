@@ -8,6 +8,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.IsPermanent());
 
-		public override string Summary(PawnFilter filter) => "HasAnyScar".Translate();
+		public override string Summary(PawnFilter filter) => "PM.HasAnyScar".Translate();
 	}
 }

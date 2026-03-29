@@ -162,7 +162,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				} catch (Exception e) {
 #pragma warning restore CA1031
 					PrepareModeratelyLogger.LogException(e, "Failed to get full information text.", PrepareModeratelyLoggerCategory.GetFullInformationText);
-					return "FailedToGetFullInformationText".Translate().CapitalizeFirst() + ".";
+					return "PM.FailedToGetFullInformationText".Translate().CapitalizeFirst().EndWithPeriod();
 				}
 			}
 		}
@@ -233,7 +233,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public override string ToString() => this.Name.NullOrEmpty() ? "UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.Name;
+		public override string ToString() => this.Name.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.Name;
 
 		public override int GetHashCode() {
 			int hash = 5251977;

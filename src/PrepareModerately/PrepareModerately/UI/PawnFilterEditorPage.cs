@@ -33,7 +33,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private static readonly float InvalidSeedGap = Text.LineHeight * 2 + 2;
 
-		public override string PageTitle => "FilterEditor".Translate().CapitalizeFirst();
+		public override string PageTitle => "PM.FilterEditor".Translate().CapitalizeFirst();
 
 		public PawnFilterEditorPage(PawnFilter filter) {
 			this.infoScrollPosition = Vector2.zero;
@@ -88,18 +88,18 @@ namespace Lakuna.PrepareModerately.UI {
 			Listing_Standard listing = new Listing_Standard() { ColumnWidth = ConfigControlsColumnWidth };
 			listing.Begin(inRect);
 
-			if (listing.ButtonText("Load".Translate().CapitalizeFirst())) {
+			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst())) {
 				Find.WindowStack.Add(new PawnFilterListLoadDialog((filter) => {
 					this.Filter = filter;
 					this.seedIsValid = false;
 				}));
 			}
 
-			if (listing.ButtonText("Save".Translate().CapitalizeFirst()) && CheckAllPartsCompatible(this.Filter)) {
+			if (listing.ButtonText("PM.Save".Translate().CapitalizeFirst()) && CheckAllPartsCompatible(this.Filter)) {
 				Find.WindowStack.Add(new PawnFilterListSaveDialog(this.Filter));
 			}
 
-			if (listing.ButtonText("RandomizeSeed".Translate().CapitalizeFirst())) {
+			if (listing.ButtonText("PM.RandomizeSeed".Translate().CapitalizeFirst())) {
 				SoundDefOf.Tick_Tiny.PlayOneShotOnCamera();
 				this.RandomizeSeedAndFilter();
 				this.seedIsValid = true;
@@ -107,9 +107,9 @@ namespace Lakuna.PrepareModerately.UI {
 
 			if (this.seedIsValid) {
 #if V1_0
-				listing.Label("Seed".Translate().CapitalizeFirst());
+				listing.Label("PM.Seed".Translate().CapitalizeFirst());
 #else
-				_ = listing.Label("Seed".Translate().CapitalizeFirst());
+				_ = listing.Label("PM.Seed".Translate().CapitalizeFirst());
 #endif
 				string text = listing.TextEntry(this.seed);
 				if (text != this.seed) {
@@ -120,11 +120,11 @@ namespace Lakuna.PrepareModerately.UI {
 				listing.Gap(InvalidSeedGap);
 			}
 
-			listing.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode);
+			listing.CheckboxLabeled("PM.EditMode".Translate().CapitalizeFirst(), ref this.editMode);
 
 			if (this.editMode) {
 				this.seedIsValid = false;
-				if (listing.ButtonText("AddPart".Translate().CapitalizeFirst())) {
+				if (listing.ButtonText("PM.AddPart".Translate().CapitalizeFirst())) {
 					this.OpenAddFilterPartMenu();
 				}
 			}
@@ -141,12 +141,12 @@ namespace Lakuna.PrepareModerately.UI {
 					}
 
 					if (num > part.Def.maxUses) {
-						Messages.Message("TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
+						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 
 					if (part != part2 && !part.CanCoexistWith(part2)) {
-						Messages.Message("IncompatibleFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
+						Messages.Message("PM.IncompatibleFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}

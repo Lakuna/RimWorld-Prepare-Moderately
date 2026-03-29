@@ -8,6 +8,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.def.race.body.AllParts.Any((bodyPart) => pawn.health.hediffSet.HasDirectlyAddedPartFor(bodyPart));
 
-		public override string Summary(PawnFilter filter) => "HasAnyBodyModification".Translate();
+		public override string Summary(PawnFilter filter) => "PM.HasAnyBodyModification".Translate();
 	}
 }

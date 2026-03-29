@@ -32,21 +32,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate().CapitalizeFirst());
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
 			Widgets.IntRange(countRect.RightPart(1 - labelWidthPercentage).Rounded(), Rand.Int, ref this.countRange, 0, 12);
 
 			Rect levelRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "Level".Translate().CapitalizeFirst());
+			Widgets.Label(levelRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
 			Widgets.IntRange(levelRect.RightPart(1 - labelWidthPercentage).Rounded(), Rand.Int, ref this.range, 0, 20);
 		}
 
 		public override string Summary(PawnFilter filter) => this.countRange.min == this.countRange.max
 			? this.range.min == this.range.max
-				? "HasSkillsAtLevel".Translate(this.countRange.min, this.range.min)
-				: "HasSkillsBetweenLevels".Translate(this.countRange.min, this.range.min, this.range.max)
+				? "PM.HasSkillsAtLevel".Translate(this.countRange.min, this.range.min)
+				: "PM.HasSkillsBetweenLevels".Translate(this.countRange.min, this.range.min, this.range.max)
 			: this.range.min == this.range.max
-				? "HasBetweenSkillsAtLevel".Translate(this.countRange.min, this.countRange.max, this.range.min)
-				: "HasBetweenSkillsBetweenLevels".Translate(this.countRange.min, this.countRange.max, this.range.min, this.range.max);
+				? "PM.HasBetweenSkillsAtLevel".Translate(this.countRange.min, this.countRange.max, this.range.min)
+				: "PM.HasBetweenSkillsBetweenLevels".Translate(this.countRange.min, this.countRange.max, this.range.min, this.range.max);
 
 		public override void Randomize() {
 			this.countRange = new IntRange(Rand.Range(0, 1), Rand.Range(1, 3));

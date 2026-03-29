@@ -68,7 +68,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 		}
 
-		public override string Summary(PawnFilter filter) => "HasTrait".Translate(this.traitDegreePair.TraitDegreeData.label);
+		public override string Summary(PawnFilter filter) => "PM.HasTrait".Translate(this.traitDegreePair.TraitDegreeData.label);
 
 		public override void Randomize() => this.traitDegreePair = TraitDegreePair.TraitDegreePairs
 			.ElementAt(Rand.Range(0, TraitDegreePair.TraitDegreePairs.Count() - 1));

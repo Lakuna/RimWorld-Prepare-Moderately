@@ -33,7 +33,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			float labelWidthPercentage = 0.2f;
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "Count".Translate().CapitalizeFirst());
+			Widgets.Label(countRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
 			Widgets.IntRange(countRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.range, 0, 12);
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
@@ -45,8 +45,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
-			: "HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
+			? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
+			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
 
 		public override void Randomize() {
 			this.passion = GetRandomOfEnum(new Passion());

@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.regex = Widgets.TextArea(rect, this.regex);
 		}
 
-		public override string Summary(PawnFilter filter) => "NameMatches".Translate(this.regex);
+		public override string Summary(PawnFilter filter) => "PM.NameMatches".Translate(this.regex);
 
 		public override void Randomize() {
 			// These names are all guaranteed to be in the game due to the name-in-game list.

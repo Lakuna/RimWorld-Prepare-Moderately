@@ -10,7 +10,7 @@ namespace Lakuna.PrepareModerately.UI {
 		private readonly Action<PawnFilter> filterReturner;
 
 		public PawnFilterListLoadDialog(Action<PawnFilter> filterReturner) {
-			this.interactButLabel = "LoadGameButton".Translate().CapitalizeFirst();
+			this.interactButLabel = "PM.Load".Translate().CapitalizeFirst();
 			this.filterReturner = filterReturner;
 		}
 
