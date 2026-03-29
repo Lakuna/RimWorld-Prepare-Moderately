@@ -151,7 +151,7 @@ namespace Lakuna.PrepareModerately.Filter {
 						part.Def.defName
 						where part.Visible
 						select part) {
-						string summary = part.Summary(this).CapitalizeFirst() + ".";
+						string summary = part.Summary(this).CapitalizeFirst().EndWithPeriod();
 						if (!summary.NullOrEmpty()) {
 							_ = stringBuilder.AppendLine(summary);
 						}

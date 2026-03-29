@@ -135,9 +135,9 @@ namespace Lakuna.PrepareModerately.UI {
 			if (!flag) {
 				GUI.color = MinorTextColor;
 #if V1_0
-				listing.Label(("(" + "NoneLower".Translate() + ")").CapitalizeFirst());
+				listing.Label(($"({"NoneLower".Translate()})").CapitalizeFirst());
 #else
-				_ = listing.Label(("(" + "NoneLower".Translate() + ")").CapitalizeFirst());
+				_ = listing.Label(($"({"NoneLower".Translate()})").CapitalizeFirst());
 #endif
 				GUI.color = Color.white;
 			}

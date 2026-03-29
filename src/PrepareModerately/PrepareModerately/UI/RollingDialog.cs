@@ -28,7 +28,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public override void DoWindowContents(Rect inRect) {
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(inRect, "PM.RollingNumber".Translate(this.iterations).CapitalizeFirst() + "\n" + "PM.ClickOutsideToStop".Translate().CapitalizeFirst());
+			Widgets.Label(inRect, $"{"PM.RollingNumber".Translate(this.iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}");
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplier; i++) {

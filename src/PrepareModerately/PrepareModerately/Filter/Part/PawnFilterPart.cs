@@ -67,7 +67,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public virtual IEnumerable<string> ConfigErrors() {
 			if (this.def == null) {
-				yield return (this.GetType().ToString() + " has a null definition.").CapitalizeFirst();
+				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
 			}
 		}
 

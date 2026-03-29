@@ -10,15 +10,15 @@ namespace Lakuna.PrepareModerately.Utility {
 				throw new ArgumentNullException(nameof(e));
 			}
 
-			string output = "Prepare Moderately encountered an exception: " + description + "\n";
+			string output = $"Prepare Moderately encountered an exception: {description}\n";
 
 			Exception innerException = e;
 			while (innerException != null) {
-				output += "\n> " + innerException.Message;
+				output += $"\n> {innerException.Message}";
 				innerException = innerException.InnerException;
 			}
 
-			output += "\n\nStack trace:\n" + e.StackTrace + "\n\n";
+			output += $"\n\nStack trace:\n{e.StackTrace}\n\n";
 
 			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(output);
@@ -28,7 +28,7 @@ namespace Lakuna.PrepareModerately.Utility {
 		}
 
 		public static void LogErrorMessage(string e, PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
-			e = "Prepare Moderately encountered an issue: " + e;
+			e = $"Prepare Moderately encountered an issue: {e}";
 			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
 				Log.Error(e);
 			} else {
