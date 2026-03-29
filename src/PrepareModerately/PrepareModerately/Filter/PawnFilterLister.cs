@@ -7,11 +7,13 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioLister`.
 	public static class PawnFilterLister {
+		private static IEnumerable<PawnFilterDef> LegalPawnFilters => DefDatabase<PawnFilterDef>.AllDefs;
+
 		private static bool Dirty = true;
 
 		public static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
+			foreach (PawnFilterDef def in LegalPawnFilters) {
 				yield return def.filter;
 			}
 
@@ -24,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			RecacheIfDirty();
 			switch (category) {
 				case PawnFilterCategory.FromDef:
-					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
+					foreach (PawnFilterDef def in LegalPawnFilters) {
 						yield return def.filter;
 					}
 
@@ -40,7 +42,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefsListForReading) {
+			foreach (PawnFilterDef def in LegalPawnFilters) {
 				if (def.filter == filter) {
 					return true;
 				}

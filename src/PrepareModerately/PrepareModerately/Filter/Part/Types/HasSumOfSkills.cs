@@ -13,6 +13,10 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasSumOfSkills : PawnFilterPart {
+		private static IEnumerable<SkillDef> LegalSkills => DefDatabase<SkillDef>.AllDefs;
+
+		private IEnumerable<SkillDef> AddableSkills => LegalSkills.Where((def) => !this.skills.Contains(def));
+
 		private const int WidgetRowMaxWidth = 24;
 
 		private List<SkillDef> skills;
@@ -43,7 +47,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.Where((def) => !this.skills.Contains(def)).OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(this.AddableSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skills.Add(def));
 			}
@@ -77,7 +81,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			this.skills = new List<SkillDef>();
 			for (int i = 0; i < skillCount; i++) {
-				this.skills.Add(DefDatabase<SkillDef>.AllDefsListForReading.Where((def) => !this.skills.Contains(def)).RandomElement());
+				this.skills.Add(this.AddableSkills.RandomElement());
 			}
 
 			int min = SkillRecord.MinLevel * this.skills.Count;

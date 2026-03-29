@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsCapableOf : PawnFilterPart {
+		private static IEnumerable<WorkTags> LegalWorkTags => Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>();
+
 		private WorkTags workTag;
 
 		public override bool Matches(Pawn pawn) => pawn is null
@@ -40,7 +43,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(((WorkTags[])Enum.GetValues(typeof(WorkTags))).OrderBy((workTag) => workTag.ToString()),
+				FloatMenuUtility.MakeMenu(LegalWorkTags.OrderBy((workTag) => workTag.ToString()),
 					(workTag) => workTag.ToString().CapitalizeFirst(),
 					(workTag) => () => this.workTag = workTag);
 			}
@@ -48,7 +51,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsCapableOfWorkTag".Translate(this.workTag.ToString());
 
-		public override void Randomize() => this.workTag = Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>().RandomElement();
+		public override void Randomize() => this.workTag = LegalWorkTags.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

@@ -12,15 +12,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsSpecies : PawnFilterPart {
-		private static IEnumerable<ThingDef> AllHumanlikeThingDefs {
-			get {
-				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading) {
-					if (def.race != null && def.race.Humanlike) {
-						yield return def;
-					}
-				}
-			}
-		}
+		private static IEnumerable<ThingDef> LegalThings => DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null);
 
 		private ThingDef species;
 
@@ -35,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.species.LabelCap)) {
-				FloatMenuUtility.MakeMenu(AllHumanlikeThingDefs.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.species = def);
 			}
@@ -43,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsSpecies".Translate(this.species.label);
 
-		public override void Randomize() => this.species = AllHumanlikeThingDefs.RandomElement();
+		public override void Randomize() => this.species = LegalThings.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

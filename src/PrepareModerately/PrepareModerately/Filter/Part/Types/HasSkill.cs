@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasSkill : PawnFilterPart {
+		private static IEnumerable<SkillDef> LegalSkills => DefDatabase<SkillDef>.AllDefs;
+
 		private SkillDef skill;
 
 		private IntRange range;
@@ -36,7 +39,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
@@ -52,7 +55,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 
 		public override void Randomize() {
-			this.skill = DefDatabase<SkillDef>.AllDefsListForReading.RandomElement();
+			this.skill = LegalSkills.RandomElement();
 			this.range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
 		}
 

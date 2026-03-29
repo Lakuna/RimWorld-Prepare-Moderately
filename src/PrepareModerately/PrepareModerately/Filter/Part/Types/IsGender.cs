@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsGender : PawnFilterPart {
+		private static IEnumerable<Gender> LegalGenders => Enum.GetValues(typeof(Gender)).OfType<Gender>();
+
 		private Gender gender;
 
 		public override bool Matches(Pawn pawn) => pawn is null
@@ -24,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(((Gender[])Enum.GetValues(typeof(Gender))).OrderBy((gender) => gender.ToString()),
+				FloatMenuUtility.MakeMenu(LegalGenders.OrderBy((gender) => gender.ToString()),
 				(gender) => gender.ToString().CapitalizeFirst(),
 				(gender) => () => this.gender = gender);
 			}
@@ -32,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsGender".Translate(this.gender.ToString());
 
-		public override void Randomize() => this.gender = Enum.GetValues(typeof(Gender)).OfType<Gender>().RandomElement();
+		public override void Randomize() => this.gender = LegalGenders.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

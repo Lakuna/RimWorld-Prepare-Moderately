@@ -1,5 +1,6 @@
 #if !(V1_0 || V1_1 || V1_2)
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -12,6 +13,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasFavoriteColor : PawnFilterPart {
+		private static IEnumerable<ColorDef> LegalFavoriteColors => DefDatabase<ColorDef>.AllDefs.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc);
+
 		private ColorDef color;
 
 		public override bool Matches(Pawn pawn) => pawn is null
@@ -30,7 +33,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.color.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(this.color.color)).CapitalizeFirst() : this.color.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<ColorDef>.AllDefsListForReading.Where((def) => !def.LabelCap.NullOrEmpty()).OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(LegalFavoriteColors.OrderBy((def) => def.label),
 					(def) => def.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).CapitalizeFirst() : def.LabelCap,
 					(def) => () => this.color = def);
 			}
@@ -41,7 +44,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.HasFavoriteColor".Translate(this.color.LabelCap.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(this.color.color)) : this.color.LabelCap);
 
-		public override void Randomize() => this.color = DefDatabase<ColorDef>.AllDefsListForReading.RandomElement();
+		public override void Randomize() => this.color = LegalFavoriteColors.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

@@ -12,6 +12,8 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioMaker`.
 	public static class PawnFilterMaker {
+		private static IEnumerable<PawnFilterPartDef> LegalPawnFilterParts => DefDatabase<PawnFilterPartDef>.AllDefs;
+
 		public static PawnFilter Filter {
 			get; private set;
 		}
@@ -120,8 +122,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) => DefDatabase<PawnFilterPartDef>.AllDefsListForReading
-			.Where((def) => filter.Parts.Count((part) => part.Def == def) < def.maxUses);
+		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) => LegalPawnFilterParts.Where((def) => filter.Parts.Count((part) => part.Def == def) < def.maxUses);
 
 		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) => filter.Parts.All((existingPart) => part.CanCoexistWith(existingPart));
 

@@ -95,11 +95,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public const int DescriptionMaxLength = 1000;
 
-		public static IEnumerable<Version> SupportedVersions {
-			get {
-				yield return new Version(VersionControl.CurrentMajor, VersionControl.CurrentMinor);
-			}
-		}
+		public static IEnumerable<Version> SupportedVersions => new Version[] { new Version(VersionControl.CurrentMajor, VersionControl.CurrentMinor) };
 
 		public FileInfo File => new FileInfo(AbsolutePathForName(this.FileName));
 

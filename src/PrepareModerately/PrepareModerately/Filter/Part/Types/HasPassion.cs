@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,10 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasPassion : PawnFilterPart {
+		private static IEnumerable<SkillDef> LegalSkills => DefDatabase<SkillDef>.AllDefs;
+
+		private static IEnumerable<Passion> LegalPassions => Enum.GetValues(typeof(Passion)).OfType<Passion>();
+
 		private SkillDef skill;
 
 		private Passion passion;
@@ -53,14 +58,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<SkillDef>.AllDefsListForReading.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
 
 			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(((Passion[])Enum.GetValues(typeof(Passion))).OrderBy((passion) => passion.ToString()),
+				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),
 					(passion) => () => this.passion = passion);
 			}
@@ -69,8 +74,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) => "PM.HasPassionForSkill".Translate(this.passion.ToString(), this.skill.ToString());
 
 		public override void Randomize() {
-			this.passion = Enum.GetValues(typeof(Passion)).OfType<Passion>().RandomElement();
-			this.skill = DefDatabase<SkillDef>.AllDefsListForReading.RandomElement();
+			this.passion = LegalPassions.RandomElement();
+			this.skill = LegalSkills.RandomElement();
 		}
 
 		public override void ExposeData() {

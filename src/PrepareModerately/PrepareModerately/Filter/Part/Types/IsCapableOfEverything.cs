@@ -8,6 +8,9 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsCapableOfEverything : PawnFilterPart {
+		private static IEnumerable<WorkTags> LegalWorkTags => Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>();
+
+		private static IEnumerable<WorkTypeDef> LegalWorkTypes => DefDatabase<WorkTypeDef>.AllDefs;
 
 		public override bool Matches(Pawn pawn) {
 			if (pawn is null) {
@@ -16,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			List<WorkTags> disabledWorkTags = new List<WorkTags>();
-			foreach (WorkTags workTags in Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>().ToArray()) {
+			foreach (WorkTags workTags in LegalWorkTags) {
 				if (workTags == WorkTags.None) {
 					continue;
 				}
@@ -27,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 #endif
 
-			return DefDatabase<WorkTypeDef>.AllDefsListForReading.All((def) =>
+			return LegalWorkTypes.All((def) =>
 #if V1_0
 				!pawn.story.WorkTypeIsDisabled(def)
 #else

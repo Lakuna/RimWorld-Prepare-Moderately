@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -12,11 +13,15 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasChildhood : PawnFilterPart {
 #if V1_0 || V1_1 || V1_2 || V1_3
+		private static IEnumerable<Backstory> LegalBackstories => BackstoryDatabase.allBackstories.Values.Where((backstory) => backstory.slot == BackstorySlot.Adulthood);
+#else
+		private static IEnumerable<BackstoryDef> LegalBackstories => DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Adulthood);
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3
 		private string backstoryIdentifier;
 
-		public Backstory Backstory => BackstoryDatabase.allBackstories.Values
-			.Where((backstory) => backstory.slot == BackstorySlot.Childhood)
-			.First((backstory) => backstory.identifier == this.backstoryIdentifier);
+		public Backstory Backstory => LegalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
 #else
 		private BackstoryDef backstory;
 #endif
@@ -37,19 +42,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0 || V1_1 || V1_2 || V1_3
 			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
-				IOrderedEnumerable<Backstory> backstories = BackstoryDatabase.allBackstories.Values
-					.Where((backstory) => backstory.slot == BackstorySlot.Childhood)
-					.OrderBy((backstory) => backstory.title);
-				FloatMenuUtility.MakeMenu(backstories,
+				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((backstory) => backstory.title),
 					(backstory) => backstory.title.CapitalizeFirst(),
 					(backstory) => () => this.backstoryIdentifier = backstory.identifier);
 			}
 #else
 			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
-				IOrderedEnumerable<BackstoryDef> backstories = DefDatabase<BackstoryDef>.AllDefsListForReading
-					.Where((def) => def.slot == BackstorySlot.Childhood)
-					.OrderBy((def) => def.title);
-				FloatMenuUtility.MakeMenu(backstories, (def) => def.title.CapitalizeFirst(), (def) => () => this.backstory = def);
+				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((def) => def.title),
+					(def) => def.title.CapitalizeFirst(),
+					(def) => () => this.backstory = def);
 			}
 #endif
 		}
@@ -63,13 +64,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this.backstoryIdentifier = BackstoryDatabase.allBackstories.Values
-				.Where((backstory) => backstory.slot == BackstorySlot.Childhood)
-				.RandomElement().identifier;
+			this.backstoryIdentifier = LegalBackstories.RandomElement().identifier;
 #else
-			this.backstory = DefDatabase<BackstoryDef>.AllDefsListForReading
-				.Where((def) => def.slot == BackstorySlot.Childhood)
-				.RandomElement();
+			this.backstory = LegalBackstories.RandomElement();
 #endif
 
 		public override void ExposeData() {

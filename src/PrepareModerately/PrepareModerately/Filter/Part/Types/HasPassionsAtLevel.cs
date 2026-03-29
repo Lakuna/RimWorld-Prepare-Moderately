@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasPassionsAtLevel : PawnFilterPart {
+		private static IEnumerable<Passion> LegalPassions => Enum.GetValues(typeof(Passion)).OfType<Passion>();
+
 		private IntRange range;
 
 		private Passion passion;
@@ -38,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(((Passion[])Enum.GetValues(typeof(Passion))).OrderBy((passion) => passion.ToString()),
+				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),
 					(passion) => () => this.passion = passion);
 			}
@@ -49,7 +52,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
 
 		public override void Randomize() {
-			this.passion = Enum.GetValues(typeof(Passion)).OfType<Passion>().RandomElement();
+			this.passion = LegalPassions.RandomElement();
 			this.range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
 		}
 

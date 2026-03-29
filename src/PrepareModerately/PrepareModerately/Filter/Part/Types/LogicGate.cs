@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -13,6 +14,8 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class LogicGate : PawnFilterPart {
+		private static IEnumerable<LogicGateType> LegalLogicGateTypes => Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
+
 		private const float CollapseWidgetRowMaxWidth = 24;
 
 		private PawnFilter innerFilter;
@@ -100,7 +103,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// Type button.
 			Rect typeRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
 			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(((LogicGateType[])Enum.GetValues(typeof(LogicGateType))).OrderBy((type) => type.ToString()),
+				FloatMenuUtility.MakeMenu(LegalLogicGateTypes.OrderBy((type) => type.ToString()),
 					(type) => type.ToString().CapitalizeFirst(),
 					(type) => () => this.type = type);
 			}

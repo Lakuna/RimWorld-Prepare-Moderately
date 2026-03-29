@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -12,6 +13,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasTrait : PawnFilterPart {
+		private static IEnumerable<TraitDegreePair> LegalTraitDegreePairs => TraitDegreePair.TraitDegreePairs;
+
 		private TraitDegreePair traitDegreePair;
 
 		public override bool Matches(Pawn pawn) => pawn is null
@@ -51,17 +54,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.label.CapitalizeFirst())) {
-				IOrderedEnumerable<TraitDegreePair> traits = TraitDegreePair.TraitDegreePairs
-					.OrderBy((pair) => pair.TraitDegreeData.label);
-
-				FloatMenuUtility.MakeMenu(traits,
+				FloatMenuUtility.MakeMenu(LegalTraitDegreePairs.OrderBy((pair) => pair.TraitDegreeData.label),
 					(traitDegreePair) => traitDegreePair.TraitDegreeData.label.CapitalizeFirst(),
 					(traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
 			}
 #else
 			if (Widgets.ButtonText(rect, this.traitDegreePair.TraitDegreeData.LabelCap)) {
-				IOrderedEnumerable<TraitDegreePair> traits = TraitDegreePair.TraitDegreePairs.OrderBy((pair) => pair.TraitDegreeData.label);
-				FloatMenuUtility.MakeMenu(traits,
+				FloatMenuUtility.MakeMenu(LegalTraitDegreePairs.OrderBy((pair) => pair.TraitDegreeData.label),
 					(traitDegreePair) => traitDegreePair.TraitDegreeData.LabelCap,
 					(traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
 			}
@@ -70,7 +69,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.HasTrait".Translate(this.traitDegreePair.TraitDegreeData.label);
 
-		public override void Randomize() => this.traitDegreePair = TraitDegreePair.TraitDegreePairs.RandomElement();
+		public override void Randomize() => this.traitDegreePair = LegalTraitDegreePairs.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();

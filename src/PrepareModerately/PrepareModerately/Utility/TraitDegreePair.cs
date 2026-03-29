@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using RimWorld;
 
@@ -6,6 +7,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
 	public class TraitDegreePair : IExposable {
+		private static IEnumerable<TraitDef> LegalTraits => DefDatabase<TraitDef>.AllDefs;
+
 		private TraitDef trait;
 
 		public TraitDef Trait => this.trait;
@@ -16,18 +19,11 @@ namespace Lakuna.PrepareModerately.Utility {
 
 		public TraitDegreeData TraitDegreeData => this.trait.DataAtDegree(this.degree);
 
-		public static IEnumerable<TraitDegreePair> TraitDegreePairs {
-			get {
-				foreach (TraitDef def in DefDatabase<TraitDef>.AllDefsListForReading) {
-					foreach (TraitDegreeData degree in def.degreeDatas) {
-						yield return new TraitDegreePair(def, degree.degree);
-					}
-				}
-			}
-		}
+		public static IEnumerable<TraitDegreePair> TraitDegreePairs => LegalTraits.SelectMany((def) => def.degreeDatas.Select((degree) => new TraitDegreePair(def, degree.degree)));
 
 		public TraitDegreePair() {
-		} // Constructor without arguments for loading.
+			// Constructor without arguments for loading.
+		}
 
 		public TraitDegreePair(TraitDef def, int degree) {
 			this.trait = def;

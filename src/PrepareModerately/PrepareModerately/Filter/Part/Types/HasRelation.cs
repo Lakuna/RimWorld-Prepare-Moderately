@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -11,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasRelation : PawnFilterPart {
+		private static IEnumerable<PawnRelationDef> LegalRelations => DefDatabase<PawnRelationDef>.AllDefs;
+
 		private PawnRelationDef relation;
 
 		public override bool Matches(Pawn pawn) => pawn is null
@@ -24,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
-				FloatMenuUtility.MakeMenu(DefDatabase<PawnRelationDef>.AllDefsListForReading.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.relation = def);
 			}
@@ -32,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(this.relation.label);
 
-		public override void Randomize() => this.relation = DefDatabase<PawnRelationDef>.AllDefsListForReading.RandomElement();
+		public override void Randomize() => this.relation = LegalRelations.RandomElement();
 
 		public override void ExposeData() {
 			base.ExposeData();
