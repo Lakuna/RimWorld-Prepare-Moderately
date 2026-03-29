@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
-			if (filter == null) {
+			if (filter is null) {
 				return;
 			}
 
@@ -49,7 +49,7 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		public static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
-			if (filter == null) {
+			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
 			}
 

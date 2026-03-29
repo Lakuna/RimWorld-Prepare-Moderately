@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.UI {
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) => this.GetPawnFilterPartRect(part, height, out totalAddedListHeight, out _);
 
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight, out Rect headerRemainderRect) {
-			if (part == null) {
+			if (part is null) {
 				throw new ArgumentNullException(nameof(part));
 			}
 

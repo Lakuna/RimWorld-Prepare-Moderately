@@ -25,7 +25,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 				yield return item;
 			}
 
-			if (this.filterPartClass == null) {
+			if (this.filterPartClass is null) {
 				yield return "Filter part class is null.";
 			}
 		}

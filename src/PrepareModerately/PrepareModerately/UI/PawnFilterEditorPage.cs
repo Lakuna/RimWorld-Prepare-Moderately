@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		public PawnFilterEditorPage(PawnFilter filter) {
 			this.infoScrollPosition = Vector2.zero;
-			this.seedIsValid = filter == null;
+			this.seedIsValid = filter is null;
 			if (!this.seedIsValid) {
 				this.Filter = filter;
 			} else {
@@ -174,7 +174,7 @@ namespace Lakuna.PrepareModerately.UI {
 				return false;
 			}
 
-			if (this.Filter == null) {
+			if (this.Filter is null) {
 				return false;
 			}
 

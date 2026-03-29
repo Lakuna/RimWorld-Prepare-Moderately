@@ -21,7 +21,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: modifier != PassionMod.PassionModType.DropAll || passion == Passion.None;
 #endif
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.GetSkill(this.skill).passion == this.passion
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
@@ -34,7 +34,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
-		public override bool NotMatches(Pawn pawn) => pawn == null
+		public override bool NotMatches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.GetSkill(this.skill).passion != this.passion
 			|| this.passion == Passion.None
@@ -45,7 +45,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

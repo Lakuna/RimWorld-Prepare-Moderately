@@ -10,7 +10,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsCapableOfEverything : PawnFilterPart {
 
 		public override bool Matches(Pawn pawn) {
-			if (pawn == null) {
+			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
 			}
 
@@ -41,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) => "PM.IsCapableOfEverything".Translate();
 
-		public override bool CanCoexistWith(PawnFilterPart other) => other == null
+		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
 			: other.Def != PawnFilterPartDefOf.IsCapableOf;
 	}

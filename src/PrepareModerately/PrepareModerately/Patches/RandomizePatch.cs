@@ -34,7 +34,7 @@ namespace Lakuna.PrepareModerately.Patches {
 				return;
 			}
 
-			if (PawnFilter.Current == null || !PawnFilter.Current.Parts.Any()) {
+			if (PawnFilter.Current is null || !PawnFilter.Current.Parts.Any()) {
 				return;
 			}
 

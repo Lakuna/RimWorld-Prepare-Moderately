@@ -24,12 +24,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private ThingDef species;
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.def == this.species;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

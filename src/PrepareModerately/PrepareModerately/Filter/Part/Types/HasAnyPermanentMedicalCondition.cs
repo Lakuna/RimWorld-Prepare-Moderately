@@ -4,7 +4,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasAnyPermanentMedicalCondition : PawnFilterPart {
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 #if V1_0
 			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.IsPermanent());

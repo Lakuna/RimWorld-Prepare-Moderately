@@ -192,7 +192,7 @@ namespace Lakuna.PrepareModerately.UI {
 				return false;
 			}
 
-			if (this.filter == null) {
+			if (this.filter is null) {
 				return false;
 			}
 
@@ -203,7 +203,7 @@ namespace Lakuna.PrepareModerately.UI {
 		public static void BeginFilterConfiguration(PawnFilter filter) => PawnFilter.Current = filter;
 
 		private void EnsureValidSelection() {
-			if (this.filter == null || !PawnFilterLister.FilterIsListedAnywhere(this.filter)) {
+			if (this.filter is null || !PawnFilterLister.FilterIsListedAnywhere(this.filter)) {
 				this.filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).FirstOrDefault();
 			}
 		}

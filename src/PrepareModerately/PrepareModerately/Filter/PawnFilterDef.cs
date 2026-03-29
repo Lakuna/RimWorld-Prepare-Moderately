@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public override IEnumerable<string> ConfigErrors() {
-			if (this.filter == null) {
+			if (this.filter is null) {
 				yield return "Null filter.";
 			}
 

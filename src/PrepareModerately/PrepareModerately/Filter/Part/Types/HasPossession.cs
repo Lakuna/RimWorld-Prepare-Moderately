@@ -25,12 +25,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private static readonly IEnumerable<ThingDef> PossiblePossessions = DefDatabase<ThingDef>.AllDefsListForReading.Where((def) => def.category == ThingCategory.Item);
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

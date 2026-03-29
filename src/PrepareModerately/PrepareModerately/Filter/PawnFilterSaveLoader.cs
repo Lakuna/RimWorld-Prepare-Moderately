@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private const string FilterNodeName = "filter";
 
 		public static void Save(PawnFilter filter, string absolutePath) {
-			if (filter == null) {
+			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
 			}
 

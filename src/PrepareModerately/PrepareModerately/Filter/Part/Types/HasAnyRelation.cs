@@ -4,13 +4,13 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasAnyRelation : PawnFilterPart {
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe;
 
 		public override string Summary(PawnFilter filter) => "PM.HasAnyRelation".Translate();
 
-		public override bool CanCoexistWith(PawnFilterPart other) => other == null
+		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
 			: other.Def != PawnFilterPartDefOf.HasRelation;
 	}

@@ -110,7 +110,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
-				if (this.parts.RemoveAll((part) => part == null) != 0) {
+				if (this.parts.RemoveAll((part) => part is null) != 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
@@ -191,7 +191,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public bool CanReorder(PawnFilterPart part, ReorderDirection dir) {
-			if (part == null) {
+			if (part is null) {
 				throw new ArgumentNullException(nameof(part));
 			}
 

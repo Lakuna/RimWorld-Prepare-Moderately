@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.UI {
 		protected override bool ShouldDoTypeInField => true;
 
 		public PawnFilterListSaveDialog(PawnFilter filter) {
-			if (filter == null) {
+			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
 			}
 

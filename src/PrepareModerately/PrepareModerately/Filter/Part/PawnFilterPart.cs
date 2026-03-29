@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
 
 		public virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
@@ -66,11 +66,11 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public virtual bool NotMatches(Pawn pawn) => !this.Matches(pawn);
 
 		public virtual IEnumerable<string> ConfigErrors() {
-			if (this.def == null) {
+			if (this.def is null) {
 				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
 			}
 		}
 
-		public virtual bool HasNullDefs() => this.def == null;
+		public virtual bool HasNullDefs() => this.def is null;
 	}
 }

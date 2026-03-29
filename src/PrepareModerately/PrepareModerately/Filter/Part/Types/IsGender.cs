@@ -13,12 +13,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsGender : PawnFilterPart {
 		private Gender gender;
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.gender == this.gender;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

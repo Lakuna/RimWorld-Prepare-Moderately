@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class IsCapableOf : PawnFilterPart {
 		private WorkTags workTag;
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			:
 #if V1_0
@@ -28,13 +28,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
-		public override bool NotMatches(Pawn pawn) => pawn == null
+		public override bool NotMatches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.WorkTagIsDisabled(this.workTag);
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
@@ -55,7 +55,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.workTag, nameof(this.workTag));
 		}
 
-		public override bool CanCoexistWith(PawnFilterPart other) => other == null
+		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
 			: other.Def != PawnFilterPartDefOf.IsCapableOfEverything;
 	}

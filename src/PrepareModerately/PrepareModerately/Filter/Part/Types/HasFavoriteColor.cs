@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasFavoriteColor : PawnFilterPart {
 		private ColorDef color;
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 #if V1_3 || V1_4 || V1_5
 			: pawn.story.favoriteColor == this.color.color;
@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

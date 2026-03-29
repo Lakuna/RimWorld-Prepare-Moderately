@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private Passion passion;
 
 		public override bool Matches(Pawn pawn) {
-			if (pawn == null) {
+			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
 			}
 
@@ -25,7 +25,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 

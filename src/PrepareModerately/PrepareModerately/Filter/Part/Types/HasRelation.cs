@@ -13,12 +13,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasRelation : PawnFilterPart {
 		private PawnRelationDef relation;
 
-		public override bool Matches(Pawn pawn) => pawn == null
+		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.relations.DirectRelations.Find((relation) => relation.def == this.relation) != null;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			if (listing == null) {
+			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
 
@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.relation, nameof(this.relation));
 		}
 
-		public override bool CanCoexistWith(PawnFilterPart other) => other == null
+		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
 			: other.Def != PawnFilterPartDefOf.HasAnyRelation;
 	}

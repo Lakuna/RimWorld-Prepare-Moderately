@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private const int MaximumRandomPartTries = 100;
 
 		public static PawnFilter Random(string seed) {
-			if (seed == null) {
+			if (seed is null) {
 				throw new ArgumentNullException(nameof(seed));
 			}
 
@@ -126,7 +126,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) => filter.Parts.All((existingPart) => part.CanCoexistWith(existingPart));
 
 		public static PawnFilterPart MakeFilterPart(PawnFilterPartDef def) {
-			if (def == null) {
+			if (def is null) {
 				throw new ArgumentNullException(nameof(def));
 			}
 
