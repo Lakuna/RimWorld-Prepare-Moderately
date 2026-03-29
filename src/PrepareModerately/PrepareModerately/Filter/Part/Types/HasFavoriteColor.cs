@@ -13,7 +13,11 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasFavoriteColor : PawnFilterPart {
-		private static IEnumerable<ColorDef> LegalFavoriteColors => DefDatabase<ColorDef>.AllDefs.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc);
+		private static IEnumerable<ColorDef> LegalFavoriteColors => DefDatabase<ColorDef>.AllDefs
+#if !V1_3
+			.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc)
+#endif
+			;
 
 		private ColorDef color;
 

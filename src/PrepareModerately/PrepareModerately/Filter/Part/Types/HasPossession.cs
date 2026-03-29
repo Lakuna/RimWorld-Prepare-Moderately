@@ -20,7 +20,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
 			.Concat(ThingDefOf.HemogenPack)
 			.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
+#if !V1_4
 			.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
+#endif
 			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0));
 
 		private ThingDef possession;
