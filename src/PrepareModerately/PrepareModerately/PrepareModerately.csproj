@@ -8,7 +8,7 @@
 		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5;v1.6</Configurations>
 		<Copyright>Travis Martin 2026</Copyright>
 		<DebugType>none</DebugType>
-		<Description>A RimWorld mod that re-rolls pawns until they meet user-defined criteria.</Description>
+		<Description>A RimWorld mod that rerolls pawns until they meet user-defined criteria.</Description>
 		<Deterministic>true</Deterministic>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
