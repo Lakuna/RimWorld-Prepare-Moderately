@@ -69,8 +69,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label)))
-			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label)));
+			? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
+			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
 
 		public override void Randomize() {
 			int skillCount = Rand.Range(2, 5);
