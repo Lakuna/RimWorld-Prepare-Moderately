@@ -1,9 +1,13 @@
-﻿using Lakuna.PrepareModerately.UI;
-using Lakuna.PrepareModerately.Utility;
-using RimWorld;
-using System;
+﻿using System;
 using System.Linq;
+
+using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Utility;
+
+using RimWorld;
+
 using UnityEngine;
+
 using Verse;
 using Verse.Sound;
 

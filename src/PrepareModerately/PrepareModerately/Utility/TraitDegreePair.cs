@@ -1,5 +1,7 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using RimWorld;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
@@ -24,7 +26,8 @@ namespace Lakuna.PrepareModerately.Utility {
 			}
 		}
 
-		public TraitDegreePair() { } // Constructor without arguments for loading.
+		public TraitDegreePair() {
+		} // Constructor without arguments for loading.
 
 		public TraitDegreePair(TraitDef def, int degree) {
 			this.trait = def;

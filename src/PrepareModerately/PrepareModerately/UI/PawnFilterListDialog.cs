@@ -1,8 +1,11 @@
-﻿using Lakuna.PrepareModerately.Filter;
-using Lakuna.PrepareModerately.Utility;
-using RimWorld;
-using System;
+﻿using System;
 using System.IO;
+
+using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Utility;
+
+using RimWorld;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {

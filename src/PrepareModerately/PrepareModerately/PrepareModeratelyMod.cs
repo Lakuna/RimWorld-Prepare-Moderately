@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately {
 	public class PrepareModeratelyMod : Mod {
-		public static PrepareModeratelySettings Settings { get; private set; }
+		public static PrepareModeratelySettings Settings {
+			get; private set;
+		}
 
 		public PrepareModeratelyMod(ModContentPack content) : base(content) => Settings = this.GetSettings<PrepareModeratelySettings>();
 

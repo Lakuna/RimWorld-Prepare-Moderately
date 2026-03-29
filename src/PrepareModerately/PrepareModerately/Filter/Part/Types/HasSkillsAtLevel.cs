@@ -1,7 +1,11 @@
-﻿using Lakuna.PrepareModerately.UI;
+﻿using System;
+
+using Lakuna.PrepareModerately.UI;
+
 using RimWorld;
-using System;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {

@@ -1,5 +1,7 @@
-﻿using Lakuna.PrepareModerately.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using Lakuna.PrepareModerately.UI;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {

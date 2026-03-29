@@ -1,7 +1,10 @@
-﻿using Lakuna.PrepareModerately.UI;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
+
+using Lakuna.PrepareModerately.UI;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {

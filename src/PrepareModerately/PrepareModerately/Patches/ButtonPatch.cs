@@ -1,13 +1,18 @@
-﻿#if V1_0
+﻿using System;
+
+#if V1_0
 using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.PrepareModerately.UI;
 using Lakuna.PrepareModerately.Utility;
+
 using RimWorld;
-using System;
+
 using UnityEngine;
+
 using Verse;
 using Verse.Sound;
 

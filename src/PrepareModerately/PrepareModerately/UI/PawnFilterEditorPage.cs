@@ -1,15 +1,21 @@
-﻿using Lakuna.PrepareModerately.Filter;
+﻿using System.Linq;
+
+using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
+
 using RimWorld;
-using System.Linq;
+
 using UnityEngine;
+
 using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
 	// Based on `RimWorld.Page_ScenarioEditor`.
 	public class PawnFilterEditorPage : Page {
-		public PawnFilter Filter { get; private set; }
+		public PawnFilter Filter {
+			get; private set;
+		}
 
 		private Vector2 infoScrollPosition;
 

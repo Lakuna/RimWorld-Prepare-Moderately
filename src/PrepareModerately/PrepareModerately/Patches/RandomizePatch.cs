@@ -1,20 +1,27 @@
-﻿#if V1_0
+﻿using System.Linq;
+using System.Reflection;
+
+#if V1_0
 using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.UI;
-using System.Linq;
-using System.Reflection;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
 	public static class RandomizePatch {
-		public static bool IsActivelyRolling { get; set; }
+		public static bool IsActivelyRolling {
+			get; set;
+		}
 
-		public static Pawn Result { get; set; }
+		public static Pawn Result {
+			get; set;
+		}
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.

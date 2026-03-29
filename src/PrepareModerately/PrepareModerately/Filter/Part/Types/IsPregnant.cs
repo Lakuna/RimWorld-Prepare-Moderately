@@ -1,6 +1,8 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
-using RimWorld;
 using System;
+
+using RimWorld;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {

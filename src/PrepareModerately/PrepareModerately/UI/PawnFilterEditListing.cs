@@ -1,8 +1,12 @@
-﻿using Lakuna.PrepareModerately.Filter;
+﻿using System;
+
+using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
+
 using RimWorld;
-using System;
+
 using UnityEngine;
+
 using Verse;
 using Verse.Sound;
 

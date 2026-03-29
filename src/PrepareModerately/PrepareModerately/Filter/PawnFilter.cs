@@ -1,17 +1,22 @@
-﻿using Lakuna.PrepareModerately.Filter.Part;
-using Lakuna.PrepareModerately.Utility;
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using Lakuna.PrepareModerately.Filter.Part;
+using Lakuna.PrepareModerately.Utility;
+
+using RimWorld;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
 	public class PawnFilter : IExposable {
-		public static PawnFilter Current { get; set; }
+		public static PawnFilter Current {
+			get; set;
+		}
 
 		[MustTranslate]
 		private string name;
@@ -72,11 +77,17 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		[field: NoTranslate]
-		public string FileName { get; set; }
+		public string FileName {
+			get; set;
+		}
 
-		public bool Enabled { get; }
+		public bool Enabled {
+			get;
+		}
 
-		public bool ShowInUi { get; }
+		public bool ShowInUi {
+			get;
+		}
 
 		public const int NameMaxLength = 55;
 

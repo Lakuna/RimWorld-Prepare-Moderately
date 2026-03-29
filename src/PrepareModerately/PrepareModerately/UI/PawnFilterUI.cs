@@ -1,9 +1,11 @@
-﻿using Lakuna.PrepareModerately.Filter;
-using Lakuna.PrepareModerately.Filter.Part;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
+using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Filter.Part;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {

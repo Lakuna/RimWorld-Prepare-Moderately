@@ -1,15 +1,20 @@
-﻿using Lakuna.PrepareModerately.Filter.Part;
-using Lakuna.PrepareModerately.Utility;
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Lakuna.PrepareModerately.Filter.Part;
+using Lakuna.PrepareModerately.Utility;
+
+using RimWorld;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioMaker`.
 	public static class PawnFilterMaker {
-		public static PawnFilter Filter { get; private set; }
+		public static PawnFilter Filter {
+			get; private set;
+		}
 
 		private const int MinimumRandomParts = 3;
 
@@ -38,7 +43,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			AddPartsFromCategory(Filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
 
-			foreach (PawnFilterPart part in Filter.Parts) { part.Randomize(); }
+			foreach (PawnFilterPart part in Filter.Parts) {
+				part.Randomize();
+			}
 
 			for (int i = 0; i < Filter.Parts.Count(); i++) {
 				for (int j = 0; j < Filter.Parts.Count(); j++) {

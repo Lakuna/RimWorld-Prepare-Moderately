@@ -1,5 +1,7 @@
-﻿using Lakuna.PrepareModerately.Filter;
-using System;
+﻿using System;
+
+using Lakuna.PrepareModerately.Filter;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.UI {

@@ -1,6 +1,8 @@
-﻿using Lakuna.PrepareModerately.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using Lakuna.PrepareModerately.UI;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
@@ -16,7 +18,9 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public virtual bool Visible => true;
 
-		public virtual bool Summarized { get; set; }
+		public virtual bool Summarized {
+			get; set;
+		}
 
 		public virtual string Label => this.def.label;
 
@@ -50,7 +54,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			return (T)values.GetValue(Rand.Range(0, values.Length - 1));
 		}
 
-		public virtual void Randomize() { }
+		public virtual void Randomize() {
+		}
 
 		public virtual bool TryMerge(PawnFilterPart other) => false;
 

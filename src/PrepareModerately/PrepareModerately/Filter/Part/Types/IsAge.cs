@@ -1,6 +1,9 @@
-﻿using Lakuna.PrepareModerately.UI;
-using System;
+﻿using System;
+
+using Lakuna.PrepareModerately.UI;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {

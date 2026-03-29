@@ -1,9 +1,13 @@
 ﻿#if !(V1_0 || V1_1 || V1_2)
-using Lakuna.PrepareModerately.UI;
-using RimWorld;
 using System;
 using System.Linq;
+
+using Lakuna.PrepareModerately.UI;
+
+using RimWorld;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
