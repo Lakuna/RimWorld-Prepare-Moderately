@@ -78,8 +78,8 @@
 	<PM.HasAnyMissingBodyPart>has any missing body part</PM.HasAnyMissingBodyPart>
 	<PM.HasNumberOfTraits>has {0} trait(s)</PM.HasNumberOfTraits>
 	<PM.HasBetweenNumberOfTraits>has between {0} and {1} traits</PM.HasBetweenNumberOfTraits>
-	<PM.HasSumOfTraits>has sum {0} of traits {1}</PM.HasSumOfTraits>
-	<PM.HasBetweenSumOfTraits>has sum between {0} and {1} of traits {2}</PM.HasBetweenSumOfTraits>
+	<PM.HasSumOfSkills>has sum {0} of traits {1}</PM.HasSumOfSkills>
+	<PM.HasBetweenSumOfSkills>has sum between {0} and {1} of traits {2}</PM.HasBetweenSumOfSkills>
 
 	<!-- Exceptions and Handling -->
 	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
