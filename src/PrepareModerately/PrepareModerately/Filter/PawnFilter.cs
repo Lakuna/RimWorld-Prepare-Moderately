@@ -151,7 +151,7 @@ namespace Lakuna.PrepareModerately.Filter {
 						part.Def.defName
 						where part.Visible
 						select part) {
-						string summary = part.Summary(this).CapitalizeFirst().EndWithPeriod();
+						string summary = MiscellaneousUtility.EndWithPeriod(part.Summary(this).CapitalizeFirst());
 						if (!summary.NullOrEmpty()) {
 							_ = stringBuilder.AppendLine(summary);
 						}
@@ -162,7 +162,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				} catch (Exception e) {
 #pragma warning restore CA1031
 					PrepareModeratelyLogger.LogException(e, "Failed to get full information text.", PrepareModeratelyLoggerCategory.GetFullInformationText);
-					return "PM.FailedToGetFullInformationText".Translate().CapitalizeFirst().EndWithPeriod();
+					return MiscellaneousUtility.EndWithPeriod("PM.FailedToGetFullInformationText".Translate().CapitalizeFirst());
 				}
 			}
 		}

@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.UI {
 				"SavingLongEvent",
 				false,
 				(e) => PrepareModeratelyLogger.LogException(e, "Failed to save filter."));
-			Messages.Message("PM.SavedAsFile".Translate(fileName).CapitalizeFirst().EndWithPeriod(), MessageTypeDefOf.SilentInput, false);
+			Messages.Message(MiscellaneousUtility.EndWithPeriod("PM.SavedAsFile".Translate(fileName).CapitalizeFirst()), MessageTypeDefOf.SilentInput, false);
 			this.Close();
 		}
 	}
