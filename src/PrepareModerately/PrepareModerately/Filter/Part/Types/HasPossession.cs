@@ -23,7 +23,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if !V1_4
 			.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
 #endif
-			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0));
+			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
+			.Distinct();
 
 		private ThingDef possession;
 
