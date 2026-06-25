@@ -12,6 +12,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasRelation : PawnFilterPart {
+		private static string CombinedPawnRelationLabel(PawnRelationDef def) => def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
+
 		private static IEnumerable<PawnRelationDef> LegalRelations => DefDatabase<PawnRelationDef>.AllDefs;
 
 		private PawnRelationDef relation;
@@ -26,14 +28,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, this.relation.LabelCap)) {
-				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => def.label),
-					(def) => def.LabelCap,
+			if (Widgets.ButtonText(rect, CombinedPawnRelationLabel(this.relation).CapitalizeFirst())) {
+				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => CombinedPawnRelationLabel(def)),
+					(def) => CombinedPawnRelationLabel(def).CapitalizeFirst(),
 					(def) => () => this.relation = def);
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(this.relation.label);
+		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(CombinedPawnRelationLabel(this.relation));
 
 		public override void Randomize() => this.relation = LegalRelations.RandomElement();
 
