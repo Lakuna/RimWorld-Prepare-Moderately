@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(pawn));
 			}
 
-			int count = pawn.skills.skills.FindAll((skill) => skill.Level <= this.range.max && skill.Level >= this.range.min).Count;
+			int count = pawn.skills.skills.Count((skill) => skill.Level <= this.range.max && skill.Level >= this.range.min);
 			return count <= this.countRange.max && count >= this.countRange.min;
 		}
 

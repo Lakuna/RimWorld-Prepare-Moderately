@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				throw new ArgumentNullException(nameof(pawn));
 			}
 
-			int count = pawn.skills.skills.FindAll((skill) => skill.passion == this.passion).Count;
+			int count = pawn.skills.skills.Count((skill) => skill.passion == this.passion);
 			return count <= this.range.max && count >= this.range.min;
 		}
 

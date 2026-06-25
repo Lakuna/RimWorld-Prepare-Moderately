@@ -21,16 +21,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.story.traits.allTraits.Find((trait) =>
 				trait.def == this.traitDegreePair.Trait)?.Degree == this.traitDegreePair.Degree
-#if V1_0 || V1_1 || V1_2 || V1_3
-			;
-#else
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.suppressedTraits?.Any((traitData) =>
 					traitData.def == this.traitDegreePair.Trait
 					&& traitData.degree == this.traitDegreePair.Degree
 				) ?? false
-			);
+			)
 #endif
+			;
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.

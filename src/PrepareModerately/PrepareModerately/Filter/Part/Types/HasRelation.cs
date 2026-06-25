@@ -20,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.relations.DirectRelations.Find((relation) => relation.def == this.relation) != null;
+			: pawn.relations.DirectRelations.Any((relation) => relation.def == this.relation);
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing is null) {
