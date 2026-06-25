@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -41,6 +42,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			foreach (DirectPawnRelation relation in pawn.relations.DirectRelations) {
 				log += $"\n- {GetUniqueCombinedLabelFor(relation.def)} ({relation.def == this.relation})";
 			}
+			PrepareModeratelyLogger.LogMessage(log);
 
 			return result;
 		}
