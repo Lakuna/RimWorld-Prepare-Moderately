@@ -12,15 +12,20 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasRelation : PawnFilterPart {
-		private static string CombinedPawnRelationLabel(PawnRelationDef def) => def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
+		private static string GetCombinedLabelFor(PawnRelationDef def) => def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
 
 		private static IEnumerable<PawnRelationDef> LegalRelations => DefDatabase<PawnRelationDef>.AllDefs;
+
+		private static string GetUniqueCombinedLabelFor(PawnRelationDef def) =>
+			GetCombinedLabelFor(def).NullOrEmpty() ? def.defName
+			: LegalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName})"
+			: GetCombinedLabelFor(def);
 
 		private PawnRelationDef relation;
 
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.relations.DirectRelations.Any((relation) => relation.def == this.relation);
+			: pawn.relations.DirectRelations.Any((relation) => relation.def.defName == this.relation.defName);
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing is null) {
@@ -28,14 +33,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, CombinedPawnRelationLabel(this.relation).CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => CombinedPawnRelationLabel(def)),
-					(def) => CombinedPawnRelationLabel(def).CapitalizeFirst(),
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this.relation).CapitalizeFirst())) {
+				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => GetUniqueCombinedLabelFor(def)),
+					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirst(),
 					(def) => () => this.relation = def);
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(CombinedPawnRelationLabel(this.relation));
+		public override string Summary(PawnFilter filter) => "PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
 
 		public override void Randomize() => this.relation = LegalRelations.RandomElement();
 
