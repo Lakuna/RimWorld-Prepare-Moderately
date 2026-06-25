@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 using Lakuna.PrepareModerately.UI;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -27,11 +25,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
-			: (!pawn.relations.hidePawnRelations && pawn.relations.RelatedPawns.Any((relatedPawn) =>
+			: (
+#if !(V1_0 || V1_1 || V1_2)
+				!pawn.relations.hidePawnRelations &&
+#endif
+				pawn.relations.RelatedPawns.Any((relatedPawn) =>
 				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
 				&& relatedPawn.Name != null
 				&& !relatedPawn.Name.Numerical
+#if !(V1_0 || V1_1 || V1_2)
 				&& !relatedPawn.relations.hidePawnRelations
+#endif
 				&& relatedPawn.relations.everSeenByPlayer
 				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation)));
 
