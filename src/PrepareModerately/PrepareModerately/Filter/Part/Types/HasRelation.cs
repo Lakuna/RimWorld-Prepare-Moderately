@@ -23,9 +23,27 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private PawnRelationDef relation;
 
+		/*
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.relations.DirectRelations.Any((relation) => relation.def.defName == this.relation.defName);
+			: pawn.relations.DirectRelations.Any((relation) => relation.def == this.relation);
+		*/
+
+		// TODO: Use commented version instead.
+		public override bool Matches(Pawn pawn) {
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+
+			bool result = pawn.relations.DirectRelations.Any((relation) => relation.def == this.relation);
+
+			string log = $"Checking match for pawn {pawn.Name.ToStringFull} with {GetUniqueCombinedLabelFor(this.relation)} ({result}):";
+			foreach (DirectPawnRelation relation in pawn.relations.DirectRelations) {
+				log += $"\n- {GetUniqueCombinedLabelFor(relation.def)} ({relation.def == this.relation})";
+			}
+
+			return result;
+		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			if (listing is null) {
