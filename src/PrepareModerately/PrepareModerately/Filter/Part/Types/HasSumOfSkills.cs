@@ -93,7 +93,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
-			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Deep);
+			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
 		}
 	}
 }
