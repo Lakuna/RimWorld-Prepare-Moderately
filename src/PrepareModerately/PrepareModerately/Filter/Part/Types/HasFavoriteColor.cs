@@ -54,6 +54,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.color, nameof(this.color));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.color is null;
 	}
 }
 #endif
