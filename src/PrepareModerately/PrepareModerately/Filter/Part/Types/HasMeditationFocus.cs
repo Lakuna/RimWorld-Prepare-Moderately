@@ -42,6 +42,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.meditationFocus is null;
 	}
 }
 #endif
