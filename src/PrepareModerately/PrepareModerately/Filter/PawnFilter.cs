@@ -106,6 +106,10 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
+				if (this.parts == null) {
+					this.parts = new List<PawnFilterPart>();
+				}
+
 				if (this.parts.RemoveAll((part) => part is null) != 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
 				}
