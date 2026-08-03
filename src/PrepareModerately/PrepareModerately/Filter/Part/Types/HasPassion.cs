@@ -83,5 +83,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.passion, nameof(this.passion));
 			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.skill is null;
 	}
 }
