@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private const int WidgetRowMaxWidth = 24;
 
-		private List<SkillDef> skills;
+		private List<SkillDef> skills = new List<SkillDef>();
 
 		private IntRange range;
 
@@ -94,6 +94,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
+
+			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
+				if (this.skills == null) {
+					this.skills = new List<SkillDef>();
+				} else {
+					_ = this.skills.RemoveAll((skill) => skill is null);
+				}
+			}
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.skills == null || this.skills.Any((skill) => skill is null);
 	}
 }
