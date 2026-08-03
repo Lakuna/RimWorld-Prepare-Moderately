@@ -57,5 +57,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.kind, nameof(this.kind));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.kind is null;
 	}
 }
