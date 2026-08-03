@@ -64,5 +64,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
 			: other.Def != PawnFilterPartDefOf.HasAnyRelation;
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.relation is null;
 	}
 }
