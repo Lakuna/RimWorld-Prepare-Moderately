@@ -189,5 +189,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.type, nameof(this.type));
 			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.innerFilter is null || this.innerFilter.Parts.Any((part) => part is null || part.HasNullDefs());
 	}
 }
