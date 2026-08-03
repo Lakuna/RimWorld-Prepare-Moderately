@@ -45,8 +45,10 @@ namespace Lakuna.PrepareModerately.Filter {
 					throw;
 				}
 
-				filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
-				filter.Category = category;
+				if (filter != null) {
+					filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
+					filter.Category = category;
+				}
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031
