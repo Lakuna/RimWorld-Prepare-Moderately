@@ -57,6 +57,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.possession is null;
 	}
 }
 #endif
