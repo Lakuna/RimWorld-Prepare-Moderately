@@ -74,5 +74,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.traitDegreePair, nameof(this.traitDegreePair));
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.traitDegreePair is null || this.traitDegreePair.Trait is null;
 	}
 }
