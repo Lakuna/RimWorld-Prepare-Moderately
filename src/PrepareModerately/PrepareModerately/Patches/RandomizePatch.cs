@@ -28,7 +28,7 @@ namespace Lakuna.PrepareModerately.Patches {
 		public static void Postfix(Pawn __result, MethodBase __originalMethod) {
 #pragma warning restore CA1707
 			Result = __result;
-			PagePatch.Instance.SelectPawn(Result);
+			PagePatch.Instance?.SelectPawn(Result);
 
 			if (IsActivelyRolling) {
 				return;
