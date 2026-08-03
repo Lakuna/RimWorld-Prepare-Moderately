@@ -77,5 +77,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.backstory, nameof(this.backstory));
 #endif
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs()
+#if V1_0 || V1_1 || V1_2 || V1_3
+			|| this.backstoryIdentifier.NullOrEmpty() || !LegalBackstories.Any((backstory) => backstory.identifier == this.backstoryIdentifier);
+#else
+			|| this.backstory is null;
+#endif
 	}
 }
