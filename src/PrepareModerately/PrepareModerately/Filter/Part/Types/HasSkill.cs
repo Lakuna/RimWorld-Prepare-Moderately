@@ -74,5 +74,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 #pragma warning restore CS0618
 		}
+
+		public override bool HasNullDefs() => base.HasNullDefs() || this.skill is null;
 	}
 }
