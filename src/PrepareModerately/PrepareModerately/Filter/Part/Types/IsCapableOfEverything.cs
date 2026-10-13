@@ -28,7 +28,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return LegalWorkTypes.All((def) => !pawn.story.WorkTypeIsDisabled(def));
 #elif V1_1 || V1_2 || V1_3
 			return LegalWorkTypes.All((def) => !pawn.WorkTypeIsDisabled(def));
-#elif V1_4 || V1_5
+#elif V1_4 || V1_5 || V1_6
 			List<WorkTags> disabledWorkTags = new List<WorkTags>();
 			foreach (WorkTags workTags in LegalWorkTags) {
 				if (workTags == WorkTags.None) {

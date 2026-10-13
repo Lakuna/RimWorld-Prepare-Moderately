@@ -122,10 +122,8 @@ namespace Lakuna.PrepareModerately.Filter {
 			List<PawnFilterPart> parts = [.. this.parts];
 #endif
 			Scribe_Collections.Look(ref parts, nameof(parts), LookMode.Deep);
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.parts = new Collection<PawnFilterPart>(parts);
-#elif V1_6
-			this.parts = new Collection(parts);
 #else
 			this.parts = new(parts);
 #endif
@@ -217,10 +215,8 @@ namespace Lakuna.PrepareModerately.Filter {
 					SummaryP = this.SummaryP,
 					DescriptionP = this.DescriptionP,
 					CategoryP = PawnFilterCategory.CustomLocal,
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					parts = new Collection<PawnFilterPart>(this.parts.Select((part) => part.CopyForEditing()).ToList())
-#elif V1_6
-					parts = new Collection(this.parts.Select((part) => part.CopyForEditing()).ToList())
 #else
 					parts = new([.. this.parts.Select((part) => part.CopyForEditing())])
 #endif
