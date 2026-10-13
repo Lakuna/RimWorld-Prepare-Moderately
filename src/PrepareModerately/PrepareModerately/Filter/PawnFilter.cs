@@ -43,7 +43,9 @@ namespace Lakuna.PrepareModerately.Filter {
 			set => this.description = value;
 		}
 
-		private Collection<PawnFilterPart> parts;
+#pragma warning disable CA1002 // RimWorld requires a `List` to serialize with `Scribe_Collections.Look`.
+		private List<PawnFilterPart> parts;
+#pragma warning restore CA1002
 
 		public IEnumerable<PawnFilterPart> PartsP => this.parts;
 
@@ -114,40 +116,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Values.Look(ref this.name, nameof(this.name));
 			Scribe_Values.Look(ref this.summary, nameof(this.summary));
 			Scribe_Values.Look(ref this.description, nameof(this.description));
-
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = this.parts.ToList();
-#else
-			List<PawnFilterPart> parts = [.. this.parts];
-#endif
-			Scribe_Collections.Look(ref parts, nameof(parts), LookMode.Deep);
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.parts = new Collection<PawnFilterPart>(parts);
-#else
-			this.parts = new(parts);
-#endif
+			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
-				if (this.parts.Any((part) => part is null)) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-					while (this.parts.Any((part) => part is null)) {
-						this.parts.Remove(this.parts.First((part) => part is null));
-					}
-#else
-					this.parts.RemoveWhere((part) => part is null);
-#endif
+				if (this.parts.RemoveAll((part) => part is null) > 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
 				}
 
-				if (this.parts.Any((part) => part.HasNullDefs())) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-					while (this.parts.Any((part) => part.HasNullDefs())) {
-						this.parts.Remove(this.parts.First((part) => part.HasNullDefs()));
-					}
-#else
-					this.parts.RemoveWhere((part) => part.HasNullDefs());
-#endif
+				if (this.parts.RemoveAll((part) => part.HasNullDefs()) > 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts had null definitions.");
 				}
 			}
@@ -214,13 +190,9 @@ namespace Lakuna.PrepareModerately.Filter {
 					NameP = this.NameP,
 					SummaryP = this.SummaryP,
 					DescriptionP = this.DescriptionP,
-					CategoryP = PawnFilterCategory.CustomLocal,
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					parts = new Collection<PawnFilterPart>(this.parts.Select((part) => part.CopyForEditing()).ToList())
-#else
-					parts = new([.. this.parts.Select((part) => part.CopyForEditing())])
-#endif
+					CategoryP = PawnFilterCategory.CustomLocal
 				};
+				copyForEditing.parts.AddRange(this.PartsP.Select((part) => part.CopyForEditing()));
 				return copyForEditing;
 			}
 		}
@@ -315,7 +287,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public PawnFilter() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.parts = new Collection<PawnFilterPart>();
+			this.parts = new List<PawnFilterPart>();
 #else
 			this.parts = [];
 #endif

@@ -20,7 +20,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private const int WidgetRowMaxWidth = 24;
 
-		private Collection<SkillDef> skills;
+#pragma warning disable CA1002 // RimWorld requires a `List` to serialize with `Scribe_Collections.Look`.
+		private List<SkillDef> skills;
+#pragma warning restore CA1002
 
 		private IntRange range;
 
@@ -106,7 +108,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			int skillCount = Rand.Range(2, 5);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.skills = new Collection<SkillDef>();
+			this.skills = new List<SkillDef>();
 #else
 			this.skills = [];
 #endif
@@ -123,18 +125,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<SkillDef> skills = this.skills.ToList();
-#else
-			List<SkillDef> skills = [.. this.skills];
-#endif
-			Scribe_Collections.Look(ref skills, nameof(skills), LookMode.Def);
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.skills = new Collection<SkillDef>(skills);
-#else
-			this.skills = new(skills);
-#endif
+			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
 		}
 	}
 }
