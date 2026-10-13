@@ -12,6 +12,7 @@
 		<Deterministic>true</Deterministic>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
 		<IsPublishable>false</IsPublishable>
 		<Optimize>true</Optimize>
 		<PackageId>Lakuna.PrepareModerately</PackageId>
