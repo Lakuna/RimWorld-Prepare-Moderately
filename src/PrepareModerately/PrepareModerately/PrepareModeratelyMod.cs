@@ -29,7 +29,7 @@ namespace Lakuna.PrepareModerately {
 			Rect rollSpeedMultiplierRect = listing.GetRect(Text.LineHeight);
 			Widgets.Label(rollSpeedMultiplierRect.LeftPart(labelWidthPercentage), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplierP).CapitalizeFirst());
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Settings.RollSpeedMultiplier = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.RollSpeedMultiplier, 1, 100);
+			Settings.RollSpeedMultiplierP = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.RollSpeedMultiplierP, 1, 100);
 #else
 			float rollSpeedMultiplier = Settings.RollSpeedMultiplierP;
 			Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), ref rollSpeedMultiplier, new FloatRange(1, 100));

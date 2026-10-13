@@ -110,7 +110,7 @@ namespace Lakuna.PrepareModerately.UI {
 			List<PawnFilterPart> parts = [];
 #endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-			foreach (PawnFilterPart part in filter.Parts) {
+			foreach (PawnFilterPart part in filter.PartsP) {
 				parts.Add(part);
 			}
 #else

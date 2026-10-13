@@ -20,7 +20,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.Trait)?.Degree == this.traitDegreePair.Degree;
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.TraitP)?.Degree == this.traitDegreePair.DegreeP;
 #else
 			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.TraitP)?.Degree == this.traitDegreePair.DegreeP
 			|| pawn.genes.GenesListForReading.Any((gene) =>
