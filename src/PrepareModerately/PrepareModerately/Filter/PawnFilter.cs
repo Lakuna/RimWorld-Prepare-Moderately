@@ -132,7 +132,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
 				if (this.parts.Any((part) => part is null)) {
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 					while (this.parts.Any((part) => part is null)) {
 						this.parts.Remove(this.parts.First((part) => part is null));
 					}
@@ -143,7 +143,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 				if (this.parts.Any((part) => part.HasNullDefs())) {
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 					while (this.parts.Any((part) => part.HasNullDefs())) {
 						this.parts.Remove(this.parts.First((part) => part.HasNullDefs()));
 					}
