@@ -1,6 +1,6 @@
 using System;
 
-using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Ui;
 
 using UnityEngine;
 

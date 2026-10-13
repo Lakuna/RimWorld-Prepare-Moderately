@@ -11,7 +11,7 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Page_ScenarioEditor`.
 	public class PawnFilterEditorPage : Page {
 		public PawnFilter Filter {

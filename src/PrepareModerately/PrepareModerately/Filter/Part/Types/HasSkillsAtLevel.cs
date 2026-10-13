@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Ui;
 
 using RimWorld;
 

@@ -9,7 +9,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	public class RollingDialog : Page {
 		private int iterations; // Will always be off by one (the "vanilla" iteration), but this should cause less confusion for the user.
 

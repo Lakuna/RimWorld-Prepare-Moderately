@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Ui;
 
 using Verse;
 

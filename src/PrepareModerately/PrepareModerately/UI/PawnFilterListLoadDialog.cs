@@ -4,7 +4,7 @@ using Lakuna.PrepareModerately.Filter;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList_Load`.
 	public class PawnFilterListLoadDialog : PawnFilterListDialog {
 		private readonly Action<PawnFilter> filterReturner;

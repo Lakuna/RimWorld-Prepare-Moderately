@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	public class ExceptionDialog : Window {
 		private readonly Exception e;
 

@@ -7,7 +7,7 @@ using RimWorld;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList_Save`.
 	public class PawnFilterListSaveDialog : PawnFilterListDialog {
 		private readonly PawnFilter filter;

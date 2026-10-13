@@ -8,7 +8,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.ScenarioUI`.
 	static internal class PawnFilterUi {
 		private static float EditViewHeight;

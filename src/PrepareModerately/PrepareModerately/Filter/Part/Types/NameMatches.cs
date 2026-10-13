@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Ui;
 
 using UnityEngine;
 

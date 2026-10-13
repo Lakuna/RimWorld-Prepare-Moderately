@@ -2,7 +2,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.UI {
+namespace Lakuna.PrepareModerately.Ui {
 	// Based on `Verse.TexButton`.
 	[StaticConstructorOnStartup]
 	internal static class Textures {

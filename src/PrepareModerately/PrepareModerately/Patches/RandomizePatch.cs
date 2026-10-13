@@ -8,7 +8,7 @@ using HarmonyLib;
 #endif
 
 using Lakuna.PrepareModerately.Filter;
-using Lakuna.PrepareModerately.UI;
+using Lakuna.PrepareModerately.Ui;
 
 using Verse;
 
