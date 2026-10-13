@@ -1,5 +1,3 @@
-![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2057362949?style=for-the-badge)
-
 # Prepare Moderately
 
 A RimWorld mod that rerolls pawns until they meet user-defined criteria.

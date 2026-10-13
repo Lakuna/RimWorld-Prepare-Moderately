@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
       - name: .NET Build
         run: dotnet build -c v${{ matrix.configuration }}
         working-directory: src/PrepareModerately
@@ -25,7 +25,7 @@ jobs:
           path: ${{ matrix.configuration }}
     strategy:
       matrix:
-        configuration: ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6"]
+        configuration: ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7"]
   
   combine:
     name: Combine
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Download Artifacts
         uses: actions/download-artifact@v8
         with:
@@ -49,6 +49,7 @@ jobs:
           rm -f 1.4/Assemblies/0Harmony.dll
           rm -f 1.5/Assemblies/0Harmony.dll
           rm -f 1.6/Assemblies/0Harmony.dll
+          rm -f 1.7/Assemblies/0Harmony.dll
           rm -rf src
           rm -f .gitignore
           rm -f README.md
