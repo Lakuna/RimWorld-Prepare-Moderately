@@ -14,11 +14,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private const int MinAge =
 #if V1_0 || V1_1 || V1_2 || V1_3
-			14
+			14;
 #else
-			0
+			0;
 #endif
-			;
 
 		private const int MaxAge = 120;
 
@@ -29,9 +28,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private IntRange hoursRange;
 
 		public override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
 
 			if (this.range.max > 0) {
 				long yearsOld = pawn.ageTracker.AgeBiologicalYears;
@@ -48,9 +51,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			int displayedExtraRanges = this.range.max > 0 ? 0 : (this.daysRange.max > 0 ? 1 : 2);
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * displayedExtraRanges, out totalAddedListHeight, out Rect headerRemainderRect);
@@ -59,12 +66,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			float labelWidthPercentage = 0.2f;
 			if (displayedExtraRanges >= 1) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				Rect daysRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
+#else
+				Rect daysRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
+#endif
 				Widgets.Label(daysRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Days".Translate().CapitalizeFirst());
 				Widgets.IntRange(daysRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.daysRange, 0, 60);
 
 				if (displayedExtraRanges >= 2) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					Rect hoursRect = new Rect(rect.x, daysRect.yMax, rect.width, Text.LineHeight);
+#else
+					Rect hoursRect = new(rect.x, daysRect.yMax, rect.width, Text.LineHeight);
+#endif
 					Widgets.Label(hoursRect.LeftPart(labelWidthPercentage).Rounded(), "PM.Hours".Translate().CapitalizeFirst());
 					Widgets.IntRange(hoursRect.RightPart(1 - labelWidthPercentage), Rand.Int, ref this.hoursRange, 0, 24);
 				}

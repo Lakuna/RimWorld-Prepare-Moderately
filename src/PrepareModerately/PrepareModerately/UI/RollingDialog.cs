@@ -15,7 +15,12 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private readonly Action rollAction;
 
-		private static readonly Vector2 Size = new Vector2(450, 150);
+		private static readonly Vector2 Size =
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			new Vector2(450, 150);
+#else
+			new(450, 150);
+#endif
 
 		public RollingDialog(Action rollAction) {
 			this.closeOnClickedOutside = true;
@@ -31,7 +36,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.Label(inRect, $"{"PM.RollingNumber".Translate(this.iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}");
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
-			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplier; i++) {
+			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplierP; i++) {
 				if (PawnFilter.Current.Matches(RandomizePatch.Result)) {
 					this.Close();
 					return;

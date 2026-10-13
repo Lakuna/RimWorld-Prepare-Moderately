@@ -19,36 +19,40 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.story.traits.allTraits.Find((trait) =>
-				trait.def == this.traitDegreePair.Trait)?.Degree == this.traitDegreePair.Degree
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if V1_0 || V1_1 || V1_2 || V1_3
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.Trait)?.Degree == this.traitDegreePair.Degree;
+#else
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.TraitP)?.Degree == this.traitDegreePair.DegreeP
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.suppressedTraits?.Any((traitData) =>
-					traitData.def == this.traitDegreePair.Trait
-					&& traitData.degree == this.traitDegreePair.Degree
+					traitData.def == this.traitDegreePair.TraitP
+					&& traitData.degree == this.traitDegreePair.DegreeP
 				) ?? false
-			)
+			);
 #endif
-			;
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
 		public override bool NotMatches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.story.traits.allTraits.Find((trait) =>
-				trait.def == this.traitDegreePair.Trait)?.Degree != this.traitDegreePair.Degree
+				trait.def == this.traitDegreePair.TraitP)?.Degree != this.traitDegreePair.DegreeP
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.forcedTraits?.Any((traitData) =>
-					traitData.def == this.traitDegreePair.Trait
-					&& traitData.degree == this.traitDegreePair.Degree
+					traitData.def == this.traitDegreePair.TraitP
+					&& traitData.degree == this.traitDegreePair.DegreeP
 				) ?? false
 			);
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0

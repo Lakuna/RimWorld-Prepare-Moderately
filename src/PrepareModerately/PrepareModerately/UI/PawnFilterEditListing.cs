@@ -12,14 +12,17 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
 	// Based on `Verse.Listing_ScenEdit`.
-	public class PawnFilterEditListing : Listing_Standard {
-		private readonly PawnFilter filter;
-
-		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
+	public class PawnFilterEditListing(PawnFilter filter) : Listing_Standard {
+		private readonly PawnFilter filter = filter;
 
 		private static readonly float HeaderHeight = Text.LineHeight;
 
-		private static readonly Color PartRectBgColor = new Color(1, 1, 1, 0.08f);
+		private static readonly Color PartRectBgColor =
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			new Color(1, 1, 1, 0.08f);
+#else
+			new(1, 1, 1, 0.08f);
+#endif
 
 		private const float WidgetRowMaxWidth = 72;
 
@@ -30,17 +33,27 @@ namespace Lakuna.PrepareModerately.UI {
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) => this.GetPawnFilterPartRect(part, height, out totalAddedListHeight, out _);
 
 		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight, out Rect headerRemainderRect) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (part is null) {
 				throw new ArgumentNullException(nameof(part));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(part);
+#endif
 
 			Rect rect = this.GetRect(HeaderHeight + height);
 			Widgets.DrawBoxSolid(rect, PartRectBgColor);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect headerRect = new Rect(rect.x, rect.y, rect.width, HeaderHeight);
 			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
 			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
+#else
+			Rect headerRect = new(rect.x, rect.y, rect.width, HeaderHeight);
+			Rect widgetRect = new(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
+			WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
+#endif
 
-			if (part.Def.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
+			if (part.DefP.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}
@@ -56,7 +69,11 @@ namespace Lakuna.PrepareModerately.UI {
 			}
 
 			string label = part.Label.CapitalizeFirst();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height);
+#else
+			Rect labelRect = new(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height);
+#endif
 			Widgets.Label(labelRect, label);
 
 			headerRemainderRect = new Rect(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);

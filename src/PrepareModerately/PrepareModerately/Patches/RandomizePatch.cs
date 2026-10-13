@@ -34,7 +34,7 @@ namespace Lakuna.PrepareModerately.Patches {
 				return;
 			}
 
-			if (PawnFilter.Current is null || !PawnFilter.Current.Parts.Any()) {
+			if (PawnFilter.Current is null || !PawnFilter.Current.PartsP.Any()) {
 				return;
 			}
 
@@ -42,7 +42,11 @@ namespace Lakuna.PrepareModerately.Patches {
 				return;
 			}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, new object[] { Result })));
+#else
+			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, [Result])));
+#endif
 
 			IsActivelyRolling = true;
 		}

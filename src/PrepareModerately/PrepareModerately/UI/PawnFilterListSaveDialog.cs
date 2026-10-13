@@ -15,12 +15,16 @@ namespace Lakuna.PrepareModerately.UI {
 		protected override bool ShouldDoTypeInField => true;
 
 		public PawnFilterListSaveDialog(PawnFilter filter) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
 
 			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst();
-			this.typingName = filter.Name;
+			this.typingName = filter.NameP;
 			this.filter = filter;
 		}
 

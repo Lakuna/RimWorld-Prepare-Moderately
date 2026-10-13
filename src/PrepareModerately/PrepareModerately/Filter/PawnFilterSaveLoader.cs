@@ -13,9 +13,13 @@ namespace Lakuna.PrepareModerately.Filter {
 		private const string FilterNodeName = "filter";
 
 		public static void Save(PawnFilter filter, string absolutePath) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
 
 			try {
 				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
@@ -46,7 +50,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 				filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
-				filter.Category = category;
+				filter.CategoryP = category;
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031

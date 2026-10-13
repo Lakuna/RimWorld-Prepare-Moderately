@@ -14,7 +14,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasPassion : PawnFilterPart {
 		private static IEnumerable<SkillDef> LegalSkills => DefDatabase<SkillDef>.AllDefs;
 
-		private static IEnumerable<Passion> LegalPassions => Enum.GetValues(typeof(Passion)).OfType<Passion>();
+		private static IEnumerable<Passion> LegalPassions =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Enum.GetValues(typeof(Passion)).OfType<Passion>();
+#else
+			Enum.GetValues<Passion>().OfType<Passion>();
+#endif
 
 		private SkillDef skill;
 
@@ -28,14 +33,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
+#if V1_0 || V1_1 || V1_2 || V1_3
+			: pawn.skills.GetSkill(this.skill).passion == this.passion;
+#else
 			: pawn.skills.GetSkill(this.skill).passion == this.passion
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.passionMod != null
 				&& gene.def.passionMod.skill == this.skill
-				&& !PassionIsPossibleWithModifier(this.passion, gene.def.passionMod.modType))
+				&& !PassionIsPossibleWithModifier(this.passion, gene.def.passionMod.modType));
 #endif
-			;
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
@@ -50,20 +56,32 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
+#else
+			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
+#endif
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
 				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
+#else
+			Rect passionRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
+#endif
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),

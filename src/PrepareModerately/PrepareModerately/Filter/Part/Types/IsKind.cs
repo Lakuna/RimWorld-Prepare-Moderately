@@ -20,8 +20,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: LegalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
 			: def.LabelCap;
 #else
-		private static TaggedString GetUniqueLabelFor(PawnKindDef def) =>
-			def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
+		private static TaggedString GetUniqueLabelFor(PawnKindDef def) => def is null
+			? throw new ArgumentNullException(nameof(def))
+			: def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
 			: LegalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
 			: def.LabelCap;
 #endif
@@ -33,9 +34,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: pawn.kindDef == this.kind;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this.kind))) {
@@ -49,9 +54,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() => this.kind =
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-		Find.GameInitData?.startingPawnKind ??
+			Find.GameInitData?.startingPawnKind ??
 #endif
-		Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
+			Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
 
 		public override void ExposeData() {
 			base.ExposeData();

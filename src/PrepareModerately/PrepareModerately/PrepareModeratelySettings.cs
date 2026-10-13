@@ -6,9 +6,7 @@ namespace Lakuna.PrepareModerately {
 	public class PrepareModeratelySettings : ModSettings {
 		private string filterSavePath;
 
-		private int rollSpeedMultiplier;
-
-		public string FilterSavePath {
+		public string FilterSavePathP {
 			get {
 				if (string.IsNullOrEmpty(this.filterSavePath)) {
 					this.filterSavePath = PawnFilter.DefaultDataPath;
@@ -19,7 +17,9 @@ namespace Lakuna.PrepareModerately {
 			set => this.filterSavePath = value;
 		}
 
-		public int RollSpeedMultiplier {
+		private int rollSpeedMultiplier;
+
+		public int RollSpeedMultiplierP {
 			get {
 				if (this.rollSpeedMultiplier < 1) {
 					this.rollSpeedMultiplier = 1;
@@ -31,8 +31,8 @@ namespace Lakuna.PrepareModerately {
 		}
 
 		public PrepareModeratelySettings() {
-			this.FilterSavePath = PawnFilter.DefaultDataPath;
-			this.RollSpeedMultiplier = 1;
+			this.FilterSavePathP = PawnFilter.DefaultDataPath;
+			this.RollSpeedMultiplierP = 1;
 		}
 
 		public override void ExposeData() {

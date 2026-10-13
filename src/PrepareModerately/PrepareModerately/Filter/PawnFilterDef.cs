@@ -11,15 +11,15 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.filter.Name.NullOrEmpty()) {
-				this.filter.Name = this.label;
+			if (this.filter.NameP.NullOrEmpty()) {
+				this.filter.NameP = this.label;
 			}
 
-			if (this.filter.Description.NullOrEmpty()) {
-				this.filter.Description = this.description;
+			if (this.filter.DescriptionP.NullOrEmpty()) {
+				this.filter.DescriptionP = this.description;
 			}
 
-			this.filter.Category = PawnFilterCategory.FromDef;
+			this.filter.CategoryP = PawnFilterCategory.FromDef;
 		}
 
 		public override IEnumerable<string> ConfigErrors() {

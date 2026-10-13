@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Filter;
@@ -85,7 +86,13 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private void DoConfigControls(Rect inRect) {
-			Listing_Standard listing = new Listing_Standard() { ColumnWidth = ConfigControlsColumnWidth };
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Listing_Standard listing = new Listing_Standard() {
+#else
+			Listing_Standard listing = new() {
+#endif
+				ColumnWidth = ConfigControlsColumnWidth
+			};
 			listing.Begin(inRect);
 
 			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst())) {
@@ -133,14 +140,22 @@ namespace Lakuna.PrepareModerately.UI {
 		}
 
 		private static bool CheckAllPartsCompatible(PawnFilter filter) {
-			foreach (PawnFilterPart part in filter.Parts) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (filter is null) {
+				throw new ArgumentNullException(nameof(filter));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
+
+			foreach (PawnFilterPart part in filter.PartsP) {
 				int num = 0;
-				foreach (PawnFilterPart part2 in filter.Parts) {
-					if (part2.Def == part.Def) {
+				foreach (PawnFilterPart part2 in filter.PartsP) {
+					if (part2.DefP == part.DefP) {
 						num++;
 					}
 
-					if (num > part.Def.maxUses) {
+					if (num > part.DefP.maxUses) {
 						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}

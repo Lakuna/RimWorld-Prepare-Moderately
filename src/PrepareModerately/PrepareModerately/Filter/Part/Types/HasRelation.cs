@@ -12,7 +12,9 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public class HasRelation : PawnFilterPart {
-		private static string GetCombinedLabelFor(PawnRelationDef def) => def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
+		private static string GetCombinedLabelFor(PawnRelationDef def) => def is null
+			? throw new ArgumentNullException(nameof(def))
+			: def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
 
 		private static IEnumerable<PawnRelationDef> LegalRelations => DefDatabase<PawnRelationDef>.AllDefs;
 
@@ -40,13 +42,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation)));
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this.relation).CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy((def) => GetUniqueCombinedLabelFor(def)),
+				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy(GetUniqueCombinedLabelFor),
 					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirst(),
 					(def) => () => this.relation = def);
 			}
@@ -63,6 +69,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
-			: other.Def != PawnFilterPartDefOf.HasAnyRelation;
+			: other.DefP != PawnFilterPartDefOf.HasAnyRelation;
 	}
 }

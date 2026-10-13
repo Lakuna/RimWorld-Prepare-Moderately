@@ -20,9 +20,13 @@ namespace Lakuna.PrepareModerately.Utility {
 		/// <param name="category">The exception's category. If this isn't the default category, only one message of this category can be printed.</param>
 		/// <exception cref="ArgumentNullException">When no exception is given.</exception>
 		internal static void LogException(Exception e, string description = "No description provided.", PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (e is null) {
 				throw new ArgumentNullException(nameof(e));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(e);
+#endif
 
 			string output = $"{Prefix}{description}\n";
 

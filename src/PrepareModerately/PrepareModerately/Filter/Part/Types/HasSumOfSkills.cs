@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using Lakuna.PrepareModerately.UI;
@@ -19,14 +20,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private const int WidgetRowMaxWidth = 24;
 
-		private List<SkillDef> skills;
+		private Collection<SkillDef> skills;
 
 		private IntRange range;
 
 		public override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
 
 			int sum = 0;
 			foreach (SkillRecord skill in pawn.skills.skills.Where((s) => this.skills.Contains(s.def))) {
@@ -37,15 +42,23 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (1 + this.skills.Count), out totalAddedListHeight, out Rect headerRemainderRect);
 
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, SkillRecord.MinLevel * this.skills.Count, SkillRecord.MaxLevel * this.skills.Count);
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
+#else
+			Rect addSkillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
+#endif
 			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(this.AddableSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
@@ -55,19 +68,32 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// List added skills.
 			float y = addSkillRect.yMax;
 			foreach (SkillDef skill in this.skills.OrderBy((s) => s.label)) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				Rect skillRect = new Rect(rect.x, y, rect.width, Text.LineHeight);
+#else
+				Rect skillRect = new(rect.x, y, rect.width, Text.LineHeight);
+#endif
 				y = skillRect.yMax; // Increment `y` for next skill.
 
 				// "Remove" button.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				Rect widgetRect = new Rect(skillRect.x, skillRect.y, WidgetRowMaxWidth, skillRect.height);
 				WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
+#else
+				Rect widgetRect = new(skillRect.x, skillRect.y, WidgetRowMaxWidth, skillRect.height);
+				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
+#endif
 				if (widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 					_ = this.skills.Remove(skill);
 					SoundDefOf.Click.PlayOneShotOnCamera();
 				}
 
 				// Label.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				Rect labelRect = new Rect(widgetRect.xMax, skillRect.y, Text.CalcSize(skill.LabelCap).x, skillRect.height);
+#else
+				Rect labelRect = new(widgetRect.xMax, skillRect.y, Text.CalcSize(skill.LabelCap).x, skillRect.height);
+#endif
 				Widgets.Label(labelRect, skill.LabelCap);
 			}
 		}
@@ -79,7 +105,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override void Randomize() {
 			int skillCount = Rand.Range(2, 5);
 
-			this.skills = new List<SkillDef>();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this.skills = new Collection<SkillDef>();
+#else
+			this.skills = [];
+#endif
 			for (int i = 0; i < skillCount; i++) {
 				this.skills.Add(this.AddableSkills.RandomElement());
 			}
@@ -93,7 +123,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
-			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			List<SkillDef> skills = this.skills.ToList();
+#else
+			List<SkillDef> skills = [.. this.skills];
+#endif
+			Scribe_Collections.Look(ref skills, nameof(skills), LookMode.Def);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this.skills = new Collection<SkillDef>(skills);
+#else
+			this.skills = new(skills);
+#endif
 		}
 	}
 }

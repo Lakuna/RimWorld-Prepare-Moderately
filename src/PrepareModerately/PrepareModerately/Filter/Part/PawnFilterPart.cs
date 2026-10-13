@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		[TranslationHandle]
 		private PawnFilterPartDef def;
 
-		public virtual PawnFilterPartDef Def {
+		public virtual PawnFilterPartDef DefP {
 			get => this.def;
 			set => this.def = value;
 		}
@@ -36,9 +36,13 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
 
 		public virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight);
 		}
