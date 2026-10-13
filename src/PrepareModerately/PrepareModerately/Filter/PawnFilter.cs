@@ -22,7 +22,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		[MustTranslate]
 		private string name;
 
-		public string NameP {
+		public string PName {
 			get => this.name;
 			set => this.name = value;
 		}
@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		[MustTranslate]
 		private string summary;
 
-		public string SummaryP {
+		public string PSummary {
 			get => this.summary;
 			set => this.summary = value;
 		}
@@ -38,7 +38,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		[MustTranslate]
 		private string description;
 
-		public string DescriptionP {
+		public string PDescription {
 			get => this.description;
 			set => this.description = value;
 		}
@@ -47,7 +47,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private List<PawnFilterPart> parts;
 #pragma warning restore CA1002
 
-		public IEnumerable<PawnFilterPart> PartsP => this.parts;
+		public IEnumerable<PawnFilterPart> PParts => this.parts;
 
 		public void AddPart(PawnFilterPart part, bool prepend = false) {
 			if (prepend) {
@@ -67,7 +67,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private PawnFilterCategory category;
 
-		public PawnFilterCategory CategoryP {
+		public PawnFilterCategory PCategory {
 			get {
 				if (this.category == PawnFilterCategory.Undefined) {
 					PrepareModeratelyLogger.LogErrorMessage("Filter category is undefined.");
@@ -130,13 +130,13 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public IEnumerable<string> ConfigErrors() {
-			if (this.NameP.NullOrEmpty()) {
+			if (this.PName.NullOrEmpty()) {
 				yield return "No title.";
 			}
 
 			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
-			foreach (PawnFilterPart part in this.PartsP) {
+			foreach (PawnFilterPart part in this.PParts) {
 				foreach (string item in part.ConfigErrors()) {
 					yield return item;
 				}
@@ -151,17 +151,17 @@ namespace Lakuna.PrepareModerately.Filter {
 #else
 					StringBuilder stringBuilder = new();
 #endif
-					_ = stringBuilder.AppendLine(this.DescriptionP);
+					_ = stringBuilder.AppendLine(this.PDescription);
 					_ = stringBuilder.AppendLine();
 
-					foreach (PawnFilterPart part in this.PartsP) {
+					foreach (PawnFilterPart part in this.PParts) {
 						part.Summarized = false;
 					}
 
 					foreach (PawnFilterPart part in
-						from part in this.PartsP
-						orderby part.DefP.summaryPriority descending,
-						part.DefP.defName
+						from part in this.PParts
+						orderby part.PDef.summaryPriority descending,
+						part.PDef.defName
 						where part.Visible
 						select part) {
 						string summary = MiscellaneousUtility.EndWithPeriod(part.Summary(this).CapitalizeFirst());
@@ -187,18 +187,18 @@ namespace Lakuna.PrepareModerately.Filter {
 #else
 				PawnFilter copyForEditing = new() {
 #endif
-					NameP = this.NameP,
-					SummaryP = this.SummaryP,
-					DescriptionP = this.DescriptionP,
-					CategoryP = PawnFilterCategory.CustomLocal
+					PName = this.PName,
+					PSummary = this.PSummary,
+					PDescription = this.PDescription,
+					PCategory = PawnFilterCategory.CustomLocal
 				};
-				copyForEditing.parts.AddRange(this.PartsP.Select((part) => part.CopyForEditing()));
+				copyForEditing.parts.AddRange(this.PParts.Select((part) => part.CopyForEditing()));
 				return copyForEditing;
 			}
 		}
 
 		public bool Matches(Pawn pawn) {
-			foreach (PawnFilterPart part in this.PartsP) {
+			foreach (PawnFilterPart part in this.PParts) {
 				if (!part.Matches(pawn)) {
 					return false;
 				}
@@ -216,7 +216,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			ArgumentNullException.ThrowIfNull(part);
 #endif
 
-			if (!part.DefP.PlayerAddRemovable) {
+			if (!part.PDef.PlayerAddRemovable) {
 				return false;
 			}
 
@@ -227,7 +227,7 @@ namespace Lakuna.PrepareModerately.Filter {
 						return false;
 					}
 
-					if (index > 0 && !this.parts[index - 1].DefP.PlayerAddRemovable) {
+					if (index > 0 && !this.parts[index - 1].PDef.PlayerAddRemovable) {
 						return false;
 					}
 
@@ -254,31 +254,31 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public override string ToString() => this.NameP.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.NameP;
+		public override string ToString() => this.PName.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst() : this.PName;
 
 		public override int GetHashCode() {
 			int hash = 5251977;
-			if (this.NameP != null) {
+			if (this.PName != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.NameP.GetHashCode();
+				hash ^= this.PName.GetHashCode();
 #else
-				hash ^= this.NameP.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.PName.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
-			if (this.SummaryP != null) {
+			if (this.PSummary != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.SummaryP.GetHashCode();
+				hash ^= this.PSummary.GetHashCode();
 #else
-				hash ^= this.SummaryP.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.PSummary.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
-			if (this.DescriptionP != null) {
+			if (this.PDescription != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.DescriptionP.GetHashCode();
+				hash ^= this.PDescription.GetHashCode();
 #else
-				hash ^= this.DescriptionP.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.PDescription.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
@@ -307,7 +307,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			.Invoke(null, [DataFolder]);
 #endif
 
-		public static string DataPath => PrepareModeratelyMod.Settings.FilterSavePathP.NullOrEmpty() ? DefaultDataPath : PrepareModeratelyMod.Settings.FilterSavePathP;
+		public static string DataPath => PrepareModeratelyMod.Settings.PFilterSavePath.NullOrEmpty() ? DefaultDataPath : PrepareModeratelyMod.Settings.PFilterSavePath;
 
 		public static IEnumerable<FileInfo> AllFiles {
 			get {

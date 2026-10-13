@@ -34,10 +34,10 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 			Filter = new PawnFilter {
-				CategoryP = PawnFilterCategory.CustomLocal,
-				NameP = NameGenerator.GenerateName(RulePackDefOf.NamerScenario),
-				DescriptionP = null,
-				SummaryP = null
+				PCategory = PawnFilterCategory.CustomLocal,
+				PName = NameGenerator.GenerateName(RulePackDefOf.NamerScenario),
+				PDescription = null,
+				PSummary = null
 			};
 
 			Rand.PushState();
@@ -49,18 +49,18 @@ namespace Lakuna.PrepareModerately.Filter {
 
 			AddPartsFromCategory(Filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
 
-			foreach (PawnFilterPart part in Filter.PartsP) {
+			foreach (PawnFilterPart part in Filter.PParts) {
 				part.Randomize();
 			}
 
-			for (int i = 0; i < Filter.PartsP.Count(); i++) {
-				for (int j = 0; j < Filter.PartsP.Count(); j++) {
+			for (int i = 0; i < Filter.PParts.Count(); i++) {
+				for (int j = 0; j < Filter.PParts.Count(); j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (Filter.PartsP.ElementAt(i).TryMerge(Filter.PartsP.ElementAt(j))) {
-						Filter.RemovePart(Filter.PartsP.ElementAt(j));
+					if (Filter.PParts.ElementAt(i).TryMerge(Filter.PParts.ElementAt(j))) {
+						Filter.RemovePart(Filter.PParts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -69,14 +69,14 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 			}
 
-			for (int i = 0; i < Filter.PartsP.Count(); i++) {
-				for (int j = 0; j < Filter.PartsP.Count(); j++) {
+			for (int i = 0; i < Filter.PParts.Count(); i++) {
+				for (int j = 0; j < Filter.PParts.Count(); j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (!Filter.PartsP.ElementAt(i).CanCoexistWith(Filter.PartsP.ElementAt(j))) {
-						Filter.RemovePart(Filter.PartsP.ElementAt(j));
+					if (!Filter.PParts.ElementAt(i).CanCoexistWith(Filter.PParts.ElementAt(j))) {
+						Filter.RemovePart(Filter.PParts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -146,12 +146,12 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) => LegalPawnFilterParts.Where((def) => filter.PartsP.Count((part) => part.DefP == def) < def.maxUses);
+		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) => LegalPawnFilterParts.Where((def) => filter.PParts.Count((part) => part.PDef == def) < def.maxUses);
 
 		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) =>
 			filter is null ? throw new ArgumentNullException(nameof(filter))
 			: part is null ? throw new ArgumentNullException(nameof(part))
-			: filter.PartsP.All(part.CanCoexistWith);
+			: filter.PParts.All(part.CanCoexistWith);
 
 		public static PawnFilterPart MakeFilterPart(PawnFilterPartDef def) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -163,7 +163,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.filterPartClass);
-			part.DefP = def;
+			part.PDef = def;
 			return part;
 		}
 	}

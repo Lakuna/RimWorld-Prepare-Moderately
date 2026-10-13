@@ -61,6 +61,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool CanCoexistWith(PawnFilterPart other) => other is null
 			? throw new ArgumentNullException(nameof(other))
-			: other.DefP != PawnFilterPartDefOf.IsCapableOf;
+			: other.PDef != PawnFilterPartDefOf.IsCapableOf;
 	}
 }

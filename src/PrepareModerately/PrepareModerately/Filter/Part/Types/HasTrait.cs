@@ -20,13 +20,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Matches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.TraitP)?.Degree == this.traitDegreePair.DegreeP;
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.PTrait)?.Degree == this.traitDegreePair.PDegree;
 #else
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.TraitP)?.Degree == this.traitDegreePair.DegreeP
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.PTrait)?.Degree == this.traitDegreePair.PDegree
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.suppressedTraits?.Any((traitData) =>
-					traitData.def == this.traitDegreePair.TraitP
-					&& traitData.degree == this.traitDegreePair.DegreeP
+					traitData.def == this.traitDegreePair.PTrait
+					&& traitData.degree == this.traitDegreePair.PDegree
 				) ?? false
 			);
 #endif
@@ -36,11 +36,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool NotMatches(Pawn pawn) => pawn is null
 			? throw new ArgumentNullException(nameof(pawn))
 			: pawn.story.traits.allTraits.Find((trait) =>
-				trait.def == this.traitDegreePair.TraitP)?.Degree != this.traitDegreePair.DegreeP
+				trait.def == this.traitDegreePair.PTrait)?.Degree != this.traitDegreePair.PDegree
 			|| pawn.genes.GenesListForReading.Any((gene) =>
 				gene.def.forcedTraits?.Any((traitData) =>
-					traitData.def == this.traitDegreePair.TraitP
-					&& traitData.degree == this.traitDegreePair.DegreeP
+					traitData.def == this.traitDegreePair.PTrait
+					&& traitData.degree == this.traitDegreePair.PDegree
 				) ?? false
 			);
 #endif

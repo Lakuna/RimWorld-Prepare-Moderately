@@ -44,7 +44,7 @@ namespace Lakuna.PrepareModerately.UI {
 			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
 
 			Text.Font = GameFont.Medium;
-			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.NameP);
+			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
 
 			Text.Font = GameFont.Small;
 			Widgets.Label(new Rect(0, FilterNameLabelHeight, viewRect.width, viewRect.height - FilterNameLabelHeight), fullInformationText);
@@ -84,22 +84,22 @@ namespace Lakuna.PrepareModerately.UI {
 
 #if V1_0
 			listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.NameP = listing.TextEntry(filter.NameP).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.PName = listing.TextEntry(filter.PName).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.SummaryP = listing.TextEntry(filter.SummaryP, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.PSummary = listing.TextEntry(filter.PSummary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.DescriptionP = listing.TextEntry(filter.DescriptionP, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.PDescription = listing.TextEntry(filter.PDescription, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #else
 			_ = listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.NameP = listing.TextEntry(filter.NameP).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.PName = listing.TextEntry(filter.PName).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.SummaryP = listing.TextEntry(filter.SummaryP, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.PSummary = listing.TextEntry(filter.PSummary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.DescriptionP = listing.TextEntry(filter.DescriptionP, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.PDescription = listing.TextEntry(filter.PDescription, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #endif
 
 			listing.Gap();
@@ -110,11 +110,11 @@ namespace Lakuna.PrepareModerately.UI {
 			List<PawnFilterPart> parts = [];
 #endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-			foreach (PawnFilterPart part in filter.PartsP) {
+			foreach (PawnFilterPart part in filter.PParts) {
 				parts.Add(part);
 			}
 #else
-			filter.PartsP.CopyToList(parts);
+			filter.PParts.CopyToList(parts);
 #endif
 			foreach (PawnFilterPart part in parts) {
 				part.DoEditInterface(listing, out _);

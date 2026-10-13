@@ -60,7 +60,7 @@ namespace Lakuna.PrepareModerately.UI {
 			WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
 
-			if (part.DefP.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
+			if (part.PDef.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}

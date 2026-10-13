@@ -22,18 +22,18 @@ namespace Lakuna.PrepareModerately {
 
 			Rect filterSavePathRect = listing.GetRect(Text.LineHeight);
 			Widgets.Label(filterSavePathRect.LeftPart(labelWidthPercentage), "PM.FilterSavePath".Translate().CapitalizeFirst());
-			Settings.FilterSavePathP = Widgets.TextArea(filterSavePathRect.RightPart(1 - labelWidthPercentage), Settings.FilterSavePathP);
+			Settings.PFilterSavePath = Widgets.TextArea(filterSavePathRect.RightPart(1 - labelWidthPercentage), Settings.PFilterSavePath);
 
 			listing.Gap(); // So that the horizontal slider's bound numbers don't intersect with the text area.
 
 			Rect rollSpeedMultiplierRect = listing.GetRect(Text.LineHeight);
-			Widgets.Label(rollSpeedMultiplierRect.LeftPart(labelWidthPercentage), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplierP).CapitalizeFirst());
+			Widgets.Label(rollSpeedMultiplierRect.LeftPart(labelWidthPercentage), "PM.RollSpeedMultiplierNumber".Translate(Settings.PRollSpeedMultiplier).CapitalizeFirst());
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Settings.RollSpeedMultiplierP = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.RollSpeedMultiplierP, 1, 100);
+			Settings.PRollSpeedMultiplier = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.PRollSpeedMultiplier, 1, 100);
 #else
-			float rollSpeedMultiplier = Settings.RollSpeedMultiplierP;
+			float rollSpeedMultiplier = Settings.PRollSpeedMultiplier;
 			Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), ref rollSpeedMultiplier, new FloatRange(1, 100));
-			Settings.RollSpeedMultiplierP = (int)rollSpeedMultiplier;
+			Settings.PRollSpeedMultiplier = (int)rollSpeedMultiplier;
 #endif
 
 			listing.End();

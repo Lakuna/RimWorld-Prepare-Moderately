@@ -88,7 +88,7 @@ namespace Lakuna.PrepareModerately.UI {
 
 		private static bool CanEditFilter(PawnFilter filter) =>
 			filter is null ? throw new ArgumentNullException(nameof(filter))
-			: filter.CategoryP == PawnFilterCategory.CustomLocal;
+			: filter.PCategory == PawnFilterCategory.CustomLocal;
 
 		private void GoToFilterEditor() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -199,8 +199,8 @@ namespace Lakuna.PrepareModerately.UI {
 
 			Text.Font = GameFont.Small;
 			Rect filterNameRect = rect2;
-			filterNameRect.height = Text.CalcHeight(filter.NameP, filterNameRect.width);
-			Widgets.Label(filterNameRect, filter.NameP);
+			filterNameRect.height = Text.CalcHeight(filter.PName, filterNameRect.width);
+			Widgets.Label(filterNameRect, filter.PName);
 
 			Text.Font = GameFont.Tiny;
 			Rect filterSummaryRect = rect2;
@@ -211,7 +211,7 @@ namespace Lakuna.PrepareModerately.UI {
 				filterSummaryRect.height += TinyFontCorrectionMargin;
 			}
 #endif
-			Widgets.Label(filterSummaryRect, filter.SummaryP);
+			Widgets.Label(filterSummaryRect, filter.PSummary);
 
 			if (!filter.Enabled) {
 				return;
@@ -223,7 +223,7 @@ namespace Lakuna.PrepareModerately.UI {
 			WidgetRow widgetRow = new(rect.xMax, rect.y, UIDirection.LeftThenDown);
 #endif
 
-			if (filter.CategoryP == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			if (filter.PCategory == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter.File.Name).CapitalizeFirst(), () => {
 					filter.File.Delete();
 					PawnFilterLister.MarkDirty();

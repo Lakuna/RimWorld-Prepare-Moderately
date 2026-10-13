@@ -12,7 +12,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		[TranslationHandle]
 		private PawnFilterPartDef def;
 
-		public virtual PawnFilterPartDef DefP {
+		public virtual PawnFilterPartDef PDef {
 			get => this.def;
 			set => this.def = value;
 		}

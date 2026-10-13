@@ -35,9 +35,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public LogicGate() : base() {
 			this.innerFilter = new PawnFilter {
-				NameP = "Inner filter",
-				DescriptionP = "This filter exists inside of a logic gate. It is part of another filter.",
-				SummaryP = "If you are seeing this summary in the UI, something has gone wrong."
+				PName = "Inner filter",
+				PDescription = "This filter exists inside of a logic gate. It is part of another filter.",
+				PSummary = "If you are seeing this summary in the UI, something has gone wrong."
 			};
 			this.collapsed = false;
 		}
@@ -47,7 +47,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				case LogicGateType.And:
 					return this.innerFilter.Matches(pawn);
 				case LogicGateType.Or:
-					foreach (PawnFilterPart part in this.innerFilter.PartsP) {
+					foreach (PawnFilterPart part in this.innerFilter.PParts) {
 						if (part.Matches(pawn)) {
 							return true;
 						}
@@ -55,7 +55,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 					return false;
 				case LogicGateType.Not:
-					foreach (PawnFilterPart part in this.innerFilter.PartsP) {
+					foreach (PawnFilterPart part in this.innerFilter.PParts) {
 						if (!part.NotMatches(pawn)) {
 							return false;
 						}
@@ -64,7 +64,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					return true;
 				case LogicGateType.Xor:
 					bool flag = false;
-					foreach (PawnFilterPart part in this.innerFilter.PartsP) {
+					foreach (PawnFilterPart part in this.innerFilter.PParts) {
 						if (part.Matches(pawn)) {
 							if (flag) {
 								return false;
@@ -163,8 +163,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Fill part listing.
 			float listingHeight = 0;
-			for (int i = 0; i < this.innerFilter.PartsP.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
-				PawnFilterPart part = this.innerFilter.PartsP.ElementAt(i);
+			for (int i = 0; i < this.innerFilter.PParts.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
+				PawnFilterPart part = this.innerFilter.PParts.ElementAt(i);
 				part.DoEditInterface(innerListing, out float partAddedListHeight);
 				listingHeight += partAddedListHeight;
 			}
@@ -177,14 +177,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) {
 			string output = "";
 
-			foreach (PawnFilterPart part in this.innerFilter.PartsP) {
+			foreach (PawnFilterPart part in this.innerFilter.PParts) {
 				part.Summarized = false;
 			}
 
 			foreach (PawnFilterPart part in
-				from part in this.innerFilter.PartsP
-				orderby part.DefP.summaryPriority descending,
-				part.DefP.defName
+				from part in this.innerFilter.PParts
+				orderby part.PDef.summaryPriority descending,
+				part.PDef.defName
 				where part.Visible
 				select part) {
 				string summary = part.Summary(this.innerFilter);

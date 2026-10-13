@@ -11,11 +11,11 @@ namespace Lakuna.PrepareModerately.Utility {
 
 		private TraitDef trait;
 
-		public TraitDef TraitP => this.trait;
+		public TraitDef PTrait => this.trait;
 
 		private int degree;
 
-		public int DegreeP => this.degree;
+		public int PDegree => this.degree;
 
 		public TraitDegreeData TraitDegreeData => this.trait.DataAtDegree(this.degree);
 

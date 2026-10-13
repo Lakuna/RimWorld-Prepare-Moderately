@@ -148,14 +148,14 @@ namespace Lakuna.PrepareModerately.UI {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-			foreach (PawnFilterPart part in filter.PartsP) {
+			foreach (PawnFilterPart part in filter.PParts) {
 				int num = 0;
-				foreach (PawnFilterPart part2 in filter.PartsP) {
-					if (part2.DefP == part.DefP) {
+				foreach (PawnFilterPart part2 in filter.PParts) {
+					if (part2.PDef == part.PDef) {
 						num++;
 					}
 
-					if (num > part.DefP.maxUses) {
+					if (num > part.PDef.maxUses) {
 						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
