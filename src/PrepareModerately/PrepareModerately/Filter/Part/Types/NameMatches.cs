@@ -38,9 +38,30 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// These names are all guaranteed to be in the game due to the name-in-game list.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			string[] names = new string[] {
+				"Tynan", // Lead developer of RimWorld.
+				"Travis", // Me!
+				"Amelia", // The best pawn ever.
+				"Aelanna", // RimWorld comic artist: https://www.reddit.com/user/Aelanna/.
+				"Alyssa",
+				"Benjamin",
+				"Christian",
+				"Daniel",
+				"Emily",
+				"Felix",
+				"James",
+				"Jonathan",
+				"Lia",
+				"Lumine",
+				"Matthew",
+				"Nathaniel",
+				"Peter",
+				"Priscilla",
+				"Robert",
+				"Sam",
+				"Skye"
+			};
 #else
 			string[] names = [
-#endif
 				"Tynan", // Lead developer of RimWorld.
 				"Travis", // Me!
 				"Amelia", // The best pawn ever.
@@ -63,6 +84,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				"Sam",
 				"Skye"
 			];
+#endif
 
 			this.regex = names.RandomElement();
 		}

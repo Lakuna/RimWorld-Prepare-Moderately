@@ -12,8 +12,15 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.UI {
 	// Based on `Verse.Listing_ScenEdit`.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+	public class PawnFilterEditListing : Listing_Standard {
+		private readonly PawnFilter filter;
+
+		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
+#else
 	public class PawnFilterEditListing(PawnFilter filter) : Listing_Standard {
 		private readonly PawnFilter filter = filter;
+#endif
 
 		private static readonly float HeaderHeight = Text.LineHeight;
 
