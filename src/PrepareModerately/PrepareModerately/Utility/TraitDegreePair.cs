@@ -44,6 +44,9 @@ namespace Lakuna.PrepareModerately.Utility {
 			this.trait = def;
 			this.degree = degree;
 		}
+#else
+		// Must be public.
+		public TraitDegreePair() : this(default, default) { }
 #endif
 
 		public void ExposeData() {
