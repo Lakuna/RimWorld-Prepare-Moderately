@@ -17,6 +17,8 @@ namespace Lakuna.PrepareModerately.Ui {
 	internal sealed class SelectPawnFilterPage : Page {
 		private const float ExtraScrollHeight = 250;
 
+		private const float FilterListGapHeight = 6;
+
 		private const float FilterSelectionListMargin = 16;
 
 		private const float FilterSelectionListScreenShare = 0.35f;
@@ -39,6 +41,10 @@ namespace Lakuna.PrepareModerately.Ui {
 
 #if !(V1_0 || V1_1 || V1_2)
 		private const float TinyFontCorrectionMargin = 6;
+#endif
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
+		private const float WarningIconMargin = 3;
 #endif
 
 		public override string PageTitle =>
@@ -99,16 +105,12 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		internal void notifyFilterListChanged() {
-			this.filter = PawnFilterLister.All().FirstOrDefault();
+			this.filter = PawnFilterLister.All().FirstOrDefault((filter) => filter.GetHashCode() == this.filter.GetHashCode());
 			this.EnsureValidSelection();
 		}
 
 		protected override bool CanDoNext() {
-			if (!base.CanDoNext()) {
-				return false;
-			}
-
-			if (this.filter is null) {
+			if (!base.CanDoNext() || this.filter is null) {
 				return false;
 			}
 
@@ -125,21 +127,32 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-			bool flag = this.filter == filter;
+			bool isCurrentFilter = this.filter == filter;
+			if (!filter.Valid) {
+#if V1_0
+				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.");
+#elif V1_1 || V1_2
+				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.".Colorize(ColorLibrary.Red));
+#elif V1_3 || V1_4
+				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.".Colorize(ColorLibrary.RedReadable));
+#else
+				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColorLibrary.RedReadable));
+#endif
+			}
 
-			Widgets.DrawOptionBackground(rect, flag);
+			Widgets.DrawOptionBackground(rect, isCurrentFilter);
 
 			MouseoverSounds.DoRegion(rect);
 
-			Rect rect2 = rect.ContractedBy(PawnFilterListingEntryMargin);
+			Rect innerRect = rect.ContractedBy(PawnFilterListingEntryMargin);
 
 			Text.Font = GameFont.Small;
-			Rect filterNameRect = rect2;
+			Rect filterNameRect = innerRect;
 			filterNameRect.height = Text.CalcHeight(filter.PName, filterNameRect.width);
 			Widgets.Label(filterNameRect, filter.PName);
 
 			Text.Font = GameFont.Tiny;
-			Rect filterSummaryRect = rect2;
+			Rect filterSummaryRect = innerRect;
 			filterSummaryRect.yMin = filterNameRect.yMax;
 #if !(V1_0 || V1_1 || V1_2)
 			if (!Text.TinyFontSupported) {
@@ -166,9 +179,23 @@ namespace Lakuna.PrepareModerately.Ui {
 				}, true));
 			}
 
-			if (!flag && Widgets.ButtonInvisible(rect)) {
-				this.filter = filter;
+			if (!filter.Valid) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				widgetRow.Icon(Textures.Warning);
+#else
+				widgetRow.Icon(Textures.Warning, null, WarningIconMargin);
+#endif
+			}
+
+			if (!isCurrentFilter && Widgets.ButtonInvisible(rect)) {
 				SoundDefOf.Click.PlayOneShotOnCamera();
+				if (filter.Valid) {
+					this.filter = filter;
+				} else {
+					PreLoadUtility.CheckVersionAndLoad(filter.File.FullName, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, () => {
+						this.filter = filter;
+					});
+				}
 			}
 		}
 
@@ -248,21 +275,21 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filters);
 #endif
 
-			bool flag = false;
+			bool anyFilter = false;
 			foreach (PawnFilter filter in filters) {
 				if (filter.ShowInUi) {
-					if (flag) {
-						listing.Gap();
+					if (anyFilter) {
+						listing.Gap(FilterListGapHeight);
 					}
 
 					PawnFilter filter2 = filter;
 					Rect rect = listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin);
 					this.DoFilterListEntry(rect, filter2);
-					flag = true;
+					anyFilter = true;
 				}
 			}
 
-			if (!flag) {
+			if (!anyFilter) {
 				GUI.color = MinorTextColor;
 #if V1_0
 				listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());

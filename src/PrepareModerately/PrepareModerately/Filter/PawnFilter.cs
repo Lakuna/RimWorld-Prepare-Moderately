@@ -108,6 +108,10 @@ namespace Lakuna.PrepareModerately.Filter {
 			set => this.summary = value;
 		}
 
+		internal bool Valid {
+			get; set;
+		}
+
 		internal PawnFilter CopyForEditing {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

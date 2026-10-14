@@ -7,6 +7,7 @@
 	<PM.RollSpeedMultiplierNumber>roll speed multiplier ({0})</PM.RollSpeedMultiplierNumber>
 	<PM.ChooseFilter>choose filter</PM.ChooseFilter>
 	<PM.FilterEditor>filter editor</PM.FilterEditor>
+	<PM.FilterPartError>one or more parts in this filter could not be loaded due to missing modded content</PM.FilterPartError>
 	<PM.FiltersCustom>custom</PM.FiltersCustom>
 	<PM.ClickOutsideToStop>click outside to stop</PM.ClickOutsideToStop>
 	<PM.Count>count</PM.Count>
