@@ -3,12 +3,12 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
-	public sealed class PrepareModeratelyMod : Mod {
+	internal sealed class PrepareModeratelyMod : Mod {
 		internal static PrepareModeratelySettings Settings {
 			get; private set;
 		}
 
-		internal PrepareModeratelyMod(ModContentPack content) : base(content) =>
+		public PrepareModeratelyMod(ModContentPack content) : base(content) =>
 			Settings = this.GetSettings<PrepareModeratelySettings>();
 
 		public override void DoSettingsWindowContents(Rect inRect) {
