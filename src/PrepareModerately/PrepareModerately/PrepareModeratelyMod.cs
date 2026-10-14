@@ -3,7 +3,9 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
+#pragma warning disable CA1812 // Class is instantiated via RimWorld.
 	internal sealed class PrepareModeratelyMod : Mod {
+#pragma warning restore CA1812
 		internal static PrepareModeratelySettings Settings {
 			get; private set;
 		}
