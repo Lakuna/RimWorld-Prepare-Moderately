@@ -14,18 +14,35 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class HasPossession : PawnFilterPart {
+#pragma warning disable CA1812 // Class is instantiated via XML definitions.
+	internal sealed class HasPossession : PawnFilterPart {
+#pragma warning restore CA1812
 		// See `Verse.StartingPawnUtility.GeneratePossessions`.
 		private static IEnumerable<ThingDef> LegalThings =>
+#if V1_4
 			new ThingDef[] { ThingDefOf.BabyFood }
-			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
-			.Concat(ThingDefOf.HemogenPack)
-			.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
-#if !V1_4
-			.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
+				.Concat(ThingDefOf.HemogenPack)
+				.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
+				.Distinct();
+#elif V1_5 || V1_6
+			new ThingDef[] { ThingDefOf.BabyFood }
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
+				.Concat(ThingDefOf.HemogenPack)
+				.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
+				.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
+				.Distinct();
+#else
+			new[] { ThingDefOf.BabyFood }
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
+				.Concat(ThingDefOf.HemogenPack)
+				.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
+				.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
+				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
+				.Distinct();
 #endif
-			.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
-			.Distinct();
 
 		private ThingDef possession;
 
@@ -36,11 +53,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			new((Find.GameInitData?.startingPossessions ?? []).TryGetValue(pawn, out List<ThingDefCount> output) ? output : []);
 #endif
 
-		public override bool Matches(Pawn pawn) => pawn is null
-			? throw new ArgumentNullException(nameof(pawn))
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
+		}
+
+		public override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
 
-		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override string Summary(PawnFilter filter) =>
+			"PM.HasPossession".Translate(this.possession.label);
+
+		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -49,7 +74,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
 				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
@@ -58,14 +83,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "PM.HasPossession".Translate(this.possession.label);
-
-		public override void Randomize() => this.possession = LegalThings.RandomElement();
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
-		}
+		internal override void randomize() =>
+			this.possession = LegalThings.RandomElement();
 	}
 }
 #endif

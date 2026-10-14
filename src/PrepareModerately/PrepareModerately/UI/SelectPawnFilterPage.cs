@@ -14,50 +14,55 @@ using Verse.Sound;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Page_SelectScenario`.
 	[StaticConstructorOnStartup]
-	public class SelectPawnFilterPage : Page {
-		private PawnFilter filter;
-
-		private Vector2 infoScrollPosition;
-
-		private Vector2 filtersScrollPosition;
-
-		private float totalFilterListHeight;
-
-		private const float FilterSelectionListScreenShare = 0.35f;
+	internal sealed class SelectPawnFilterPage : Page {
+		private const float ExtraScrollHeight = 250;
 
 		private const float FilterSelectionListMargin = 16;
 
+		private const float FilterSelectionListScreenShare = 0.35f;
+
 		private const float GapBetweenColumns = 17;
 
-		private const float PawnFilterSelectionListOverflow = 2;
-
-		private const float ExtraScrollHeight = 250;
-
 		private const float ListingRectHeight = 999999; // Arbitrary large number.
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static readonly Color MinorTextColor = new Color(1, 1, 1, 0.5f);
+#else
+		private static readonly Color MinorTextColor = new(1, 1, 1, 0.5f);
+#endif
 
 		private const float PawnFilterListingEntryHeight = 68;
 
 		private const float PawnFilterListingEntryMargin = 4;
 
-		private static readonly Color MinorTextColor =
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new Color(1, 1, 1, 0.5f);
-#else
-			new(1, 1, 1, 0.5f);
-#endif
+		private const float PawnFilterSelectionListOverflow = 2;
 
 #if !(V1_0 || V1_1 || V1_2)
 		private const float TinyFontCorrectionMargin = 6;
 #endif
 
-		public override string PageTitle => "PM.ChooseFilter".Translate().CapitalizeFirst();
+		public override string PageTitle =>
+			"PM.ChooseFilter".Translate().CapitalizeFirst();
 
-		public override void PreOpen() {
-			base.PreOpen();
+		private PawnFilter filter;
+
+		private Vector2 filtersScrollPosition;
+
+		private Vector2 infoScrollPosition;
+
+		private float totalFilterListHeight;
+
+		internal SelectPawnFilterPage() {
 			this.infoScrollPosition = Vector2.zero;
-			PawnFilterLister.MarkDirty();
-			this.EnsureValidSelection();
+			this.filtersScrollPosition = Vector2.zero;
 		}
+
+		internal static void BeginFilterConfiguration(PawnFilter filter) =>
+			PawnFilter.Current = filter;
+
+		private static bool CanEditFilter(PawnFilter filter) =>
+			filter is null ? throw new ArgumentNullException(nameof(filter))
+			: filter.PCategory == PawnFilterCategory.CustomLocal;
 
 		public override void DoWindowContents(Rect inRect) {
 			this.DrawPageTitle(inRect);
@@ -86,98 +91,29 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
 		}
 
-		private static bool CanEditFilter(PawnFilter filter) =>
-			filter is null ? throw new ArgumentNullException(nameof(filter))
-			: filter.PCategory == PawnFilterCategory.CustomLocal;
-
-		private void GoToFilterEditor() {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
-#else
-			PawnFilterEditorPage pawnFilterEditorPage = new(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
-#endif
-				prev = this
-			};
-			Find.WindowStack.Add(pawnFilterEditorPage);
-			this.Close();
+		public override void PreOpen() {
+			base.PreOpen();
+			this.infoScrollPosition = Vector2.zero;
+			PawnFilterLister.MarkDirty();
+			this.EnsureValidSelection();
 		}
 
-		private void DoFilterSelectionList(Rect inRect) {
-			inRect.xMax += PawnFilterSelectionListOverflow;
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect scrollViewRect = new Rect(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow, this.totalFilterListHeight + ExtraScrollHeight);
-#else
-			Rect scrollViewRect = new(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow, this.totalFilterListHeight + ExtraScrollHeight);
-#endif
-			Widgets.BeginScrollView(inRect, ref this.filtersScrollPosition, scrollViewRect);
-
-			Rect listingRect = scrollViewRect.AtZero();
-			listingRect.height = ListingRectHeight;
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Listing_Standard listing = new Listing_Standard {
-#else
-			Listing_Standard listing = new() {
-#endif
-				ColumnWidth = scrollViewRect.width
-			};
-			listing.Begin(listingRect);
-
-			Text.Font = GameFont.Small;
-			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.FromDef));
-
-			listing.Gap();
-
-			Text.Font = GameFont.Small;
-#if V1_0
-			listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
-#else
-			_ = listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
-#endif
-			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
-
-			listing.End();
-			this.totalFilterListHeight = listing.CurHeight;
-			Widgets.EndScrollView();
+		internal void notifyFilterListChanged() {
+			this.filter = PawnFilterLister.All().FirstOrDefault();
+			this.EnsureValidSelection();
 		}
 
-		private void ListFiltersOnListing(Listing_Standard listing, IEnumerable<PawnFilter> filters) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
+		protected override bool CanDoNext() {
+			if (!base.CanDoNext()) {
+				return false;
 			}
 
-			if (filters is null) {
-				throw new ArgumentNullException(nameof(filters));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-			ArgumentNullException.ThrowIfNull(filters);
-#endif
-
-			bool flag = false;
-			foreach (PawnFilter filter in filters) {
-				if (filter.ShowInUi) {
-					if (flag) {
-						listing.Gap();
-					}
-
-					PawnFilter filter2 = filter;
-					Rect rect = listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin);
-					this.DoFilterListEntry(rect, filter2);
-					flag = true;
-				}
+			if (this.filter is null) {
+				return false;
 			}
 
-			if (!flag) {
-				GUI.color = MinorTextColor;
-#if V1_0
-				listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
-#else
-				_ = listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
-#endif
-				GUI.color = Color.white;
-			}
+			BeginFilterConfiguration(this.filter);
+			return true;
 		}
 
 		private void DoFilterListEntry(Rect rect, PawnFilter filter) {
@@ -236,20 +172,47 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 		}
 
-		protected override bool CanDoNext() {
-			if (!base.CanDoNext()) {
-				return false;
-			}
+		private void DoFilterSelectionList(Rect inRect) {
+			inRect.xMax += PawnFilterSelectionListOverflow;
 
-			if (this.filter is null) {
-				return false;
-			}
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Rect scrollViewRect = new Rect(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow, this.totalFilterListHeight + ExtraScrollHeight);
+#else
+			Rect scrollViewRect = new(0, 0, inRect.width - FilterSelectionListMargin - PawnFilterSelectionListOverflow, this.totalFilterListHeight + ExtraScrollHeight);
+#endif
 
-			BeginFilterConfiguration(this.filter);
-			return true;
+			Widgets.BeginScrollView(inRect, ref this.filtersScrollPosition, scrollViewRect);
+
+			Rect listingRect = scrollViewRect.AtZero();
+			listingRect.height = ListingRectHeight;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Listing_Standard listing = new Listing_Standard {
+				ColumnWidth = scrollViewRect.width
+			};
+#else
+			Listing_Standard listing = new() {
+				ColumnWidth = scrollViewRect.width
+			};
+#endif
+			listing.Begin(listingRect);
+
+			Text.Font = GameFont.Small;
+			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.FromDef));
+
+			listing.Gap();
+
+			Text.Font = GameFont.Small;
+#if V1_0
+			listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
+#else
+			_ = listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
+#endif
+			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
+
+			listing.End();
+			this.totalFilterListHeight = listing.CurHeight;
+			Widgets.EndScrollView();
 		}
-
-		public static void BeginFilterConfiguration(PawnFilter filter) => PawnFilter.Current = filter;
 
 		private void EnsureValidSelection() {
 			if (this.filter is null || !PawnFilterLister.FilterIsListedAnywhere(this.filter)) {
@@ -257,14 +220,57 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 		}
 
-		public void NotifyFilterListChanged() {
-			this.filter = PawnFilterLister.All().FirstOrDefault();
-			this.EnsureValidSelection();
+		private void GoToFilterEditor() {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
+				prev = this
+			};
+#else
+			PawnFilterEditorPage pawnFilterEditorPage = new(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
+				prev = this
+			};
+#endif
+			Find.WindowStack.Add(pawnFilterEditorPage);
+			this.Close();
 		}
 
-		public SelectPawnFilterPage() {
-			this.infoScrollPosition = Vector2.zero;
-			this.filtersScrollPosition = Vector2.zero;
+		private void ListFiltersOnListing(Listing_Standard listing, IEnumerable<PawnFilter> filters) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (listing is null) {
+				throw new ArgumentNullException(nameof(listing));
+			}
+
+			if (filters is null) {
+				throw new ArgumentNullException(nameof(filters));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+			ArgumentNullException.ThrowIfNull(filters);
+#endif
+
+			bool flag = false;
+			foreach (PawnFilter filter in filters) {
+				if (filter.ShowInUi) {
+					if (flag) {
+						listing.Gap();
+					}
+
+					PawnFilter filter2 = filter;
+					Rect rect = listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin);
+					this.DoFilterListEntry(rect, filter2);
+					flag = true;
+				}
+			}
+
+			if (!flag) {
+				GUI.color = MinorTextColor;
+#if V1_0
+				listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
+#else
+				_ = listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
+#endif
+				GUI.color = Color.white;
+			}
 		}
 	}
 }

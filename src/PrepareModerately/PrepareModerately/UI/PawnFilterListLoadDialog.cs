@@ -6,10 +6,10 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList_Load`.
-	public class PawnFilterListLoadDialog : PawnFilterListDialog {
+	internal sealed class PawnFilterListLoadDialog : PawnFilterListDialog {
 		private readonly Action<PawnFilter> filterReturner;
 
-		public PawnFilterListLoadDialog(Action<PawnFilter> filterReturner) {
+		internal PawnFilterListLoadDialog(Action<PawnFilter> filterReturner) {
 			this.interactButLabel = "PM.Load".Translate().CapitalizeFirst();
 			this.filterReturner = filterReturner;
 		}

@@ -8,18 +8,28 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class NameMatches : PawnFilterPart {
+#pragma warning disable CA1812 // Class is instantiated via XML definitions.
+	internal sealed class NameMatches : PawnFilterPart {
+#pragma warning restore CA1812
 		private string regex;
 
-		public override bool Matches(Pawn pawn) => pawn is null
-			? throw new ArgumentNullException(nameof(pawn))
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Values.Look(ref this.regex, nameof(this.regex));
+		}
+
+		public override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			: new Regex(this.regex).Matches(pawn.Name.ToStringFull).Count > 0;
 #else
 			: new Regex(this.regex).Count(pawn.Name.ToStringFull) > 0;
 #endif
 
-		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override string Summary(PawnFilter filter) =>
+			"PM.NameMatches".Translate(this.regex);
+
+		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -28,13 +38,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			this.regex = Widgets.TextArea(rect, this.regex);
 		}
 
-		public override string Summary(PawnFilter filter) => "PM.NameMatches".Translate(this.regex);
-
-		public override void Randomize() {
+		internal override void randomize() {
 			// These names are all guaranteed to be in the game due to the name-in-game list.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			string[] names = new string[] {
@@ -87,11 +95,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			this.regex = names.RandomElement();
-		}
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Values.Look(ref this.regex, nameof(this.regex));
 		}
 	}
 }

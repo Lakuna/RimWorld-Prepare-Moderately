@@ -10,7 +10,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList`.
-	public abstract class PawnFilterListDialog : Dialog_FileList {
+	internal abstract class PawnFilterListDialog : Dialog_FileList {
 		protected override void ReloadFiles() {
 			this.files.Clear();
 			foreach (FileInfo fileInfo in PawnFilter.AllFiles) {

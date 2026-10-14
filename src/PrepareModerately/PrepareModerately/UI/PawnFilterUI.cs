@@ -13,46 +13,17 @@ namespace Lakuna.PrepareModerately.Ui {
 	static internal class PawnFilterUi {
 		private static float EditViewHeight;
 
-		private const float ViewRectHorizontalPadding = 16;
-
-		private const float ViewRectVerticalPadding = 30;
-
 		private const float ExtraScrollHeight = 100;
 
 		private const float FilterNameLabelHeight = 30;
 
 		private const float ListingRectHeight = 99999; // Arbitrary large number.
 
-		public static void DrawInfo(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
-			Widgets.DrawMenuSection(rect);
-			rect = rect.GetInnerRect();
+		private const float ViewRectHorizontalPadding = 16;
 
-			if (filter is null) {
-				return;
-			}
+		private const float ViewRectVerticalPadding = 30;
 
-			string fullInformationText = filter.FullInformationText;
-
-			float width = rect.width - ViewRectHorizontalPadding;
-			float height = ViewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + ExtraScrollHeight;
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect viewRect = new Rect(0, 0, width, height);
-#else
-			Rect viewRect = new(0, 0, width, height);
-#endif
-			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
-
-			Text.Font = GameFont.Medium;
-			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
-
-			Text.Font = GameFont.Small;
-			Widgets.Label(new Rect(0, FilterNameLabelHeight, viewRect.width, viewRect.height - FilterNameLabelHeight), fullInformationText);
-
-			Widgets.EndScrollView();
-		}
-
-		public static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
+		internal static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
@@ -74,12 +45,14 @@ namespace Lakuna.PrepareModerately.Ui {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect listingRect = new Rect(0, 0, viewRect.width, ListingRectHeight);
 			PawnFilterEditListing listing = new PawnFilterEditListing(filter) {
+				ColumnWidth = listingRect.width
+			};
 #else
 			Rect listingRect = new(0, 0, viewRect.width, ListingRectHeight);
 			PawnFilterEditListing listing = new(filter) {
-#endif
 				ColumnWidth = listingRect.width
 			};
+#endif
 			listing.Begin(listingRect);
 
 #if V1_0
@@ -117,11 +90,48 @@ namespace Lakuna.PrepareModerately.Ui {
 			filter.PParts.CopyToList(parts);
 #endif
 			foreach (PawnFilterPart part in parts) {
-				part.DoEditInterface(listing, out _);
+				part.doEditInterface(listing, out _);
 			}
 
 			listing.End();
 			EditViewHeight = listing.CurHeight + ExtraScrollHeight;
+			Widgets.EndScrollView();
+		}
+
+		internal static void DrawInfo(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
+			Widgets.DrawMenuSection(rect);
+			rect = rect.GetInnerRect();
+
+			if (filter is null) {
+				return;
+			}
+
+			string fullInformationText = filter.FullInformationText;
+
+			float width = rect.width - ViewRectHorizontalPadding;
+			float height = ViewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + ExtraScrollHeight;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Rect viewRect = new Rect(0, 0, width, height);
+#else
+			Rect viewRect = new(0, 0, width, height);
+#endif
+			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
+
+			Text.Font = GameFont.Medium;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
+#else
+			Widgets.Label(new(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
+#endif
+
+			Text.Font = GameFont.Small;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Widgets.Label(new Rect(0, FilterNameLabelHeight, viewRect.width, viewRect.height - FilterNameLabelHeight), fullInformationText);
+#else
+			Widgets.Label(new(0, FilterNameLabelHeight, viewRect.width, viewRect.height - FilterNameLabelHeight), fullInformationText);
+#endif
+
 			Widgets.EndScrollView();
 		}
 	}

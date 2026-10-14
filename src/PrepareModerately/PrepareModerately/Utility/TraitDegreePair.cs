@@ -6,29 +6,41 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
-	public class TraitDegreePair : IExposable {
-		private static IEnumerable<TraitDef> LegalTraits => DefDatabase<TraitDef>.AllDefs;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+	internal sealed class TraitDegreePair : IExposable {
+#else
+	internal sealed class TraitDegreePair(TraitDef def, int degree) : IExposable {
+#endif
+		internal static IEnumerable<TraitDegreePair> TraitDegreePairs =>
+			DefDatabase<TraitDef>.AllDefs.SelectMany((def) => def.degreeDatas.Select((degree) => new TraitDegreePair(def, degree.degree)));
 
-		private TraitDef trait;
+		internal int PDegree =>
+			this.degree;
 
-		public TraitDef PTrait => this.trait;
+		internal TraitDef PTrait =>
+			this.trait;
 
+		internal TraitDegreeData TraitDegreeData =>
+			this.trait.DataAtDegree(this.degree);
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private int degree;
+#else
+		private int degree = degree;
+#endif
 
-		public int PDegree => this.degree;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private TraitDef trait;
+#else
+		private TraitDef trait = def;
+#endif
 
-		public TraitDegreeData TraitDegreeData => this.trait.DataAtDegree(this.degree);
-
-		public static IEnumerable<TraitDegreePair> TraitDegreePairs => LegalTraits.SelectMany((def) => def.degreeDatas.Select((degree) => new TraitDegreePair(def, degree.degree)));
-
-		public TraitDegreePair() {
-			// Constructor without arguments for loading.
-		}
-
-		public TraitDegreePair(TraitDef def, int degree) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		internal TraitDegreePair(TraitDef def, int degree) {
 			this.trait = def;
 			this.degree = degree;
 		}
+#endif
 
 		public void ExposeData() {
 			Scribe_Defs.Look(ref this.trait, nameof(this.trait));

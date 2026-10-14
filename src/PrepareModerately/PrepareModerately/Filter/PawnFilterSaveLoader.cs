@@ -7,34 +7,12 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `Verse.GameDataSaveLoader`.
-	public static class PawnFilterSaveLoader {
-		private const string SavedFilterParentNodeName = "savedfilter";
-
+	internal static class PawnFilterSaveLoader {
 		private const string FilterNodeName = "filter";
 
-		public static void Save(PawnFilter filter, string absolutePath) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
+		private const string SavedFilterParentNodeName = "savedfilter";
 
-			try {
-				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
-				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, () => {
-					ScribeMetaHeaderUtility.WriteMetaHeader();
-					Scribe_Deep.Look(ref filter, FilterNodeName);
-				});
-#pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
-			} catch (Exception e) {
-#pragma warning restore CA1031
-				PrepareModeratelyLogger.LogException(e, "Failed to save pawn filter.");
-			}
-		}
-
-		public static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+		internal static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
 			filter = null;
 
 			try {
@@ -60,6 +38,28 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 			return filter != null;
+		}
+
+		internal static void Save(PawnFilter filter, string absolutePath) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (filter is null) {
+				throw new ArgumentNullException(nameof(filter));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
+
+			try {
+				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
+				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, () => {
+					ScribeMetaHeaderUtility.WriteMetaHeader();
+					Scribe_Deep.Look(ref filter, FilterNodeName);
+				});
+#pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
+			} catch (Exception e) {
+#pragma warning restore CA1031
+				PrepareModeratelyLogger.LogException(e, "Failed to save pawn filter.");
+			}
 		}
 	}
 }

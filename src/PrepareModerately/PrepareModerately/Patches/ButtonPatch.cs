@@ -18,27 +18,34 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.DoWindowContents))]
-	public static class ButtonPatch {
-		private const float ButtonWidth = 150;
-
+	internal static class ButtonPatch {
 		private const float ButtonHeight = 30;
+
+		private const float ButtonWidth = 150;
 
 		private const float ButtonY = 45;
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
-		public static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
+		private static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
 #pragma warning restore CA1707
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - ButtonWidth / 2, rect.y - ButtonY, ButtonWidth, ButtonHeight), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
+#else
+			if (Widgets.ButtonText(new((rect.x + rect.width) / 2 - ButtonWidth / 2, rect.y - ButtonY, ButtonWidth, ButtonHeight), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
+#endif
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					SelectPawnFilterPage page = new SelectPawnFilterPage {
-#else
-					SelectPawnFilterPage page = new() {
-#endif
 						// prev = __instance, // Disable "Back" button to prevent people from accidentally not setting filters.
 						next = __instance
 					};
+#else
+					SelectPawnFilterPage page = new() {
+						// prev = __instance, // Disable "Back" button to prevent people from accidentally not setting filters.
+						next = __instance
+					};
+#endif
 					Find.WindowStack.Add(page);
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {

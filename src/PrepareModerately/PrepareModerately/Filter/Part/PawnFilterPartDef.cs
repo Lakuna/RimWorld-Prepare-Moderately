@@ -6,34 +6,52 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDef`.
 	public class PawnFilterPartDef : Def {
-#pragma warning disable CA1051 // Definitions loaded from XML files must use instance fields.
-		public readonly PawnFilterPartCategory category;
+		public PawnFilterPartCategory PCategory =>
+			this.category;
 
-		public readonly Type filterPartClass;
+		internal Type PFilterPartClass =>
+			this.filterPartClass;
 
-		public readonly float summaryPriority;
+		internal bool PlayerAddRemovable =>
+			this.PCategory != PawnFilterPartCategory.Fixed;
 
-		public readonly float selectionWeight;
+		internal int PMaxUses =>
+			this.maxUses;
 
-		public readonly int maxUses;
-#pragma warning restore CA1051
+		internal float PSelectionWeight =>
+			this.selectionWeight;
 
-		public bool PlayerAddRemovable => this.category != PawnFilterPartCategory.Fixed;
+		internal float PSummaryPriority =>
+			this.summaryPriority;
+
+#pragma warning disable CS0649 // Value is assigned via XML definitions.
+		private readonly PawnFilterPartCategory category;
+#pragma warning restore CS0649
+
+#pragma warning disable CS0649 // Value is assigned via XML definitions.
+		private readonly Type filterPartClass;
+#pragma warning restore CS0649
+
+		private readonly int maxUses;
+
+		private readonly float selectionWeight;
+
+		private readonly float summaryPriority;
+
+		public PawnFilterPartDef() {
+			this.summaryPriority = 1;
+			this.selectionWeight = 1;
+			this.maxUses = 999999;
+		}
 
 		public override IEnumerable<string> ConfigErrors() {
 			foreach (string item in base.ConfigErrors()) {
 				yield return item;
 			}
 
-			if (this.filterPartClass is null) {
+			if (this.PFilterPartClass is null) {
 				yield return "Filter part class is null.";
 			}
-		}
-
-		public PawnFilterPartDef() {
-			this.summaryPriority = 1;
-			this.selectionWeight = 1;
-			this.maxUses = 999999;
 		}
 	}
 }

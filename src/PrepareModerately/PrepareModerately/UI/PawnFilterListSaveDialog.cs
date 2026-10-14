@@ -9,12 +9,13 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList_Save`.
-	public class PawnFilterListSaveDialog : PawnFilterListDialog {
+	internal sealed class PawnFilterListSaveDialog : PawnFilterListDialog {
+		protected override bool ShouldDoTypeInField =>
+			true;
+
 		private readonly PawnFilter filter;
 
-		protected override bool ShouldDoTypeInField => true;
-
-		public PawnFilterListSaveDialog(PawnFilter filter) {
+		internal PawnFilterListSaveDialog(PawnFilter filter) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
@@ -36,7 +37,11 @@ namespace Lakuna.PrepareModerately.Ui {
 				"SavingLongEvent",
 				false,
 				(e) => PrepareModeratelyLogger.LogException(e, "Failed to save filter."));
-			Messages.Message(MiscellaneousUtility.EndWithPeriod("PM.SavedAsFile".Translate(fileName).CapitalizeFirst()), MessageTypeDefOf.SilentInput, false);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+			Messages.Message($"{"PM.SavedAsFile".Translate(fileName).CapitalizeFirst()}.", MessageTypeDefOf.SilentInput, false);
+#else
+			Messages.Message("PM.SavedAsFile".Translate(fileName).CapitalizeFirst().EndWithPeriod(), MessageTypeDefOf.SilentInput, false);
+#endif
 			this.Close();
 		}
 	}

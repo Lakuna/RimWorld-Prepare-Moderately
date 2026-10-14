@@ -3,10 +3,8 @@ using Lakuna.PrepareModerately.Filter;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
-	public class PrepareModeratelySettings : ModSettings {
-		private string filterSavePath;
-
-		public string PFilterSavePath {
+	internal sealed class PrepareModeratelySettings : ModSettings {
+		internal string PFilterSavePath {
 			get {
 				if (this.filterSavePath.NullOrEmpty()) {
 					this.filterSavePath = PawnFilter.DefaultDataPath;
@@ -17,9 +15,7 @@ namespace Lakuna.PrepareModerately {
 			set => this.filterSavePath = value;
 		}
 
-		private int rollSpeedMultiplier;
-
-		public int PRollSpeedMultiplier {
+		internal int PRollSpeedMultiplier {
 			get {
 				if (this.rollSpeedMultiplier < 1) {
 					this.rollSpeedMultiplier = 1;
@@ -29,6 +25,10 @@ namespace Lakuna.PrepareModerately {
 			}
 			set => this.rollSpeedMultiplier = value;
 		}
+
+		private string filterSavePath;
+
+		private int rollSpeedMultiplier;
 
 		public PrepareModeratelySettings() {
 			this.PFilterSavePath = PawnFilter.DefaultDataPath;

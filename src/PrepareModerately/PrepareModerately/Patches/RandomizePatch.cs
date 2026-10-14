@@ -14,18 +14,18 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Patches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
-	public static class RandomizePatch {
-		public static bool IsActivelyRolling {
+	internal static class RandomizePatch {
+		internal static bool IsActivelyRolling {
 			get; set;
 		}
 
-		public static Pawn Result {
+		internal static Pawn Result {
 			get; set;
 		}
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
-		public static void Postfix(Pawn __result, MethodBase __originalMethod) {
+		private static void Postfix(Pawn __result, MethodBase __originalMethod) {
 #pragma warning restore CA1707
 			Result = __result;
 			PagePatch.Instance.SelectPawn(Result);

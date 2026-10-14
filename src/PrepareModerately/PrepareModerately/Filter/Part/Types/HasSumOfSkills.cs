@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
@@ -13,18 +12,25 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class HasSumOfSkills : PawnFilterPart {
-		private static IEnumerable<SkillDef> LegalSkills => DefDatabase<SkillDef>.AllDefs;
-
-		private IEnumerable<SkillDef> AddableSkills => LegalSkills.Where((def) => !this.skills.Contains(def));
-
+#pragma warning disable CA1812 // Class is instantiated via XML definitions.
+	internal sealed class HasSumOfSkills : PawnFilterPart {
+#pragma warning restore CA1812
 		private const int WidgetRowMaxWidth = 24;
+
+		private IntRange range;
 
 #pragma warning disable CA1002 // RimWorld requires a `List` to serialize with `Scribe_Collections.Look`.
 		private List<SkillDef> skills;
 #pragma warning restore CA1002
 
-		private IntRange range;
+		private IEnumerable<SkillDef> AddableSkills =>
+			DefDatabase<SkillDef>.AllDefs.Where((def) => !this.skills.Contains(def));
+
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Values.Look(ref this.range, nameof(this.range));
+			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
+		}
 
 		public override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -43,7 +49,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return sum >= this.range.min && sum <= this.range.max;
 		}
 
-		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override string Summary(PawnFilter filter) =>
+			this.range.min == this.range.max ? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
+			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
+
+		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -52,7 +62,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (1 + this.skills.Count), out totalAddedListHeight, out Rect headerRemainderRect);
+			Rect rect = listing.getPawnFilterPartRect(this, Text.LineHeight * (1 + this.skills.Count), out totalAddedListHeight, out Rect headerRemainderRect);
 
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, SkillRecord.MinLevel * this.skills.Count, SkillRecord.MaxLevel * this.skills.Count);
 
@@ -100,11 +110,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => this.range.min == this.range.max
-			? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
-			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
-
-		public override void Randomize() {
+		internal override void randomize() {
 			int skillCount = Rand.Range(2, 5);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -119,13 +125,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			int min = SkillRecord.MinLevel * this.skills.Count;
 			int max = SkillRecord.MaxLevel * this.skills.Count;
 			int mid = (max - min) / 2;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.range = new IntRange(Rand.Range(min, mid), Rand.Range(mid, max));
-		}
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Values.Look(ref this.range, nameof(this.range));
-			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
+#else
+			this.range = new(Rand.Range(min, mid), Rand.Range(mid, max));
+#endif
 		}
 	}
 }

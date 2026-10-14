@@ -5,10 +5,10 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
-	public class ExceptionDialog : Window {
+	internal sealed class ExceptionDialog : Window {
 		private readonly Exception e;
 
-		public ExceptionDialog(Exception e) {
+		internal ExceptionDialog(Exception e) {
 			this.e = e;
 			this.forcePause = true;
 			this.absorbInputAroundWindow = true;

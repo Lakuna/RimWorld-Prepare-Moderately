@@ -13,7 +13,13 @@ using Verse;
 using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class LogicGate : PawnFilterPart {
+#pragma warning disable CA1812 // Class is instantiated via XML definitions.
+	internal sealed class LogicGate : PawnFilterPart {
+#pragma warning restore CA1812
+		private const float CollapseWidgetRowMaxWidth = 24;
+
+		private const float Padding = 20;
+
 		private static IEnumerable<LogicGateType> LegalLogicGateTypes =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
@@ -21,25 +27,35 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<LogicGateType>().OfType<LogicGateType>();
 #endif
 
-		private const float CollapseWidgetRowMaxWidth = 24;
-
-		private PawnFilter innerFilter;
+		private float editViewHeight;
 
 		private bool collapsed;
 
+		private PawnFilter innerFilter;
+
 		private LogicGateType type;
 
-		private float editViewHeight;
-
-		private const float Padding = 20;
-
-		public LogicGate() : base() {
+		private LogicGate() : base() {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.innerFilter = new PawnFilter {
 				PName = "Inner filter",
 				PDescription = "This filter exists inside of a logic gate. It is part of another filter.",
 				PSummary = "If you are seeing this summary in the UI, something has gone wrong."
 			};
+#else
+			this.innerFilter = new() {
+				PName = "Inner filter",
+				PDescription = "This filter exists inside of a logic gate. It is part of another filter.",
+				PSummary = "If you are seeing this summary in the UI, something has gone wrong."
+			};
+#endif
 			this.collapsed = false;
+		}
+
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Values.Look(ref this.type, nameof(this.type));
+			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
 		}
 
 		public override bool Matches(Pawn pawn) {
@@ -81,7 +97,45 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override string Summary(PawnFilter filter) {
+			string output = "";
+
+			foreach (PawnFilterPart part in this.innerFilter.PParts) {
+				part.Summarized = false;
+			}
+
+			foreach (PawnFilterPart part in
+				from part in this.innerFilter.PParts
+				orderby part.PDef.PSummaryPriority descending,
+				part.PDef.defName
+				where part.Visible
+				select part) {
+				string summary = part.Summary(this.innerFilter);
+				if (!summary.NullOrEmpty()) {
+					if (output.Length > 0) {
+						output += ", ";
+					}
+
+					output += summary;
+				}
+			}
+
+			switch (this.type) {
+				case LogicGateType.And:
+					return "PM.AllOf".Translate(output);
+				case LogicGateType.Or:
+					return "PM.AtLeastOneOf".Translate(output);
+				case LogicGateType.Not:
+					return "PM.NoneOf".Translate(output);
+				case LogicGateType.Xor:
+					return "PM.ExactlyOneOf".Translate(output);
+				default:
+					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
+					return output;
+			}
+		}
+
+		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -92,8 +146,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Container.
 			Rect rect = this.collapsed
-				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
-				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
+				? listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
+				: listing.getPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
@@ -135,13 +189,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				FloatMenuUtility.MakeMenu(
 					from part
 					in PawnFilterMaker.AddableParts(this.innerFilter)
-					where part.category != PawnFilterPartCategory.Fixed
+					where part.PCategory != PawnFilterPartCategory.Fixed
 					orderby part.label
 					select part,
 					(def) => def.LabelCap,
 					(def) => () => {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
-						part.Randomize();
+						part.randomize();
 						this.innerFilter.AddPart(part, true);
 					}
 				);
@@ -165,57 +219,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			float listingHeight = 0;
 			for (int i = 0; i < this.innerFilter.PParts.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
 				PawnFilterPart part = this.innerFilter.PParts.ElementAt(i);
-				part.DoEditInterface(innerListing, out float partAddedListHeight);
+				part.doEditInterface(innerListing, out float partAddedListHeight);
 				listingHeight += partAddedListHeight;
 			}
 
 			// End part listing.
 			innerListing.End();
 			this.editViewHeight = Math.Max(innerListing.CurHeight, listingHeight);
-		}
-
-		public override string Summary(PawnFilter filter) {
-			string output = "";
-
-			foreach (PawnFilterPart part in this.innerFilter.PParts) {
-				part.Summarized = false;
-			}
-
-			foreach (PawnFilterPart part in
-				from part in this.innerFilter.PParts
-				orderby part.PDef.summaryPriority descending,
-				part.PDef.defName
-				where part.Visible
-				select part) {
-				string summary = part.Summary(this.innerFilter);
-				if (!summary.NullOrEmpty()) {
-					if (output.Length > 0) {
-						output += ", ";
-					}
-
-					output += summary;
-				}
-			}
-
-			switch (this.type) {
-				case LogicGateType.And:
-					return "PM.AllOf".Translate(output);
-				case LogicGateType.Or:
-					return "PM.AtLeastOneOf".Translate(output);
-				case LogicGateType.Not:
-					return "PM.NoneOf".Translate(output);
-				case LogicGateType.Xor:
-					return "PM.ExactlyOneOf".Translate(output);
-				default:
-					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
-					return output;
-			}
-		}
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Values.Look(ref this.type, nameof(this.type));
-			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
 		}
 	}
 }

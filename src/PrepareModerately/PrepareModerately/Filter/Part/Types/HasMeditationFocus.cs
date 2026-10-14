@@ -12,16 +12,27 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-	public class HasMeditationFocus : PawnFilterPart {
-		private static IEnumerable<MeditationFocusDef> LegalMeditationFoci => DefDatabase<MeditationFocusDef>.AllDefs;
+#pragma warning disable CA1812 // Class is instantiated via XML definitions.
+	internal sealed class HasMeditationFocus : PawnFilterPart {
+#pragma warning restore CA1812
+		private static IEnumerable<MeditationFocusDef> LegalMeditationFoci =>
+			DefDatabase<MeditationFocusDef>.AllDefs;
 
 		private MeditationFocusDef meditationFocus;
 
-		public override bool Matches(Pawn pawn) => pawn is null
-			? throw new ArgumentNullException(nameof(pawn))
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
+		}
+
+		public override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 			: this.meditationFocus.CanPawnUse(pawn);
 
-		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override string Summary(PawnFilter filter) =>
+			"PM.HasMeditationFocus".Translate(this.meditationFocus.label);
+
+		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -30,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.meditationFocus.LabelCap)) {
 				FloatMenuUtility.MakeMenu(LegalMeditationFoci.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
@@ -38,14 +49,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) => "PM.HasMeditationFocus".Translate(this.meditationFocus.label);
-
-		public override void Randomize() => this.meditationFocus = LegalMeditationFoci.RandomElement();
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
-		}
+		internal override void randomize() =>
+			this.meditationFocus = LegalMeditationFoci.RandomElement();
 	}
 }
 #endif

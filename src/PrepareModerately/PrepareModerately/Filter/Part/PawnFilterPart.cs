@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
 
@@ -9,33 +8,49 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPart`.
 	public abstract class PawnFilterPart : IExposable {
-		[TranslationHandle]
-		private PawnFilterPartDef def;
+		public virtual string Label =>
+			this.def.label;
 
 		public virtual PawnFilterPartDef PDef {
 			get => this.def;
 			set => this.def = value;
 		}
 
-		public virtual bool Visible => true;
+		internal virtual PawnFilterPart CopyForEditing =>
+			(PawnFilterPart)this.MemberwiseClone();
 
-		public virtual bool Summarized {
+		internal virtual bool Summarized {
 			get; set;
 		}
 
-		public virtual string Label => this.def.label;
+		internal virtual bool Visible =>
+			true;
 
-		public virtual void ExposeData() => Scribe_Defs.Look(ref this.def, nameof(this.def));
+		[TranslationHandle]
+		private PawnFilterPartDef def;
 
-		public virtual PawnFilterPart CopyForEditing() {
-			PawnFilterPart copyForEditing = this.CopyForEditingInner();
-			copyForEditing.def = this.def;
-			return copyForEditing;
+		public virtual void ExposeData() =>
+			Scribe_Defs.Look(ref this.def, nameof(this.def));
+
+		public virtual bool Matches(Pawn pawn) =>
+			true;
+
+		public virtual bool NotMatches(Pawn pawn) =>
+			!this.Matches(pawn);
+
+		public virtual string Summary(PawnFilter filter) =>
+			this.def.description;
+
+		internal virtual bool canCoexistWith(PawnFilterPart other) =>
+			true;
+
+		internal virtual IEnumerable<string> configErrors() {
+			if (this.def is null) {
+				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
+			}
 		}
 
-		private PawnFilterPart CopyForEditingInner() => (PawnFilterPart)this.MemberwiseClone();
-
-		public virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		internal virtual void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -44,32 +59,16 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight);
+			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight);
 		}
 
-		public virtual string Summary(PawnFilter filter) => this.def.description;
+		internal virtual bool hasNullDefs() =>
+			this.def is null;
 
-		public virtual IEnumerable<string> GetSummaryListEntries(string tag) {
-			yield break;
+		internal virtual void randomize() {
 		}
 
-		public virtual void Randomize() {
-		}
-
-		public virtual bool TryMerge(PawnFilterPart other) => false;
-
-		public virtual bool CanCoexistWith(PawnFilterPart other) => true;
-
-		public virtual bool Matches(Pawn pawn) => true;
-
-		public virtual bool NotMatches(Pawn pawn) => !this.Matches(pawn);
-
-		public virtual IEnumerable<string> ConfigErrors() {
-			if (this.def is null) {
-				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
-			}
-		}
-
-		public virtual bool HasNullDefs() => this.def is null;
+		internal virtual bool tryMerge(PawnFilterPart other) =>
+			false;
 	}
 }

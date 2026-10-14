@@ -13,33 +13,40 @@ using Verse.Sound;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `Verse.Listing_ScenEdit`.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-	public class PawnFilterEditListing : Listing_Standard {
-		private readonly PawnFilter filter;
-
-		public PawnFilterEditListing(PawnFilter filter) => this.filter = filter;
+	internal sealed class PawnFilterEditListing : Listing_Standard {
 #else
-	public class PawnFilterEditListing(PawnFilter filter) : Listing_Standard {
-		private readonly PawnFilter filter = filter;
+	internal sealed class PawnFilterEditListing(PawnFilter filter) : Listing_Standard {
 #endif
+		private const float GapSize = 4;
 
 		private static readonly float HeaderHeight = Text.LineHeight;
 
-		private static readonly Color PartRectBgColor =
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new Color(1, 1, 1, 0.08f);
+		private static readonly Color PartRectBgColor = new Color(1, 1, 1, 0.08f);
 #else
-			new(1, 1, 1, 0.08f);
+		private static readonly Color PartRectBgColor = new(1, 1, 1, 0.08f);
 #endif
 
 		private const float WidgetRowMaxWidth = 72;
 
-		private const float GapSize = 4;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private readonly PawnFilter filter;
+#else
+		private readonly PawnFilter filter = filter;
+#endif
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height) => this.GetPawnFilterPartRect(part, height, out _, out _);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		internal PawnFilterEditListing(PawnFilter filter) =>
+			this.filter = filter;
+#endif
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) => this.GetPawnFilterPartRect(part, height, out totalAddedListHeight, out _);
+		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height) =>
+			this.getPawnFilterPartRect(part, height, out _, out _);
 
-		public Rect GetPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight, out Rect headerRemainderRect) {
+		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) =>
+			this.getPawnFilterPartRect(part, height, out totalAddedListHeight, out _);
+
+		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight, out Rect headerRemainderRect) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (part is null) {
 				throw new ArgumentNullException(nameof(part));
@@ -65,13 +72,13 @@ namespace Lakuna.PrepareModerately.Ui {
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}
 
-			if (this.filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures.ReorderUp)) {
-				this.filter.Reorder(part, ReorderDirection.Up);
+			if (this.filter.canReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures.ReorderUp)) {
+				this.filter.reorder(part, ReorderDirection.Up);
 				SoundDefOf.Tick_High.PlayOneShotOnCamera();
 			}
 
-			if (this.filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures.ReorderDown)) {
-				this.filter.Reorder(part, ReorderDirection.Down);
+			if (this.filter.canReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures.ReorderDown)) {
+				this.filter.reorder(part, ReorderDirection.Down);
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
@@ -83,7 +90,11 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 			Widgets.Label(labelRect, label);
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			headerRemainderRect = new Rect(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);
+#else
+			headerRemainderRect = new(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);
+#endif
 
 			this.Gap(GapSize);
 

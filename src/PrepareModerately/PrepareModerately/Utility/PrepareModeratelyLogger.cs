@@ -3,22 +3,20 @@ using System;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
-	/// <summary>
-	/// A static utility class that contains static utility methods for writing information to the log.
-	/// </summary>
 	internal static class PrepareModeratelyLogger {
-		/// <summary>
-		/// The prefix that is placed before all logged messages from this mod.
-		/// </summary>
+		private const int Base = 31303;
+
 		private const string Prefix = "Prepare Moderately encountered an exception: ";
 
-		/// <summary>
-		/// Write information about an exception to the log.
-		/// </summary>
-		/// <param name="e">The exception.</param>
-		/// <param name="description">A description of the exception.</param>
-		/// <param name="category">The exception's category. If this isn't the default category, only one message of this category can be printed.</param>
-		/// <exception cref="ArgumentNullException">When no exception is given.</exception>
+		internal static void LogErrorMessage(string e, PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
+			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
+				Log.Error($"{Prefix}{e}");
+				return;
+			}
+
+			Log.ErrorOnce($"{Prefix}{e}", Base + (int)category);
+		}
+
 		internal static void LogException(Exception e, string description = "No description provided.", PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (e is null) {
@@ -43,27 +41,9 @@ namespace Lakuna.PrepareModerately.Utility {
 				return;
 			}
 
-			Log.ErrorOnce(output, (int)category);
+			Log.ErrorOnce(output, Base + (int)category);
 		}
 
-		/// <summary>
-		/// Write information about an error with no corresponding exception to the log.
-		/// </summary>
-		/// <param name="e">The error message.</param>
-		/// <param name="category">The error's category. If this isn't the default category, only one message of this category can be printed.</param>
-		internal static void LogErrorMessage(string e, PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
-			if (category == PrepareModeratelyLoggerCategory.Unrestricted) {
-				Log.Error(Prefix + e);
-				return;
-			}
-
-			Log.ErrorOnce(Prefix + e, (int)category);
-		}
-
-		/// <summary>
-		/// Write a non-error, non-exception message to the log.
-		/// </summary>
-		/// <param name="message">The message.</param>
 		internal static void LogMessage(string message) => Log.Message(message);
 	}
 }
