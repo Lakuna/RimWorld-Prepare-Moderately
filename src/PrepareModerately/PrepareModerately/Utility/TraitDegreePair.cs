@@ -36,6 +36,9 @@ namespace Lakuna.PrepareModerately.Utility {
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		internal TraitDegreePair() {
+		}
+
 		internal TraitDegreePair(TraitDef def, int degree) {
 			this.trait = def;
 			this.degree = degree;
