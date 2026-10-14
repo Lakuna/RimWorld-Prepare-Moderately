@@ -10,6 +10,7 @@ namespace Lakuna.PrepareModerately {
 			get; private set;
 		}
 
+		// Must be public.
 		public PrepareModeratelyMod(ModContentPack content) : base(content) =>
 			Settings = this.GetSettings<PrepareModeratelySettings>();
 
