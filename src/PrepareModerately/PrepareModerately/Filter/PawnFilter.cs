@@ -108,9 +108,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			set => this.summary = value;
 		}
 
-		internal bool Valid {
-			get; set;
-		}
+		internal bool Valid { get; set; } = true;
 
 		internal PawnFilter CopyForEditing {
 			get {
@@ -134,9 +132,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		internal bool Enabled {
-			get;
-		}
+		internal bool Enabled { get; } = true;
 
 		internal FileInfo File =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -195,9 +191,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		internal bool ShowInUi {
-			get;
-		}
+		internal bool ShowInUi { get; } = true;
 
 		private PawnFilterCategory category;
 
@@ -214,15 +208,12 @@ namespace Lakuna.PrepareModerately.Filter {
 		[MustTranslate]
 		private string summary;
 
-		public PawnFilter() {
+		public PawnFilter() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.parts = new List<PawnFilterPart>();
 #else
 			this.parts = [];
 #endif
-			this.Enabled = true;
-			this.ShowInUi = true;
-		}
 
 		internal static string AbsolutePathForName(string filterName) =>
 			Path.Combine(DataPath, filterName + FileExtension);

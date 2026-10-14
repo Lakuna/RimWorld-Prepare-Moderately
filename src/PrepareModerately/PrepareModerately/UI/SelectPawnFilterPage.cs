@@ -282,9 +282,7 @@ namespace Lakuna.PrepareModerately.Ui {
 						listing.Gap(FilterListGapHeight);
 					}
 
-					PawnFilter filter2 = filter;
-					Rect rect = listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin);
-					this.DoFilterListEntry(rect, filter2);
+					this.DoFilterListEntry(listing.GetRect(PawnFilterListingEntryHeight).ContractedBy(PawnFilterListingEntryMargin), filter);
 					anyFilter = true;
 				}
 			}
