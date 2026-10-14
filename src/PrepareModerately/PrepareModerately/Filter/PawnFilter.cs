@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
-	public class PawnFilter : IExposable {
+	public sealed class PawnFilter : IExposable {
 		public static IEnumerable<Version> SupportedVersions =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			new Version[] { new Version(VersionControl.CurrentMajor, VersionControl.CurrentMinor) };

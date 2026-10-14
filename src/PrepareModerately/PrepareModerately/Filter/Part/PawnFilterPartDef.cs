@@ -5,7 +5,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDef`.
-	public class PawnFilterPartDef : Def {
+	public sealed class PawnFilterPartDef : Def {
 		public PawnFilterPartCategory PCategory =>
 			this.category;
 

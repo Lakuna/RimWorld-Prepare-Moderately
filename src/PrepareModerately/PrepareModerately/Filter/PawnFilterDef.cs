@@ -4,7 +4,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
-	public class PawnFilterDef : Def {
+	public sealed class PawnFilterDef : Def {
 		public PawnFilter PFilter =>
 			this.filter;
 
