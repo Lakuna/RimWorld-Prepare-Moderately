@@ -71,7 +71,7 @@ namespace Lakuna.PrepareModerately.Ui {
 						num++;
 					}
 
-					if (num > part.Def.MaxUses) {
+					if (num > part.Def.maxUses) {
 						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}

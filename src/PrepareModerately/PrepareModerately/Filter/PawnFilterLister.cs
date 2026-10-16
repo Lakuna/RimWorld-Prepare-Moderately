@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		internal static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
 			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
-				yield return def.PFilter;
+				yield return def.filter;
 			}
 
 			foreach (PawnFilter filter in PawnFilter.LocalFilters) {
@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
-			return DefDatabase<PawnFilterDef>.AllDefs.Any((def) => def.PFilter == filter)
+			return DefDatabase<PawnFilterDef>.AllDefs.Any((def) => def.filter == filter)
 				|| PawnFilter.LocalFilters.Any((localFilter) => localFilter == filter);
 		}
 
@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			switch (category) {
 				case PawnFilterCategory.FromDef:
 					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
-						yield return def.PFilter;
+						yield return def.filter;
 					}
 
 					break;

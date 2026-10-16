@@ -5,34 +5,31 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
 	public sealed class PawnFilterDef : Def {
-		public PawnFilter PFilter =>
-			this._filter;
-
-#pragma warning disable CS0649 // Value is assigned via XML definitions.
-		private readonly PawnFilter _filter;
-#pragma warning restore CS0649
+#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		public readonly PawnFilter filter;
+#pragma warning restore CA1051, IDE1006
 
 		public override IEnumerable<string> ConfigErrors() {
-			if (this.PFilter is null) {
+			if (this.filter is null) {
 				yield return "Null filter.";
 			}
 
-			foreach (string item in this.PFilter.ConfigErrors()) {
+			foreach (string item in this.filter.ConfigErrors()) {
 				yield return item;
 			}
 		}
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.PFilter.Name.NullOrEmpty()) {
-				this.PFilter.Name = this.label;
+			if (this.filter.Name.NullOrEmpty()) {
+				this.filter.Name = this.label;
 			}
 
-			if (this.PFilter.Description.NullOrEmpty()) {
-				this.PFilter.Description = this.description;
+			if (this.filter.Description.NullOrEmpty()) {
+				this.filter.Description = this.description;
 			}
 
-			this.PFilter.Category = PawnFilterCategory.FromDef;
+			this.filter.Category = PawnFilterCategory.FromDef;
 		}
 	}
 }

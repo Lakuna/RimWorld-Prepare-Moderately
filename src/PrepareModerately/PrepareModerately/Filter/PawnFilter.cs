@@ -177,7 +177,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 					foreach (PawnFilterPart part in
 						from part in this.Parts
-						orderby part.Def.SummaryPriority descending, part.Def.defName
+						orderby part.Def.summaryPriority descending, part.Def.defName
 						where part.Visible
 						select part) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4

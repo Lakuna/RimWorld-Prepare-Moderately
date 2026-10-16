@@ -107,7 +107,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			foreach (PawnFilterPart part in
 				from part in this._innerFilter.Parts
-				orderby part.Def.SummaryPriority descending,
+				orderby part.Def.summaryPriority descending,
 				part.Def.defName
 				where part.Visible
 				select part) {
@@ -190,7 +190,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				FloatMenuUtility.MakeMenu(
 					from part
 					in PawnFilterMaker.AddableParts(this._innerFilter)
-					where part.Category != PawnFilterPartCategory.Fixed
+					where part.category != PawnFilterPartCategory.Fixed
 					orderby part.label
 					select part,
 					(def) => def.LabelCap,
