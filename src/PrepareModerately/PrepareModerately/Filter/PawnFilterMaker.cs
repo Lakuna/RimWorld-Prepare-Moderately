@@ -139,7 +139,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPartDef> allowedParts = (from def in AddableParts(filter) where def.Category == category select def).ToList();
+			List<PawnFilterPartDef> allowedParts = (from def in AddableParts(filter) where def.category == category select def).ToList();
 #else
 			List<PawnFilterPartDef> allowedParts = [.. from def in AddableParts(filter) where def.category == category select def];
 #endif
