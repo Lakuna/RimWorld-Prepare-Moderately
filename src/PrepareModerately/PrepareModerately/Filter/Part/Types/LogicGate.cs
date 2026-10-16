@@ -61,7 +61,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
 		}
 
-		public override bool Matches(Pawn pawn) {
+		internal override bool Matches(Pawn pawn) {
 			switch (this.type) {
 				case LogicGateType.And:
 					return this.innerFilter.Matches(pawn);
@@ -100,7 +100,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		public override string Summary(PawnFilter filter) {
+		internal override string Summary(PawnFilter filter) {
 			string output = "";
 
 			foreach (PawnFilterPart part in this.innerFilter.parts) {

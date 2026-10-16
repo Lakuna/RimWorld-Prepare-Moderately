@@ -7,8 +7,8 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPart`.
-	public abstract class PawnFilterPart : IExposable {
-		public virtual string Label =>
+	internal abstract class PawnFilterPart : IExposable {
+		internal virtual string Label =>
 			this.def.label;
 
 		internal virtual PawnFilterPart CopyForEditing =>
@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		[TranslationHandle]
-		public PawnFilterPartDef def;
+		internal PawnFilterPartDef def;
 #pragma warning restore CA1051, IDE1006
 
 		public virtual void ExposeData() =>
@@ -33,13 +33,13 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			this.def is null ? 0
 			: this.def.GetHashCode();
 
-		public virtual bool Matches(Pawn pawn) =>
+		internal virtual bool Matches(Pawn pawn) =>
 			true;
 
-		public virtual bool NotMatches(Pawn pawn) =>
+		internal virtual bool NotMatches(Pawn pawn) =>
 			!this.Matches(pawn);
 
-		public virtual string Summary(PawnFilter filter) =>
+		internal virtual string Summary(PawnFilter filter) =>
 			this.def.description;
 
 		internal virtual bool CanCoexistWith(PawnFilterPart other) =>

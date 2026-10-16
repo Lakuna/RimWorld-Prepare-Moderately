@@ -38,7 +38,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.color, nameof(this.color));
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_3 || V1_4 || V1_5
 			: pawn.story.favoriteColor == this.color.color;
@@ -46,7 +46,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: pawn.story.favoriteColor == this.color;
 #endif
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.HasFavoriteColor".Translate(LabelFor(this.color));
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {

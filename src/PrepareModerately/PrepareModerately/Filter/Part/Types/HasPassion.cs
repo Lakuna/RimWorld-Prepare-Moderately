@@ -42,7 +42,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
 			: pawn.skills.GetSkill(this.skill).passion == this.passion;
@@ -53,13 +53,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
-		public override bool NotMatches(Pawn pawn) =>
+		internal override bool NotMatches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 			: pawn.skills.GetSkill(this.skill).passion != this.passion
 				|| this.passion == Passion.None && pawn.genes.GenesListForReading.Any((gene) => gene.def.passionMod != null && gene.def.passionMod.skill == this.skill && !PassionIsPossibleWithModifier(Passion.Minor, gene.def.passionMod.modType));
 #endif
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.HasPassionForSkill".Translate(this.passion.ToString(), this.skill.ToString());
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {

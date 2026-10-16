@@ -45,7 +45,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CS0618
 		}
 
-		public override bool Matches(Pawn pawn) {
+		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
@@ -58,7 +58,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return level <= this.range.max && level >= this.range.min;
 		}
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			this.range.min == this.range.max ? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
 			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 

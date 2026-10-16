@@ -30,11 +30,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.gender, nameof(this.gender));
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 			: pawn.gender == this.gender;
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.IsGender".Translate(this.gender.ToString());
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {

@@ -1,6 +1,6 @@
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartCategory`.
-	public enum PawnFilterPartCategory {
+	internal enum PawnFilterPartCategory {
 		Undefined,
 		Fixed,
 		Normal,

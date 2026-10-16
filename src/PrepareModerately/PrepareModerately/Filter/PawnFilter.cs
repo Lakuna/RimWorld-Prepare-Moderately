@@ -14,23 +14,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
-	public sealed class PawnFilter : IExposable {
-		public static IEnumerable<Version> SupportedVersions =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new Version[] { new Version(VersionControl.CurrentMajor, VersionControl.CurrentMinor) };
-#else
-			[new(VersionControl.CurrentMajor, VersionControl.CurrentMinor)];
-#endif
-
+	internal sealed class PawnFilter : IExposable {
 		internal static PawnFilter Current {
 			get; set;
 		}
 
-		internal static readonly string s_dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
+		private static readonly string s_dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
 
 		internal const int DescriptionMaxLength = 1000;
 
-		internal const string FileExtension = ".rpf";
+		private const string FileExtension = ".rpf";
 
 		internal const int NameMaxLength = 55;
 
@@ -86,7 +79,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			PrepareModeratelyMod.Settings.filterSavePath.NullOrEmpty() ? DefaultDataPath
 			: PrepareModeratelyMod.Settings.filterSavePath;
 
-		public PawnFilterCategory Category {
+		internal PawnFilterCategory Category {
 			get {
 				if (this._category == PawnFilterCategory.Undefined) {
 					PrepareModeratelyLogger.LogErrorMessage("Filter category is undefined.");
@@ -131,7 +124,6 @@ namespace Lakuna.PrepareModerately.Filter {
 			new(AbsolutePathForName(this.FileName));
 #endif
 
-		[field: NoTranslate]
 		internal string FileName {
 			get; set;
 		}
@@ -184,18 +176,17 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private PawnFilterCategory _category;
 
-
 #pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		public string description;
+		internal string description;
 
-		public string name;
+		internal string name;
 
-		public List<PawnFilterPart> parts;
+		internal List<PawnFilterPart> parts;
 
-		public string summary;
+		internal string summary;
 #pragma warning restore CA1002, CA1051, IDE1006
 
-		public PawnFilter() =>
+		internal PawnFilter() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.parts = new List<PawnFilterPart>();
 #else
@@ -216,7 +207,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		public void AddPart(PawnFilterPart part, bool prepend = false) {
+		internal void AddPart(PawnFilterPart part, bool prepend = false) {
 			if (prepend) {
 				this.parts.Insert(0, part);
 				return;
@@ -272,7 +263,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			return hash;
 		}
 
-		public bool Matches(Pawn pawn) {
+		internal bool Matches(Pawn pawn) {
 			foreach (PawnFilterPart part in this.parts) {
 				if (!part.Matches(pawn)) {
 					return false;
@@ -282,7 +273,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			return true;
 		}
 
-		public void RemovePart(PawnFilterPart part) {
+		internal void RemovePart(PawnFilterPart part) {
 			if (!this.parts.Contains(part)) {
 				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
 			}

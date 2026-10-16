@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.workTag, nameof(this.workTag));
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0
 			: !pawn.story.WorkTagIsDisabled(this.workTag);
@@ -42,12 +42,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		// Override NOT gate functionality to disregard the gene override.
-		public override bool NotMatches(Pawn pawn) =>
+		internal override bool NotMatches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 			: pawn.WorkTagIsDisabled(this.workTag);
 #endif
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.IsCapableOfWorkTag".Translate(this.workTag.ToString());
 
 		internal override bool CanCoexistWith(PawnFilterPart other) =>

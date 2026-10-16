@@ -4,10 +4,12 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
-	public sealed class PawnFilterDef : Def {
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		public readonly PawnFilter filter;
-#pragma warning restore CA1051, IDE1006
+#pragma warning disable CA1812 // Class is instantiated via RimWorld.
+	internal sealed class PawnFilterDef : Def {
+#pragma warning restore CA1812
+#pragma warning disable CA1051, CS0649, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		internal readonly PawnFilter filter;
+#pragma warning restore CA1051, CS0649, IDE1006
 
 		public override IEnumerable<string> ConfigErrors() {
 			if (this.filter is null) {

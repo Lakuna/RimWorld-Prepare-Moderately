@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<WorkTypeDef> LegalWorkTypes =>
 			DefDatabase<WorkTypeDef>.AllDefs;
 
-		public override bool Matches(Pawn pawn) {
+		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
@@ -60,7 +60,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 		}
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.IsCapableOfEverything".Translate();
 
 		internal override bool CanCoexistWith(PawnFilterPart other) =>

@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
 		}
 
-		public override bool Matches(Pawn pawn) {
+		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
@@ -49,7 +49,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return sum >= this.range.min && sum <= this.range.max;
 		}
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			this.range.min == this.range.max ? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
 			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
 

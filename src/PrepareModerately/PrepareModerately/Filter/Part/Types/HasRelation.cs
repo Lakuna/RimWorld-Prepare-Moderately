@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.relation, nameof(this.relation));
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2
 			: pawn.relations.RelatedPawns.Any((relatedPawn) =>
@@ -55,7 +55,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
 #endif
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
 
 		internal override bool CanCoexistWith(PawnFilterPart other) =>

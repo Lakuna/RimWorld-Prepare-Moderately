@@ -5,18 +5,18 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDef`.
-	public sealed class PawnFilterPartDef : Def {
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		public readonly PawnFilterPartCategory category;
+	internal sealed class PawnFilterPartDef : Def {
+#pragma warning disable CA1051, CS0649, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		internal readonly PawnFilterPartCategory category;
 
-		public readonly Type filterPartClass;
+		internal readonly Type filterPartClass;
 
-		public readonly int maxUses;
+		internal readonly int maxUses;
 
-		public readonly float selectionWeight;
+		internal readonly float selectionWeight;
 
-		public readonly float summaryPriority;
-#pragma warning restore CA1051, IDE1006
+		internal readonly float summaryPriority;
+#pragma warning restore CA1051, CS0649, IDE1006
 
 		internal bool PlayerAddRemovable =>
 			this.category != PawnFilterPartCategory.Fixed;

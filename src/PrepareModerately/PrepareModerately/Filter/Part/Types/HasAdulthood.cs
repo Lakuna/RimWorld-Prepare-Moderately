@@ -44,7 +44,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 		}
 
-		public override bool Matches(Pawn pawn) =>
+		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
 			: pawn.story.adulthood == this.Backstory;
@@ -52,7 +52,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: pawn.story.Adulthood == this.backstory;
 #endif
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 #if V1_0 || V1_1 || V1_2 || V1_3
 			"PM.HasAdulthood".Translate(this.Backstory.title);
 #else

@@ -35,7 +35,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 		}
 
-		public override bool Matches(Pawn pawn) {
+		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
 				throw new ArgumentNullException(nameof(pawn));
@@ -48,7 +48,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return count <= this.range.max && count >= this.range.min;
 		}
 
-		public override string Summary(PawnFilter filter) =>
+		internal override string Summary(PawnFilter filter) =>
 			this.range.min == this.range.max ? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
 			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
 

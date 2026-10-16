@@ -20,14 +20,14 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private const float GapBetweenColumns = 17;
 
-		public bool FilterEdited =>
+		private bool FilterEdited =>
 			this._editMode && this.Filter.GetHashCode() != this._initialHash;
 
 		public override string PageTitle =>
 			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this.FilterEdited ? "*" : "")}";
 
-		internal PawnFilter Filter {
-			get; private set;
+		private PawnFilter Filter {
+			get; set;
 		}
 
 		private bool _editMode;
