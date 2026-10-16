@@ -7,11 +7,11 @@ namespace Lakuna.PrepareModerately {
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		internal string filterSavePath;
 
-		internal int rollSpeedMultiplier;
+		internal float rollSpeedMultiplier;
 #pragma warning restore CA1051, IDE1006
 
 		public PrepareModeratelySettings() {
-			this.filterSavePath = PawnFilter.DefaultDataPath;
+			this.filterSavePath = PawnFilter._defaultDataPath;
 			this.rollSpeedMultiplier = 1;
 		}
 

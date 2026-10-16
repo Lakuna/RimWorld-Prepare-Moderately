@@ -17,17 +17,17 @@ namespace Lakuna.PrepareModerately.Ui {
 #else
 	internal sealed class PawnFilterEditListing(PawnFilter filter) : Listing_Standard {
 #endif
-		private const float GapSize = 4;
+		private const float _gapSize = 4;
 
-		private const float LabelGapSize = 4;
+		private const float _labelGapSize = 4;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static readonly Color s_partRectBgColor = new Color(1, 1, 1, 0.08f);
+		private static readonly Color _partRectBgColor = new Color(1, 1, 1, 0.08f);
 #else
-		private static readonly Color s_partRectBgColor = new(1, 1, 1, 0.08f);
+		private static readonly Color _partRectBgColor = new(1, 1, 1, 0.08f);
 #endif
 
-		private const float WidgetRowMaxWidth = 72;
+		private const float _widgetRowMaxWidth = 72;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private readonly PawnFilter _filter;
@@ -57,38 +57,38 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			float headerHeight = Text.LineHeight;
 			Rect rect = this.GetRect(headerHeight + height);
-			Widgets.DrawBoxSolid(rect, s_partRectBgColor);
+			Widgets.DrawBoxSolid(rect, _partRectBgColor);
 			Rect headerRect = new Rect(rect.x, rect.y, rect.width, headerHeight).Rounded();
-			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height).Rounded();
+			Rect widgetRect = new Rect(headerRect.x, headerRect.y, _widgetRowMaxWidth, headerRect.height).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #else
 			WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
 
-			if (part.def.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.s_delete, null, GenUI.SubtleMouseoverColor)) {
+			if (part.def._playerAddRemovable && widgetRow.ButtonIcon(Textures._delete, null, GenUI.SubtleMouseoverColor)) {
 				this._filter.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}
 
-			if (this._filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures.s_reorderUp)) {
+			if (this._filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures._reorderUp)) {
 				this._filter.Reorder(part, ReorderDirection.Up);
 				SoundDefOf.Tick_High.PlayOneShotOnCamera();
 			}
 
-			if (this._filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures.s_reorderDown)) {
+			if (this._filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures._reorderDown)) {
 				this._filter.Reorder(part, ReorderDirection.Down);
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
-			string label = part.Label.CapitalizeFirst();
+			string label = part._label.CapitalizeFirst();
 			Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height).Rounded();
 			Widgets.Label(labelRect, label);
 
-			this.Gap(GapSize);
+			this.Gap(_gapSize);
 
-			totalAddedListHeight = rect.height + GapSize;
-			headerRemainderRect = new Rect(labelRect.xMax + LabelGapSize, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height).Rounded();
+			totalAddedListHeight = rect.height + _gapSize;
+			headerRemainderRect = new Rect(labelRect.xMax + _labelGapSize, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height).Rounded();
 
 			return new Rect(rect.x, headerRect.yMax, rect.width, rect.height - headerHeight).Rounded();
 		}

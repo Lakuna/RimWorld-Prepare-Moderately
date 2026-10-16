@@ -16,11 +16,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class LogicGate : PawnFilterPart {
 #pragma warning restore CA1812
-		private const float CollapseWidgetRowMaxWidth = 24;
+		private const float _collapseWidgetRowMaxWidth = 24;
 
-		private const float Padding = 20;
+		private const float _padding = 20;
 
-		private static IEnumerable<LogicGateType> LegalLogicGateTypes =>
+		private static IEnumerable<LogicGateType> _legalLogicGateTypes =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
 #else
@@ -104,14 +104,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			string output = "";
 
 			foreach (PawnFilterPart part in this.innerFilter.parts) {
-				part.Summarized = false;
+				part._summarized = false;
 			}
 
 			foreach (PawnFilterPart part in
 				from part in this.innerFilter.parts
 				orderby part.def.summaryPriority descending,
 				part.def.defName
-				where part.Visible
+				where part._visible
 				select part) {
 				string summary = part.Summary(this.innerFilter);
 				if (!summary.NullOrEmpty()) {
@@ -150,17 +150,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// Container.
 			Rect rect = this._collapsed
 				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
-				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this._editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
+				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this._editViewHeight + _padding, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
 			// Collapse widget.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			WidgetRow collapseWidgetRow = new WidgetRow(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, CollapseWidgetRowMaxWidth, 0);
+			WidgetRow collapseWidgetRow = new WidgetRow(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, _collapseWidgetRowMaxWidth, 0);
 #else
-			WidgetRow collapseWidgetRow = new(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, CollapseWidgetRowMaxWidth, 0);
+			WidgetRow collapseWidgetRow = new(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, _collapseWidgetRowMaxWidth, 0);
 #endif
-			if (collapseWidgetRow.ButtonIcon(this._collapsed ? Textures.s_reorderDown : Textures.s_reorderUp, (this._collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			if (collapseWidgetRow.ButtonIcon(this._collapsed ? Textures._reorderDown : Textures._reorderUp, (this._collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				this._collapsed = !this._collapsed;
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
@@ -177,7 +177,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect typeRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalLogicGateTypes.OrderBy((type) => type.ToString()),
+				FloatMenuUtility.MakeMenu(_legalLogicGateTypes.OrderBy((type) => type.ToString()),
 					(type) => type.ToString().CapitalizeFirst(),
 					(type) => () => this.type = type);
 			}

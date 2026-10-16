@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class IsGender : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<Gender> LegalGenders =>
+		private static IEnumerable<Gender> _legalGenders =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Gender)).OfType<Gender>();
 #else
@@ -48,13 +48,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalGenders.OrderBy((gender) => gender.ToString()),
+				FloatMenuUtility.MakeMenu(_legalGenders.OrderBy((gender) => gender.ToString()),
 				(gender) => gender.ToString().CapitalizeFirst(),
 				(gender) => () => this.gender = gender);
 			}
 		}
 
 		internal override void Randomize() =>
-			this.gender = LegalGenders.RandomElement();
+			this.gender = _legalGenders.RandomElement();
 	}
 }

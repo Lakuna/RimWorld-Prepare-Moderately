@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasSkill : PawnFilterPart {
 #pragma warning restore CA1812
-		private const float LabelWidthPercentage = 0.2f;
+		private const float _labelWidthPercentage = 0.2f;
 
-		private static IEnumerable<SkillDef> LegalSkills =>
+		private static IEnumerable<SkillDef> _legalSkills =>
 			DefDatabase<SkillDef>.AllDefs;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
@@ -79,7 +79,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
@@ -89,12 +89,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Rect levelRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 #endif
-			Widgets.Label(levelRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
-			Widgets.IntRange(levelRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this.range, 0, 20);
+			Widgets.Label(levelRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
+			Widgets.IntRange(levelRect.RightPart(1 - _labelWidthPercentage), Rand.Int, ref this.range, 0, 20);
 		}
 
 		internal override void Randomize() {
-			this.skill = LegalSkills.RandomElement();
+			this.skill = _legalSkills.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
 #else

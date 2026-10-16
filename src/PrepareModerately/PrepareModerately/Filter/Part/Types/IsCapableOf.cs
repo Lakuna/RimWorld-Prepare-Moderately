@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class IsCapableOf : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<WorkTags> LegalWorkTags =>
+		private static IEnumerable<WorkTags> _legalWorkTags =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>();
 #else
@@ -65,12 +65,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.workTag.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalWorkTags.OrderBy((workTag) => workTag.ToString()),
+				FloatMenuUtility.MakeMenu(_legalWorkTags.OrderBy((workTag) => workTag.ToString()),
 					(workTag) => workTag.ToString().CapitalizeFirst(),
 					(workTag) => () => this.workTag = workTag);
 			}
 		}
 
-		internal override void Randomize() => this.workTag = LegalWorkTags.RandomElement();
+		internal override void Randomize() => this.workTag = _legalWorkTags.RandomElement();
 	}
 }

@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal readonly float summaryPriority;
 #pragma warning restore CA1051, CS0649, IDE1006
 
-		internal bool PlayerAddRemovable =>
+		internal bool _playerAddRemovable =>
 			this.category != PawnFilterPartCategory.Fixed;
 
 		public PawnFilterPartDef() {

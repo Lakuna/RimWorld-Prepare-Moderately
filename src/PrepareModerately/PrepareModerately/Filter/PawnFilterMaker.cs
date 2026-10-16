@@ -12,11 +12,11 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioMaker`.
 	internal static class PawnFilterMaker {
-		private const int MaximumRandomParts = 7;
+		private const int _maximumRandomParts = 7;
 
-		private const int MaximumRandomPartTries = 100;
+		private const int _maximumRandomPartTries = 100;
 
-		private const int MinimumRandomParts = 3;
+		private const int _minimumRandomParts = 3;
 
 		internal static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) =>
 			DefDatabase<PawnFilterPartDef>.AllDefs.Where((def) => filter.parts.Count((part) => part.def == def) < def.maxUses);
@@ -46,12 +46,12 @@ namespace Lakuna.PrepareModerately.Filter {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			PawnFilter filter = new PawnFilter {
-				Category = PawnFilterCategory.CustomLocal,
+				_category = PawnFilterCategory.CustomLocal,
 				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #else
 			PawnFilter filter = new() {
-				Category = PawnFilterCategory.CustomLocal,
+				_category = PawnFilterCategory.CustomLocal,
 				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #endif
@@ -63,7 +63,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			Rand.Seed = seed.GetHashCode(StringComparison.Ordinal);
 #endif
 
-			AddPartsFromCategory(filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
+			AddPartsFromCategory(filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(_minimumRandomParts, _maximumRandomParts));
 			foreach (PawnFilterPart part in filter.parts) {
 				part.Randomize();
 			}
@@ -153,7 +153,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 				tryCount++;
-				if (tryCount > MaximumRandomPartTries) {
+				if (tryCount > _maximumRandomPartTries) {
 					PrepareModeratelyLogger.LogErrorMessage("Failed to add filter part.");
 					break;
 				}

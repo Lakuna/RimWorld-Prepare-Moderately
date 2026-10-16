@@ -14,19 +14,19 @@ using Verse.Sound;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Page_ScenarioEditor`.
 	internal sealed class PawnFilterEditorPage : Page {
-		private const float ConfigControlsColumnWidth = 200;
+		private const float _configControlsColumnWidth = 200;
 
-		private const float ConfigControlsScreenShare = 0.35f;
+		private const float _configControlsScreenShare = 0.35f;
 
-		private const float GapBetweenColumns = 17;
+		private const float _gapBetweenColumns = 17;
 
-		private bool FilterEdited =>
-			this._editMode && this.Filter.GetHashCode() != this._initialHash;
+		private bool _filterEdited =>
+			this._editMode && this._filter.GetHashCode() != this._initialHash;
 
 		public override string PageTitle =>
-			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this.FilterEdited ? "*" : "")}";
+			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this._filterEdited ? "*" : "")}";
 
-		private PawnFilter Filter {
+		private PawnFilter _filter {
 			get; set;
 		}
 
@@ -49,10 +49,10 @@ namespace Lakuna.PrepareModerately.Ui {
 			if (filter is null) {
 				this.RandomizeSeedAndFilter();
 			} else {
-				this.Filter = filter;
+				this._filter = filter;
 			}
 
-			this._initialHash = this.Filter.GetHashCode();
+			this._initialHash = this._filter.GetHashCode();
 		}
 
 		private static bool CheckAllPartsCompatible(PawnFilter filter) {
@@ -96,14 +96,14 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.BeginGroup(mainRect);
 #endif
 
-			Rect configControlsRect = new Rect(0, 0, mainRect.width * ConfigControlsScreenShare, mainRect.height).Rounded();
+			Rect configControlsRect = new Rect(0, 0, mainRect.width * _configControlsScreenShare, mainRect.height).Rounded();
 			this.DoConfigControls(configControlsRect);
 
-			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0, mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
+			Rect filterEditRect = new Rect(configControlsRect.xMax + _gapBetweenColumns, 0, mainRect.width - configControlsRect.width - _gapBetweenColumns, mainRect.height).Rounded();
 			if (this._editMode) {
-				PawnFilterUi.DrawEditInterface(filterEditRect, this.Filter, ref this._infoScrollPosition);
+				PawnFilterUi.DrawEditInterface(filterEditRect, this._filter, ref this._infoScrollPosition);
 			} else {
-				PawnFilterUi.DrawInfo(filterEditRect, this.Filter, ref this._infoScrollPosition);
+				PawnFilterUi.DrawInfo(filterEditRect, this._filter, ref this._infoScrollPosition);
 			}
 
 #if V1_0 || V1_1 || V1_2
@@ -122,25 +122,25 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		protected override bool CanDoNext() {
-			if (!base.CanDoNext() || this.Filter is null || !CheckAllPartsCompatible(this.Filter)) {
+			if (!base.CanDoNext() || this._filter is null || !CheckAllPartsCompatible(this._filter)) {
 				return false;
 			}
 
-			if (this.FilterEdited && this._needsSave) {
+			if (this._filterEdited && this._needsSave) {
 				Find.WindowStack.Add(
 					new Dialog_MessageBox(
 						"PM.FilterSavePrompt".Translate().CapitalizeFirst(),
 						"Yes".Translate().CapitalizeFirst(),
 						() => {
-							Find.WindowStack.Add(new PawnFilterListSaveDialog(this.Filter, () => {
-								SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
+							Find.WindowStack.Add(new PawnFilterListSaveDialog(this._filter, () => {
+								SelectPawnFilterPage.BeginFilterConfiguration(this._filter);
 								this._needsSave = false;
 								this.DoNext();
 							}));
 						},
 						"No".Translate().CapitalizeFirst(),
 						() => {
-							SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
+							SelectPawnFilterPage.BeginFilterConfiguration(this._filter);
 							this._needsSave = false;
 							this.DoNext();
 						}
@@ -149,37 +149,37 @@ namespace Lakuna.PrepareModerately.Ui {
 				return false;
 			}
 
-			SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
+			SelectPawnFilterPage.BeginFilterConfiguration(this._filter);
 			return true;
 		}
 
 		private void AddFilterPart(PawnFilterPartDef def) {
 			PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 			part.Randomize();
-			this.Filter.AddPart(part);
+			this._filter.AddPart(part);
 		}
 
 		private void DoConfigControls(Rect inRect) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Listing_Standard listing = new Listing_Standard() {
-				ColumnWidth = ConfigControlsColumnWidth
+				ColumnWidth = _configControlsColumnWidth
 			};
 #else
 			Listing_Standard listing = new() {
-				ColumnWidth = ConfigControlsColumnWidth
+				ColumnWidth = _configControlsColumnWidth
 			};
 #endif
 			listing.Begin(inRect);
 
 			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst())) {
 				Find.WindowStack.Add(new PawnFilterListLoadDialog((filter) => {
-					this.Filter = filter;
+					this._filter = filter;
 					this._seedIsValid = false;
 				}));
 			}
 
-			if (listing.ButtonText("PM.Save".Translate().CapitalizeFirst()) && CheckAllPartsCompatible(this.Filter)) {
-				Find.WindowStack.Add(new PawnFilterListSaveDialog(this.Filter));
+			if (listing.ButtonText("PM.Save".Translate().CapitalizeFirst()) && CheckAllPartsCompatible(this._filter)) {
+				Find.WindowStack.Add(new PawnFilterListSaveDialog(this._filter));
 			}
 
 			if (listing.ButtonText("PM.RandomizeSeed".Translate().CapitalizeFirst())) {
@@ -197,7 +197,7 @@ namespace Lakuna.PrepareModerately.Ui {
 				string text = listing.TextEntry(this._seed);
 				if (text != this._seed) {
 					this._seed = text;
-					this.Filter = PawnFilterMaker.Random(this._seed);
+					this._filter = PawnFilterMaker.Random(this._seed);
 				}
 			} else {
 				listing.Gap(Text.LineHeight * 2 + 2);
@@ -217,8 +217,8 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void OpenAddFilterPartMenu() =>
 			FloatMenuUtility.MakeMenu(
-				from part in PawnFilterMaker.AddableParts(this.Filter)
-				where part.PlayerAddRemovable
+				from part in PawnFilterMaker.AddableParts(this._filter)
+				where part._playerAddRemovable
 				orderby part.label
 				select part,
 				(def) => def.LabelCap,
@@ -226,7 +226,7 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void RandomizeSeedAndFilter() {
 			this._seed = GenText.RandomSeedString();
-			this.Filter = PawnFilterMaker.Random(this._seed);
+			this._filter = PawnFilterMaker.Random(this._seed);
 		}
 	}
 }

@@ -15,27 +15,27 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
 	internal sealed class PawnFilter : IExposable {
-		internal static PawnFilter Current {
+		internal static PawnFilter _current {
 			get; set;
 		}
 
-		private static readonly string s_dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
+		private static readonly string _dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
 
-		internal const int DescriptionMaxLength = 1000;
+		internal const int _descriptionMaxLength = 1000;
 
-		private const string FileExtension = ".rpf";
+		private const string _fileExtension = ".rpf";
 
-		internal const int NameMaxLength = 55;
+		internal const int _nameMaxLength = 55;
 
-		internal const int SummaryMaxLength = 300;
+		internal const int _summaryMaxLength = 300;
 
 		// Based on `Verse.GenFilePaths.AllCustomScenarioFiles`.
-		internal static IList<FileInfo> AllFiles {
+		internal static IList<FileInfo> _allFiles {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				DirectoryInfo directoryInfo = new DirectoryInfo(DataPath);
+				DirectoryInfo directoryInfo = new DirectoryInfo(_dataPath);
 #else
-				DirectoryInfo directoryInfo = new(DataPath);
+				DirectoryInfo directoryInfo = new(_dataPath);
 #endif
 				if (!directoryInfo.Exists) {
 					directoryInfo.Create();
@@ -44,91 +44,83 @@ namespace Lakuna.PrepareModerately.Filter {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				return directoryInfo
 					.GetFiles()
-					.Where((file) => file.Extension == FileExtension)
+					.Where((file) => file.Extension == _fileExtension)
 					.OrderByDescending((file) => file.LastWriteTime).ToList();
 #else
 				return [.. directoryInfo
 					.GetFiles()
-					.Where((file) => file.Extension == FileExtension)
+					.Where((file) => file.Extension == _fileExtension)
 					.OrderByDescending((file) => file.LastWriteTime)];
 #endif
 			}
 		}
 
-		internal static string DefaultDataPath =>
+		internal static string _defaultDataPath =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			(string)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, new object[] { s_dataFolder });
+				.Invoke(null, new object[] { _dataFolder });
 #else
 			(string)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, [s_dataFolder]);
+				.Invoke(null, [_dataFolder]);
 #endif
 
-		internal static IEnumerable<PawnFilter> LocalFilters =>
-			s_localFiltersInternal;
+		internal static IEnumerable<PawnFilter> _localFilters =>
+			_localFiltersInternal;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static readonly Collection<PawnFilter> s_localFiltersInternal = new Collection<PawnFilter>();
+		private static readonly Collection<PawnFilter> _localFiltersInternal = new Collection<PawnFilter>();
 #else
-		private static readonly Collection<PawnFilter> s_localFiltersInternal = [];
+		private static readonly Collection<PawnFilter> _localFiltersInternal = [];
 #endif
 
-		private static string DataPath =>
-			PrepareModeratelyMod.Settings.filterSavePath.NullOrEmpty() ? DefaultDataPath
-			: PrepareModeratelyMod.Settings.filterSavePath;
+		private static string _dataPath =>
+			PrepareModeratelyMod._settings.filterSavePath.NullOrEmpty() ? _defaultDataPath
+			: PrepareModeratelyMod._settings.filterSavePath;
 
-		internal PawnFilterCategory Category {
-			get {
-				if (this._category == PawnFilterCategory.Undefined) {
-					PrepareModeratelyLogger.LogErrorMessage("Filter category is undefined.");
-				}
-
-				return this._category;
-			}
-
-			set => this._category = value;
+		internal PawnFilterCategory _category {
+			get; set;
 		}
 
-		internal bool Valid { get; set; } = true;
+		internal bool _valid { get; set; } = true;
 
-		internal PawnFilter CopyForEditing {
+		internal PawnFilter _copyForEditing {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				PawnFilter copyForEditing = new PawnFilter {
 					name = this.name,
 					summary = this.summary,
 					description = this.description,
-					Category = PawnFilterCategory.CustomLocal
+					_category = PawnFilterCategory.CustomLocal
 				};
 #else
 				PawnFilter copyForEditing = new() {
 					name = this.name,
 					summary = this.summary,
 					description = this.description,
-					Category = PawnFilterCategory.CustomLocal
+					_category = PawnFilterCategory.CustomLocal
 				};
 #endif
-				copyForEditing.parts.AddRange(this.parts.Select((part) => part.CopyForEditing));
+				copyForEditing.parts.AddRange(this.parts.Select((part) => part._copyForEditing));
 				return copyForEditing;
 			}
 		}
 
-		internal bool Enabled { get; } = true;
+		internal bool _enabled { get; } = true;
 
-		internal FileInfo File =>
+		internal FileInfo _file =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new FileInfo(AbsolutePathForName(this.FileName));
+			new FileInfo(AbsolutePathForName(this._fileName));
 #else
-			new(AbsolutePathForName(this.FileName));
+			new(AbsolutePathForName(this._fileName));
 #endif
 
-		internal string FileName {
+		internal string _fileName {
 			get; set;
 		}
 
-		internal string FullInformationText {
+		internal string _fullInformationText {
 			get {
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -140,13 +132,13 @@ namespace Lakuna.PrepareModerately.Filter {
 					_ = stringBuilder.AppendLine();
 
 					foreach (PawnFilterPart part in this.parts) {
-						part.Summarized = false;
+						part._summarized = false;
 					}
 
 					foreach (PawnFilterPart part in
 						from part in this.parts
 						orderby part.def.summaryPriority descending, part.def.defName
-						where part.Visible
+						where part._visible
 						select part) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 						string summary = $"{part.Summary(this).CapitalizeFirst()}.";
@@ -172,9 +164,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		internal bool ShowInUi { get; } = true;
-
-		private PawnFilterCategory _category;
+		internal bool _showInUi { get; } = true;
 
 #pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		internal string description;
@@ -196,14 +186,14 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		// Based on `Verse.GenFilePaths.AbsPathForScenario`.
 		internal static string AbsolutePathForName(string filterName) =>
-			Path.Combine(DataPath, filterName + FileExtension);
+			Path.Combine(_dataPath, filterName + _fileExtension);
 
 		// Based on `RimWorld.ScenarioFiles.RecacheData`.
 		internal static void RecacheLocalFilters() {
-			s_localFiltersInternal.Clear();
-			foreach (FileInfo file in AllFiles) {
+			_localFiltersInternal.Clear();
+			foreach (FileInfo file in _allFiles) {
 				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					s_localFiltersInternal.Add(filter);
+					_localFiltersInternal.Add(filter);
 				}
 			}
 		}
@@ -295,7 +285,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			ArgumentNullException.ThrowIfNull(part);
 #endif
 
-			if (!part.def.PlayerAddRemovable) {
+			if (!part.def._playerAddRemovable) {
 				return false;
 			}
 
@@ -303,7 +293,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			switch (dir) {
 				case ReorderDirection.Up:
-					return index > 0 && this.parts[index - 1].def.PlayerAddRemovable;
+					return index > 0 && this.parts[index - 1].def._playerAddRemovable;
 				case ReorderDirection.Down:
 					return index != this.parts.Count - 1;
 				default:
@@ -311,7 +301,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 #else
 			return dir switch {
-				ReorderDirection.Up => index > 0 && this.parts[index - 1].def.PlayerAddRemovable,
+				ReorderDirection.Up => index > 0 && this.parts[index - 1].def._playerAddRemovable,
 				ReorderDirection.Down => index != this.parts.Count - 1,
 				_ => throw new NotImplementedException(),
 			};

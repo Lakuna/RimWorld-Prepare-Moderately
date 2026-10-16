@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasFavoriteColor : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<ColorDef> LegalFavoriteColors =>
+		private static IEnumerable<ColorDef> _legalFavoriteColors =>
 #if V1_3
 			DefDatabase<ColorDef>.AllDefs;
 #else
@@ -60,14 +60,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, LabelFor(this.color))) {
-				FloatMenuUtility.MakeMenu(LegalFavoriteColors.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalFavoriteColors.OrderBy((def) => def.label),
 					LabelFor,
 					(def) => () => this.color = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this.color = LegalFavoriteColors.RandomElement();
+			this.color = _legalFavoriteColors.RandomElement();
 	}
 }
 #endif

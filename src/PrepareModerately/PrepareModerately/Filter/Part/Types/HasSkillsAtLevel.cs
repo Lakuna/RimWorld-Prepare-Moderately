@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasSkillsAtLevel : PawnFilterPart {
 #pragma warning restore CA1812
-		private const float LabelWidthPercentage = 0.2f;
+		private const float _labelWidthPercentage = 0.2f;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private IntRange countRange;
@@ -63,16 +63,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Rect countRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
-			Widgets.Label(countRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
-			Widgets.IntRange(countRect.RightPart(1 - LabelWidthPercentage).Rounded(), Rand.Int, ref this.countRange, 0, 12);
+			Widgets.Label(countRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
+			Widgets.IntRange(countRect.RightPart(1 - _labelWidthPercentage).Rounded(), Rand.Int, ref this.countRange, 0, 12);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect levelRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 #else
 			Rect levelRect = new(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 #endif
-			Widgets.Label(levelRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
-			Widgets.IntRange(levelRect.RightPart(1 - LabelWidthPercentage).Rounded(), Rand.Int, ref this.range, 0, 20);
+			Widgets.Label(levelRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
+			Widgets.IntRange(levelRect.RightPart(1 - _labelWidthPercentage).Rounded(), Rand.Int, ref this.range, 0, 20);
 		}
 
 		internal override void Randomize() {

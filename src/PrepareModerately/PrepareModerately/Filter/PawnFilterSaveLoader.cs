@@ -13,9 +13,9 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `Verse.GameDataSaveLoader`.
 	internal static class PawnFilterSaveLoader {
-		private const string FilterNodeName = "filter";
+		private const string _filterNodeName = "filter";
 
-		private const string SavedFilterParentNodeName = "savedfilter";
+		private const string _savedFilterParentNodeName = "savedfilter";
 
 		internal static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
@@ -37,10 +37,10 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 			try {
-				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
-				SafeSaver.Save(absolutePath, SavedFilterParentNodeName, () => {
+				filter._fileName = Path.GetFileNameWithoutExtension(absolutePath);
+				SafeSaver.Save(absolutePath, _savedFilterParentNodeName, () => {
 					ScribeMetaHeaderUtility.WriteMetaHeader();
-					Scribe_Deep.Look(ref filter, FilterNodeName);
+					Scribe_Deep.Look(ref filter, _filterNodeName);
 				});
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
@@ -57,15 +57,15 @@ namespace Lakuna.PrepareModerately.Filter {
 				try {
 					// Using the scenario scribe header mode works fine.
 					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false);
-					Scribe_Deep.Look(ref filter, FilterNodeName);
+					Scribe_Deep.Look(ref filter, _filterNodeName);
 					Scribe.loader.FinalizeLoading();
 				} catch {
 					Scribe.ForceStop();
 					throw;
 				}
 
-				filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
-				filter.Category = category;
+				filter._fileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
+				filter._category = category;
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031
@@ -85,7 +85,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 			if (parts.RemoveAll((part) => part.HasNullDefs()) > 0) {
 				filter.parts = parts;
-				filter.Valid = false;
+				filter._valid = false;
 			}
 
 			return true;

@@ -15,10 +15,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	internal sealed class HasAdulthood : PawnFilterPart {
 #pragma warning restore CA1812
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static IEnumerable<Backstory> LegalBackstories =>
+		private static IEnumerable<Backstory> _legalBackstories =>
 			BackstoryDatabase.allBackstories.Values.Where((backstory) => backstory.slot == BackstorySlot.Adulthood);
 #else
-		private static IEnumerable<BackstoryDef> LegalBackstories =>
+		private static IEnumerable<BackstoryDef> _legalBackstories =>
 			DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Adulthood);
 #endif
 
@@ -31,8 +31,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore IDE1006
 
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private Backstory Backstory =>
-			LegalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
+		private Backstory _backstory =>
+			_legalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
 #endif
 
 		public override void ExposeData() {
@@ -47,14 +47,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		internal override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.adulthood == this.Backstory;
+			: pawn.story.adulthood == this._backstory;
 #else
 			: pawn.story.Adulthood == this.backstory;
 #endif
 
 		internal override string Summary(PawnFilter filter) =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			"PM.HasAdulthood".Translate(this.Backstory.title);
+			"PM.HasAdulthood".Translate(this._backstory.title);
 #else
 			"PM.HasAdulthood".Translate(this.backstory.title);
 #endif
@@ -70,14 +70,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0 || V1_1 || V1_2 || V1_3
-			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((backstory) => backstory.title),
+			if (Widgets.ButtonText(rect, this._backstory.title.CapitalizeFirst())) {
+				FloatMenuUtility.MakeMenu(_legalBackstories.OrderBy((backstory) => backstory.title),
 					(backstory) => backstory.title.CapitalizeFirst(),
 					(backstory) => () => this.backstoryIdentifier = backstory.identifier);
 			}
 #else
 			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((def) => def.title),
+				FloatMenuUtility.MakeMenu(_legalBackstories.OrderBy((def) => def.title),
 					(def) => def.title.CapitalizeFirst(),
 					(def) => () => this.backstory = def);
 			}
@@ -86,9 +86,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this.backstoryIdentifier = LegalBackstories.RandomElement().identifier;
+			this.backstoryIdentifier = _legalBackstories.RandomElement().identifier;
 #else
-			this.backstory = LegalBackstories.RandomElement();
+			this.backstory = _legalBackstories.RandomElement();
 #endif
 	}
 }

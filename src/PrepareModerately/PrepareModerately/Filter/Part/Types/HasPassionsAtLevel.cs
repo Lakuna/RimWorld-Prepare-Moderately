@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasPassionsAtLevel : PawnFilterPart {
 #pragma warning restore CA1812
-		private const float LabelWidthPercentage = 0.2f;
+		private const float _labelWidthPercentage = 0.2f;
 
-		private static IEnumerable<Passion> LegalPassions =>
+		private static IEnumerable<Passion> _legalPassions =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Passion)).OfType<Passion>();
 #else
@@ -68,8 +68,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Rect countRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
-			Widgets.Label(countRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
-			Widgets.IntRange(countRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this.range, 0, 12);
+			Widgets.Label(countRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
+			Widgets.IntRange(countRect.RightPart(1 - _labelWidthPercentage), Rand.Int, ref this.range, 0, 12);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
@@ -77,14 +77,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect passionRect = new(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
+				FloatMenuUtility.MakeMenu(_legalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),
 					(passion) => () => this.passion = passion);
 			}
 		}
 
 		internal override void Randomize() {
-			this.passion = LegalPassions.RandomElement();
+			this.passion = _legalPassions.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
 #else

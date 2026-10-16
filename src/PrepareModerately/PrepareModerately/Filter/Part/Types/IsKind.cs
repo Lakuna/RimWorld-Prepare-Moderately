@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class IsKind : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<PawnKindDef> LegalKinds =>
+		private static IEnumerable<PawnKindDef> _legalKinds =>
 			DefDatabase<PawnKindDef>.AllDefs;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
@@ -24,19 +24,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if V1_0
 		private static string GetUniqueLabelFor(PawnKindDef def) =>
 			def.LabelCap.NullOrEmpty() ? def.defName
-			: LegalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
+			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
 			: def.LabelCap;
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static TaggedString GetUniqueLabelFor(PawnKindDef def) =>
 			def is null ? throw new ArgumentNullException(nameof(def))
 			: def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
-			: LegalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
+			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
 			: def.LabelCap;
 #else
 		private static TaggedString GetUniqueLabelFor(PawnKindDef def) =>
 			def is null ? throw new ArgumentNullException(nameof(def))
 			: def.LabelCap.NullOrEmpty() ? def.defName
-			: LegalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
+			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
 			: def.LabelCap;
 #endif
 
@@ -63,7 +63,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this.kind))) {
-				FloatMenuUtility.MakeMenu(LegalKinds.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalKinds.OrderBy((def) => def.label),
 					(def) => GetUniqueLabelFor(def),
 					(def) => () => this.kind = def);
 			}

@@ -18,7 +18,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	internal sealed class HasPossession : PawnFilterPart {
 #pragma warning restore CA1812
 		// See `Verse.StartingPawnUtility.GeneratePossessions`.
-		private static IEnumerable<ThingDef> LegalThings =>
+		private static IEnumerable<ThingDef> _legalThings =>
 #if V1_4
 			new ThingDef[] { ThingDefOf.BabyFood }
 				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
 				.Concat(ThingDefOf.HemogenPack)
 				.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
-				.Concat(TraitDegreePair.TraitDegreePairs.SelectMany((pair) => pair.TraitDegreeData.possessions.Select((def) => def.key)))
+				.Concat(TraitDegreePair._traitDegreePairs.SelectMany((pair) => pair._traitDegreeData.possessions.Select((def) => def.key)))
 				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
 				.Distinct();
 #endif
@@ -79,14 +79,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
 			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
-				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalThings.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.possession = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this.possession = LegalThings.RandomElement();
+			this.possession = _legalThings.RandomElement();
 	}
 }
 #endif

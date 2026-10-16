@@ -8,7 +8,7 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioLister`.
 	internal static class PawnFilterLister {
-		private static bool s_dirty = true;
+		private static bool _dirty = true;
 
 		internal static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				yield return def.filter;
 			}
 
-			foreach (PawnFilter filter in PawnFilter.LocalFilters) {
+			foreach (PawnFilter filter in PawnFilter._localFilters) {
 				yield return filter;
 			}
 		}
@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		internal static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
 			return DefDatabase<PawnFilterDef>.AllDefs.Any((def) => def.filter == filter)
-				|| PawnFilter.LocalFilters.Any((localFilter) => localFilter == filter);
+				|| PawnFilter._localFilters.Any((localFilter) => localFilter == filter);
 		}
 
 		internal static IEnumerable<PawnFilter> InCategory(PawnFilterCategory category) {
@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 					break;
 				case PawnFilterCategory.CustomLocal:
-					foreach (PawnFilter filter in PawnFilter.LocalFilters) {
+					foreach (PawnFilter filter in PawnFilter._localFilters) {
 						yield return filter;
 					}
 
@@ -46,7 +46,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		internal static void MarkDirty() =>
-			s_dirty = true;
+			_dirty = true;
 
 		private static int FilterListHash() {
 			int hash = 9826121;
@@ -58,7 +58,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		private static void Recache() {
-			s_dirty = false;
+			_dirty = false;
 			int hash = FilterListHash();
 			PawnFilter.RecacheLocalFilters();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
@@ -67,7 +67,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		private static void RecacheIfDirty() {
-			if (s_dirty) {
+			if (_dirty) {
 				Recache();
 			}
 		}

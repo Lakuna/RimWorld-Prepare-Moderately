@@ -31,7 +31,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				this.filter.description = this.description;
 			}
 
-			this.filter.Category = PawnFilterCategory.FromDef;
+			this.filter._category = PawnFilterCategory.FromDef;
 		}
 	}
 }

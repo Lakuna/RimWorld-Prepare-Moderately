@@ -10,17 +10,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class IsAge : PawnFilterPart {
 #pragma warning restore CA1812
-		private const int MaxAge = 120;
+		private const int _maxAge = 120;
 
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private const int MinAge = 14;
+		private const int _minAge = 14;
 #else
-		private const int MinAge = 0;
+		private const int _minAge = 0;
 #endif
 
-		private const int TicksPerDay = 60000;
+		private const int _ticksPerDay = 60000;
 
-		private const int TicksPerHour = 2500;
+		private const int _ticksPerHour = 2500;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private IntRange daysRange;
@@ -52,11 +52,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			if (this.daysRange.max > 0) {
-				long daysOld = pawn.ageTracker.AgeBiologicalTicks / TicksPerDay;
+				long daysOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerDay;
 				return daysOld <= this.daysRange.max && daysOld >= this.daysRange.min;
 			}
 
-			long hoursOld = pawn.ageTracker.AgeBiologicalTicks / TicksPerHour;
+			long hoursOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerHour;
 			return hoursOld <= this.hoursRange.max && hoursOld >= this.hoursRange.min;
 		}
 
@@ -82,7 +82,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			int displayedExtraRanges = this.range.max > 0 ? 0 : (this.daysRange.max > 0 ? 1 : 2);
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * displayedExtraRanges, out totalAddedListHeight, out Rect headerRemainderRect);
 
-			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, MinAge, MaxAge);
+			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, _minAge, _maxAge);
 
 			float labelWidthPercentage = 0.2f;
 			if (displayedExtraRanges >= 1) {

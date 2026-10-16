@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasMeditationFocus : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<MeditationFocusDef> LegalMeditationFoci =>
+		private static IEnumerable<MeditationFocusDef> _legalMeditationFoci =>
 			DefDatabase<MeditationFocusDef>.AllDefs;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
@@ -45,14 +45,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, this.meditationFocus.LabelCap)) {
-				FloatMenuUtility.MakeMenu(LegalMeditationFoci.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalMeditationFoci.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.meditationFocus = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this.meditationFocus = LegalMeditationFoci.RandomElement();
+			this.meditationFocus = _legalMeditationFoci.RandomElement();
 	}
 }
 #endif

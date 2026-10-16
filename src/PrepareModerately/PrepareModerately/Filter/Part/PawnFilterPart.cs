@@ -8,17 +8,17 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPart`.
 	internal abstract class PawnFilterPart : IExposable {
-		internal virtual string Label =>
+		internal virtual string _label =>
 			this.def.label;
 
-		internal virtual PawnFilterPart CopyForEditing =>
+		internal virtual PawnFilterPart _copyForEditing =>
 			(PawnFilterPart)this.MemberwiseClone();
 
-		internal virtual bool Summarized {
+		internal virtual bool _summarized {
 			get; set;
 		}
 
-		internal virtual bool Visible =>
+		internal virtual bool _visible =>
 			true;
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.

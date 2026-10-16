@@ -14,14 +14,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasPassion : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<Passion> LegalPassions =>
+		private static IEnumerable<Passion> _legalPassions =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Passion)).OfType<Passion>();
 #else
 			Enum.GetValues<Passion>().OfType<Passion>();
 #endif
 
-		private static IEnumerable<SkillDef> LegalSkills =>
+		private static IEnumerable<SkillDef> _legalSkills =>
 			DefDatabase<SkillDef>.AllDefs;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
@@ -79,7 +79,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(_legalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skill = def);
 			}
@@ -90,15 +90,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect passionRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
+				FloatMenuUtility.MakeMenu(_legalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),
 					(passion) => () => this.passion = passion);
 			}
 		}
 
 		internal override void Randomize() {
-			this.passion = LegalPassions.RandomElement();
-			this.skill = LegalSkills.RandomElement();
+			this.passion = _legalPassions.RandomElement();
+			this.skill = _legalSkills.RandomElement();
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasSumOfSkills : PawnFilterPart {
 #pragma warning restore CA1812
-		private const int WidgetRowMaxWidth = 24;
+		private const int _widgetRowMaxWidth = 24;
 
 #pragma warning disable CA1002, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private IntRange range;
@@ -23,7 +23,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private List<SkillDef> skills;
 #pragma warning restore CA1002, IDE1006
 
-		private IEnumerable<SkillDef> AddableSkills =>
+		private IEnumerable<SkillDef> _addableSkills =>
 			DefDatabase<SkillDef>.AllDefs.Where((def) => !this.skills.Contains(def));
 
 		public override void ExposeData() {
@@ -72,7 +72,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect addSkillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
 			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(this.AddableSkills.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(this._addableSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
 					(def) => () => this.skills.Add(def));
 			}
@@ -89,13 +89,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 				// "Remove" button.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				Rect widgetRect = new Rect(skillRect.x, skillRect.y, WidgetRowMaxWidth, skillRect.height);
+				Rect widgetRect = new Rect(skillRect.x, skillRect.y, _widgetRowMaxWidth, skillRect.height);
 				WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #else
-				Rect widgetRect = new(skillRect.x, skillRect.y, WidgetRowMaxWidth, skillRect.height);
+				Rect widgetRect = new(skillRect.x, skillRect.y, _widgetRowMaxWidth, skillRect.height);
 				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
-				if (widgetRow.ButtonIcon(Textures.s_delete, null, GenUI.SubtleMouseoverColor)) {
+				if (widgetRow.ButtonIcon(Textures._delete, null, GenUI.SubtleMouseoverColor)) {
 					_ = this.skills.Remove(skill);
 					SoundDefOf.Click.PlayOneShotOnCamera();
 				}
@@ -119,7 +119,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.skills = [];
 #endif
 			for (int i = 0; i < skillCount; i++) {
-				this.skills.Add(this.AddableSkills.RandomElement());
+				this.skills.Add(this._addableSkills.RandomElement());
 			}
 
 			int min = SkillRecord.MinLevel * this.skills.Count;

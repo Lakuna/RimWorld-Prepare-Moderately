@@ -14,7 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasRelation : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<PawnRelationDef> LegalRelations =>
+		private static IEnumerable<PawnRelationDef> _legalRelations =>
 			DefDatabase<PawnRelationDef>.AllDefs;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private static string GetUniqueCombinedLabelFor(PawnRelationDef def) =>
 			GetCombinedLabelFor(def).NullOrEmpty() ? def.defName
-			: LegalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName})"
+			: _legalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName})"
 			: GetCombinedLabelFor(def);
 
 		public override void ExposeData() {
@@ -73,13 +73,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this.relation).CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy(GetUniqueCombinedLabelFor),
+				FloatMenuUtility.MakeMenu(_legalRelations.OrderBy(GetUniqueCombinedLabelFor),
 					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirst(),
 					(def) => () => this.relation = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this.relation = LegalRelations.RandomElement();
+			this.relation = _legalRelations.RandomElement();
 	}
 }

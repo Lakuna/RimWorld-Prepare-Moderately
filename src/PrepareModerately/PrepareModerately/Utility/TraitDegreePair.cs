@@ -11,10 +11,10 @@ namespace Lakuna.PrepareModerately.Utility {
 #else
 	internal sealed class TraitDegreePair(TraitDef def, int degree) : IExposable {
 #endif
-		internal static IEnumerable<TraitDegreePair> TraitDegreePairs =>
+		internal static IEnumerable<TraitDegreePair> _traitDegreePairs =>
 			DefDatabase<TraitDef>.AllDefs.SelectMany((def) => def.degreeDatas.Select((data) => new TraitDegreePair(def, data.degree)));
 
-		internal TraitDegreeData TraitDegreeData =>
+		internal TraitDegreeData _traitDegreeData =>
 			this.trait.DataAtDegree(this.degree);
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
