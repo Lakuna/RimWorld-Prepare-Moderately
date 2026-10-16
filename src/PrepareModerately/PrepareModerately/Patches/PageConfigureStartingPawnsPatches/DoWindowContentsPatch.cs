@@ -37,12 +37,12 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					SelectPawnFilterPage page = new SelectPawnFilterPage {
-						// prev = __instance, // Disable "Back" button to prevent people from accidentally not setting filters.
+						prev = __instance,
 						next = __instance
 					};
 #else
 					SelectPawnFilterPage page = new() {
-						// prev = __instance, // Disable "Back" button to prevent people from accidentally not setting filters.
+						prev = __instance,
 						next = __instance
 					};
 #endif
