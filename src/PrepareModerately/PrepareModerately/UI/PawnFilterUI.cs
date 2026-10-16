@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
 
@@ -22,18 +24,18 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		internal static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
 			Widgets.DrawMenuSection(rect);
-			rect = rect.GetInnerRect();
+			Rect innerRect = rect.GetInnerRect();
 
 			if (filter is null) {
 				return;
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, s_editViewHeight);
+			Rect viewRect = new Rect(0, 0, innerRect.width - ViewRectHorizontalPadding, s_editViewHeight);
 #else
-			Rect viewRect = new(0, 0, rect.width - ViewRectHorizontalPadding, s_editViewHeight);
+			Rect viewRect = new(0, 0, innerRect.width - ViewRectHorizontalPadding, s_editViewHeight);
 #endif
-			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
+			Widgets.BeginScrollView(innerRect, ref infoScrollPosition, viewRect);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect listingRect = new Rect(0, 0, viewRect.width, ListingRectHeight);
@@ -70,8 +72,9 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			listing.Gap();
 
-			foreach (PawnFilterPart part in filter.parts) {
-				part.DoEditInterface(listing, out _);
+			IEnumerable<PawnFilterPart> parts = filter.parts.ListFullCopy(); // Necessary so that deleting a pawn filter part doesn't cause an error.
+			foreach (PawnFilterPart part in parts) {
+				part.DoEditInterface(listing);
 			}
 
 			listing.End();
