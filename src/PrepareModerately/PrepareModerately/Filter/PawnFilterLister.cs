@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				yield return def.filter;
 			}
 
-			foreach (PawnFilter filter in PawnFilter._localFilters) {
+			foreach (PawnFilter filter in PawnFilterFiles._localFilters) {
 				yield return filter;
 			}
 		}
@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		internal static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
 			return DefDatabase<PawnFilterDef>.AllDefs.Any((def) => def.filter == filter)
-				|| PawnFilter._localFilters.Any((localFilter) => localFilter == filter);
+				|| PawnFilterFiles._localFilters.Any((localFilter) => localFilter == filter);
 		}
 
 		internal static IEnumerable<PawnFilter> InCategory(PawnFilterCategory category) {
@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 					break;
 				case PawnFilterCategory.CustomLocal:
-					foreach (PawnFilter filter in PawnFilter._localFilters) {
+					foreach (PawnFilter filter in PawnFilterFiles._localFilters) {
 						yield return filter;
 					}
 
@@ -60,7 +60,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static void Recache() {
 			_dirty = false;
 			int hash = FilterListHash();
-			PawnFilter.RecacheLocalFilters();
+			PawnFilterFiles.RecacheLocalFilters();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
 				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.NotifyFilterListChanged();
 			}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,67 +14,13 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
 	internal sealed class PawnFilter : IExposable {
-		// Based on `Verse.GenFilePaths.AllCustomScenarioFiles`.
-		internal static IList<FileInfo> _allFiles {
-			get {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				DirectoryInfo directoryInfo = new DirectoryInfo(_dataPath);
-#else
-				DirectoryInfo directoryInfo = new(_dataPath);
-#endif
-				if (!directoryInfo.Exists) {
-					directoryInfo.Create();
-				}
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				return directoryInfo
-					.GetFiles()
-					.Where((file) => file.Extension == _fileExtension)
-					.OrderByDescending((file) => file.LastWriteTime).ToList();
-#else
-				return [.. directoryInfo
-					.GetFiles()
-					.Where((file) => file.Extension == _fileExtension)
-					.OrderByDescending((file) => file.LastWriteTime)];
-#endif
-			}
-		}
-
 		internal static PawnFilter _current;
 
-		internal static string _defaultDataPath =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			(string)typeof(GenFilePaths)
-				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, new object[] { _dataFolder });
-#else
-			(string)typeof(GenFilePaths)
-				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, [_dataFolder]);
-#endif
-
 		internal const int _descriptionMaxLength = 1000;
-
-		internal static IEnumerable<PawnFilter> _localFilters =>
-			_localFiltersInternal;
 
 		internal const int _nameMaxLength = 55;
 
 		internal const int _summaryMaxLength = 300;
-
-		private static readonly string _dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
-
-		private static string _dataPath =>
-			PrepareModeratelyMod._settings.filterSavePath.NullOrEmpty() ? _defaultDataPath
-			: PrepareModeratelyMod._settings.filterSavePath;
-
-		private const string _fileExtension = ".rpf";
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static readonly Collection<PawnFilter> _localFiltersInternal = new Collection<PawnFilter>();
-#else
-		private static readonly Collection<PawnFilter> _localFiltersInternal = [];
-#endif
 
 		internal PawnFilterCategory _category { get; set; } = PawnFilterCategory.Undefined;
 
@@ -109,9 +54,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal FileInfo _file =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new FileInfo(AbsolutePathForName(this._fileName));
+			new FileInfo(PawnFilterFilePaths.AbsolutePathForName(this._fileName));
 #else
-			new(AbsolutePathForName(this._fileName));
+			new(PawnFilterFilePaths.AbsolutePathForName(this._fileName));
 #endif
 
 		internal string _fileName {
@@ -183,20 +128,6 @@ namespace Lakuna.PrepareModerately.Filter {
 #else
 			this.parts = [];
 #endif
-
-		// Based on `Verse.GenFilePaths.AbsPathForScenario`.
-		internal static string AbsolutePathForName(string filterName) =>
-			Path.Combine(_dataPath, filterName + _fileExtension);
-
-		// Based on `RimWorld.ScenarioFiles.RecacheData`.
-		internal static void RecacheLocalFilters() {
-			_localFiltersInternal.Clear();
-			foreach (FileInfo file in _allFiles) {
-				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					_localFiltersInternal.Add(filter);
-				}
-			}
-		}
 
 		public void ExposeData() {
 			Scribe_Values.Look(ref this.name, nameof(this.name));

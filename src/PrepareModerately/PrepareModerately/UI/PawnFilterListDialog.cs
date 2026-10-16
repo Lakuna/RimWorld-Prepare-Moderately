@@ -13,7 +13,7 @@ namespace Lakuna.PrepareModerately.Ui {
 	internal abstract class PawnFilterListDialog : Dialog_FileList {
 		protected override void ReloadFiles() {
 			this.files.Clear();
-			foreach (FileInfo fileInfo in PawnFilter._allFiles) {
+			foreach (FileInfo fileInfo in PawnFilterFilePaths._allFiles) {
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					SaveFileInfo saveFileInfo = new SaveFileInfo(fileInfo);

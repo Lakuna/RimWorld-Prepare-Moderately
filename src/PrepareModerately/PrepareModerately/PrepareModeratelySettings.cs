@@ -11,7 +11,7 @@ namespace Lakuna.PrepareModerately {
 #pragma warning restore CA1051, IDE1006
 
 		public PrepareModeratelySettings() {
-			this.filterSavePath = PawnFilter._defaultDataPath;
+			this.filterSavePath = PawnFilterFilePaths._defaultDataPath;
 			this.rollSpeedMultiplier = 1;
 		}
 

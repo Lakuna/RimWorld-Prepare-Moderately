@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		protected override void DoFileInteraction(string fileName) {
 			fileName = GenFile.SanitizedFileName(fileName);
-			string absolutePath = PawnFilter.AbsolutePathForName(fileName);
+			string absolutePath = PawnFilterFilePaths.AbsolutePathForName(fileName);
 			LongEventHandler.QueueLongEvent(
 				() => PawnFilterSaveLoader.Save(this._filter, absolutePath),
 				"SavingLongEvent",
