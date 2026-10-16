@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 #pragma warning restore CA1707, IDE1006
 			Result = __result;
 			PreOpenPatch.Instance.SelectPawn(Result);
-			if (IsActivelyRolling || PawnFilter.Current is null || !PawnFilter.Current.Parts.Any() || PawnFilter.Current.Matches(Result)) {
+			if (IsActivelyRolling || PawnFilter.Current is null || !PawnFilter.Current.parts.Any() || PawnFilter.Current.Matches(Result)) {
 				return;
 			}
 

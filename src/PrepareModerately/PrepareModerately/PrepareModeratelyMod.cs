@@ -27,23 +27,23 @@ namespace Lakuna.PrepareModerately {
 
 			Rect filterSavePathRect = listing.GetRect(Text.LineHeight);
 			Widgets.Label(filterSavePathRect.LeftPart(labelWidthPercentage), "PM.FilterSavePath".Translate().CapitalizeFirst());
-			Settings.FilterSavePath = Widgets.TextArea(filterSavePathRect.RightPart(1 - labelWidthPercentage), Settings.FilterSavePath);
+			Settings.filterSavePath = Widgets.TextArea(filterSavePathRect.RightPart(1 - labelWidthPercentage), Settings.filterSavePath);
 
 			listing.Gap(); // So that the horizontal slider's bound numbers don't intersect with the text area.
 
 			Rect rollSpeedMultiplierRect = listing.GetRect(Text.LineHeight);
-			Widgets.Label(rollSpeedMultiplierRect.LeftPart(labelWidthPercentage), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst());
+			Widgets.Label(rollSpeedMultiplierRect.LeftPart(labelWidthPercentage), "PM.RollSpeedMultiplierNumber".Translate(Settings.rollSpeedMultiplier).CapitalizeFirst());
 
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Settings.RollSpeedMultiplier = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.RollSpeedMultiplier, 1, 100);
+			Settings.rollSpeedMultiplier = (int)Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), Settings.rollSpeedMultiplier, 1, 100);
 #elif V1_4 || V1_5 || V1_6
-			float rollSpeedMultiplier = Settings.RollSpeedMultiplier;
+			float rollSpeedMultiplier = Settings.rollSpeedMultiplier;
 			Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), ref rollSpeedMultiplier, new FloatRange(1, 100));
-			Settings.RollSpeedMultiplier = (int)rollSpeedMultiplier;
+			Settings.rollSpeedMultiplier = (int)rollSpeedMultiplier;
 #else
-			float rollSpeedMultiplier = Settings.RollSpeedMultiplier;
+			float rollSpeedMultiplier = Settings.rollSpeedMultiplier;
 			Widgets.HorizontalSlider(rollSpeedMultiplierRect.RightPart(1 - labelWidthPercentage), ref rollSpeedMultiplier, new(1, 100));
-			Settings.RollSpeedMultiplier = (int)rollSpeedMultiplier;
+			Settings.rollSpeedMultiplier = (int)rollSpeedMultiplier;
 #endif
 
 			listing.End();

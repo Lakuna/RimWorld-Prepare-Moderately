@@ -79,12 +79,12 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = filter.Parts.ToList();
+			List<PawnFilterPart> parts = filter.parts.ToList();
 #else
-			List<PawnFilterPart> parts = [.. filter.Parts];
+			List<PawnFilterPart> parts = [.. filter.parts];
 #endif
 			if (parts.RemoveAll((part) => part.HasNullDefs()) > 0) {
-				filter.Parts = parts;
+				filter.parts = parts;
 				filter.Valid = false;
 			}
 

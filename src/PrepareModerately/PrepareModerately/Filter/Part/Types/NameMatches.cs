@@ -2,7 +2,6 @@ using System;
 using System.Text.RegularExpressions;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using UnityEngine;
 
@@ -12,23 +11,25 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class NameMatches : PawnFilterPart {
 #pragma warning restore CA1812
-		private string _regex;
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private string regex;
+#pragma warning restore IDE1006
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this._regex, MiscUtil.NoUnder(nameof(this._regex)));
+			Scribe_Values.Look(ref this.regex, nameof(this.regex));
 		}
 
 		public override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			: new Regex(this._regex).Matches(pawn.Name.ToStringFull).Count > 0;
+			: new Regex(this.regex).Matches(pawn.Name.ToStringFull).Count > 0;
 #else
-			: new Regex(this._regex).Count(pawn.Name.ToStringFull) > 0;
+			: new Regex(this.regex).Count(pawn.Name.ToStringFull) > 0;
 #endif
 
 		public override string Summary(PawnFilter filter) =>
-			"PM.NameMatches".Translate(this._regex);
+			"PM.NameMatches".Translate(this.regex);
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -40,7 +41,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			this._regex = Widgets.TextArea(rect, this._regex);
+			this.regex = Widgets.TextArea(rect, this.regex);
 		}
 
 		internal override void Randomize() {
@@ -95,7 +96,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			];
 #endif
 
-			this._regex = names.RandomElement();
+			this.regex = names.RandomElement();
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.Label(inRect, $"{"PM.RollingNumber".Translate(this._iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}");
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
-			for (int i = 0; i < PrepareModeratelyMod.Settings.RollSpeedMultiplier; i++) {
+			for (int i = 0; i < PrepareModeratelyMod.Settings.rollSpeedMultiplier; i++) {
 				if (PawnFilter.Current.Matches(RandomizeInPlacePatch.Result)) {
 					this.Close();
 					return;

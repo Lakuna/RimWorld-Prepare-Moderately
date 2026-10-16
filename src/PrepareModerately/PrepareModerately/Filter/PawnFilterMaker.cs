@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private const int MinimumRandomParts = 3;
 
 		internal static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) =>
-			DefDatabase<PawnFilterPartDef>.AllDefs.Where((def) => filter.Parts.Count((part) => part.Def == def) < def.maxUses);
+			DefDatabase<PawnFilterPartDef>.AllDefs.Where((def) => filter.parts.Count((part) => part.def == def) < def.maxUses);
 
 		internal static PawnFilterPart MakeFilterPart(PawnFilterPartDef def) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -31,7 +31,7 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.filterPartClass);
-			part.Def = def;
+			part.def = def;
 			return part;
 		}
 
@@ -47,12 +47,12 @@ namespace Lakuna.PrepareModerately.Filter {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			PawnFilter filter = new PawnFilter {
 				Category = PawnFilterCategory.CustomLocal,
-				Name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
+				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #else
 			PawnFilter filter = new() {
 				Category = PawnFilterCategory.CustomLocal,
-				Name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
+				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #endif
 
@@ -64,18 +64,18 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 			AddPartsFromCategory(filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
-			foreach (PawnFilterPart part in filter.Parts) {
+			foreach (PawnFilterPart part in filter.parts) {
 				part.Randomize();
 			}
 
-			for (int i = 0; i < filter.Parts.Count(); i++) {
-				for (int j = 0; j < filter.Parts.Count(); j++) {
+			for (int i = 0; i < filter.parts.Count; i++) {
+				for (int j = 0; j < filter.parts.Count; j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (filter.Parts.ElementAt(i).TryMerge(filter.Parts.ElementAt(j))) {
-						filter.RemovePart(filter.Parts.ElementAt(j));
+					if (filter.parts.ElementAt(i).TryMerge(filter.parts.ElementAt(j))) {
+						filter.RemovePart(filter.parts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -84,14 +84,14 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 			}
 
-			for (int i = 0; i < filter.Parts.Count(); i++) {
-				for (int j = 0; j < filter.Parts.Count(); j++) {
+			for (int i = 0; i < filter.parts.Count; i++) {
+				for (int j = 0; j < filter.parts.Count; j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (!filter.Parts.ElementAt(i).CanCoexistWith(filter.Parts.ElementAt(j))) {
-						filter.RemovePart(filter.Parts.ElementAt(j));
+					if (!filter.parts.ElementAt(i).CanCoexistWith(filter.parts.ElementAt(j))) {
+						filter.RemovePart(filter.parts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -123,7 +123,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) =>
 			filter is null ? throw new ArgumentNullException(nameof(filter))
 			: part is null ? throw new ArgumentNullException(nameof(part))
-			: filter.Parts.All(part.CanCoexistWith);
+			: filter.parts.All(part.CanCoexistWith);
 
 		private static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

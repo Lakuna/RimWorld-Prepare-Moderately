@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -18,7 +17,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<ThingDef> LegalThings =>
 			DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null && !def.IsCorpse);
 
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private ThingDef _species;
+#pragma warning restore IDE1006
 
 #if V1_0
 		private static string GetUniqueLabelFor(ThingDef def) =>
@@ -41,7 +42,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this._species, MiscUtil.NoUnder(nameof(this._species)));
+			Scribe_Defs.Look(ref this._species, nameof(this._species));
 		}
 
 		public override bool Matches(Pawn pawn) =>

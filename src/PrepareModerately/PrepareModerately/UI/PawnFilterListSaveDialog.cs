@@ -27,7 +27,7 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 
 			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst();
-			this.typingName = filter.Name.Trim();
+			this.typingName = filter.name.Trim();
 			this._filter = filter;
 			this._onClosed = onClosed;
 		}

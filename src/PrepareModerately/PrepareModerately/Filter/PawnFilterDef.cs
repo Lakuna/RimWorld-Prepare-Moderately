@@ -21,12 +21,12 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.filter.Name.NullOrEmpty()) {
-				this.filter.Name = this.label;
+			if (this.filter.name.NullOrEmpty()) {
+				this.filter.name = this.label;
 			}
 
-			if (this.filter.Description.NullOrEmpty()) {
-				this.filter.Description = this.description;
+			if (this.filter.description.NullOrEmpty()) {
+				this.filter.description = this.description;
 			}
 
 			this.filter.Category = PawnFilterCategory.FromDef;

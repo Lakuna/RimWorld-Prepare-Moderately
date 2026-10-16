@@ -1,7 +1,6 @@
 using System;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using UnityEngine;
 
@@ -11,11 +10,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasNumberOfTraits : PawnFilterPart {
 #pragma warning restore CA1812
-		private IntRange _range;
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private IntRange range;
+#pragma warning restore IDE1006
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this._range, MiscUtil.NoUnder(nameof(this._range)));
+			Scribe_Values.Look(ref this.range, nameof(this.range));
 		}
 
 		public override bool Matches(Pawn pawn) {
@@ -35,12 +36,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			int traitsCount = pawn.story.traits.allTraits.Count - geneForcedTraitCount;
-			return traitsCount >= this._range.min && traitsCount <= this._range.max;
+			return traitsCount >= this.range.min && traitsCount <= this.range.max;
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			this._range.min == this._range.max ? "PM.HasNumberOfTraits".Translate(this._range.min)
-			: "PM.HasBetweenNumberOfTraits".Translate(this._range.min, this._range.max);
+			this.range.min == this.range.max ? "PM.HasNumberOfTraits".Translate(this.range.min)
+			: "PM.HasBetweenNumberOfTraits".Translate(this.range.min, this.range.max);
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -53,14 +54,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
-			Widgets.IntRange(rect, Rand.Int, ref this._range, 1, 4);
+			Widgets.IntRange(rect, Rand.Int, ref this.range, 1, 4);
 		}
 
 		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(1, 2), Rand.Range(2, 4));
+			this.range = new IntRange(Rand.Range(1, 2), Rand.Range(2, 4));
 #else
-			this._range = new(Rand.Range(1, 2), Rand.Range(2, 4));
+			this.range = new(Rand.Range(1, 2), Rand.Range(2, 4));
 #endif
 	}
 }

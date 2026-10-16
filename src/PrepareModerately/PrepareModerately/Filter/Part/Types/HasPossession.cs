@@ -44,7 +44,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				.Distinct();
 #endif
 
-		private ThingDef _possession;
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private ThingDef possession;
+#pragma warning restore IDE1006
 
 		private static Collection<ThingDefCount> StartingPossessionsOf(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -55,15 +57,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this._possession, MiscUtil.NoUnder(nameof(this._possession)));
+			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
 		}
 
 		public override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this._possession);
+			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
 
 		public override string Summary(PawnFilter filter) =>
-			"PM.HasPossession".Translate(this._possession.label);
+			"PM.HasPossession".Translate(this.possession.label);
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -76,15 +78,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 
-			if (Widgets.ButtonText(rect, this._possession.LabelCap)) {
+			if (Widgets.ButtonText(rect, this.possession.LabelCap)) {
 				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
-					(def) => () => this._possession = def);
+					(def) => () => this.possession = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this._possession = LegalThings.RandomElement();
+			this.possession = LegalThings.RandomElement();
 	}
 }
 #endif

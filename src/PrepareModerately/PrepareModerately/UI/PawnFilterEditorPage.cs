@@ -64,14 +64,14 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-			foreach (PawnFilterPart part in filter.Parts) {
+			foreach (PawnFilterPart part in filter.parts) {
 				int num = 0;
-				foreach (PawnFilterPart part2 in filter.Parts) {
-					if (part2.Def == part.Def) {
+				foreach (PawnFilterPart part2 in filter.parts) {
+					if (part2.def == part.def) {
 						num++;
 					}
 
-					if (num > part.Def.maxUses) {
+					if (num > part.def.maxUses) {
 						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}

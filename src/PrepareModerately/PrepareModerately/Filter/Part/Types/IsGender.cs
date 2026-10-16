@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -22,19 +21,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<Gender>().OfType<Gender>();
 #endif
 
-		private Gender _gender;
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private Gender gender;
+#pragma warning restore IDE1006
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this._gender, MiscUtil.NoUnder(nameof(this._gender)));
+			Scribe_Values.Look(ref this.gender, nameof(this.gender));
 		}
 
 		public override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.gender == this._gender;
+			: pawn.gender == this.gender;
 
 		public override string Summary(PawnFilter filter) =>
-			"PM.IsGender".Translate(this._gender.ToString());
+			"PM.IsGender".Translate(this.gender.ToString());
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -46,14 +47,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, this._gender.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalGenders.OrderBy((gender) => gender.ToString()),
 				(gender) => gender.ToString().CapitalizeFirst(),
-				(gender) => () => this._gender = gender);
+				(gender) => () => this.gender = gender);
 			}
 		}
 
 		internal override void Randomize() =>
-			this._gender = LegalGenders.RandomElement();
+			this.gender = LegalGenders.RandomElement();
 	}
 }

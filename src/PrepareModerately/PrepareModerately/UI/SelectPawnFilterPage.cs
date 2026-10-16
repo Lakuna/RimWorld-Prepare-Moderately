@@ -158,8 +158,8 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Text.Font = GameFont.Small;
 			Rect filterNameRect = innerRect;
-			filterNameRect.height = Text.CalcHeight(filter.Name, filterNameRect.width);
-			Widgets.Label(filterNameRect, filter.Name);
+			filterNameRect.height = Text.CalcHeight(filter.name, filterNameRect.width);
+			Widgets.Label(filterNameRect, filter.name);
 
 			Text.Font = GameFont.Tiny;
 			Rect filterSummaryRect = innerRect;
@@ -170,7 +170,7 @@ namespace Lakuna.PrepareModerately.Ui {
 				filterSummaryRect.height += TinyFontCorrectionMargin;
 			}
 #endif
-			Widgets.Label(filterSummaryRect, filter.Summary);
+			Widgets.Label(filterSummaryRect, filter.summary);
 
 			if (!filter.Enabled) {
 				return;

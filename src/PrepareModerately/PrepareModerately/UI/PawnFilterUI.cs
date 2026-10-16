@@ -50,27 +50,27 @@ namespace Lakuna.PrepareModerately.Ui {
 
 #if V1_0
 			listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.name = listing.TextEntry(filter.name).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.Summary = listing.TextEntry(filter.Summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.summary = listing.TextEntry(filter.summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.description = listing.TextEntry(filter.description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #else
 			_ = listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.name = listing.TextEntry(filter.name).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.Summary = listing.TextEntry(filter.Summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.summary = listing.TextEntry(filter.summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.description = listing.TextEntry(filter.description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #endif
 
 			listing.Gap();
 
-			foreach (PawnFilterPart part in filter.Parts) {
+			foreach (PawnFilterPart part in filter.parts) {
 				part.DoEditInterface(listing, out _);
 			}
 
@@ -101,9 +101,9 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Text.Font = GameFont.Medium;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.Name);
+			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.name);
 #else
-			Widgets.Label(new(0, 0, viewRect.width, FilterNameLabelHeight), filter.Name);
+			Widgets.Label(new(0, 0, viewRect.width, FilterNameLabelHeight), filter.name);
 #endif
 
 			Text.Font = GameFont.Small;

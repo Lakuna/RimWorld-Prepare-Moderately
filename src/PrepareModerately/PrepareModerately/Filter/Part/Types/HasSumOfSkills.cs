@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -18,19 +17,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CA1812
 		private const int WidgetRowMaxWidth = 24;
 
-		private IntRange _range;
+#pragma warning disable CA1002, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private IntRange range;
 
-#pragma warning disable CA1002 // RimWorld requires a `List` to serialize with `Scribe_Collections.Look`.
-		private List<SkillDef> _skills;
-#pragma warning restore CA1002
+		private List<SkillDef> skills;
+#pragma warning restore CA1002, IDE1006
 
 		private IEnumerable<SkillDef> AddableSkills =>
-			DefDatabase<SkillDef>.AllDefs.Where((def) => !this._skills.Contains(def));
+			DefDatabase<SkillDef>.AllDefs.Where((def) => !this.skills.Contains(def));
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this._range, MiscUtil.NoUnder(nameof(this._range)));
-			Scribe_Collections.Look(ref this._skills, MiscUtil.NoUnder(nameof(this._skills)), LookMode.Def);
+			Scribe_Values.Look(ref this.range, nameof(this.range));
+			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
 		}
 
 		public override bool Matches(Pawn pawn) {
@@ -43,16 +42,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			int sum = 0;
-			foreach (SkillRecord skill in pawn.skills.skills.Where((s) => this._skills.Contains(s.def))) {
+			foreach (SkillRecord skill in pawn.skills.skills.Where((s) => this.skills.Contains(s.def))) {
 				sum += skill.Level;
 			}
 
-			return sum >= this._range.min && sum <= this._range.max;
+			return sum >= this.range.min && sum <= this.range.max;
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			this._range.min == this._range.max ? "PM.HasSumOfSkills".Translate(this._range.min, string.Join(", ", this._skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
-			: "PM.HasBetweenSumOfSkills".Translate(this._range.min, this._range.max, string.Join(", ", this._skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
+			this.range.min == this.range.max ? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
+			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -63,9 +62,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (1 + this._skills.Count), out totalAddedListHeight, out Rect headerRemainderRect);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (1 + this.skills.Count), out totalAddedListHeight, out Rect headerRemainderRect);
 
-			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this._range, SkillRecord.MinLevel * this._skills.Count, SkillRecord.MaxLevel * this._skills.Count);
+			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this.range, SkillRecord.MinLevel * this.skills.Count, SkillRecord.MaxLevel * this.skills.Count);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
@@ -75,12 +74,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(this.AddableSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
-					(def) => () => this._skills.Add(def));
+					(def) => () => this.skills.Add(def));
 			}
 
 			// List added skills.
 			float y = addSkillRect.yMax;
-			foreach (SkillDef skill in this._skills.OrderBy((s) => s.label)) {
+			foreach (SkillDef skill in this.skills.OrderBy((s) => s.label)) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				Rect skillRect = new Rect(rect.x, y, rect.width, Text.LineHeight);
 #else
@@ -97,7 +96,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
 				if (widgetRow.ButtonIcon(Textures.s_delete, null, GenUI.SubtleMouseoverColor)) {
-					_ = this._skills.Remove(skill);
+					_ = this.skills.Remove(skill);
 					SoundDefOf.Click.PlayOneShotOnCamera();
 				}
 
@@ -115,21 +114,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			int skillCount = Rand.Range(2, 5);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._skills = new List<SkillDef>();
+			this.skills = new List<SkillDef>();
 #else
-			this._skills = [];
+			this.skills = [];
 #endif
 			for (int i = 0; i < skillCount; i++) {
-				this._skills.Add(this.AddableSkills.RandomElement());
+				this.skills.Add(this.AddableSkills.RandomElement());
 			}
 
-			int min = SkillRecord.MinLevel * this._skills.Count;
-			int max = SkillRecord.MaxLevel * this._skills.Count;
+			int min = SkillRecord.MinLevel * this.skills.Count;
+			int max = SkillRecord.MaxLevel * this.skills.Count;
 			int mid = (max - min) / 2;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(min, mid), Rand.Range(mid, max));
+			this.range = new IntRange(Rand.Range(min, mid), Rand.Range(mid, max));
 #else
-			this._range = new(Rand.Range(min, mid), Rand.Range(mid, max));
+			this.range = new(Rand.Range(min, mid), Rand.Range(mid, max));
 #endif
 		}
 	}

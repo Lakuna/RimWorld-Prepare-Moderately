@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -18,7 +17,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<PawnRelationDef> LegalRelations =>
 			DefDatabase<PawnRelationDef>.AllDefs;
 
-		private PawnRelationDef _relation;
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		private PawnRelationDef relation;
+#pragma warning restore IDE1006
 
 		private static string GetCombinedLabelFor(PawnRelationDef def) =>
 			def is null ? throw new ArgumentNullException(nameof(def))
@@ -31,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this._relation, MiscUtil.NoUnder(nameof(this._relation)));
+			Scribe_Defs.Look(ref this.relation, nameof(this.relation));
 		}
 
 		public override bool Matches(Pawn pawn) =>
@@ -42,7 +43,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				&& relatedPawn.Name != null
 				&& !relatedPawn.Name.Numerical
 				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this._relation));
+				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
 #else
 			: !pawn.relations.hidePawnRelations &&
 				pawn.relations.RelatedPawns.Any((relatedPawn) =>
@@ -51,15 +52,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				&& !relatedPawn.Name.Numerical
 				&& !relatedPawn.relations.hidePawnRelations
 				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this._relation));
+				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
 #endif
 
 		public override string Summary(PawnFilter filter) =>
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation));
+			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
 
 		internal override bool CanCoexistWith(PawnFilterPart other) =>
 			other is null ? throw new ArgumentNullException(nameof(other))
-			: other.Def != PawnFilterPartDefOf.HasAnyRelation;
+			: other.def != PawnFilterPartDefOf.HasAnyRelation;
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -71,14 +72,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this.relation).CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalRelations.OrderBy(GetUniqueCombinedLabelFor),
 					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirst(),
-					(def) => () => this._relation = def);
+					(def) => () => this.relation = def);
 			}
 		}
 
 		internal override void Randomize() =>
-			this._relation = LegalRelations.RandomElement();
+			this.relation = LegalRelations.RandomElement();
 	}
 }

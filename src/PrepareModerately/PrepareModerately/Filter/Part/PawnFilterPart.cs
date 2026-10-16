@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using Verse;
 
@@ -10,12 +9,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPart`.
 	public abstract class PawnFilterPart : IExposable {
 		public virtual string Label =>
-			this._def.label;
-
-		public virtual PawnFilterPartDef Def {
-			get => this._def;
-			set => this._def = value;
-		}
+			this.def.label;
 
 		internal virtual PawnFilterPart CopyForEditing =>
 			(PawnFilterPart)this.MemberwiseClone();
@@ -27,15 +21,17 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal virtual bool Visible =>
 			true;
 
+#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		[TranslationHandle]
-		private PawnFilterPartDef _def;
+		public PawnFilterPartDef def;
+#pragma warning restore CA1051, IDE1006
 
 		public virtual void ExposeData() =>
-			Scribe_Defs.Look(ref this._def, MiscUtil.NoUnder(nameof(this._def)));
+			Scribe_Defs.Look(ref this.def, nameof(this.def));
 
 		public override int GetHashCode() =>
-			this._def is null ? 0
-			: this._def.GetHashCode();
+			this.def is null ? 0
+			: this.def.GetHashCode();
 
 		public virtual bool Matches(Pawn pawn) =>
 			true;
@@ -44,13 +40,13 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			!this.Matches(pawn);
 
 		public virtual string Summary(PawnFilter filter) =>
-			this._def.description;
+			this.def.description;
 
 		internal virtual bool CanCoexistWith(PawnFilterPart other) =>
 			true;
 
 		internal virtual IEnumerable<string> ConfigErrors() {
-			if (this._def is null) {
+			if (this.def is null) {
 				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
 			}
 		}
@@ -68,7 +64,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		}
 
 		internal virtual bool HasNullDefs() =>
-			this._def is null;
+			this.def is null;
 
 		internal virtual void PreConfigure() {
 		}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -20,26 +19,28 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<SkillDef> LegalSkills =>
 			DefDatabase<SkillDef>.AllDefs;
 
+#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		[Obsolete("`level` has been superseded by `range`.")]
-		private int _level;
+		private int level;
 
-		private IntRange _range;
+		private IntRange range;
 
-		private SkillDef _skill;
+		private SkillDef skill;
+#pragma warning restore IDE1006
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this._range, MiscUtil.NoUnder(nameof(this._range)));
-			Scribe_Defs.Look(ref this._skill, MiscUtil.NoUnder(nameof(this._skill)));
+			Scribe_Values.Look(ref this.range, nameof(this.range));
+			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
 
 #pragma warning disable CS0618 // `level` has been superseded by `range`.
 			if (Scribe.mode == LoadSaveMode.LoadingVars) {
-				Scribe_Values.Look(ref this._level, MiscUtil.NoUnder(nameof(this._level)));
+				Scribe_Values.Look(ref this.level, nameof(this.level));
 			}
 
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this._range == default) {
-				this._range.min = this._level;
-				this._range.max = this._level;
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.range == default) {
+				this.range.min = this.level;
+				this.range.max = this.level;
 			}
 #pragma warning restore CS0618
 		}
@@ -53,13 +54,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(pawn);
 #endif
 
-			int level = pawn.skills.GetSkill(this._skill).levelInt;
-			return level <= this._range.max && level >= this._range.min;
+			int level = pawn.skills.GetSkill(this.skill).levelInt;
+			return level <= this.range.max && level >= this.range.min;
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			this._range.min == this._range.max ? "PM.IsLevelAtSkill".Translate(this._range.min, this._skill.label)
-			: "PM.IsBetweenLevelsAtSkill".Translate(this._range.min, this._range.max, this._skill.label);
+			this.range.min == this.range.max ? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
+			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -77,10 +78,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
-			if (Widgets.ButtonText(skillRect, this._skill.LabelCap)) {
+			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
 				FloatMenuUtility.MakeMenu(LegalSkills.OrderBy((def) => def.label),
 					(def) => def.LabelCap,
-					(def) => () => this._skill = def);
+					(def) => () => this.skill = def);
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -89,15 +90,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect levelRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
 #endif
 			Widgets.Label(levelRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
-			Widgets.IntRange(levelRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this._range, 0, 20);
+			Widgets.IntRange(levelRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this.range, 0, 20);
 		}
 
 		internal override void Randomize() {
-			this._skill = LegalSkills.RandomElement();
+			this.skill = LegalSkills.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
+			this.range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
 #else
-			this._range = new(Rand.Range(0, 5), Rand.Range(5, 10));
+			this.range = new(Rand.Range(0, 5), Rand.Range(5, 10));
 #endif
 		}
 	}
