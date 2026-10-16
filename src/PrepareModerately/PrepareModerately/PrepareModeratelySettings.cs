@@ -1,44 +1,45 @@
 using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Utility;
 
 using Verse;
 
 namespace Lakuna.PrepareModerately {
 	internal sealed class PrepareModeratelySettings : ModSettings {
-		internal string PFilterSavePath {
+		internal string FilterSavePath {
 			get {
-				if (this.filterSavePath.NullOrEmpty()) {
-					this.filterSavePath = PawnFilter.DefaultDataPath;
+				if (this._filterSavePath.NullOrEmpty()) {
+					this._filterSavePath = PawnFilter.DefaultDataPath;
 				}
 
-				return this.filterSavePath;
+				return this._filterSavePath;
 			}
-			set => this.filterSavePath = value;
+			set => this._filterSavePath = value;
 		}
 
-		internal int PRollSpeedMultiplier {
+		internal int RollSpeedMultiplier {
 			get {
-				if (this.rollSpeedMultiplier < 1) {
-					this.rollSpeedMultiplier = 1;
+				if (this._rollSpeedMultiplier < 1) {
+					this._rollSpeedMultiplier = 1;
 				}
 
-				return this.rollSpeedMultiplier;
+				return this._rollSpeedMultiplier;
 			}
-			set => this.rollSpeedMultiplier = value;
+			set => this._rollSpeedMultiplier = value;
 		}
 
-		private string filterSavePath;
+		private string _filterSavePath;
 
-		private int rollSpeedMultiplier;
+		private int _rollSpeedMultiplier;
 
 		public PrepareModeratelySettings() {
-			this.PFilterSavePath = PawnFilter.DefaultDataPath;
-			this.PRollSpeedMultiplier = 1;
+			this.FilterSavePath = PawnFilter.DefaultDataPath;
+			this.RollSpeedMultiplier = 1;
 		}
 
 		public override void ExposeData() {
-			Scribe_Values.Look(ref this.filterSavePath, nameof(this.filterSavePath));
-			Scribe_Values.Look(ref this.rollSpeedMultiplier, nameof(this.rollSpeedMultiplier));
 			base.ExposeData();
+			Scribe_Values.Look(ref this._filterSavePath, MiscUtil.NoUnder(nameof(this._filterSavePath)));
+			Scribe_Values.Look(ref this._rollSpeedMultiplier, MiscUtil.NoUnder(nameof(this._rollSpeedMultiplier)));
 		}
 	}
 }

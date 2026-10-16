@@ -7,18 +7,18 @@ using Verse;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Dialog_ScenarioList_Load`.
 	internal sealed class PawnFilterListLoadDialog : PawnFilterListDialog {
-		private readonly Action<PawnFilter> filterReturner;
+		private readonly Action<PawnFilter> _filterReturner;
 
 		internal PawnFilterListLoadDialog(Action<PawnFilter> filterReturner) {
 			this.interactButLabel = "PM.Load".Translate().CapitalizeFirst();
-			this.filterReturner = filterReturner;
+			this._filterReturner = filterReturner;
 		}
 
 		protected override void DoFileInteraction(string fileName) {
 			string filePath = PawnFilter.AbsolutePathForName(fileName);
 			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, () => {
 				if (PawnFilterSaveLoader.Load(filePath, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					this.filterReturner(filter);
+					this._filterReturner(filter);
 				}
 
 				this.Close();

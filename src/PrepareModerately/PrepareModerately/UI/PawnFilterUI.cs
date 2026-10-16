@@ -8,7 +8,7 @@ using Verse;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.ScenarioUI`.
 	static internal class PawnFilterUi {
-		private static float EditViewHeight;
+		private static float s_editViewHeight;
 
 		private const float ExtraScrollHeight = 100;
 
@@ -29,9 +29,9 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, EditViewHeight);
+			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, s_editViewHeight);
 #else
-			Rect viewRect = new(0, 0, rect.width - ViewRectHorizontalPadding, EditViewHeight);
+			Rect viewRect = new(0, 0, rect.width - ViewRectHorizontalPadding, s_editViewHeight);
 #endif
 			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
 
@@ -50,32 +50,32 @@ namespace Lakuna.PrepareModerately.Ui {
 
 #if V1_0
 			listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.PName = listing.TextEntry(filter.PName).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.PSummary = listing.TextEntry(filter.PSummary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.Summary = listing.TextEntry(filter.Summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.PDescription = listing.TextEntry(filter.PDescription, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #else
 			_ = listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.PName = listing.TextEntry(filter.PName).TrimmedToLength(PawnFilter.NameMaxLength);
+			filter.Name = listing.TextEntry(filter.Name).TrimmedToLength(PawnFilter.NameMaxLength);
 
 			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.PSummary = listing.TextEntry(filter.PSummary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
+			filter.Summary = listing.TextEntry(filter.Summary, 2).TrimmedToLength(PawnFilter.SummaryMaxLength);
 
 			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.PDescription = listing.TextEntry(filter.PDescription, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
+			filter.Description = listing.TextEntry(filter.Description, 4).TrimmedToLength(PawnFilter.DescriptionMaxLength);
 #endif
 
 			listing.Gap();
 
-			foreach (PawnFilterPart part in filter.PParts) {
-				part.doEditInterface(listing, out _);
+			foreach (PawnFilterPart part in filter.Parts) {
+				part.DoEditInterface(listing, out _);
 			}
 
 			listing.End();
-			EditViewHeight = listing.CurHeight + ExtraScrollHeight;
+			s_editViewHeight = listing.CurHeight + ExtraScrollHeight;
 			Widgets.EndScrollView();
 		}
 
@@ -101,9 +101,9 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Text.Font = GameFont.Medium;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
+			Widgets.Label(new Rect(0, 0, viewRect.width, FilterNameLabelHeight), filter.Name);
 #else
-			Widgets.Label(new(0, 0, viewRect.width, FilterNameLabelHeight), filter.PName);
+			Widgets.Label(new(0, 0, viewRect.width, FilterNameLabelHeight), filter.Name);
 #endif
 
 			Text.Font = GameFont.Small;

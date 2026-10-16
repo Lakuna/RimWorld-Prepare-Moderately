@@ -26,9 +26,9 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 		private const float ButtonY = 45;
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
+#pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.
 		private static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
-#pragma warning restore CA1707
+#pragma warning restore CA1707, IDE1006
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - ButtonWidth / 2, rect.y - ButtonY, ButtonWidth, ButtonHeight), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
 #else

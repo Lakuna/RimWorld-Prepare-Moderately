@@ -4,6 +4,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDefOf`.
 	[DefOf]
 	public static class PawnFilterPartDefOf {
+#pragma warning disable IDE1006 // `DefOf` relies on static fields with names matching XML definitions.
 		public static readonly PawnFilterPartDef HasAdulthood;
 
 		public static readonly PawnFilterPartDef HasAnyAddiction;
@@ -61,6 +62,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef LogicGate;
 
 		public static readonly PawnFilterPartDef NameMatches;
+#pragma warning restore IDE1006
 
 		static PawnFilterPartDefOf() =>
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));

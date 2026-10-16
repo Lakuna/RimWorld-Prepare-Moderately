@@ -21,7 +21,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		private const float GapBetweenColumns = 17;
 
 		public bool FilterEdited =>
-			this.editMode && this.Filter.GetHashCode() != this.initialHash;
+			this._editMode && this.Filter.GetHashCode() != this._initialHash;
 
 		public override string PageTitle =>
 			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this.FilterEdited ? "*" : "")}";
@@ -30,29 +30,29 @@ namespace Lakuna.PrepareModerately.Ui {
 			get; private set;
 		}
 
-		private bool editMode;
+		private bool _editMode;
 
-		private Vector2 infoScrollPosition;
+		private Vector2 _infoScrollPosition;
 
-		private readonly int initialHash;
+		private readonly int _initialHash;
 
-		private bool needsSave;
+		private bool _needsSave;
 
-		private string seed;
+		private string _seed;
 
-		private bool seedIsValid;
+		private bool _seedIsValid;
 
 		internal PawnFilterEditorPage(PawnFilter filter) {
-			this.infoScrollPosition = Vector2.zero;
-			this.needsSave = true;
-			this.seedIsValid = filter is null;
+			this._infoScrollPosition = Vector2.zero;
+			this._needsSave = true;
+			this._seedIsValid = filter is null;
 			if (filter is null) {
 				this.RandomizeSeedAndFilter();
 			} else {
 				this.Filter = filter;
 			}
 
-			this.initialHash = this.Filter.GetHashCode();
+			this._initialHash = this.Filter.GetHashCode();
 		}
 
 		private static bool CheckAllPartsCompatible(PawnFilter filter) {
@@ -64,19 +64,19 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-			foreach (PawnFilterPart part in filter.PParts) {
+			foreach (PawnFilterPart part in filter.Parts) {
 				int num = 0;
-				foreach (PawnFilterPart part2 in filter.PParts) {
-					if (part2.PDef == part.PDef) {
+				foreach (PawnFilterPart part2 in filter.Parts) {
+					if (part2.Def == part.Def) {
 						num++;
 					}
 
-					if (num > part.PDef.PMaxUses) {
+					if (num > part.Def.MaxUses) {
 						Messages.Message("PM.TooManyOfFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 
-					if (part != part2 && !part.canCoexistWith(part2)) {
+					if (part != part2 && !part.CanCoexistWith(part2)) {
 						Messages.Message("PM.IncompatibleFilterPart".Translate(), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
@@ -100,10 +100,10 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.DoConfigControls(configControlsRect);
 
 			Rect filterEditRect = new Rect(configControlsRect.xMax + GapBetweenColumns, 0, mainRect.width - configControlsRect.width - GapBetweenColumns, mainRect.height).Rounded();
-			if (this.editMode) {
-				PawnFilterUi.DrawEditInterface(filterEditRect, this.Filter, ref this.infoScrollPosition);
+			if (this._editMode) {
+				PawnFilterUi.DrawEditInterface(filterEditRect, this.Filter, ref this._infoScrollPosition);
 			} else {
-				PawnFilterUi.DrawInfo(filterEditRect, this.Filter, ref this.infoScrollPosition);
+				PawnFilterUi.DrawInfo(filterEditRect, this.Filter, ref this._infoScrollPosition);
 			}
 
 #if V1_0 || V1_1 || V1_2
@@ -117,8 +117,8 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		public override void PreOpen() {
 			base.PreOpen();
-			this.infoScrollPosition = Vector2.zero;
-			this.needsSave = true;
+			this._infoScrollPosition = Vector2.zero;
+			this._needsSave = true;
 		}
 
 		protected override bool CanDoNext() {
@@ -126,7 +126,7 @@ namespace Lakuna.PrepareModerately.Ui {
 				return false;
 			}
 
-			if (this.FilterEdited && this.needsSave) {
+			if (this.FilterEdited && this._needsSave) {
 				Find.WindowStack.Add(
 					new Dialog_MessageBox(
 						"PM.FilterSavePrompt".Translate().CapitalizeFirst(),
@@ -134,14 +134,14 @@ namespace Lakuna.PrepareModerately.Ui {
 						() => {
 							Find.WindowStack.Add(new PawnFilterListSaveDialog(this.Filter, () => {
 								SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
-								this.needsSave = false;
+								this._needsSave = false;
 								this.DoNext();
 							}));
 						},
 						"No".Translate().CapitalizeFirst(),
 						() => {
 							SelectPawnFilterPage.BeginFilterConfiguration(this.Filter);
-							this.needsSave = false;
+							this._needsSave = false;
 							this.DoNext();
 						}
 					)
@@ -155,7 +155,7 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void AddFilterPart(PawnFilterPartDef def) {
 			PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
-			part.randomize();
+			part.Randomize();
 			this.Filter.AddPart(part);
 		}
 
@@ -174,7 +174,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst())) {
 				Find.WindowStack.Add(new PawnFilterListLoadDialog((filter) => {
 					this.Filter = filter;
-					this.seedIsValid = false;
+					this._seedIsValid = false;
 				}));
 			}
 
@@ -185,28 +185,28 @@ namespace Lakuna.PrepareModerately.Ui {
 			if (listing.ButtonText("PM.RandomizeSeed".Translate().CapitalizeFirst())) {
 				SoundDefOf.Tick_Tiny.PlayOneShotOnCamera();
 				this.RandomizeSeedAndFilter();
-				this.seedIsValid = true;
+				this._seedIsValid = true;
 			}
 
-			if (this.seedIsValid) {
+			if (this._seedIsValid) {
 #if V1_0
 				listing.Label("PM.Seed".Translate().CapitalizeFirst());
 #else
 				_ = listing.Label("PM.Seed".Translate().CapitalizeFirst());
 #endif
-				string text = listing.TextEntry(this.seed);
-				if (text != this.seed) {
-					this.seed = text;
-					this.Filter = PawnFilterMaker.Random(this.seed);
+				string text = listing.TextEntry(this._seed);
+				if (text != this._seed) {
+					this._seed = text;
+					this.Filter = PawnFilterMaker.Random(this._seed);
 				}
 			} else {
 				listing.Gap(Text.LineHeight * 2 + 2);
 			}
 
-			listing.CheckboxLabeled("PM.EditMode".Translate().CapitalizeFirst(), ref this.editMode);
+			listing.CheckboxLabeled("PM.EditMode".Translate().CapitalizeFirst(), ref this._editMode);
 
-			if (this.editMode) {
-				this.seedIsValid = false;
+			if (this._editMode) {
+				this._seedIsValid = false;
 				if (listing.ButtonText("PM.AddPart".Translate().CapitalizeFirst())) {
 					this.OpenAddFilterPartMenu();
 				}
@@ -225,8 +225,8 @@ namespace Lakuna.PrepareModerately.Ui {
 				(def) => () => this.AddFilterPart(def));
 
 		private void RandomizeSeedAndFilter() {
-			this.seed = GenText.RandomSeedString();
-			this.Filter = PawnFilterMaker.Random(this.seed);
+			this._seed = GenText.RandomSeedString();
+			this.Filter = PawnFilterMaker.Random(this._seed);
 		}
 	}
 }

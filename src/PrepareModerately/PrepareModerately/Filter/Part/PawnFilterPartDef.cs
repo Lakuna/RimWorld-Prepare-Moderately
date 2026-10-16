@@ -6,42 +6,42 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDef`.
 	public sealed class PawnFilterPartDef : Def {
-		public PawnFilterPartCategory PCategory =>
-			this.category;
+		public PawnFilterPartCategory Category =>
+			this._category;
 
-		internal Type PFilterPartClass =>
-			this.filterPartClass;
+		internal Type FilterPartClass =>
+			this._filterPartClass;
 
 		internal bool PlayerAddRemovable =>
-			this.PCategory != PawnFilterPartCategory.Fixed;
+			this.Category != PawnFilterPartCategory.Fixed;
 
-		internal int PMaxUses =>
-			this.maxUses;
+		internal int MaxUses =>
+			this._maxUses;
 
-		internal float PSelectionWeight =>
-			this.selectionWeight;
+		internal float SelectionWeight =>
+			this._selectionWeight;
 
-		internal float PSummaryPriority =>
-			this.summaryPriority;
+		internal float SummaryPriority =>
+			this._summaryPriority;
 
 #pragma warning disable CS0649 // Value is assigned via XML definitions.
-		private readonly PawnFilterPartCategory category;
+		private readonly PawnFilterPartCategory _category;
 #pragma warning restore CS0649
 
 #pragma warning disable CS0649 // Value is assigned via XML definitions.
-		private readonly Type filterPartClass;
+		private readonly Type _filterPartClass;
 #pragma warning restore CS0649
 
-		private readonly int maxUses;
+		private readonly int _maxUses;
 
-		private readonly float selectionWeight;
+		private readonly float _selectionWeight;
 
-		private readonly float summaryPriority;
+		private readonly float _summaryPriority;
 
 		public PawnFilterPartDef() {
-			this.summaryPriority = 1;
-			this.selectionWeight = 1;
-			this.maxUses = 999999;
+			this._summaryPriority = 1;
+			this._selectionWeight = 1;
+			this._maxUses = 999999;
 		}
 
 		public override IEnumerable<string> ConfigErrors() {
@@ -49,7 +49,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 				yield return item;
 			}
 
-			if (this.PFilterPartClass is null) {
+			if (this.FilterPartClass is null) {
 				yield return "Filter part class is null.";
 			}
 		}

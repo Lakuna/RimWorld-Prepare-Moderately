@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -23,14 +24,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<Passion>().OfType<Passion>();
 #endif
 
-		private Passion passion;
+		private Passion _passion;
 
-		private IntRange range;
+		private IntRange _range;
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.passion, nameof(this.passion));
-			Scribe_Values.Look(ref this.range, nameof(this.range));
+			Scribe_Values.Look(ref this._passion, MiscUtil.NoUnder(nameof(this._passion)));
+			Scribe_Values.Look(ref this._range, MiscUtil.NoUnder(nameof(this._range)));
 		}
 
 		public override bool Matches(Pawn pawn) {
@@ -42,15 +43,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(pawn);
 #endif
 
-			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.passion == this.passion);
-			return count <= this.range.max && count >= this.range.min;
+			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.passion == this._passion);
+			return count <= this._range.max && count >= this._range.min;
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
-			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
+			this._range.min == this._range.max ? "PM.HasPassionForSkills".Translate(this._passion.ToString(), this._range.min)
+			: "PM.HasPassionForBetweenSkills".Translate(this._passion.ToString(), this._range.min, this._range.max);
 
-		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -59,7 +60,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			Rect rect = listing.getPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
@@ -67,26 +68,26 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect countRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
 			Widgets.Label(countRect.LeftPart(LabelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
-			Widgets.IntRange(countRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this.range, 0, 12);
+			Widgets.IntRange(countRect.RightPart(1 - LabelWidthPercentage), Rand.Int, ref this._range, 0, 12);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 #else
 			Rect passionRect = new(rect.x, countRect.yMax, rect.width, Text.LineHeight);
 #endif
-			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(passionRect, this._passion.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalPassions.OrderBy((passion) => passion.ToString()),
 					(passion) => passion.ToString().CapitalizeFirst(),
-					(passion) => () => this.passion = passion);
+					(passion) => () => this._passion = passion);
 			}
 		}
 
-		internal override void randomize() {
-			this.passion = LegalPassions.RandomElement();
+		internal override void Randomize() {
+			this._passion = LegalPassions.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
+			this._range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
 #else
-			this.range = new(Rand.Range(0, 2), Rand.Range(2, 6));
+			this._range = new(Rand.Range(0, 2), Rand.Range(2, 6));
 #endif
 		}
 	}

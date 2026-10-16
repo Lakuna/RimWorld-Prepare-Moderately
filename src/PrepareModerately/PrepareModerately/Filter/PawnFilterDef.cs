@@ -6,10 +6,10 @@ namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
 	public sealed class PawnFilterDef : Def {
 		public PawnFilter PFilter =>
-			this.filter;
+			this._filter;
 
 #pragma warning disable CS0649 // Value is assigned via XML definitions.
-		private readonly PawnFilter filter;
+		private readonly PawnFilter _filter;
 #pragma warning restore CS0649
 
 		public override IEnumerable<string> ConfigErrors() {
@@ -17,22 +17,22 @@ namespace Lakuna.PrepareModerately.Filter {
 				yield return "Null filter.";
 			}
 
-			foreach (string item in this.PFilter.configErrors()) {
+			foreach (string item in this.PFilter.ConfigErrors()) {
 				yield return item;
 			}
 		}
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.PFilter.PName.NullOrEmpty()) {
-				this.PFilter.PName = this.label;
+			if (this.PFilter.Name.NullOrEmpty()) {
+				this.PFilter.Name = this.label;
 			}
 
-			if (this.PFilter.PDescription.NullOrEmpty()) {
-				this.PFilter.PDescription = this.description;
+			if (this.PFilter.Description.NullOrEmpty()) {
+				this.PFilter.Description = this.description;
 			}
 
-			this.PFilter.PCategory = PawnFilterCategory.FromDef;
+			this.PFilter.Category = PawnFilterCategory.FromDef;
 		}
 	}
 }

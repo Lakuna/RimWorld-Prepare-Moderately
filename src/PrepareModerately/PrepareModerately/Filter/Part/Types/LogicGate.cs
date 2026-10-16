@@ -27,44 +27,44 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<LogicGateType>().OfType<LogicGateType>();
 #endif
 
-		private float editViewHeight;
+		private float _editViewHeight;
 
-		private bool collapsed;
+		private bool _collapsed;
 
-		private PawnFilter innerFilter;
+		private PawnFilter _innerFilter;
 
-		private LogicGateType type;
+		private LogicGateType _type;
 
 		// Must be public.
 		public LogicGate() : base() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.innerFilter = new PawnFilter {
-				PName = "Inner filter",
-				PDescription = "This filter exists inside of a logic gate. It is part of another filter.",
-				PSummary = "If you are seeing this summary in the UI, something has gone wrong."
+			this._innerFilter = new PawnFilter {
+				Name = "Inner filter",
+				Description = "This filter exists inside of a logic gate. It is part of another filter.",
+				Summary = "If you are seeing this summary in the UI, something has gone wrong."
 			};
 #else
-			this.innerFilter = new() {
-				PName = "Inner filter",
-				PDescription = "This filter exists inside of a logic gate. It is part of another filter.",
-				PSummary = "If you are seeing this summary in the UI, something has gone wrong."
+			this._innerFilter = new() {
+				Name = "Inner filter",
+				Description = "This filter exists inside of a logic gate. It is part of another filter.",
+				Summary = "If you are seeing this summary in the UI, something has gone wrong."
 			};
 #endif
-			this.collapsed = false;
+			this._collapsed = false;
 		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.type, nameof(this.type));
-			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
+			Scribe_Values.Look(ref this._type, MiscUtil.NoUnder(nameof(this._type)));
+			Scribe_Deep.Look(ref this._innerFilter, MiscUtil.NoUnder(nameof(this._innerFilter)));
 		}
 
 		public override bool Matches(Pawn pawn) {
-			switch (this.type) {
+			switch (this._type) {
 				case LogicGateType.And:
-					return this.innerFilter.Matches(pawn);
+					return this._innerFilter.Matches(pawn);
 				case LogicGateType.Or:
-					foreach (PawnFilterPart part in this.innerFilter.PParts) {
+					foreach (PawnFilterPart part in this._innerFilter.Parts) {
 						if (part.Matches(pawn)) {
 							return true;
 						}
@@ -72,7 +72,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 					return false;
 				case LogicGateType.Not:
-					foreach (PawnFilterPart part in this.innerFilter.PParts) {
+					foreach (PawnFilterPart part in this._innerFilter.Parts) {
 						if (!part.NotMatches(pawn)) {
 							return false;
 						}
@@ -81,7 +81,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					return true;
 				case LogicGateType.Xor:
 					bool flag = false;
-					foreach (PawnFilterPart part in this.innerFilter.PParts) {
+					foreach (PawnFilterPart part in this._innerFilter.Parts) {
 						if (part.Matches(pawn)) {
 							if (flag) {
 								return false;
@@ -101,17 +101,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) {
 			string output = "";
 
-			foreach (PawnFilterPart part in this.innerFilter.PParts) {
+			foreach (PawnFilterPart part in this._innerFilter.Parts) {
 				part.Summarized = false;
 			}
 
 			foreach (PawnFilterPart part in
-				from part in this.innerFilter.PParts
-				orderby part.PDef.PSummaryPriority descending,
-				part.PDef.defName
+				from part in this._innerFilter.Parts
+				orderby part.Def.SummaryPriority descending,
+				part.Def.defName
 				where part.Visible
 				select part) {
-				string summary = part.Summary(this.innerFilter);
+				string summary = part.Summary(this._innerFilter);
 				if (!summary.NullOrEmpty()) {
 					if (output.Length > 0) {
 						output += ", ";
@@ -121,7 +121,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				}
 			}
 
-			switch (this.type) {
+			switch (this._type) {
 				case LogicGateType.And:
 					return "PM.AllOf".Translate(output);
 				case LogicGateType.Or:
@@ -136,7 +136,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -146,9 +146,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 			// Container.
-			Rect rect = this.collapsed
-				? listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
-				: listing.getPawnFilterPartRect(this, Text.LineHeight * 2 + this.editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
+			Rect rect = this._collapsed
+				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
+				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this._editViewHeight + Padding, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 
@@ -158,13 +158,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			WidgetRow collapseWidgetRow = new(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, CollapseWidgetRowMaxWidth, 0);
 #endif
-			if (collapseWidgetRow.ButtonIcon(this.collapsed ? Textures.ReorderDown : Textures.ReorderUp, (this.collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
-				this.collapsed = !this.collapsed;
+			if (collapseWidgetRow.ButtonIcon(this._collapsed ? Textures.s_reorderDown : Textures.s_reorderUp, (this._collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+				this._collapsed = !this._collapsed;
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}
 
 			// Don't draw the rest of the UI if collapsed.
-			if (this.collapsed) {
+			if (this._collapsed) {
 				return;
 			}
 
@@ -174,10 +174,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Rect typeRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
 #endif
-			if (Widgets.ButtonText(typeRect, this.type.ToString().CapitalizeFirst())) {
+			if (Widgets.ButtonText(typeRect, this._type.ToString().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalLogicGateTypes.OrderBy((type) => type.ToString()),
 					(type) => type.ToString().CapitalizeFirst(),
-					(type) => () => this.type = type);
+					(type) => () => this._type = type);
 			}
 
 			// Add part button.
@@ -189,28 +189,28 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(
 					from part
-					in PawnFilterMaker.AddableParts(this.innerFilter)
-					where part.PCategory != PawnFilterPartCategory.Fixed
+					in PawnFilterMaker.AddableParts(this._innerFilter)
+					where part.Category != PawnFilterPartCategory.Fixed
 					orderby part.label
 					select part,
 					(def) => def.LabelCap,
 					(def) => () => {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
-						part.randomize();
-						this.innerFilter.AddPart(part, true);
+						part.Randomize();
+						this._innerFilter.AddPart(part, true);
 					}
 				);
 			}
 
 			// Part listing.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect listingRect = new Rect(rect.x, addPartRect.yMax, rect.width, this.editViewHeight);
-			PawnFilterEditListing innerListing = new PawnFilterEditListing(this.innerFilter) {
+			Rect listingRect = new Rect(rect.x, addPartRect.yMax, rect.width, this._editViewHeight);
+			PawnFilterEditListing innerListing = new PawnFilterEditListing(this._innerFilter) {
 				ColumnWidth = listingRect.width
 			};
 #else
-			Rect listingRect = new(rect.x, addPartRect.yMax, rect.width, this.editViewHeight);
-			PawnFilterEditListing innerListing = new(this.innerFilter) {
+			Rect listingRect = new(rect.x, addPartRect.yMax, rect.width, this._editViewHeight);
+			PawnFilterEditListing innerListing = new(this._innerFilter) {
 				ColumnWidth = listingRect.width
 			};
 #endif
@@ -218,15 +218,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Fill part listing.
 			float listingHeight = 0;
-			for (int i = 0; i < this.innerFilter.PParts.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
-				PawnFilterPart part = this.innerFilter.PParts.ElementAt(i);
-				part.doEditInterface(innerListing, out float partAddedListHeight);
+			for (int i = 0; i < this._innerFilter.Parts.Count(); i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
+				PawnFilterPart part = this._innerFilter.Parts.ElementAt(i);
+				part.DoEditInterface(innerListing, out float partAddedListHeight);
 				listingHeight += partAddedListHeight;
 			}
 
 			// End part listing.
 			innerListing.End();
-			this.editViewHeight = Math.Max(innerListing.CurHeight, listingHeight);
+			this._editViewHeight = Math.Max(innerListing.CurHeight, listingHeight);
 		}
 	}
 }

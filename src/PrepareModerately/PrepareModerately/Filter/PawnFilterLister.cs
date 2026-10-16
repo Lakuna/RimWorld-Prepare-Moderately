@@ -8,7 +8,7 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioLister`.
 	internal static class PawnFilterLister {
-		private static bool Dirty = true;
+		private static bool s_dirty = true;
 
 		internal static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
@@ -46,7 +46,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		internal static void MarkDirty() =>
-			Dirty = true;
+			s_dirty = true;
 
 		private static int FilterListHash() {
 			int hash = 9826121;
@@ -58,16 +58,16 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		private static void Recache() {
-			Dirty = false;
+			s_dirty = false;
 			int hash = FilterListHash();
 			PawnFilter.RecacheLocalFilters();
 			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
-				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.notifyFilterListChanged();
+				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.NotifyFilterListChanged();
 			}
 		}
 
 		private static void RecacheIfDirty() {
-			if (Dirty) {
+			if (s_dirty) {
 				Recache();
 			}
 		}

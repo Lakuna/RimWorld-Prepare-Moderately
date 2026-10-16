@@ -14,9 +14,9 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 		}
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
+#pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.
 		private static void Postfix(Page_ConfigureStartingPawns __instance) =>
+#pragma warning restore CA1707, IDE1006
 			Instance = __instance;
-#pragma warning restore CA1707
 	}
 }

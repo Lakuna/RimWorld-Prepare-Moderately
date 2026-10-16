@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -24,21 +25,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if V1_0 || V1_1 || V1_2 || V1_3
 		private Backstory Backstory =>
-			LegalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
+			LegalBackstories.First((backstory) => backstory.identifier == this._backstoryIdentifier);
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private string backstoryIdentifier;
+		private string _backstoryIdentifier;
 #else
-		private BackstoryDef backstory;
+		private BackstoryDef _backstory;
 #endif
 
 		public override void ExposeData() {
 			base.ExposeData();
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Scribe_Values.Look(ref this.backstoryIdentifier, nameof(this.backstoryIdentifier));
+			Scribe_Values.Look(ref this._backstoryIdentifier, MiscUtil.NoUnder(nameof(this._backstoryIdentifier)));
 #else
-			Scribe_Defs.Look(ref this.backstory, nameof(this.backstory));
+			Scribe_Defs.Look(ref this._backstory, MiscUtil.NoUnder(nameof(this._backstory)));
 #endif
 		}
 
@@ -47,17 +48,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if V1_0 || V1_1 || V1_2 || V1_3
 			: pawn.story.adulthood == this.Backstory;
 #else
-			: pawn.story.Adulthood == this.backstory;
+			: pawn.story.Adulthood == this._backstory;
 #endif
 
 		public override string Summary(PawnFilter filter) =>
 #if V1_0 || V1_1 || V1_2 || V1_3
 			"PM.HasAdulthood".Translate(this.Backstory.title);
 #else
-			"PM.HasAdulthood".Translate(this.backstory.title);
+			"PM.HasAdulthood".Translate(this._backstory.title);
 #endif
 
-		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -66,27 +67,27 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0 || V1_1 || V1_2 || V1_3
 			if (Widgets.ButtonText(rect, this.Backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((backstory) => backstory.title),
 					(backstory) => backstory.title.CapitalizeFirst(),
-					(backstory) => () => this.backstoryIdentifier = backstory.identifier);
+					(backstory) => () => this._backstoryIdentifier = backstory.identifier);
 			}
 #else
-			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
+			if (Widgets.ButtonText(rect, this._backstory.title.CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(LegalBackstories.OrderBy((def) => def.title),
 					(def) => def.title.CapitalizeFirst(),
-					(def) => () => this.backstory = def);
+					(def) => () => this._backstory = def);
 			}
 #endif
 		}
 
-		internal override void randomize() =>
+		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this.backstoryIdentifier = LegalBackstories.RandomElement().identifier;
+			this._backstoryIdentifier = LegalBackstories.RandomElement().identifier;
 #else
-			this.backstory = LegalBackstories.RandomElement();
+			this._backstory = LegalBackstories.RandomElement();
 #endif
 	}
 }

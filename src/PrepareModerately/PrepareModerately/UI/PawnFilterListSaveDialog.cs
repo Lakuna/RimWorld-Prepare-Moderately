@@ -13,9 +13,9 @@ namespace Lakuna.PrepareModerately.Ui {
 		protected override bool ShouldDoTypeInField =>
 			true;
 
-		private readonly PawnFilter filter;
+		private readonly PawnFilter _filter;
 
-		private readonly Action onClosed;
+		private readonly Action _onClosed;
 
 		internal PawnFilterListSaveDialog(PawnFilter filter, Action onClosed = null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -27,21 +27,21 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 
 			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst();
-			this.typingName = filter.PName.Trim();
-			this.filter = filter;
-			this.onClosed = onClosed;
+			this.typingName = filter.Name.Trim();
+			this._filter = filter;
+			this._onClosed = onClosed;
 		}
 
 		public override void Close(bool doCloseSound = true) {
 			base.Close(doCloseSound);
-			this.onClosed?.Invoke();
+			this._onClosed?.Invoke();
 		}
 
 		protected override void DoFileInteraction(string fileName) {
 			fileName = GenFile.SanitizedFileName(fileName);
 			string absolutePath = PawnFilter.AbsolutePathForName(fileName);
 			LongEventHandler.QueueLongEvent(
-				() => PawnFilterSaveLoader.Save(this.filter, absolutePath),
+				() => PawnFilterSaveLoader.Save(this._filter, absolutePath),
 				"SavingLongEvent",
 				false,
 				(e) => PrepareModeratelyLogger.LogException(e, "Failed to save filter."));

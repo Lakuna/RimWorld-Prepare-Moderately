@@ -13,8 +13,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override string Summary(PawnFilter filter) =>
 			"PM.HasAnyRelation".Translate();
 
-		internal override bool canCoexistWith(PawnFilterPart other) =>
+		internal override bool CanCoexistWith(PawnFilterPart other) =>
 			other is null ? throw new ArgumentNullException(nameof(other))
-			: other.PDef != PawnFilterPartDefOf.HasRelation;
+			: other.Def != PawnFilterPartDefOf.HasRelation;
 	}
 }

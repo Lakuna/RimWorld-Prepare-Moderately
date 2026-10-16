@@ -25,12 +25,12 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 		}
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
+#pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.
 		private static void Postfix(Pawn __result, MethodBase __originalMethod) {
-#pragma warning restore CA1707
+#pragma warning restore CA1707, IDE1006
 			Result = __result;
 			PreOpenPatch.Instance.SelectPawn(Result);
-			if (IsActivelyRolling || PawnFilter.Current is null || !PawnFilter.Current.PParts.Any() || PawnFilter.Current.Matches(Result)) {
+			if (IsActivelyRolling || PawnFilter.Current is null || !PawnFilter.Current.Parts.Any() || PawnFilter.Current.Matches(Result)) {
 				return;
 			}
 

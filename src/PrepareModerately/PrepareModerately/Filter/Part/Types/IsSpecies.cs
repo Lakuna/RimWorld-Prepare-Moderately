@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -17,7 +18,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<ThingDef> LegalThings =>
 			DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null && !def.IsCorpse);
 
-		private ThingDef species;
+		private ThingDef _species;
 
 #if V1_0
 		private static string GetUniqueLabelFor(ThingDef def) =>
@@ -40,17 +41,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.species, nameof(this.species));
+			Scribe_Defs.Look(ref this._species, MiscUtil.NoUnder(nameof(this._species)));
 		}
 
 		public override bool Matches(Pawn pawn) =>
 			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.def == this.species;
+			: pawn.def == this._species;
 
 		public override string Summary(PawnFilter filter) =>
-			"PM.IsSpecies".Translate(this.species.label);
+			"PM.IsSpecies".Translate(this._species.label);
 
-		internal override void doEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
 				throw new ArgumentNullException(nameof(listing));
@@ -59,15 +60,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			ArgumentNullException.ThrowIfNull(listing);
 #endif
 
-			_ = listing.getPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this.species))) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this._species))) {
 				FloatMenuUtility.MakeMenu(LegalThings.OrderBy((def) => def.label),
 					(def) => GetUniqueLabelFor(def),
-					(def) => () => this.species = def);
+					(def) => () => this._species = def);
 			}
 		}
 
-		internal override void randomize() =>
-			this.species = ThingDefOf.Human; // Other things wouldn't be legal for vanilla RimWorld.
+		internal override void Randomize() =>
+			this._species = ThingDefOf.Human; // Other things wouldn't be legal for vanilla RimWorld.
 	}
 }

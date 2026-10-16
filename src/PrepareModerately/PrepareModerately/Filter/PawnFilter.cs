@@ -26,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			get; set;
 		}
 
-		internal static readonly string DataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
+		internal static readonly string s_dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
 
 		internal const int DescriptionMaxLength = 1000;
 
@@ -66,60 +66,60 @@ namespace Lakuna.PrepareModerately.Filter {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			(string)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, new object[] { DataFolder });
+				.Invoke(null, new object[] { s_dataFolder });
 #else
 			(string)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, [DataFolder]);
+				.Invoke(null, [s_dataFolder]);
 #endif
 
 		internal static IEnumerable<PawnFilter> LocalFilters =>
-			LocalFiltersInternal;
+			s_localFiltersInternal;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static readonly Collection<PawnFilter> LocalFiltersInternal = new Collection<PawnFilter>();
+		private static readonly Collection<PawnFilter> s_localFiltersInternal = new Collection<PawnFilter>();
 #else
-		private static readonly Collection<PawnFilter> LocalFiltersInternal = [];
+		private static readonly Collection<PawnFilter> s_localFiltersInternal = [];
 #endif
 
 		private static string DataPath =>
-			PrepareModeratelyMod.Settings.PFilterSavePath.NullOrEmpty() ? DefaultDataPath
-			: PrepareModeratelyMod.Settings.PFilterSavePath;
+			PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty() ? DefaultDataPath
+			: PrepareModeratelyMod.Settings.FilterSavePath;
 
-		public PawnFilterCategory PCategory {
+		public PawnFilterCategory Category {
 			get {
-				if (this.category == PawnFilterCategory.Undefined) {
+				if (this._category == PawnFilterCategory.Undefined) {
 					PrepareModeratelyLogger.LogErrorMessage("Filter category is undefined.");
 				}
 
-				return this.category;
+				return this._category;
 			}
 
-			set => this.category = value;
+			set => this._category = value;
 		}
 
-		public string PDescription {
-			get => this.description;
-			set => this.description = value;
+		public string Description {
+			get => this._description;
+			set => this._description = value;
 		}
 
-		public string PName {
-			get => this.name;
-			set => this.name = value;
+		public string Name {
+			get => this._name;
+			set => this._name = value;
 		}
 
-		public IEnumerable<PawnFilterPart> PParts {
-			get => this.parts;
+		public IEnumerable<PawnFilterPart> Parts {
+			get => this._parts;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			internal set => this.parts = value.ToList();
+			internal set => this._parts = value.ToList();
 #else
-			internal set => this.parts = [.. value];
+			internal set => this._parts = [.. value];
 #endif
 		}
 
-		public string PSummary {
-			get => this.summary;
-			set => this.summary = value;
+		public string Summary {
+			get => this._summary;
+			set => this._summary = value;
 		}
 
 		internal bool Valid { get; set; } = true;
@@ -128,20 +128,20 @@ namespace Lakuna.PrepareModerately.Filter {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				PawnFilter copyForEditing = new PawnFilter {
-					PName = this.PName,
-					PSummary = this.PSummary,
-					PDescription = this.PDescription,
-					PCategory = PawnFilterCategory.CustomLocal
+					Name = this.Name,
+					Summary = this.Summary,
+					Description = this.Description,
+					Category = PawnFilterCategory.CustomLocal
 				};
 #else
 				PawnFilter copyForEditing = new() {
-					PName = this.PName,
-					PSummary = this.PSummary,
-					PDescription = this.PDescription,
-					PCategory = PawnFilterCategory.CustomLocal
+					Name = this.Name,
+					Summary = this.Summary,
+					Description = this.Description,
+					Category = PawnFilterCategory.CustomLocal
 				};
 #endif
-				copyForEditing.parts.AddRange(this.PParts.Select((part) => part.CopyForEditing));
+				copyForEditing._parts.AddRange(this.Parts.Select((part) => part.CopyForEditing));
 				return copyForEditing;
 			}
 		}
@@ -168,16 +168,16 @@ namespace Lakuna.PrepareModerately.Filter {
 #else
 					StringBuilder stringBuilder = new();
 #endif
-					_ = stringBuilder.AppendLine(this.PDescription);
+					_ = stringBuilder.AppendLine(this.Description);
 					_ = stringBuilder.AppendLine();
 
-					foreach (PawnFilterPart part in this.PParts) {
+					foreach (PawnFilterPart part in this.Parts) {
 						part.Summarized = false;
 					}
 
 					foreach (PawnFilterPart part in
-						from part in this.PParts
-						orderby part.PDef.PSummaryPriority descending, part.PDef.defName
+						from part in this.Parts
+						orderby part.Def.SummaryPriority descending, part.Def.defName
 						where part.Visible
 						select part) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
@@ -206,26 +206,26 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal bool ShowInUi { get; } = true;
 
-		private PawnFilterCategory category;
+		private PawnFilterCategory _category;
 
 		[MustTranslate]
-		private string description;
+		private string _description;
 
 		[MustTranslate]
-		private string name;
+		private string _name;
 
 #pragma warning disable CA1002 // RimWorld requires a `List` to serialize with `Scribe_Collections.Look`.
-		private List<PawnFilterPart> parts;
+		private List<PawnFilterPart> _parts;
 #pragma warning restore CA1002
 
 		[MustTranslate]
-		private string summary;
+		private string _summary;
 
 		public PawnFilter() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.parts = new List<PawnFilterPart>();
+			this._parts = new List<PawnFilterPart>();
 #else
-			this.parts = [];
+			this._parts = [];
 #endif
 
 		// Based on `Verse.GenFilePaths.AbsPathForScenario`.
@@ -234,31 +234,31 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		// Based on `RimWorld.ScenarioFiles.RecacheData`.
 		internal static void RecacheLocalFilters() {
-			LocalFiltersInternal.Clear();
+			s_localFiltersInternal.Clear();
 			foreach (FileInfo file in AllFiles) {
 				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
-					LocalFiltersInternal.Add(filter);
+					s_localFiltersInternal.Add(filter);
 				}
 			}
 		}
 
 		public void AddPart(PawnFilterPart part, bool prepend = false) {
 			if (prepend) {
-				this.parts.Insert(0, part);
+				this._parts.Insert(0, part);
 				return;
 			}
 
-			this.parts.Add(part);
+			this._parts.Add(part);
 		}
 
 		public void ExposeData() {
-			Scribe_Values.Look(ref this.name, nameof(this.name));
-			Scribe_Values.Look(ref this.summary, nameof(this.summary));
-			Scribe_Values.Look(ref this.description, nameof(this.description));
-			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
+			Scribe_Values.Look(ref this._name, MiscUtil.NoUnder(nameof(this._name)));
+			Scribe_Values.Look(ref this._summary, MiscUtil.NoUnder(nameof(this._summary)));
+			Scribe_Values.Look(ref this._description, MiscUtil.NoUnder(nameof(this._description)));
+			Scribe_Collections.Look(ref this._parts, MiscUtil.NoUnder(nameof(this._parts)), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
-				if (this.parts.RemoveAll((part) => !part.isValid()) > 0) {
+				if (this._parts.RemoveAll((part) => !part.IsValid()) > 0) {
 					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were invalid.");
 				}
 			}
@@ -266,32 +266,32 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public override int GetHashCode() {
 			int hash = 6126121;
-			if (this.PName != null) {
+			if (this.Name != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.PName.GetHashCode();
+				hash ^= this.Name.GetHashCode();
 #else
-				hash ^= this.PName.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.Name.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
-			if (this.PSummary != null) {
+			if (this.Summary != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.PSummary.GetHashCode();
+				hash ^= this.Summary.GetHashCode();
 #else
-				hash ^= this.PSummary.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.Summary.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
-			if (this.PDescription != null) {
+			if (this.Description != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				hash ^= this.PDescription.GetHashCode();
+				hash ^= this.Description.GetHashCode();
 #else
-				hash ^= this.PDescription.GetHashCode(StringComparison.Ordinal);
+				hash ^= this.Description.GetHashCode(StringComparison.Ordinal);
 #endif
 			}
 
 			int i = 0;
-			foreach (PawnFilterPart part in this.PParts) {
+			foreach (PawnFilterPart part in this.Parts) {
 				hash ^= part.GetHashCode() + i++;
 			}
 
@@ -299,7 +299,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public bool Matches(Pawn pawn) {
-			foreach (PawnFilterPart part in this.PParts) {
+			foreach (PawnFilterPart part in this.Parts) {
 				if (!part.Matches(pawn)) {
 					return false;
 				}
@@ -309,18 +309,18 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(PawnFilterPart part) {
-			if (!this.PParts.Contains(part)) {
+			if (!this.Parts.Contains(part)) {
 				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
 			}
 
-			_ = this.parts.Remove(part);
+			_ = this._parts.Remove(part);
 		}
 
 		public override string ToString() =>
-			this.PName.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst()
-			: this.PName;
+			this.Name.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst()
+			: this.Name;
 
-		internal bool canReorder(PawnFilterPart part, ReorderDirection dir) {
+		internal bool CanReorder(PawnFilterPart part, ReorderDirection dir) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (part is null) {
 				throw new ArgumentNullException(nameof(part));
@@ -329,63 +329,63 @@ namespace Lakuna.PrepareModerately.Filter {
 			ArgumentNullException.ThrowIfNull(part);
 #endif
 
-			if (!part.PDef.PlayerAddRemovable) {
+			if (!part.Def.PlayerAddRemovable) {
 				return false;
 			}
 
-			int index = this.parts.IndexOf(part);
+			int index = this._parts.IndexOf(part);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			switch (dir) {
 				case ReorderDirection.Up:
-					return index > 0 && this.parts[index - 1].PDef.PlayerAddRemovable;
+					return index > 0 && this._parts[index - 1].Def.PlayerAddRemovable;
 				case ReorderDirection.Down:
-					return index != this.parts.Count - 1;
+					return index != this._parts.Count - 1;
 				default:
 					throw new NotImplementedException();
 			}
 #else
 			return dir switch {
-				ReorderDirection.Up => index > 0 && this.parts[index - 1].PDef.PlayerAddRemovable,
-				ReorderDirection.Down => index != this.parts.Count - 1,
+				ReorderDirection.Up => index > 0 && this._parts[index - 1].Def.PlayerAddRemovable,
+				ReorderDirection.Down => index != this._parts.Count - 1,
 				_ => throw new NotImplementedException(),
 			};
 #endif
 		}
 
-		internal IEnumerable<string> configErrors() {
-			if (this.PName.NullOrEmpty()) {
+		internal IEnumerable<string> ConfigErrors() {
+			if (this.Name.NullOrEmpty()) {
 				yield return "No title.";
 			}
 
 			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
-			foreach (PawnFilterPart part in this.PParts) {
+			foreach (PawnFilterPart part in this.Parts) {
 				if (part is null) {
 					yield return "Filter has null part.";
 					continue;
 				}
 
-				foreach (string item in part.configErrors()) {
+				foreach (string item in part.ConfigErrors()) {
 					yield return item;
 				}
 			}
 		}
 
-		internal void preConfigure() {
-			foreach (PawnFilterPart part in this.PParts) {
-				part.preConfigure();
+		internal void PreConfigure() {
+			foreach (PawnFilterPart part in this.Parts) {
+				part.PreConfigure();
 			}
 		}
 
-		internal void reorder(PawnFilterPart part, ReorderDirection dir) {
-			int index = this.parts.IndexOf(part);
-			this.parts.RemoveAt(index);
+		internal void Reorder(PawnFilterPart part, ReorderDirection dir) {
+			int index = this._parts.IndexOf(part);
+			this._parts.RemoveAt(index);
 			switch (dir) {
 				case ReorderDirection.Up:
-					this.parts.Insert(index - 1, part);
+					this._parts.Insert(index - 1, part);
 					break;
 				case ReorderDirection.Down:
-					this.parts.Insert(index + 1, part);
+					this._parts.Insert(index + 1, part);
 					break;
 				default:
 					throw new NotImplementedException();

@@ -65,7 +65,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 				filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
-				filter.PCategory = category;
+				filter.Category = category;
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
 #pragma warning restore CA1031
@@ -79,12 +79,12 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = filter.PParts.ToList();
+			List<PawnFilterPart> parts = filter.Parts.ToList();
 #else
-			List<PawnFilterPart> parts = [.. filter.PParts];
+			List<PawnFilterPart> parts = [.. filter.Parts];
 #endif
-			if (parts.RemoveAll((part) => part.hasNullDefs()) > 0) {
-				filter.PParts = parts;
+			if (parts.RemoveAll((part) => part.HasNullDefs()) > 0) {
+				filter.Parts = parts;
 				filter.Valid = false;
 			}
 
