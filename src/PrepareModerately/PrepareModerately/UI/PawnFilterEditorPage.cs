@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.editMode && this.Filter.GetHashCode() != this.initialHash;
 
 		public override string PageTitle =>
-			$"{"PM.FilterEditor".Translate().CapitalizeFirst()} ({(this.FilterEdited ? "*" : "")})";
+			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this.FilterEdited ? "*" : "")}";
 
 		internal PawnFilter Filter {
 			get; private set;
