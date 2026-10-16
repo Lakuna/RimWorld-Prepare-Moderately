@@ -186,7 +186,8 @@ namespace Lakuna.PrepareModerately.Filter {
 		internal string summary;
 #pragma warning restore CA1002, CA1051, IDE1006
 
-		internal PawnFilter() =>
+		// Must be public.
+		public PawnFilter() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.parts = new List<PawnFilterPart>();
 #else
