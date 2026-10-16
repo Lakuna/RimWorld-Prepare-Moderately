@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	internal sealed class HasTrait : PawnFilterPart {
 #pragma warning restore CA1812
 		private static IEnumerable<TraitDegreePair> _legalTraitDegreePairs =>
-			TraitDegreePair._traitDegreePairs;
+			TraitDegreePair._all;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private TraitDegreePair traitDegreePair;
@@ -26,26 +26,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.traitDegreePair, nameof(this.traitDegreePair));
 		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree == this.traitDegreePair.degree;
-#else
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree == this.traitDegreePair.degree
-				|| pawn.genes.GenesListForReading.Any((gene) => gene.def.suppressedTraits?.Any((traitData) => traitData.def == this.traitDegreePair.trait && traitData.degree == this.traitDegreePair.degree) ?? false);
-#endif
-
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		// Override NOT gate functionality to disregard the gene override.
-		internal override bool NotMatches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree != this.traitDegreePair.degree
-				|| pawn.genes.GenesListForReading.Any((gene) => gene.def.forcedTraits?.Any((traitData) => traitData.def == this.traitDegreePair.trait && traitData.degree == this.traitDegreePair.degree) ?? false);
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasTrait".Translate(this.traitDegreePair._traitDegreeData.label);
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -72,7 +52,27 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+#if V1_0 || V1_1 || V1_2 || V1_3
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree == this.traitDegreePair.degree;
+#else
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree == this.traitDegreePair.degree
+				|| pawn.genes.GenesListForReading.Any((gene) => gene.def.suppressedTraits?.Any((traitData) => traitData.def == this.traitDegreePair.trait && traitData.degree == this.traitDegreePair.degree) ?? false);
+#endif
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		// Override NOT gate functionality to disregard the gene override.
+		internal override bool NotMatches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: pawn.story.traits.allTraits.Find((trait) => trait.def == this.traitDegreePair.trait)?.Degree != this.traitDegreePair.degree
+				|| pawn.genes.GenesListForReading.Any((gene) => gene.def.forcedTraits?.Any((traitData) => traitData.def == this.traitDegreePair.trait && traitData.degree == this.traitDegreePair.degree) ?? false);
+#endif
+
 		internal override void Randomize() =>
 			this.traitDegreePair = _legalTraitDegreePairs.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.HasTrait".Translate(this.traitDegreePair._traitDegreeData.label);
 	}
 }

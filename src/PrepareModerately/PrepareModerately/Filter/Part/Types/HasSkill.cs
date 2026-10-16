@@ -45,23 +45,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CS0618
 		}
 
-		internal override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int level = pawn.skills.GetSkill(this.skill).levelInt;
-			return level <= this.range.max && level >= this.range.min;
-		}
-
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
-			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -93,6 +76,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(levelRect.RightPart(1 - _labelWidthPercentage), Rand.Int, ref this.range, 0, 20);
 		}
 
+		internal override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
+
+			int level = pawn.skills.GetSkill(this.skill).levelInt;
+			return level <= this.range.max && level >= this.range.min;
+		}
+
 		internal override void Randomize() {
 			this.skill = _legalSkills.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -101,5 +97,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.range = new(Rand.Range(0, 5), Rand.Range(5, 10));
 #endif
 		}
+
+		internal override string Summary(PawnFilter filter) =>
+			this.range.min == this.range.max ? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
+			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
 	}
 }

@@ -35,23 +35,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 		}
 
-		internal override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.passion == this.passion);
-			return count <= this.range.max && count >= this.range.min;
-		}
-
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
-			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -83,6 +66,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
+
+			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.passion == this.passion);
+			return count <= this.range.max && count >= this.range.min;
+		}
+
 		internal override void Randomize() {
 			this.passion = _legalPassions.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -91,5 +87,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.range = new(Rand.Range(0, 2), Rand.Range(2, 6));
 #endif
 		}
+
+		internal override string Summary(PawnFilter filter) =>
+			this.range.min == this.range.max ? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
+			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
 	}
 }

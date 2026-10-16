@@ -15,20 +15,6 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
 	internal sealed class PawnFilter : IExposable {
-		internal static PawnFilter _current {
-			get; set;
-		}
-
-		private static readonly string _dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
-
-		internal const int _descriptionMaxLength = 1000;
-
-		private const string _fileExtension = ".rpf";
-
-		internal const int _nameMaxLength = 55;
-
-		internal const int _summaryMaxLength = 300;
-
 		// Based on `Verse.GenFilePaths.AllCustomScenarioFiles`.
 		internal static IList<FileInfo> _allFiles {
 			get {
@@ -55,6 +41,8 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
+		internal static PawnFilter _current;
+
 		internal static string _defaultDataPath =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			(string)typeof(GenFilePaths)
@@ -66,8 +54,22 @@ namespace Lakuna.PrepareModerately.Filter {
 				.Invoke(null, [_dataFolder]);
 #endif
 
+		internal const int _descriptionMaxLength = 1000;
+
 		internal static IEnumerable<PawnFilter> _localFilters =>
 			_localFiltersInternal;
+
+		internal const int _nameMaxLength = 55;
+
+		internal const int _summaryMaxLength = 300;
+
+		private static readonly string _dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
+
+		private static string _dataPath =>
+			PrepareModeratelyMod._settings.filterSavePath.NullOrEmpty() ? _defaultDataPath
+			: PrepareModeratelyMod._settings.filterSavePath;
+
+		private const string _fileExtension = ".rpf";
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static readonly Collection<PawnFilter> _localFiltersInternal = new Collection<PawnFilter>();
@@ -75,15 +77,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		private static readonly Collection<PawnFilter> _localFiltersInternal = [];
 #endif
 
-		private static string _dataPath =>
-			PrepareModeratelyMod._settings.filterSavePath.NullOrEmpty() ? _defaultDataPath
-			: PrepareModeratelyMod._settings.filterSavePath;
-
-		internal PawnFilterCategory _category {
-			get; set;
-		}
-
-		internal bool _valid { get; set; } = true;
+		internal PawnFilterCategory _category { get; set; } = PawnFilterCategory.Undefined;
 
 		internal PawnFilter _copyForEditing {
 			get {
@@ -106,6 +100,10 @@ namespace Lakuna.PrepareModerately.Filter {
 				return copyForEditing;
 			}
 		}
+
+#pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		internal string description;
+#pragma warning restore CA1002, CA1051, IDE1006
 
 		internal bool _enabled { get; } = true;
 
@@ -164,17 +162,19 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-		internal bool _showInUi { get; } = true;
-
 #pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		internal string description;
-
 		internal string name;
 
 		internal List<PawnFilterPart> parts;
+#pragma warning restore CA1002, CA1051, IDE1006
 
+		internal bool _showInUi { get; } = true;
+
+#pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		internal string summary;
 #pragma warning restore CA1002, CA1051, IDE1006
+
+		internal bool _valid { get; set; } = true;
 
 		// Must be public.
 		public PawnFilter() =>
@@ -196,15 +196,6 @@ namespace Lakuna.PrepareModerately.Filter {
 					_localFiltersInternal.Add(filter);
 				}
 			}
-		}
-
-		internal void AddPart(PawnFilterPart part, bool prepend = false) {
-			if (prepend) {
-				this.parts.Insert(0, part);
-				return;
-			}
-
-			this.parts.Add(part);
 		}
 
 		public void ExposeData() {
@@ -254,27 +245,18 @@ namespace Lakuna.PrepareModerately.Filter {
 			return hash;
 		}
 
-		internal bool Matches(Pawn pawn) {
-			foreach (PawnFilterPart part in this.parts) {
-				if (!part.Matches(pawn)) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		internal void RemovePart(PawnFilterPart part) {
-			if (!this.parts.Contains(part)) {
-				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
-			}
-
-			_ = this.parts.Remove(part);
-		}
-
 		public override string ToString() =>
 			this.name.NullOrEmpty() ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst()
 			: this.name;
+
+		internal void AddPart(PawnFilterPart part, bool prepend = false) {
+			if (prepend) {
+				this.parts.Insert(0, part);
+				return;
+			}
+
+			this.parts.Add(part);
+		}
 
 		internal bool CanReorder(PawnFilterPart part, ReorderDirection dir) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -327,10 +309,28 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
+		internal bool Matches(Pawn pawn) {
+			foreach (PawnFilterPart part in this.parts) {
+				if (!part.Matches(pawn)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		internal void PreConfigure() {
 			foreach (PawnFilterPart part in this.parts) {
 				part.PreConfigure();
 			}
+		}
+
+		internal void RemovePart(PawnFilterPart part) {
+			if (!this.parts.Contains(part)) {
+				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
+			}
+
+			_ = this.parts.Remove(part);
 		}
 
 		internal void Reorder(PawnFilterPart part, ReorderDirection dir) {

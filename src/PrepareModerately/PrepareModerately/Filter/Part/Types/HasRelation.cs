@@ -35,29 +35,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.relation, nameof(this.relation));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0 || V1_1 || V1_2
-			: pawn.relations.RelatedPawns.Any((relatedPawn) =>
-				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
-				&& relatedPawn.Name != null
-				&& !relatedPawn.Name.Numerical
-				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
-#else
-			: !pawn.relations.hidePawnRelations &&
-				pawn.relations.RelatedPawns.Any((relatedPawn) =>
-				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
-				&& relatedPawn.Name != null
-				&& !relatedPawn.Name.Numerical
-				&& !relatedPawn.relations.hidePawnRelations
-				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
-
 		internal override bool CanCoexistWith(PawnFilterPart other) =>
 			other is null ? throw new ArgumentNullException(nameof(other))
 			: other.def != PawnFilterPartDefOf.HasAnyRelation;
@@ -79,7 +56,30 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+#if V1_0 || V1_1 || V1_2
+			: pawn.relations.RelatedPawns.Any((relatedPawn) =>
+				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
+				&& relatedPawn.Name != null
+				&& !relatedPawn.Name.Numerical
+				&& relatedPawn.relations.everSeenByPlayer
+				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
+#else
+			: !pawn.relations.hidePawnRelations &&
+				pawn.relations.RelatedPawns.Any((relatedPawn) =>
+				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
+				&& relatedPawn.Name != null
+				&& !relatedPawn.Name.Numerical
+				&& !relatedPawn.relations.hidePawnRelations
+				&& relatedPawn.relations.everSeenByPlayer
+				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
+#endif
+
 		internal override void Randomize() =>
 			this.relation = _legalRelations.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
 	}
 }

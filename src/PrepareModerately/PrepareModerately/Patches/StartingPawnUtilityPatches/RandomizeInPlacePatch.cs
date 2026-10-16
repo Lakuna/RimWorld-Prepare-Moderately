@@ -16,13 +16,9 @@ using Verse;
 namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
 	internal static class RandomizeInPlacePatch {
-		internal static bool _isActivelyRolling {
-			get; set;
-		}
+		internal static bool _isActivelyRolling;
 
-		internal static Pawn _result {
-			get; set;
-		}
+		internal static Pawn _result;
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.

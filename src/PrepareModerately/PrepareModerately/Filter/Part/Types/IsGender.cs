@@ -30,13 +30,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.gender, nameof(this.gender));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.gender == this.gender;
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsGender".Translate(this.gender.ToString());
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -54,7 +47,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: pawn.gender == this.gender;
+
 		internal override void Randomize() =>
 			this.gender = _legalGenders.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.IsGender".Translate(this.gender.ToString());
 	}
 }

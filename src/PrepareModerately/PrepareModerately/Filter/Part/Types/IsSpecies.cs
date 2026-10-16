@@ -45,13 +45,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this._species, nameof(this._species));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.def == this._species;
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsSpecies".Translate(this._species.label);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -69,7 +62,14 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: pawn.def == this._species;
+
 		internal override void Randomize() =>
 			this._species = ThingDefOf.Human; // Other things wouldn't be legal for vanilla RimWorld.
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.IsSpecies".Translate(this._species.label);
 	}
 }

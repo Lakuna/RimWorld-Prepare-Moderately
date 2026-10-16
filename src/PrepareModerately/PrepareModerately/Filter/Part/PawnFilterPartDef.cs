@@ -12,14 +12,16 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal readonly Type filterPartClass;
 
 		internal readonly int maxUses;
-
-		internal readonly float selectionWeight;
-
-		internal readonly float summaryPriority;
 #pragma warning restore CA1051, CS0649, IDE1006
 
 		internal bool _playerAddRemovable =>
 			this.category != PawnFilterPartCategory.Fixed;
+
+#pragma warning disable CA1051, CS0649, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		internal readonly float selectionWeight;
+
+		internal readonly float summaryPriority;
+#pragma warning restore CA1051, CS0649, IDE1006
 
 		public PawnFilterPartDef() {
 			this.summaryPriority = 1;

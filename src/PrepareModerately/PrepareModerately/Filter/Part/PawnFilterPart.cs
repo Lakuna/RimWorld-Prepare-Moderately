@@ -69,6 +69,9 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal virtual bool HasNullDefs() =>
 			this.def is null;
 
+		internal virtual bool IsValid() =>
+			!this.HasNullDefs();
+
 		internal virtual void PreConfigure() {
 		}
 
@@ -77,8 +80,5 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		internal virtual bool TryMerge(PawnFilterPart other) =>
 			false;
-
-		internal virtual bool IsValid() =>
-			!this.HasNullDefs();
 	}
 }

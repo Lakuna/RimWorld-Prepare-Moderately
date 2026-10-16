@@ -22,6 +22,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Adulthood);
 #endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private Backstory _backstory =>
+			_legalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
+#endif
+
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
 #if V1_0 || V1_1 || V1_2 || V1_3
 		private string backstoryIdentifier;
@@ -29,11 +34,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private BackstoryDef backstory;
 #endif
 #pragma warning restore IDE1006
-
-#if V1_0 || V1_1 || V1_2 || V1_3
-		private Backstory _backstory =>
-			_legalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
-#endif
 
 		public override void ExposeData() {
 			base.ExposeData();
@@ -43,21 +43,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.backstory, nameof(this.backstory));
 #endif
 		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.adulthood == this._backstory;
-#else
-			: pawn.story.Adulthood == this.backstory;
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-#if V1_0 || V1_1 || V1_2 || V1_3
-			"PM.HasAdulthood".Translate(this._backstory.title);
-#else
-			"PM.HasAdulthood".Translate(this.backstory.title);
-#endif
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -84,11 +69,26 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+#if V1_0 || V1_1 || V1_2 || V1_3
+			: pawn.story.adulthood == this._backstory;
+#else
+			: pawn.story.Adulthood == this.backstory;
+#endif
+
 		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
 			this.backstoryIdentifier = _legalBackstories.RandomElement().identifier;
 #else
 			this.backstory = _legalBackstories.RandomElement();
+#endif
+
+		internal override string Summary(PawnFilter filter) =>
+#if V1_0 || V1_1 || V1_2 || V1_3
+			"PM.HasAdulthood".Translate(this._backstory.title);
+#else
+			"PM.HasAdulthood".Translate(this.backstory.title);
 #endif
 	}
 }

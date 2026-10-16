@@ -20,21 +20,19 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private const float _gapBetweenColumns = 17;
 
-		private bool _filterEdited =>
-			this._editMode && this._filter.GetHashCode() != this._initialHash;
-
 		public override string PageTitle =>
 			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this._filterEdited ? "*" : "")}";
 
-		private PawnFilter _filter {
-			get; set;
-		}
-
 		private bool _editMode;
 
-		private Vector2 _infoScrollPosition;
+		private PawnFilter _filter;
 
 		private readonly int _initialHash;
+
+		private bool _filterEdited =>
+			this._editMode && this._filter.GetHashCode() != this._initialHash;
+
+		private Vector2 _infoScrollPosition;
 
 		private bool _needsSave;
 

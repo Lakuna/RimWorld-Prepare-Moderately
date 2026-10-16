@@ -18,8 +18,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CA1812
 		private const float _collapseWidgetRowMaxWidth = 24;
 
-		private const float _padding = 20;
-
 		private static IEnumerable<LogicGateType> _legalLogicGateTypes =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
@@ -27,9 +25,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<LogicGateType>().OfType<LogicGateType>();
 #endif
 
-		private float _editViewHeight;
+		private const float _padding = 20;
 
 		private bool _collapsed;
+
+		private float _editViewHeight;
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private PawnFilter innerFilter;
@@ -59,83 +59,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.type, nameof(this.type));
 			Scribe_Deep.Look(ref this.innerFilter, nameof(this.innerFilter));
-		}
-
-		internal override bool Matches(Pawn pawn) {
-			switch (this.type) {
-				case LogicGateType.And:
-					return this.innerFilter.Matches(pawn);
-				case LogicGateType.Or:
-					foreach (PawnFilterPart part in this.innerFilter.parts) {
-						if (part.Matches(pawn)) {
-							return true;
-						}
-					}
-
-					return false;
-				case LogicGateType.Not:
-					foreach (PawnFilterPart part in this.innerFilter.parts) {
-						if (!part.NotMatches(pawn)) {
-							return false;
-						}
-					}
-
-					return true;
-				case LogicGateType.Xor:
-					bool flag = false;
-					foreach (PawnFilterPart part in this.innerFilter.parts) {
-						if (part.Matches(pawn)) {
-							if (flag) {
-								return false;
-							}
-
-							flag = true;
-						}
-					}
-
-					return flag;
-				default:
-					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
-					return true;
-			}
-		}
-
-		internal override string Summary(PawnFilter filter) {
-			string output = "";
-
-			foreach (PawnFilterPart part in this.innerFilter.parts) {
-				part._summarized = false;
-			}
-
-			foreach (PawnFilterPart part in
-				from part in this.innerFilter.parts
-				orderby part.def.summaryPriority descending,
-				part.def.defName
-				where part._visible
-				select part) {
-				string summary = part.Summary(this.innerFilter);
-				if (!summary.NullOrEmpty()) {
-					if (output.Length > 0) {
-						output += ", ";
-					}
-
-					output += summary;
-				}
-			}
-
-			switch (this.type) {
-				case LogicGateType.And:
-					return "PM.AllOf".Translate(output);
-				case LogicGateType.Or:
-					return "PM.AtLeastOneOf".Translate(output);
-				case LogicGateType.Not:
-					return "PM.NoneOf".Translate(output);
-				case LogicGateType.Xor:
-					return "PM.ExactlyOneOf".Translate(output);
-				default:
-					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
-					return output;
-			}
 		}
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
@@ -229,6 +152,83 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// End part listing.
 			innerListing.End();
 			this._editViewHeight = Math.Max(innerListing.CurHeight, listingHeight);
+		}
+
+		internal override bool Matches(Pawn pawn) {
+			switch (this.type) {
+				case LogicGateType.And:
+					return this.innerFilter.Matches(pawn);
+				case LogicGateType.Or:
+					foreach (PawnFilterPart part in this.innerFilter.parts) {
+						if (part.Matches(pawn)) {
+							return true;
+						}
+					}
+
+					return false;
+				case LogicGateType.Not:
+					foreach (PawnFilterPart part in this.innerFilter.parts) {
+						if (!part.NotMatches(pawn)) {
+							return false;
+						}
+					}
+
+					return true;
+				case LogicGateType.Xor:
+					bool flag = false;
+					foreach (PawnFilterPart part in this.innerFilter.parts) {
+						if (part.Matches(pawn)) {
+							if (flag) {
+								return false;
+							}
+
+							flag = true;
+						}
+					}
+
+					return flag;
+				default:
+					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
+					return true;
+			}
+		}
+
+		internal override string Summary(PawnFilter filter) {
+			string output = "";
+
+			foreach (PawnFilterPart part in this.innerFilter.parts) {
+				part._summarized = false;
+			}
+
+			foreach (PawnFilterPart part in
+				from part in this.innerFilter.parts
+				orderby part.def.summaryPriority descending,
+				part.def.defName
+				where part._visible
+				select part) {
+				string summary = part.Summary(this.innerFilter);
+				if (!summary.NullOrEmpty()) {
+					if (output.Length > 0) {
+						output += ", ";
+					}
+
+					output += summary;
+				}
+			}
+
+			switch (this.type) {
+				case LogicGateType.And:
+					return "PM.AllOf".Translate(output);
+				case LogicGateType.Or:
+					return "PM.AtLeastOneOf".Translate(output);
+				case LogicGateType.Not:
+					return "PM.NoneOf".Translate(output);
+				case LogicGateType.Xor:
+					return "PM.ExactlyOneOf".Translate(output);
+				default:
+					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
+					return output;
+			}
 		}
 	}
 }

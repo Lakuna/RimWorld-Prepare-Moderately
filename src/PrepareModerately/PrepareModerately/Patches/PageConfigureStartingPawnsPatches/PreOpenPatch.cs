@@ -9,9 +9,7 @@ using RimWorld;
 namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.PreOpen))]
 	internal static class PreOpenPatch {
-		internal static Page_ConfigureStartingPawns _instance {
-			get; set;
-		}
+		internal static Page_ConfigureStartingPawns _instance;
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.

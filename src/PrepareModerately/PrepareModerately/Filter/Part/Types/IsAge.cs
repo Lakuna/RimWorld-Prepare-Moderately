@@ -37,39 +37,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.hoursRange, nameof(this.hoursRange));
 		}
 
-		internal override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			if (this.range.max > 0) {
-				long yearsOld = pawn.ageTracker.AgeBiologicalYears;
-				return yearsOld <= this.range.max && yearsOld >= this.range.min;
-			}
-
-			if (this.daysRange.max > 0) {
-				long daysOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerDay;
-				return daysOld <= this.daysRange.max && daysOld >= this.daysRange.min;
-			}
-
-			long hoursOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerHour;
-			return hoursOld <= this.hoursRange.max && hoursOld >= this.hoursRange.min;
-		}
-
-		internal override string Summary(PawnFilter filter) =>
-			this.range.max > 0 ?
-				this.range.min == this.range.max ? "PM.IsYearsOld".Translate(this.range.min)
-				: "PM.IsBetweenYearsOld".Translate(this.range.min, this.range.max)
-			: this.daysRange.max > 0 ?
-				this.daysRange.min == this.daysRange.max ? "PM.IsDaysOld".Translate(this.daysRange.min)
-				: "PM.IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
-			: this.hoursRange.min == this.hoursRange.max ? "PM.IsHoursOld".Translate(this.hoursRange.min)
-			: "PM.IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -106,6 +73,29 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
+
+			if (this.range.max > 0) {
+				long yearsOld = pawn.ageTracker.AgeBiologicalYears;
+				return yearsOld <= this.range.max && yearsOld >= this.range.min;
+			}
+
+			if (this.daysRange.max > 0) {
+				long daysOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerDay;
+				return daysOld <= this.daysRange.max && daysOld >= this.daysRange.min;
+			}
+
+			long hoursOld = pawn.ageTracker.AgeBiologicalTicks / _ticksPerHour;
+			return hoursOld <= this.hoursRange.max && hoursOld >= this.hoursRange.min;
+		}
+
 		internal override void Randomize() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.range = new IntRange(Rand.Range(14, 30), Rand.Range(30, 100));
@@ -117,5 +107,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.hoursRange = new(Rand.Range(0, 10), Rand.Range(10, 20));
 #endif
 		}
+
+		internal override string Summary(PawnFilter filter) =>
+			this.range.max > 0 ?
+				this.range.min == this.range.max ? "PM.IsYearsOld".Translate(this.range.min)
+				: "PM.IsBetweenYearsOld".Translate(this.range.min, this.range.max)
+			: this.daysRange.max > 0 ?
+				this.daysRange.min == this.daysRange.max ? "PM.IsDaysOld".Translate(this.daysRange.min)
+				: "PM.IsBetweenDaysOld".Translate(this.daysRange.min, this.daysRange.max)
+			: this.hoursRange.min == this.hoursRange.max ? "PM.IsHoursOld".Translate(this.hoursRange.min)
+			: "PM.IsBetweenHoursOld".Translate(this.hoursRange.min, this.hoursRange.max);
 	}
 }

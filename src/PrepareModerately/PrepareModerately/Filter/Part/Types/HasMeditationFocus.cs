@@ -27,13 +27,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: this.meditationFocus.CanPawnUse(pawn);
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasMeditationFocus".Translate(this.meditationFocus.label);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -51,8 +44,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: this.meditationFocus.CanPawnUse(pawn);
+
 		internal override void Randomize() =>
 			this.meditationFocus = _legalMeditationFoci.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.HasMeditationFocus".Translate(this.meditationFocus.label);
 	}
 }
 #endif

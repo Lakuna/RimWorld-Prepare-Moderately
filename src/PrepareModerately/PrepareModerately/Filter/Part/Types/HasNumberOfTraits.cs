@@ -19,6 +19,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 		}
 
+		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (listing is null) {
+				throw new ArgumentNullException(nameof(listing));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(listing);
+#endif
+
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+
+			Widgets.IntRange(rect, Rand.Int, ref this.range, 1, 4);
+		}
+
 		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
@@ -39,29 +53,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			return traitsCount >= this.range.min && traitsCount <= this.range.max;
 		}
 
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.HasNumberOfTraits".Translate(this.range.min)
-			: "PM.HasBetweenNumberOfTraits".Translate(this.range.min, this.range.max);
-
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
-
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-
-			Widgets.IntRange(rect, Rand.Int, ref this.range, 1, 4);
-		}
-
 		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.range = new IntRange(Rand.Range(1, 2), Rand.Range(2, 4));
 #else
 			this.range = new(Rand.Range(1, 2), Rand.Range(2, 4));
 #endif
+
+		internal override string Summary(PawnFilter filter) =>
+			this.range.min == this.range.max ? "PM.HasNumberOfTraits".Translate(this.range.min)
+			: "PM.HasBetweenNumberOfTraits".Translate(this.range.min, this.range.max);
 	}
 }

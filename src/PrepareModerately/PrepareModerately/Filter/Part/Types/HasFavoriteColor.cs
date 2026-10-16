@@ -38,17 +38,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.color, nameof(this.color));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_3 || V1_4 || V1_5
-			: pawn.story.favoriteColor == this.color.color;
-#else
-			: pawn.story.favoriteColor == this.color;
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasFavoriteColor".Translate(LabelFor(this.color));
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -66,8 +55,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+#if V1_3 || V1_4 || V1_5
+			: pawn.story.favoriteColor == this.color.color;
+#else
+			: pawn.story.favoriteColor == this.color;
+#endif
+
 		internal override void Randomize() =>
 			this.color = _legalFavoriteColors.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.HasFavoriteColor".Translate(LabelFor(this.color));
 	}
 }
 #endif

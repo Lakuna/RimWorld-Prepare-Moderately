@@ -50,22 +50,35 @@ namespace Lakuna.PrepareModerately.Ui {
 		public override string PageTitle =>
 			"PM.ChooseFilter".Translate().CapitalizeFirst();
 
-		private PawnFilter _filter {
-			get; set;
-		}
-
-		private float _totalFilterListHeight {
-			get; set;
-		}
+		private PawnFilter _filter;
 
 		private Vector2 _filtersScrollPosition;
 
 		private Vector2 _infoScrollPosition;
 
+		private float _totalFilterListHeight;
+
 		internal SelectPawnFilterPage() {
 			this._infoScrollPosition = Vector2.zero;
 			this._filtersScrollPosition = Vector2.zero;
 		}
+
+		internal static void BeginFilterConfiguration(PawnFilter filter) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (filter is null) {
+				throw new ArgumentNullException(nameof(filter));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
+
+			PawnFilter._current = filter;
+			PawnFilter._current.PreConfigure();
+		}
+
+		private static bool CanEditFilter(PawnFilter filter) =>
+			filter is null ? throw new ArgumentNullException(nameof(filter))
+			: filter._category == PawnFilterCategory.CustomLocal;
 
 		public override void DoWindowContents(Rect inRect) {
 			this.DrawPageTitle(inRect);
@@ -101,19 +114,6 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.EnsureValidSelection();
 		}
 
-		internal static void BeginFilterConfiguration(PawnFilter filter) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
-
-			PawnFilter._current = filter;
-			PawnFilter._current.PreConfigure();
-		}
-
 		internal void NotifyFilterListChanged() {
 			this._filter = PawnFilterLister.All().FirstOrDefault((filter) => filter.GetHashCode() == this._filter.GetHashCode());
 			this.EnsureValidSelection();
@@ -127,10 +127,6 @@ namespace Lakuna.PrepareModerately.Ui {
 			BeginFilterConfiguration(this._filter);
 			return true;
 		}
-
-		private static bool CanEditFilter(PawnFilter filter) =>
-			filter is null ? throw new ArgumentNullException(nameof(filter))
-			: filter._category == PawnFilterCategory.CustomLocal;
 
 		private void DoFilterListEntry(Rect rect, PawnFilter filter) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

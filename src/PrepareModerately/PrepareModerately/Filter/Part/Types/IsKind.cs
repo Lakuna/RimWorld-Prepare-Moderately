@@ -45,13 +45,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.kind, nameof(this.kind));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.kindDef == this.kind;
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsKind".Translate(this.kind.label);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -69,11 +62,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: pawn.kindDef == this.kind;
+
 		internal override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
 			this.kind = Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
 #else
 			this.kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
 #endif
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.IsKind".Translate(this.kind.label);
 	}
 }

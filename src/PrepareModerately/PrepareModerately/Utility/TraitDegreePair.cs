@@ -11,11 +11,8 @@ namespace Lakuna.PrepareModerately.Utility {
 #else
 	internal sealed class TraitDegreePair(TraitDef def, int degree) : IExposable {
 #endif
-		internal static IEnumerable<TraitDegreePair> _traitDegreePairs =>
+		internal static IEnumerable<TraitDegreePair> _all =>
 			DefDatabase<TraitDef>.AllDefs.SelectMany((def) => def.degreeDatas.Select((data) => new TraitDegreePair(def, data.degree)));
-
-		internal TraitDegreeData _traitDegreeData =>
-			this.trait.DataAtDegree(this.degree);
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -30,6 +27,9 @@ namespace Lakuna.PrepareModerately.Utility {
 		internal TraitDef trait = def;
 #endif
 #pragma warning restore CA1051, IDE1006
+
+		internal TraitDegreeData _traitDegreeData =>
+			this.trait.DataAtDegree(this.degree);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		// Must be public.

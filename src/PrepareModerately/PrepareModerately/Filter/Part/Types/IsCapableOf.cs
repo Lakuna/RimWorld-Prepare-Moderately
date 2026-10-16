@@ -30,26 +30,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.workTag, nameof(this.workTag));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0
-			: !pawn.story.WorkTagIsDisabled(this.workTag);
-#elif V1_1 || V1_2 || V1_3
-			: !pawn.WorkTagIsDisabled(this.workTag);
-#else
-			: !pawn.WorkTagIsDisabled(this.workTag) || pawn.genes.DisabledWorkTags.HasFlag(this.workTag);
-#endif
-
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		// Override NOT gate functionality to disregard the gene override.
-		internal override bool NotMatches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.WorkTagIsDisabled(this.workTag);
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsCapableOfWorkTag".Translate(this.workTag.ToString());
-
 		internal override bool CanCoexistWith(PawnFilterPart other) =>
 			other is null ? throw new ArgumentNullException(nameof(other))
 			: other.def != PawnFilterPartDefOf.IsCapableOfEverything;
@@ -71,6 +51,27 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
-		internal override void Randomize() => this.workTag = _legalWorkTags.RandomElement();
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+#if V1_0
+			: !pawn.story.WorkTagIsDisabled(this.workTag);
+#elif V1_1 || V1_2 || V1_3
+			: !pawn.WorkTagIsDisabled(this.workTag);
+#else
+			: !pawn.WorkTagIsDisabled(this.workTag) || pawn.genes.DisabledWorkTags.HasFlag(this.workTag);
+#endif
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		// Override NOT gate functionality to disregard the gene override.
+		internal override bool NotMatches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: pawn.WorkTagIsDisabled(this.workTag);
+#endif
+
+		internal override void Randomize() =>
+			this.workTag = _legalWorkTags.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.IsCapableOfWorkTag".Translate(this.workTag.ToString());
 	}
 }

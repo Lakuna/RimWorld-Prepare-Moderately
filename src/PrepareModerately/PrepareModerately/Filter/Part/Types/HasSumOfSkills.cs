@@ -17,41 +17,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CA1812
 		private const int _widgetRowMaxWidth = 24;
 
+		private IEnumerable<SkillDef> _addableSkills =>
+			DefDatabase<SkillDef>.AllDefs.Where((def) => !this.skills.Contains(def));
+
 #pragma warning disable CA1002, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		private IntRange range;
 
 		private List<SkillDef> skills;
 #pragma warning restore CA1002, IDE1006
 
-		private IEnumerable<SkillDef> _addableSkills =>
-			DefDatabase<SkillDef>.AllDefs.Where((def) => !this.skills.Contains(def));
-
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Values.Look(ref this.range, nameof(this.range));
 			Scribe_Collections.Look(ref this.skills, nameof(this.skills), LookMode.Def);
 		}
-
-		internal override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int sum = 0;
-			foreach (SkillRecord skill in pawn.skills.skills.Where((s) => this.skills.Contains(s.def))) {
-				sum += skill.Level;
-			}
-
-			return sum >= this.range.min && sum <= this.range.max;
-		}
-
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
-			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
 
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -110,6 +89,23 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
+
+			int sum = 0;
+			foreach (SkillRecord skill in pawn.skills.skills.Where((s) => this.skills.Contains(s.def))) {
+				sum += skill.Level;
+			}
+
+			return sum >= this.range.min && sum <= this.range.max;
+		}
+
 		internal override void Randomize() {
 			int skillCount = Rand.Range(2, 5);
 
@@ -131,5 +127,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.range = new(Rand.Range(min, mid), Rand.Range(mid, max));
 #endif
 		}
+
+		internal override string Summary(PawnFilter filter) =>
+			this.range.min == this.range.max ? "PM.HasSumOfSkills".Translate(this.range.min, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()))
+			: "PM.HasBetweenSumOfSkills".Translate(this.range.min, this.range.max, string.Join(", ", this.skills.Select((def) => def.label).OrderBy((label) => label).ToArray()));
 	}
 }

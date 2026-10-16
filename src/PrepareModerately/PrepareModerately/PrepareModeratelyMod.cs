@@ -6,9 +6,7 @@ namespace Lakuna.PrepareModerately {
 #pragma warning disable CA1812 // Class is instantiated via RimWorld.
 	internal sealed class PrepareModeratelyMod : Mod {
 #pragma warning restore CA1812
-		internal static PrepareModeratelySettings _settings {
-			get; private set;
-		}
+		internal static PrepareModeratelySettings _settings;
 
 		// Must be public.
 		public PrepareModeratelyMod(ModContentPack content) : base(content) =>

@@ -18,6 +18,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<WorkTypeDef> _legalWorkTypes =>
 			DefDatabase<WorkTypeDef>.AllDefs;
 
+		internal override bool CanCoexistWith(PawnFilterPart other) =>
+			other is null ? throw new ArgumentNullException(nameof(other))
+			: other.def != PawnFilterPartDefOf.IsCapableOf;
+
 		internal override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (pawn is null) {
@@ -62,9 +66,5 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		internal override string Summary(PawnFilter filter) =>
 			"PM.IsCapableOfEverything".Translate();
-
-		internal override bool CanCoexistWith(PawnFilterPart other) =>
-			other is null ? throw new ArgumentNullException(nameof(other))
-			: other.def != PawnFilterPartDefOf.IsCapableOf;
 	}
 }

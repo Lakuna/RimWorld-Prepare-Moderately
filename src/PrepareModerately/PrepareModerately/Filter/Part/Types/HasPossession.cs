@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.GetCompProperties<CompProperties_Drug>()?.chemical != null))
 				.Concat(ThingDefOf.HemogenPack)
 				.Concat(DefDatabase<BackstoryDef>.AllDefs.SelectMany((def) => def.possessions.Select((def2) => def2.key)))
-				.Concat(TraitDegreePair._traitDegreePairs.SelectMany((pair) => pair._traitDegreeData.possessions.Select((def) => def.key)))
+				.Concat(TraitDegreePair._all.SelectMany((pair) => pair._traitDegreeData.possessions.Select((def) => def.key)))
 				.Concat(DefDatabase<ThingDef>.AllDefs.Where((def) => def.possessionCount > 0))
 				.Distinct();
 #endif
@@ -60,13 +60,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Defs.Look(ref this.possession, nameof(this.possession));
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasPossession".Translate(this.possession.label);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -85,8 +78,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 		}
 
+		internal override bool Matches(Pawn pawn) =>
+			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+			: StartingPossessionsOf(pawn).Any((defCount) => defCount.ThingDef == this.possession);
+
 		internal override void Randomize() =>
 			this.possession = _legalThings.RandomElement();
+
+		internal override string Summary(PawnFilter filter) =>
+			"PM.HasPossession".Translate(this.possession.label);
 	}
 }
 #endif

@@ -27,26 +27,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this.countRange, nameof(this.countRange));
 		}
 
-		internal override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.Level <= this.range.max && skill.Level >= this.range.min);
-			return count <= this.countRange.max && count >= this.countRange.min;
-		}
-
-		internal override string Summary(PawnFilter filter) =>
-			this.countRange.min == this.countRange.max ?
-				this.range.min == this.range.max ? "PM.HasSkillsAtLevel".Translate(this.countRange.min, this.range.min)
-				: "PM.HasSkillsBetweenLevels".Translate(this.countRange.min, this.range.min, this.range.max)
-			: this.range.min == this.range.max ? "PM.HasBetweenSkillsAtLevel".Translate(this.countRange.min, this.countRange.max, this.range.min)
-			: "PM.HasBetweenSkillsBetweenLevels".Translate(this.countRange.min, this.countRange.max, this.range.min, this.range.max);
-
 		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
@@ -75,6 +55,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(levelRect.RightPart(1 - _labelWidthPercentage).Rounded(), Rand.Int, ref this.range, 0, 20);
 		}
 
+		internal override bool Matches(Pawn pawn) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (pawn is null) {
+				throw new ArgumentNullException(nameof(pawn));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(pawn);
+#endif
+
+			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.Level <= this.range.max && skill.Level >= this.range.min);
+			return count <= this.countRange.max && count >= this.countRange.min;
+		}
+
 		internal override void Randomize() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			this.countRange = new IntRange(Rand.Range(0, 1), Rand.Range(1, 3));
@@ -84,5 +77,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.range = new(Rand.Range(0, 5), Rand.Range(5, 10));
 #endif
 		}
+
+		internal override string Summary(PawnFilter filter) =>
+			this.countRange.min == this.countRange.max ?
+				this.range.min == this.range.max ? "PM.HasSkillsAtLevel".Translate(this.countRange.min, this.range.min)
+				: "PM.HasSkillsBetweenLevels".Translate(this.countRange.min, this.range.min, this.range.max)
+			: this.range.min == this.range.max ? "PM.HasBetweenSkillsAtLevel".Translate(this.countRange.min, this.countRange.max, this.range.min)
+			: "PM.HasBetweenSkillsBetweenLevels".Translate(this.countRange.min, this.countRange.max, this.range.min, this.range.max);
 	}
 }
