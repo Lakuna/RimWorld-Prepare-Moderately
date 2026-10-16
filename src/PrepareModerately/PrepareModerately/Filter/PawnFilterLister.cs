@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
 
@@ -9,12 +10,9 @@ namespace Lakuna.PrepareModerately.Filter {
 	internal static class PawnFilterLister {
 		private static bool Dirty = true;
 
-		private static IEnumerable<PawnFilterDef> LegalPawnFilters =>
-			DefDatabase<PawnFilterDef>.AllDefs;
-
 		internal static IEnumerable<PawnFilter> All() {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in LegalPawnFilters) {
+			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
 				yield return def.PFilter;
 			}
 
@@ -25,26 +23,15 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal static bool FilterIsListedAnywhere(PawnFilter filter) {
 			RecacheIfDirty();
-			foreach (PawnFilterDef def in LegalPawnFilters) {
-				if (def.PFilter == filter) {
-					return true;
-				}
-			}
-
-			foreach (PawnFilter localFilter in PawnFilter.LocalFilters) {
-				if (localFilter == filter) {
-					return true;
-				}
-			}
-
-			return false;
+			return DefDatabase<PawnFilterDef>.AllDefs.Any((def) => def.PFilter == filter)
+				|| PawnFilter.LocalFilters.Any((localFilter) => localFilter == filter);
 		}
 
 		internal static IEnumerable<PawnFilter> InCategory(PawnFilterCategory category) {
 			RecacheIfDirty();
 			switch (category) {
 				case PawnFilterCategory.FromDef:
-					foreach (PawnFilterDef def in LegalPawnFilters) {
+					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
 						yield return def.PFilter;
 					}
 

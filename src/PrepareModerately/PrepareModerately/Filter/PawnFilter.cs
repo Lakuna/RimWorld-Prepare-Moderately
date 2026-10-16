@@ -36,7 +36,8 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal const int SummaryMaxLength = 300;
 
-		internal static IEnumerable<FileInfo> AllFiles {
+		// Based on `Verse.GenFilePaths.AllCustomScenarioFiles`.
+		internal static IList<FileInfo> AllFiles {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				DirectoryInfo directoryInfo = new DirectoryInfo(DataPath);
@@ -47,10 +48,17 @@ namespace Lakuna.PrepareModerately.Filter {
 					directoryInfo.Create();
 				}
 
-				return from file in directoryInfo.GetFiles()
-					   where file.Extension == FileExtension
-					   orderby file.LastWriteTime descending
-					   select file;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				return directoryInfo
+					.GetFiles()
+					.Where((file) => file.Extension == FileExtension)
+					.OrderByDescending((file) => file.LastWriteTime).ToList();
+#else
+				return [.. directoryInfo
+					.GetFiles()
+					.Where((file) => file.Extension == FileExtension)
+					.OrderByDescending((file) => file.LastWriteTime)];
+#endif
 			}
 		}
 
@@ -100,8 +108,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			set => this.name = value;
 		}
 
-		public IEnumerable<PawnFilterPart> PParts =>
-			this.parts;
+		public IEnumerable<PawnFilterPart> PParts {
+			get => this.parts;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			internal set => this.parts = value.ToList();
+#else
+			internal set => this.parts = [.. value];
+#endif
+		}
 
 		public string PSummary {
 			get => this.summary;
@@ -163,8 +177,7 @@ namespace Lakuna.PrepareModerately.Filter {
 
 					foreach (PawnFilterPart part in
 						from part in this.PParts
-						orderby part.PDef.PSummaryPriority descending,
-						part.PDef.defName
+						orderby part.PDef.PSummaryPriority descending, part.PDef.defName
 						where part.Visible
 						select part) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
@@ -215,9 +228,11 @@ namespace Lakuna.PrepareModerately.Filter {
 			this.parts = [];
 #endif
 
+		// Based on `Verse.GenFilePaths.AbsPathForScenario`.
 		internal static string AbsolutePathForName(string filterName) =>
 			Path.Combine(DataPath, filterName + FileExtension);
 
+		// Based on `RimWorld.ScenarioFiles.RecacheData`.
 		internal static void RecacheLocalFilters() {
 			LocalFiltersInternal.Clear();
 			foreach (FileInfo file in AllFiles) {
@@ -243,18 +258,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Collections.Look(ref this.parts, nameof(this.parts), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
-				if (this.parts.RemoveAll((part) => part is null) > 0) {
-					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were null after loading.");
-				}
-
-				if (this.parts.RemoveAll((part) => part.hasNullDefs()) > 0) {
-					PrepareModeratelyLogger.LogErrorMessage("Some filter parts had null definitions.");
+				if (this.parts.RemoveAll((part) => !part.isValid()) > 0) {
+					PrepareModeratelyLogger.LogErrorMessage("Some filter parts were invalid.");
 				}
 			}
 		}
 
 		public override int GetHashCode() {
-			int hash = 5251977;
+			int hash = 6126121;
 			if (this.PName != null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 				hash ^= this.PName.GetHashCode();
@@ -279,6 +290,11 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 			}
 
+			int i = 0;
+			foreach (PawnFilterPart part in this.PParts) {
+				hash ^= part.GetHashCode() + i++;
+			}
+
 			return hash;
 		}
 
@@ -293,7 +309,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public void RemovePart(PawnFilterPart part) {
-			if (!this.parts.Contains(part)) {
+			if (!this.PParts.Contains(part)) {
 				PrepareModeratelyLogger.LogErrorMessage("Failed to remove filter part.");
 			}
 
@@ -318,22 +334,22 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 			int index = this.parts.IndexOf(part);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			switch (dir) {
 				case ReorderDirection.Up:
-					if (index == 0) {
-						return false;
-					}
-
-					if (index > 0 && !this.parts[index - 1].PDef.PlayerAddRemovable) {
-						return false;
-					}
-
-					return true;
+					return index > 0 && this.parts[index - 1].PDef.PlayerAddRemovable;
 				case ReorderDirection.Down:
 					return index != this.parts.Count - 1;
 				default:
 					throw new NotImplementedException();
 			}
+#else
+			return dir switch {
+				ReorderDirection.Up => index > 0 && this.parts[index - 1].PDef.PlayerAddRemovable,
+				ReorderDirection.Down => index != this.parts.Count - 1,
+				_ => throw new NotImplementedException(),
+			};
+#endif
 		}
 
 		internal IEnumerable<string> configErrors() {
@@ -344,9 +360,20 @@ namespace Lakuna.PrepareModerately.Filter {
 			// if (this.parts.NullOrEmpty()) { yield return "No parts."; }
 
 			foreach (PawnFilterPart part in this.PParts) {
+				if (part is null) {
+					yield return "Filter has null part.";
+					continue;
+				}
+
 				foreach (string item in part.configErrors()) {
 					yield return item;
 				}
+			}
+		}
+
+		internal void preConfigure() {
+			foreach (PawnFilterPart part in this.PParts) {
+				part.preConfigure();
 			}
 		}
 

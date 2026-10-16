@@ -8,13 +8,14 @@ using HarmonyLib;
 #endif
 
 using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches;
 using Lakuna.PrepareModerately.Ui;
 
 using Verse;
 
-namespace Lakuna.PrepareModerately.Patches {
+namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
-	internal static class RandomizePatch {
+	internal static class RandomizeInPlacePatch {
 		internal static bool IsActivelyRolling {
 			get; set;
 		}
@@ -28,17 +29,8 @@ namespace Lakuna.PrepareModerately.Patches {
 		private static void Postfix(Pawn __result, MethodBase __originalMethod) {
 #pragma warning restore CA1707
 			Result = __result;
-			PagePatch.Instance.SelectPawn(Result);
-
-			if (IsActivelyRolling) {
-				return;
-			}
-
-			if (PawnFilter.Current is null || !PawnFilter.Current.PParts.Any()) {
-				return;
-			}
-
-			if (PawnFilter.Current.Matches(Result)) {
+			PreOpenPatch.Instance.SelectPawn(Result);
+			if (IsActivelyRolling || PawnFilter.Current is null || !PawnFilter.Current.PParts.Any() || PawnFilter.Current.Matches(Result)) {
 				return;
 			}
 

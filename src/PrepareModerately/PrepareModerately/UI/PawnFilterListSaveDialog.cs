@@ -15,7 +15,9 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private readonly PawnFilter filter;
 
-		internal PawnFilterListSaveDialog(PawnFilter filter) {
+		private readonly Action onClosed;
+
+		internal PawnFilterListSaveDialog(PawnFilter filter, Action onClosed = null) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
@@ -25,8 +27,14 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 
 			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst();
-			this.typingName = filter.PName;
+			this.typingName = filter.PName.Trim();
 			this.filter = filter;
+			this.onClosed = onClosed;
+		}
+
+		public override void Close(bool doCloseSound = true) {
+			base.Close(doCloseSound);
+			this.onClosed?.Invoke();
 		}
 
 		protected override void DoFileInteraction(string fileName) {

@@ -63,8 +63,18 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.filtersScrollPosition = Vector2.zero;
 		}
 
-		internal static void BeginFilterConfiguration(PawnFilter filter) =>
+		internal static void BeginFilterConfiguration(PawnFilter filter) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (filter is null) {
+				throw new ArgumentNullException(nameof(filter));
+			}
+#else
+			ArgumentNullException.ThrowIfNull(filter);
+#endif
+
 			PawnFilter.Current = filter;
+			PawnFilter.Current.preConfigure();
+		}
 
 		private static bool CanEditFilter(PawnFilter filter) =>
 			filter is null ? throw new ArgumentNullException(nameof(filter))
@@ -172,7 +182,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			WidgetRow widgetRow = new(rect.xMax, rect.y, UIDirection.LeftThenDown);
 #endif
 
-			if (filter.PCategory == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.DeleteX, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			if (filter.PCategory == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter.File.Name).CapitalizeFirst(), () => {
 					filter.File.Delete();
 					PawnFilterLister.MarkDirty();
@@ -250,11 +260,13 @@ namespace Lakuna.PrepareModerately.Ui {
 		private void GoToFilterEditor() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
-				prev = this
+				prev = this,
+				next = this.next // Go back to the configure starting pawns page.
 			};
 #else
 			PawnFilterEditorPage pawnFilterEditorPage = new(CanEditFilter(this.filter) ? this.filter : this.filter.CopyForEditing) {
-				prev = this
+				prev = this,
+				next = this.next // Go back to the configure starting pawns page.
 			};
 #endif
 			Find.WindowStack.Add(pawnFilterEditorPage);

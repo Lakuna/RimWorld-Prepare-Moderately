@@ -95,7 +95,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				Rect widgetRect = new(skillRect.x, skillRect.y, WidgetRowMaxWidth, skillRect.height);
 				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
-				if (widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
+				if (widgetRow.ButtonIcon(Textures.Delete, null, GenUI.SubtleMouseoverColor)) {
 					_ = this.skills.Remove(skill);
 					SoundDefOf.Click.PlayOneShotOnCamera();
 				}

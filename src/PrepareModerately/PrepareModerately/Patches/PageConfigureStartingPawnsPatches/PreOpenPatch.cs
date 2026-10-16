@@ -6,9 +6,9 @@ using HarmonyLib;
 
 using RimWorld;
 
-namespace Lakuna.PrepareModerately.Patches {
+namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.PreOpen))]
-	internal static class PagePatch {
+	internal static class PreOpenPatch {
 		internal static Page_ConfigureStartingPawns Instance {
 			get; set;
 		}

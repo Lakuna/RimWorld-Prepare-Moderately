@@ -9,6 +9,7 @@
 	<PM.FilterEditor>filter editor</PM.FilterEditor>
 	<PM.FilterPartError>one or more parts in this filter could not be loaded due to missing modded content</PM.FilterPartError>
 	<PM.FiltersCustom>custom</PM.FiltersCustom>
+	<PM.FilterSavePrompt>this filter has been edited.\n\nDo you want to save it before proceeding?</PM.FilterSavePrompt>
 	<PM.ClickOutsideToStop>click outside to stop</PM.ClickOutsideToStop>
 	<PM.Count>count</PM.Count>
 	<PM.Level>level</PM.Level>

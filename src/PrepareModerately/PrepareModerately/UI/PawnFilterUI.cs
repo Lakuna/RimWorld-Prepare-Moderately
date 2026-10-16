@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
 
@@ -24,16 +21,12 @@ namespace Lakuna.PrepareModerately.Ui {
 		private const float ViewRectVerticalPadding = 30;
 
 		internal static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
-
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
+
+			if (filter is null) {
+				return;
+			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Rect viewRect = new Rect(0, 0, rect.width - ViewRectHorizontalPadding, EditViewHeight);
@@ -77,19 +70,7 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			listing.Gap();
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = new List<PawnFilterPart>();
-#else
-			List<PawnFilterPart> parts = [];
-#endif
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			foreach (PawnFilterPart part in filter.PParts) {
-				parts.Add(part);
-			}
-#else
-			filter.PParts.CopyToList(parts);
-#endif
-			foreach (PawnFilterPart part in parts) {
 				part.doEditInterface(listing, out _);
 			}
 
@@ -107,7 +88,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 
 			string fullInformationText = filter.FullInformationText;
-
+			Text.Font = GameFont.Small;
 			float width = rect.width - ViewRectHorizontalPadding;
 			float height = ViewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + ExtraScrollHeight;
 

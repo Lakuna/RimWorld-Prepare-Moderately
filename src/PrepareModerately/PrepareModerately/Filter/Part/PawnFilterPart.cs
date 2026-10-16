@@ -32,6 +32,10 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public virtual void ExposeData() =>
 			Scribe_Defs.Look(ref this.def, nameof(this.def));
 
+		public override int GetHashCode() =>
+			this.def is null ? 0
+			: this.def.GetHashCode();
+
 		public virtual bool Matches(Pawn pawn) =>
 			true;
 
@@ -65,10 +69,16 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal virtual bool hasNullDefs() =>
 			this.def is null;
 
+		internal virtual void preConfigure() {
+		}
+
 		internal virtual void randomize() {
 		}
 
 		internal virtual bool tryMerge(PawnFilterPart other) =>
 			false;
+
+		internal virtual bool isValid() =>
+			!this.hasNullDefs();
 	}
 }

@@ -1,7 +1,7 @@
 using System;
 
 using Lakuna.PrepareModerately.Filter;
-using Lakuna.PrepareModerately.Patches;
+using Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches;
 
 using RimWorld;
 
@@ -38,7 +38,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
 			for (int i = 0; i < PrepareModeratelyMod.Settings.PRollSpeedMultiplier; i++) {
-				if (PawnFilter.Current.Matches(RandomizePatch.Result)) {
+				if (PawnFilter.Current.Matches(RandomizeInPlacePatch.Result)) {
 					this.Close();
 					return;
 				}
@@ -49,7 +49,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		public override void PreClose() {
-			RandomizePatch.IsActivelyRolling = false;
+			RandomizeInPlacePatch.IsActivelyRolling = false;
 			base.PreClose();
 		}
 	}

@@ -12,10 +12,6 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioMaker`.
 	internal static class PawnFilterMaker {
-		internal static PawnFilter Filter {
-			get; private set;
-		}
-
 		private const int MaximumRandomParts = 7;
 
 		private const int MaximumRandomPartTries = 100;
@@ -49,18 +45,14 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Filter = new PawnFilter {
+			PawnFilter filter = new PawnFilter {
 				PCategory = PawnFilterCategory.CustomLocal,
-				PName = NameGenerator.GenerateName(RulePackDefOf.NamerScenario),
-				PDescription = null,
-				PSummary = null
+				PName = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #else
-			Filter = new() {
+			PawnFilter filter = new() {
 				PCategory = PawnFilterCategory.CustomLocal,
-				PName = NameGenerator.GenerateName(RulePackDefOf.NamerScenario),
-				PDescription = null,
-				PSummary = null
+				PName = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
 			};
 #endif
 
@@ -71,20 +63,19 @@ namespace Lakuna.PrepareModerately.Filter {
 			Rand.Seed = seed.GetHashCode(StringComparison.Ordinal);
 #endif
 
-			AddPartsFromCategory(Filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
-
-			foreach (PawnFilterPart part in Filter.PParts) {
+			AddPartsFromCategory(filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(MinimumRandomParts, MaximumRandomParts));
+			foreach (PawnFilterPart part in filter.PParts) {
 				part.randomize();
 			}
 
-			for (int i = 0; i < Filter.PParts.Count(); i++) {
-				for (int j = 0; j < Filter.PParts.Count(); j++) {
+			for (int i = 0; i < filter.PParts.Count(); i++) {
+				for (int j = 0; j < filter.PParts.Count(); j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (Filter.PParts.ElementAt(i).tryMerge(Filter.PParts.ElementAt(j))) {
-						Filter.RemovePart(Filter.PParts.ElementAt(j));
+					if (filter.PParts.ElementAt(i).tryMerge(filter.PParts.ElementAt(j))) {
+						filter.RemovePart(filter.PParts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -93,14 +84,14 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 			}
 
-			for (int i = 0; i < Filter.PParts.Count(); i++) {
-				for (int j = 0; j < Filter.PParts.Count(); j++) {
+			for (int i = 0; i < filter.PParts.Count(); i++) {
+				for (int j = 0; j < filter.PParts.Count(); j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (!Filter.PParts.ElementAt(i).canCoexistWith(Filter.PParts.ElementAt(j))) {
-						Filter.RemovePart(Filter.PParts.ElementAt(j));
+					if (!filter.PParts.ElementAt(i).canCoexistWith(filter.PParts.ElementAt(j))) {
+						filter.RemovePart(filter.PParts.ElementAt(j));
 						j--;
 						if (i > j) {
 							i--;
@@ -109,33 +100,23 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 			}
 
-			foreach (string item in Filter.configErrors()) {
+			foreach (string item in filter.configErrors()) {
 				PrepareModeratelyLogger.LogErrorMessage(item);
 			}
 
 			Rand.PopState();
 
-			PawnFilter result = Filter;
-			Filter = null;
-			return result;
+			return filter;
 		}
 
 		private static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
-
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			List<PawnFilterPart> parts = RandomPartsFromCategory(filter, category, count).ToList();
 #else
 			List<PawnFilterPart> parts = [.. RandomPartsFromCategory(filter, category, count)];
 #endif
-			for (int i = 0; i < parts.Count; i++) { // Can't use `foreach` or the mouse stack will overflow when removing elements.
-				filter.AddPart(parts.ElementAt(i));
+			foreach (PawnFilterPart part in parts) {
+				filter.AddPart(part);
 			}
 		}
 
@@ -157,7 +138,11 @@ namespace Lakuna.PrepareModerately.Filter {
 				yield break;
 			}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			List<PawnFilterPartDef> allowedParts = (from def in AddableParts(filter) where def.PCategory == category select def).ToList();
+#else
+			List<PawnFilterPartDef> allowedParts = [.. from def in AddableParts(filter) where def.PCategory == category select def];
+#endif
 			int yieldCount = 0;
 			int tryCount = 0;
 			while (yieldCount < count && allowedParts.Any()) {

@@ -19,7 +19,7 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 		private const float GapSize = 4;
 
-		private static readonly float HeaderHeight = Text.LineHeight;
+		private const float LabelGapSize = 4;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static readonly Color PartRectBgColor = new Color(1, 1, 1, 0.08f);
@@ -40,7 +40,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.filter = filter;
 #endif
 
-		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height) =>
+		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height = 0) =>
 			this.getPawnFilterPartRect(part, height, out _, out _);
 
 		internal Rect getPawnFilterPartRect(PawnFilterPart part, float height, out float totalAddedListHeight) =>
@@ -55,19 +55,18 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(part);
 #endif
 
-			Rect rect = this.GetRect(HeaderHeight + height);
+			float headerHeight = Text.LineHeight;
+			Rect rect = this.GetRect(headerHeight + height);
 			Widgets.DrawBoxSolid(rect, PartRectBgColor);
+			Rect headerRect = new Rect(rect.x, rect.y, rect.width, headerHeight).Rounded();
+			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect headerRect = new Rect(rect.x, rect.y, rect.width, HeaderHeight);
-			Rect widgetRect = new Rect(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
 			WidgetRow widgetRow = new WidgetRow(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #else
-			Rect headerRect = new(rect.x, rect.y, rect.width, HeaderHeight);
-			Rect widgetRect = new(headerRect.x, headerRect.y, WidgetRowMaxWidth, headerRect.height);
 			WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
 
-			if (part.PDef.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.DeleteX, null, GenUI.SubtleMouseoverColor)) {
+			if (part.PDef.PlayerAddRemovable && widgetRow.ButtonIcon(Textures.Delete, null, GenUI.SubtleMouseoverColor)) {
 				this.filter.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera();
 			}
@@ -83,23 +82,15 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 
 			string label = part.Label.CapitalizeFirst();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height);
-#else
-			Rect labelRect = new(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height);
-#endif
+			Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height).Rounded();
 			Widgets.Label(labelRect, label);
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			headerRemainderRect = new Rect(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);
-#else
-			headerRemainderRect = new(labelRect.xMax, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height);
-#endif
 
 			this.Gap(GapSize);
 
 			totalAddedListHeight = rect.height + GapSize;
-			return new Rect(rect.x, rect.y + HeaderHeight, rect.width, rect.height - HeaderHeight).Rounded();
+			headerRemainderRect = new Rect(labelRect.xMax + LabelGapSize, headerRect.y, headerRect.width - widgetRect.width - labelRect.width, headerRect.height).Rounded();
+
+			return new Rect(rect.x, headerRect.yMax, rect.width, rect.height - headerHeight).Rounded();
 		}
 	}
 }

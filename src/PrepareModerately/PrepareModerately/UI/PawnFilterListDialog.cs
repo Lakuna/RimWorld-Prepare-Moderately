@@ -16,16 +16,14 @@ namespace Lakuna.PrepareModerately.Ui {
 			foreach (FileInfo fileInfo in PawnFilter.AllFiles) {
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					SaveFileInfo saveFileinfo = new SaveFileInfo(fileInfo);
+					SaveFileInfo saveFileInfo = new SaveFileInfo(fileInfo);
 #else
-					SaveFileInfo saveFileinfo = new(fileInfo);
+					SaveFileInfo saveFileInfo = new(fileInfo);
 #endif
-#if V1_0 || V1_1 || V1_2
-					this.files.Add(saveFileinfo);
-#else
-					saveFileinfo.LoadData();
-					this.files.Add(saveFileinfo);
+#if !(V1_0 || V1_1 || V1_2)
+					saveFileInfo.LoadData();
 #endif
+					this.files.Add(saveFileInfo);
 #pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {
 #pragma warning restore CA1031

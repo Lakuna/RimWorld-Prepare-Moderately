@@ -16,9 +16,9 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace Lakuna.PrepareModerately.Patches {
+namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.DoWindowContents))]
-	internal static class ButtonPatch {
+	internal static class DoWindowContentsPatch {
 		private const float ButtonHeight = 30;
 
 		private const float ButtonWidth = 150;
