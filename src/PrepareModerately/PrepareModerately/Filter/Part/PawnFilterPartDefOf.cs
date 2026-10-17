@@ -29,6 +29,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		internal static readonly PawnFilterPartDef HasMeditationFocus;
 #endif
 
+		internal static readonly PawnFilterPartDef HasNumberOfTraits;
+
 		internal static readonly PawnFilterPartDef HasPassion;
 
 		internal static readonly PawnFilterPartDef HasPassionsAtLevel;
@@ -43,6 +45,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		internal static readonly PawnFilterPartDef HasSkillsAtLevel;
 
+		internal static readonly PawnFilterPartDef HasSumOfSkills;
+
 		internal static readonly PawnFilterPartDef HasTrait;
 
 		internal static readonly PawnFilterPartDef IsAge;
@@ -56,6 +60,8 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		internal static readonly PawnFilterPartDef IsPregnant;
 #endif
+
+		internal static readonly PawnFilterPartDef IsKind;
 
 		internal static readonly PawnFilterPartDef IsSpecies;
 
