@@ -18,6 +18,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning restore CA1812
 		private const float _collapseWidgetRowMaxWidth = 24;
 
+		private const float _innerPadding = 5;
+
 		private static IEnumerable<LogicGateType> _legalLogicGateTypes =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
@@ -75,7 +77,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				? listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect collapseRect)
 				: listing.GetPawnFilterPartRect(this, Text.LineHeight * 2 + this._editViewHeight + _padding, out totalAddedListHeight, out collapseRect);
 			Widgets.DrawMenuSection(rect);
-			rect = rect.GetInnerRect();
+			rect = rect.ContractedBy(_innerPadding); // Use `ContractedBy` instead of `GetInnerRect` so that nested logic gates don't get too small. `GetInnerRect` passes a value of `17f` to `ContractedBy`.
 
 			// Collapse widget.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -83,7 +85,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			WidgetRow collapseWidgetRow = new(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, _collapseWidgetRowMaxWidth, 0);
 #endif
-			if (collapseWidgetRow.ButtonIcon(this._collapsed ? Textures._reorderDown : Textures._reorderUp, (this._collapsed ? "Expand" : "Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			if (collapseWidgetRow.ButtonIcon(this._collapsed ? Textures._reorderDown : Textures._reorderUp, (this._collapsed ? "PM.Expand" : "PM.Collapse").Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				this._collapsed = !this._collapsed;
 				SoundDefOf.Tick_Low.PlayOneShotOnCamera();
 			}

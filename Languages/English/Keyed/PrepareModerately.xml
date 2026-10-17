@@ -35,6 +35,8 @@
 	<PM.EditMode>edit mode</PM.EditMode>
 	<PM.AddPart>add part</PM.AddPart>
 	<PM.Days>days</PM.Days>
+	<PM.Collapse>collapse</PM.Collapse>
+	<PM.Expand>expand</PM.Expand>
 
 	<!-- Filter Part Summaries -->
 	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>

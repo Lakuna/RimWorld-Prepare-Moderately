@@ -22,7 +22,6 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			true;
 
 #pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		[TranslationHandle]
 		internal PawnFilterPartDef def;
 #pragma warning restore CA1051, IDE1006
 

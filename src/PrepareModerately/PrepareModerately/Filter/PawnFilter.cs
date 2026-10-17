@@ -49,9 +49,9 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
-#pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		internal string description;
-#pragma warning restore CA1002, CA1051, IDE1006
+#pragma warning restore CA1051, IDE1006
 
 		internal bool _enabled { get; } = true;
 
@@ -118,9 +118,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal bool _showInUi { get; } = true;
 
-#pragma warning disable CA1002, CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
 		internal string summary;
-#pragma warning restore CA1002, CA1051, IDE1006
+#pragma warning restore CA1051, IDE1006
 
 		internal bool _valid { get; set; } = true;
 
