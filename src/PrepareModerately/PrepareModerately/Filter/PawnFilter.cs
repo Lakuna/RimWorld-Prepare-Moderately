@@ -81,11 +81,7 @@ namespace Lakuna.PrepareModerately.Filter {
 						part._summarized = false;
 					}
 
-					foreach (PawnFilterPart part in
-						from part in this.parts
-						orderby part.def.summaryPriority descending, part.def.defName
-						where part._visible
-						select part) {
+					foreach (PawnFilterPart part in this.parts.OrderByDescending((part) => part.def.summaryPriority).ThenBy((part) => part.def.defName).Where((part) => part._visible)) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 						string summary = $"{part.Summary(this).CapitalizeFirst()}.";
 #else

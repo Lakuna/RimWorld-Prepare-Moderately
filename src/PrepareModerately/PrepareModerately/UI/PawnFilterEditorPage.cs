@@ -215,10 +215,7 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void OpenAddFilterPartMenu() =>
 			FloatMenuUtility.MakeMenu(
-				from part in PawnFilterMaker.AddableParts(this._filter)
-				where part._playerAddRemovable
-				orderby part.label
-				select part,
+				PawnFilterMaker.AddableParts(this._filter).Where((part) => part._playerAddRemovable).OrderBy((part) => part.label),
 				(def) => def.LabelCap,
 				(def) => () => this.AddFilterPart(def));
 

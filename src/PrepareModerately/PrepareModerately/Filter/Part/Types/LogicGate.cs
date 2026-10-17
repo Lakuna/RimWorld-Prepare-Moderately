@@ -115,11 +115,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst())) {
 				FloatMenuUtility.MakeMenu(
-					from part
-					in PawnFilterMaker.AddableParts(this.innerFilter)
-					where part.category != PawnFilterPartCategory.Fixed
-					orderby part.label
-					select part,
+					PawnFilterMaker.AddableParts(this.innerFilter).Where((part) => part.category != PawnFilterPartCategory.Fixed).OrderBy((part) => part.label),
 					(def) => def.LabelCap,
 					(def) => () => {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
@@ -202,12 +198,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				part._summarized = false;
 			}
 
-			foreach (PawnFilterPart part in
-				from part in this.innerFilter.parts
-				orderby part.def.summaryPriority descending,
-				part.def.defName
-				where part._visible
-				select part) {
+			foreach (PawnFilterPart part in this.innerFilter.parts.OrderByDescending((part) => part.def.summaryPriority).ThenBy((part) => part.def.defName).Where((part) => part._visible)) {
 				string summary = part.Summary(this.innerFilter);
 				if (!summary.NullOrEmpty()) {
 					if (output.Length > 0) {
