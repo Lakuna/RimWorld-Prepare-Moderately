@@ -7,7 +7,7 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `Verse.GenFilePaths`.
 	internal static class PawnFilterFilePaths {
-		internal static IList<FileInfo> _allFiles {
+		internal static IEnumerable<FileInfo> _allFiles {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 				DirectoryInfo directoryInfo = new DirectoryInfo(_dataPath);

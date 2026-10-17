@@ -15,11 +15,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #pragma warning disable CA1812 // Class is instantiated via XML definitions.
 	internal sealed class HasTrait : PawnFilterPart {
 #pragma warning restore CA1812
-		private static IEnumerable<TraitDegreePair> _legalTraitDegreePairs =>
-			TraitDegreePair._all;
+		private static IEnumerable<TraitDegree> _legalTraitDegreePairs =>
+			TraitDegree._all;
 
 #pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private TraitDegreePair traitDegreePair;
+		private TraitDegree traitDegreePair;
 #pragma warning restore IDE1006
 
 		public override void ExposeData() {
@@ -38,15 +38,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
 #if V1_0
-			if (Widgets.ButtonText(rect, this.traitDegreePair._traitDegreeData.label.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalTraitDegreePairs.OrderBy((pair) => pair._traitDegreeData.label),
-					(traitDegreePair) => traitDegreePair._traitDegreeData.label.CapitalizeFirst(),
+			if (Widgets.ButtonText(rect, this.traitDegreePair._data.label.CapitalizeFirst())) {
+				FloatMenuUtility.MakeMenu(_legalTraitDegreePairs.OrderBy((pair) => pair._data.label),
+					(traitDegreePair) => traitDegreePair._data.label.CapitalizeFirst(),
 					(traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
 			}
 #else
-			if (Widgets.ButtonText(rect, this.traitDegreePair._traitDegreeData.LabelCap)) {
-				FloatMenuUtility.MakeMenu(_legalTraitDegreePairs.OrderBy((pair) => pair._traitDegreeData.label),
-					(traitDegreePair) => traitDegreePair._traitDegreeData.LabelCap,
+			if (Widgets.ButtonText(rect, this.traitDegreePair._data.LabelCap)) {
+				FloatMenuUtility.MakeMenu(_legalTraitDegreePairs.OrderBy((pair) => pair._data.label),
+					(traitDegreePair) => traitDegreePair._data.LabelCap,
 					(traitDegreePair) => () => this.traitDegreePair = traitDegreePair);
 			}
 #endif
@@ -73,6 +73,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this.traitDegreePair = _legalTraitDegreePairs.RandomElement();
 
 		internal override string Summary(PawnFilter filter) =>
-			"PM.HasTrait".Translate(this.traitDegreePair._traitDegreeData.label);
+			"PM.HasTrait".Translate(this.traitDegreePair._data.label);
 	}
 }

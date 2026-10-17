@@ -8,16 +8,29 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioLister`.
 	internal static class PawnFilterLister {
+		internal static IEnumerable<PawnFilter> _all {
+			get {
+				RecacheIfDirty();
+				foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
+					yield return def.filter;
+				}
+
+				foreach (PawnFilter filter in PawnFilterFiles._localFilters) {
+					yield return filter;
+				}
+			}
+		}
+
 		private static bool _dirty = true;
 
-		internal static IEnumerable<PawnFilter> All() {
-			RecacheIfDirty();
-			foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs) {
-				yield return def.filter;
-			}
+		private static int _hash {
+			get {
+				int hash = 9826121;
+				foreach (PawnFilter filter in _all) {
+					hash ^= 791 * filter.GetHashCode() * 6121;
+				}
 
-			foreach (PawnFilter filter in PawnFilterFiles._localFilters) {
-				yield return filter;
+				return hash;
 			}
 		}
 
@@ -48,20 +61,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		internal static void MarkDirty() =>
 			_dirty = true;
 
-		private static int FilterListHash() {
-			int hash = 9826121;
-			foreach (PawnFilter filter in All()) {
-				hash ^= 791 * filter.GetHashCode() * 6121;
-			}
-
-			return hash;
-		}
-
 		private static void Recache() {
 			_dirty = false;
-			int hash = FilterListHash();
+			int hash = _hash;
 			PawnFilterFiles.RecacheLocalFilters();
-			if (FilterListHash() != hash && !LongEventHandler.ShouldWaitForEvent) {
+			if (_hash != hash && !LongEventHandler.ShouldWaitForEvent) {
 				Find.WindowStack.WindowOfType<SelectPawnFilterPage>()?.NotifyFilterListChanged();
 			}
 		}

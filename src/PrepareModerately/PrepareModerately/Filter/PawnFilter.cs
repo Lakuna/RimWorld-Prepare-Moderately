@@ -22,6 +22,9 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		internal const int _summaryMaxLength = 300;
 
+		internal bool _canEdit =>
+			this._category == PawnFilterCategory.CustomLocal;
+
 		internal PawnFilterCategory _category { get; set; } = PawnFilterCategory.Undefined;
 
 		internal PawnFilter _copyForEditing {

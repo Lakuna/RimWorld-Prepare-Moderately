@@ -17,27 +17,27 @@ namespace Lakuna.PrepareModerately.Ui {
 	internal sealed class SelectPawnFilterPage : Page {
 		private const float _extraScrollHeight = 250;
 
-		private const float _filterListGapHeight = 6;
+		private const float _filterListEntryHeight = 68;
 
-		private const float _filterSelectionListMargin = 16;
+		private const float _filterListEntryPadding = 4;
+
+		private const float _filterListGap = 6;
+
+		private const float _filterListHeight = 999999; // Arbitrary large number.
+
+		private const float _filterListMargin = 16;
+
+		private const float _filterListPadding = 2;
 
 		private const float _filterSelectionListScreenShare = 0.35f;
 
 		private const float _gapBetweenColumns = 17;
-
-		private const float _listingRectHeight = 999999; // Arbitrary large number.
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static readonly Color _minorTextColor = new Color(1, 1, 1, 0.5f);
 #else
 		private static readonly Color _minorTextColor = new(1, 1, 1, 0.5f);
 #endif
-
-		private const float _pawnFilterListingEntryHeight = 68;
-
-		private const float _pawnFilterListingEntryMargin = 4;
-
-		private const float _pawnFilterSelectionListOverflow = 2;
 
 #if !(V1_0 || V1_1 || V1_2)
 		private const float _tinyFontCorrectionMargin = 6;
@@ -64,21 +64,9 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		internal static void BeginFilterConfiguration(PawnFilter filter) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
-
 			PawnFilter._current = filter;
-			PawnFilter._current.PreConfigure();
+			PawnFilter._current?.PreConfigure();
 		}
-
-		private static bool CanEditFilter(PawnFilter filter) =>
-			filter is null ? throw new ArgumentNullException(nameof(filter))
-			: filter._category == PawnFilterCategory.CustomLocal;
 
 		public override void DoWindowContents(Rect inRect) {
 			this.DrawPageTitle(inRect);
@@ -115,7 +103,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		internal void NotifyFilterListChanged() {
-			this._filter = PawnFilterLister.All().FirstOrDefault((filter) => filter.GetHashCode() == this._filter.GetHashCode());
+			this._filter = PawnFilterLister._all.FirstOrDefault((filter) => filter.GetHashCode() == this._filter.GetHashCode());
 			this.EnsureValidSelection();
 		}
 
@@ -137,7 +125,6 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-			bool isCurrentFilter = this._filter == filter;
 			if (!filter._valid) {
 #if V1_0
 				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.");
@@ -150,20 +137,18 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 			}
 
-			Widgets.DrawOptionBackground(rect, isCurrentFilter);
-
+			bool currentFilterIsSelected = this._filter == filter;
+			Widgets.DrawOptionBackground(rect, currentFilterIsSelected);
 			MouseoverSounds.DoRegion(rect);
 
-			Rect innerRect = rect.ContractedBy(_pawnFilterListingEntryMargin);
+			Rect innerRect = rect.ContractedBy(_filterListEntryPadding).Rounded();
 
 			Text.Font = GameFont.Small;
-			Rect filterNameRect = innerRect;
-			filterNameRect.height = Text.CalcHeight(filter.name, filterNameRect.width);
+			Rect filterNameRect = new Rect(innerRect.x, innerRect.y, innerRect.width, Text.CalcHeight(filter.name, innerRect.width)).Rounded();
 			Widgets.Label(filterNameRect, filter.name);
 
 			Text.Font = GameFont.Tiny;
-			Rect filterSummaryRect = innerRect;
-			filterSummaryRect.yMin = filterNameRect.yMax;
+			Rect filterSummaryRect = new Rect(innerRect.x, filterNameRect.yMax, innerRect.width, innerRect.height - filterNameRect.height).Rounded();
 #if !(V1_0 || V1_1 || V1_2)
 			if (!Text.TinyFontSupported) {
 				filterSummaryRect.yMin -= _tinyFontCorrectionMargin;
@@ -182,7 +167,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			WidgetRow widgetRow = new(rect.xMax, rect.y, UIDirection.LeftThenDown);
 #endif
 
-			if (filter._category == PawnFilterCategory.CustomLocal && widgetRow.ButtonIcon(Textures._delete, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
+			if (filter._canEdit && widgetRow.ButtonIcon(Textures._delete, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
 				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter._file.Name).CapitalizeFirst(), () => {
 					filter._file.Delete();
 					PawnFilterLister.MarkDirty();
@@ -197,7 +182,7 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 			}
 
-			if (!isCurrentFilter && Widgets.ButtonInvisible(rect)) {
+			if (!currentFilterIsSelected && Widgets.ButtonInvisible(rect)) {
 				SoundDefOf.Click.PlayOneShotOnCamera();
 				if (filter._valid) {
 					this._filter = filter;
@@ -210,18 +195,11 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		private void DoFilterSelectionList(Rect inRect) {
-			inRect.xMax += _pawnFilterSelectionListOverflow;
+			Rect rect = new Rect(inRect.x, inRect.y, inRect.width + _filterListPadding, inRect.height).Rounded();
+			Rect scrollViewRect = new Rect(0, 0, rect.width - _filterListMargin - _filterListPadding, this._totalFilterListHeight + _extraScrollHeight).Rounded();
+			Widgets.BeginScrollView(rect, ref this._filtersScrollPosition, scrollViewRect);
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect scrollViewRect = new Rect(0, 0, inRect.width - _filterSelectionListMargin - _pawnFilterSelectionListOverflow, this._totalFilterListHeight + _extraScrollHeight);
-#else
-			Rect scrollViewRect = new(0, 0, inRect.width - _filterSelectionListMargin - _pawnFilterSelectionListOverflow, this._totalFilterListHeight + _extraScrollHeight);
-#endif
-
-			Widgets.BeginScrollView(inRect, ref this._filtersScrollPosition, scrollViewRect);
-
-			Rect listingRect = scrollViewRect.AtZero();
-			listingRect.height = _listingRectHeight;
+			Rect listingRect = new Rect(0, 0, scrollViewRect.width, _filterListHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Listing_Standard listing = new Listing_Standard {
 				ColumnWidth = scrollViewRect.width
@@ -244,6 +222,7 @@ namespace Lakuna.PrepareModerately.Ui {
 #else
 			_ = listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
 #endif
+
 			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
 
 			listing.End();
@@ -259,12 +238,12 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void GoToFilterEditor() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(CanEditFilter(this._filter) ? this._filter : this._filter._copyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(this._filter._canEdit ? this._filter : this._filter._copyForEditing) {
 				prev = this,
 				next = this.next // Go back to the configure starting pawns page.
 			};
 #else
-			PawnFilterEditorPage pawnFilterEditorPage = new(CanEditFilter(this._filter) ? this._filter : this._filter._copyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new(this._filter._canEdit ? this._filter : this._filter._copyForEditing) {
 				prev = this,
 				next = this.next // Go back to the configure starting pawns page.
 			};
@@ -291,10 +270,10 @@ namespace Lakuna.PrepareModerately.Ui {
 			foreach (PawnFilter filter in filters) {
 				if (filter._showInUi) {
 					if (anyFilter) {
-						listing.Gap(_filterListGapHeight);
+						listing.Gap(_filterListGap);
 					}
 
-					this.DoFilterListEntry(listing.GetRect(_pawnFilterListingEntryHeight).ContractedBy(_pawnFilterListingEntryMargin), filter);
+					this.DoFilterListEntry(listing.GetRect(_filterListEntryHeight).ContractedBy(_filterListEntryPadding), filter);
 					anyFilter = true;
 				}
 			}
