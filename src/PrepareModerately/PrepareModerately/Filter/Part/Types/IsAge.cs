@@ -24,8 +24,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private IntRange _yearsRange;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-			bool showDays = this._yearsRange.max <= 0;
-			bool showHours = showDays && this._daysRange.max <= 0;
+			bool showDays = this._yearsRange.max < 1;
+			bool showHours = showDays && this._daysRange.max < 1;
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (1 + (showDays ? 1 : 0) + (showHours ? 1 : 0)), out totalAddedListHeight, out Rect headerRemainderRect).Rounded();
 
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this._yearsRange, _minAge, _maxAge, "PM.RangeYears");

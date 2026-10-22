@@ -4,6 +4,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		Undefined,
 		Fixed,
 		Normal,
-		LogicGate
+		LogicGate, // Separate so that logic gates aren't added when randomizing a filter (chooses from `Normal` category only).
+		Obsolete
 	}
 }

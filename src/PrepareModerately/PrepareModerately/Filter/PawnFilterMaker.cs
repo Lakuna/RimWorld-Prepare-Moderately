@@ -138,7 +138,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-			if (count <= 0) {
+			if (count < 1) {
 				yield break;
 			}
 

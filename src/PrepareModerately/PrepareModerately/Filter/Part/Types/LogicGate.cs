@@ -194,7 +194,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst().StringSafe)) {
 #endif
 				FloatMenuUtility.MakeMenu(
-					PawnFilterMaker.AddableParts(this._innerFilter).Where((part) => part.Category != PawnFilterPartCategory.Fixed).OrderBy((part) => part.label),
+					PawnFilterMaker.AddableParts(this._innerFilter).Where((part) => part.Category != PawnFilterPartCategory.Fixed && part.Category != PawnFilterPartCategory.Obsolete).OrderBy((part) => part.label),
 #if V1_0
 					(def) => def.LabelCap ?? "null",
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -268,7 +268,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					return this._innerFilter.Parts.Any((part) => !part.IgnoreFor(pawn) && !part.Matches(pawn));
 				default:
 					PrepareModeratelyLogger.LogErrorMessage("Invalid logic gate type.");
-					return true;
+					return false;
 			}
 		}
 
@@ -284,7 +284,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			// Logic gates with no inner filter parts don't do anything, so don't add them to the summary.
-			if (this._innerFilter.Parts.Count <= 0) {
+			if (this._innerFilter.Parts.Count < 1) {
 				return "";
 			}
 

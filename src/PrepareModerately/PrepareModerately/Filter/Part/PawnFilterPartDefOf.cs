@@ -1,3 +1,5 @@
+using System;
+
 using RimWorld;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
@@ -10,24 +12,28 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef? HasAdulthood;
 #endif
 
+		[Obsolete("Prefer HasHediff.")]
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasAnyAddiction;
 #else
 		public static readonly PawnFilterPartDef? HasAnyAddiction;
 #endif
 
+		[Obsolete("Prefer HasHediff.")]
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasAnyBodyModification;
 #else
 		public static readonly PawnFilterPartDef? HasAnyBodyModification;
 #endif
 
+		[Obsolete("Prefer HasHediff.")]
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasAnyMissingBodyPart;
 #else
 		public static readonly PawnFilterPartDef? HasAnyMissingBodyPart;
 #endif
 
+		[Obsolete("Prefer HasHediff.")]
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasAnyPermanentMedicalCondition;
 #else
@@ -40,6 +46,7 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef? HasAnyRelation;
 #endif
 
+		[Obsolete("Prefer HasHediff.")]
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasAnyScar;
 #else
@@ -57,6 +64,12 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef HasFavoriteColor;
 #else
 		public static readonly PawnFilterPartDef? HasFavoriteColor;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasHediff;
+#else
+		public static readonly PawnFilterPartDef? HasHediff;
 #endif
 
 #if V1_0
@@ -147,8 +160,10 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 #if V1_0 || V1_1 || V1_2 || V1_3
 #elif V1_4 || V1_5 || V1_6
+		[Obsolete("Prefer HasHediff.")]
 		public static readonly PawnFilterPartDef IsPregnant;
 #else
+		[Obsolete("Prefer HasHediff.")]
 		public static readonly PawnFilterPartDef? IsPregnant;
 #endif
 

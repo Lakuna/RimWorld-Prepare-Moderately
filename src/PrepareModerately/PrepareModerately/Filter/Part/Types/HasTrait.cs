@@ -83,8 +83,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override bool Matches(Pawn pawn) =>
-			this._traitDegree?.Trait is null
-			|| pawn.story?.traits?.allTraits?.Find((trait) => trait?.def == this._traitDegree.Trait)?.Degree == this._traitDegree.Degree;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this._traitDegree?.Trait != null
+#else
+			this._traitDegree?.Trait is not null
+#endif
+			&& pawn.story?.traits?.allTraits?.Find((trait) => trait?.def == this._traitDegree.Trait)?.Degree == this._traitDegree.Degree;
 
 		public override void Randomize() =>
 			this._traitDegree = _legalTraitDegrees.RandomElement();

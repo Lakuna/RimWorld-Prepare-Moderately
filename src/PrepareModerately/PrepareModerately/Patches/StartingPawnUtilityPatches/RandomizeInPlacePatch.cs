@@ -40,7 +40,7 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 			}
 
 			PreOpenPatch.Instance.SelectPawn(Result);
-			if (IsActivelyRolling || (PawnFilter.Current?.Parts?.Count ?? 0) <= 0 || (PawnFilter.Current?.Matches(Result) ?? true)) {
+			if (IsActivelyRolling || PawnFilter.Current?.Parts is null || PawnFilter.Current.Parts.Count < 1 || PawnFilter.Current.Matches(Result)) {
 				return;
 			}
 

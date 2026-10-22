@@ -72,12 +72,12 @@
 	<PM.IsGender>is gender {0}</PM.IsGender>
 	<PM.IsPregnant>is pregnant</PM.IsPregnant>
 	<PM.IsSpecies>is a(n) {0}</PM.IsSpecies>
-	<PM.NoneOf>none of:</PM.NoneOf>
-	<PM.AllOf>all of:</PM.AllOf>
-	<PM.NotAllOf>not all of:</PM.NotAllOf>
-	<PM.AtLeastOneOf>at least one of:</PM.AtLeastOneOf>
-	<PM.ExactlyOneOf>exactly one of:</PM.ExactlyOneOf>
-	<PM.NameMatches>name matches "{0}"</PM.NameMatches>
+	<PM.NoneOf>is none of:</PM.NoneOf>
+	<PM.AllOf>is all of:</PM.AllOf>
+	<PM.NotAllOf>is not all of:</PM.NotAllOf>
+	<PM.AtLeastOneOf>is at least one of:</PM.AtLeastOneOf>
+	<PM.ExactlyOneOf>is exactly one of:</PM.ExactlyOneOf>
+	<PM.NameMatches>has a name matching "{0}"</PM.NameMatches>
 	<PM.HasChildhood>has childhood {0}</PM.HasChildhood>
 	<PM.HasAdulthood>has adulthood {0}</PM.HasAdulthood>
 	<PM.HasPossession>has possession {0}</PM.HasPossession>
@@ -92,4 +92,31 @@
 	<PM.HasSumOfSkills>has sum {0} of skills {1}</PM.HasSumOfSkills>
 	<PM.HasBetweenSumOfSkills>has sum between {0} and {1} of skills {2}</PM.HasBetweenSumOfSkills>
 	<PM.IsKind>is a(n) {0}</PM.IsKind>
+	<PM.Chronic>is chronic</PM.Chronic>
+	<PM.CountsAsAddedPartOrImplant>counts as added part or implant</PM.CountsAsAddedPartOrImplant>
+	<PM.IsAddiction>is an addiction</PM.IsAddiction>
+	<PM.IsBad>is bad</PM.IsBad>
+	<PM.IsPermanent>is permanent</PM.IsPermanent>
+	<PM.Pregnant>is pregnancy</PM.Pregnant>
+	<PM.PreventsPregnancy>prevents pregnancy</PM.PreventsPregnancy>
+	<PM.Tendable>is tendable</PM.Tendable>
+	<PM.MakesSickThought>makes sick thought</PM.MakesSickThought>
+	<PM.HasHediff>has a health difference</PM.HasHediff>
+	<PM.HasHediffToChemical>has a health difference to {0}</PM.HasHediffToChemical>
+	<PM.HasHediffWithConditions>has a health difference that {0}</PM.HasHediffWithConditions>
+	<PM.HasHediffWithConditionsToChemical>has a health difference that {0} to {1}</PM.HasHediffWithConditionsToChemical>
+	<PM.HasHediffOnPart>has a health difference on their {0}</PM.HasHediffOnPart>
+	<PM.HasHediffOnPartToChemical>has a health difference on their {0} to {1}</PM.HasHediffOnPartToChemical>
+	<PM.HasHediffOnPartWithConditions>has a health difference on their {0} that {1}</PM.HasHediffOnPartWithConditions>
+	<PM.HasHediffOnPartWithConditionsToChemical>has a health difference on their {0} with {1} to {2}</PM.HasHediffOnPartWithConditionsToChemical>
+	<PM.HasTypeHediff>has a(n) {0} health difference</PM.HasTypeHediff>
+	<PM.HasTypeHediffToChemical>has a(n) {0} health difference to {1}</PM.HasTypeHediffToChemical>
+	<PM.HasTypeHediffWithConditions>has a(n) {0} health difference that {1}</PM.HasTypeHediffWithConditions>
+	<PM.HasTypeHediffWithConditionsToChemical>has a(n) {0} health difference that {1} to {2}</PM.HasTypeHediffWithConditionsToChemical>
+	<PM.HasTypeHediffOnPart>has a(n) {0} health difference on their {1}</PM.HasTypeHediffOnPart>
+	<PM.HasTypeHediffOnPartToChemical>has a(n) {0} health difference on their {1} to {2}</PM.HasTypeHediffOnPartToChemical>
+	<PM.HasTypeHediffOnPartWithConditions>has a(n) {0} health difference on their {1} that {2}</PM.HasTypeHediffOnPartWithConditions>
+	<PM.HasTypeHediffOnPartWithConditionsToChemical>has a(n) {0} health difference on their {1} that {2} to {3}</PM.HasTypeHediffOnPartWithConditionsToChemical>
+	<PM.Any>any</PM.Any>
+	<PM.AddCondition>add condition</PM.AddCondition>
 </LanguageData>

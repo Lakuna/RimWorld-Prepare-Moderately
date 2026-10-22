@@ -150,7 +150,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 			int skillCount = Rand.Range(2, 5);
-
 			this._skills.Clear();
 			for (int i = 0; i < skillCount; i++) {
 				this._skills.Add(this._addableSkills.RandomElement());

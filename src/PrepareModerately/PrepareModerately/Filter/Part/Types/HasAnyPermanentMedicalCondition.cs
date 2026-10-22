@@ -1,3 +1,5 @@
+using System;
+
 #if !V1_0
 using Lakuna.PrepareModerately.Utility;
 #endif
@@ -5,6 +7,7 @@ using Lakuna.PrepareModerately.Utility;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
+	[Obsolete("Prefer HasHediff.")]
 	public sealed class HasAnyPermanentMedicalCondition : PawnFilterPart {
 		public override bool Matches(Pawn pawn) =>
 #if V1_0

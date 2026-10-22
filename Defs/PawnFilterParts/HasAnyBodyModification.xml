@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyBodyModification">
 		<defName>HasAnyBodyModification</defName>
 		<label>has any body modification</label>
-		<_category>Normal</_category>
+		<_category>Obsolete</_category>
 		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification</_filterPartClass>
 		<_maxUses>1</_maxUses>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>

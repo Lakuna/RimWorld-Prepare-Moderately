@@ -124,8 +124,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override bool Matches(Pawn pawn) =>
-			this._skill is null
-			|| pawn.skills?.GetSkill(this._skill)?.passion == this._passion;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this._skill != null
+#else
+			this._skill is not null
+#endif
+			&& pawn.skills?.GetSkill(this._skill)?.passion == this._passion;
 
 		public override void Randomize() {
 			this._passion = _allPassions.RandomElement();
