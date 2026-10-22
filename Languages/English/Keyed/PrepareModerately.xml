@@ -2,22 +2,19 @@
 
 <LanguageData>
 	<!-- UI -->
-	<PM.PrepareModerately>Prepare Moderately</PM.PrepareModerately>
+	<PM.PrepareModerately>prepare moderately</PM.PrepareModerately>
 	<PM.FilterSavePath>filter save path</PM.FilterSavePath>
 	<PM.RollSpeedMultiplierNumber>roll speed multiplier ({0})</PM.RollSpeedMultiplierNumber>
 	<PM.ChooseFilter>choose filter</PM.ChooseFilter>
 	<PM.FilterEditor>filter editor</PM.FilterEditor>
 	<PM.FilterPartError>one or more parts in this filter could not be loaded due to missing modded content</PM.FilterPartError>
 	<PM.FiltersCustom>custom</PM.FiltersCustom>
-	<PM.FilterSavePrompt>this filter has been edited.\n\nDo you want to save it before proceeding?</PM.FilterSavePrompt>
+	<PM.FilterSavePrompt>this filter has been edited.\n\ndo you want to save it before proceeding?</PM.FilterSavePrompt>
 	<PM.ClickOutsideToStop>click outside to stop</PM.ClickOutsideToStop>
-	<PM.Count>count</PM.Count>
-	<PM.Level>level</PM.Level>
 	<PM.RollingNumber>rolling ({0})</PM.RollingNumber>
 	<PM.Rolling>rolling</PM.Rolling>
 	<PM.Expand>expand</PM.Expand>
 	<PM.Collapse>collapse</PM.Collapse>
-	<PM.Hours>hours</PM.Hours>
 	<PM.TooManyOfFilterPart>too many of filter part</PM.TooManyOfFilterPart>
 	<PM.IncompatibleFilterPart>incompatible filter part</PM.IncompatibleFilterPart>
 	<PM.AddSkill>add skill</PM.AddSkill>
@@ -34,9 +31,19 @@
 	<PM.RandomizeSeed>randomize seed</PM.RandomizeSeed>
 	<PM.EditMode>edit mode</PM.EditMode>
 	<PM.AddPart>add part</PM.AddPart>
-	<PM.Days>days</PM.Days>
-	<PM.Collapse>collapse</PM.Collapse>
-	<PM.Expand>expand</PM.Expand>
+	<PM.UsingDefaultValue>using default value</PM.UsingDefaultValue>
+	<PM.None>none</PM.None>
+	<PM.Saving>saving</PM.Saving>
+	<PM.RangeTraits>{0} traits</PM.RangeTraits>
+	<PM.RangePassions>{0} passions</PM.RangePassions>
+	<PM.LevelRange>level {0}</PM.LevelRange>
+	<PM.RangeSkills>{0} skills</PM.RangeSkills>
+	<PM.RangeYears>{0} years</PM.RangeYears>
+	<PM.RangeDays>{0} days</PM.RangeDays>
+	<PM.RangeHours>{0} hours</PM.RangeHours>
+	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
+	<PM.FailedToGetFullInformationText>failed to get full information text</PM.FailedToGetFullInformationText>
+	<PM.PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PM.PrepareModeratelyEncounteredAnException>
 
 	<!-- Filter Part Summaries -->
 	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>
@@ -65,11 +72,11 @@
 	<PM.IsGender>is gender {0}</PM.IsGender>
 	<PM.IsPregnant>is pregnant</PM.IsPregnant>
 	<PM.IsSpecies>is a(n) {0}</PM.IsSpecies>
-	<PM.InvalidLogicGateType>invalid logic gate type</PM.InvalidLogicGateType>
-	<PM.NoneOf>none of ({0})</PM.NoneOf>
-	<PM.AllOf>all of ({0})</PM.AllOf>
-	<PM.AtLeastOneOf>at least one of ({0})</PM.AtLeastOneOf>
-	<PM.ExactlyOneOf>exactly one of ({0})</PM.ExactlyOneOf>
+	<PM.NoneOf>none of:</PM.NoneOf>
+	<PM.AllOf>all of:</PM.AllOf>
+	<PM.NotAllOf>not all of:</PM.NotAllOf>
+	<PM.AtLeastOneOf>at least one of:</PM.AtLeastOneOf>
+	<PM.ExactlyOneOf>exactly one of:</PM.ExactlyOneOf>
 	<PM.NameMatches>name matches "{0}"</PM.NameMatches>
 	<PM.HasChildhood>has childhood {0}</PM.HasChildhood>
 	<PM.HasAdulthood>has adulthood {0}</PM.HasAdulthood>
@@ -85,9 +92,4 @@
 	<PM.HasSumOfSkills>has sum {0} of skills {1}</PM.HasSumOfSkills>
 	<PM.HasBetweenSumOfSkills>has sum between {0} and {1} of skills {2}</PM.HasBetweenSumOfSkills>
 	<PM.IsKind>is a(n) {0}</PM.IsKind>
-
-	<!-- Exceptions and Handling -->
-	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
-	<PM.FailedToGetFullInformationText>failed to get full information text</PM.FailedToGetFullInformationText>
-	<PM.PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PM.PrepareModeratelyEncounteredAnException>
 </LanguageData>

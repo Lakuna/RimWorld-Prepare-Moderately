@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasFavoriteColor">
 		<defName>HasFavoriteColor</defName>
 		<label>has favorite color</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasFavoriteColor</filterPartClass>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasFavoriteColor</_filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

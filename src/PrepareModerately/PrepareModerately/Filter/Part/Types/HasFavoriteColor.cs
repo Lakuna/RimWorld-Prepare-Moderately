@@ -1,9 +1,9 @@
 #if !(V1_0 || V1_1 || V1_2)
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -12,62 +12,86 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasFavoriteColor : PawnFilterPart {
-#pragma warning restore CA1812
-		private static IEnumerable<ColorDef> _legalFavoriteColors =>
+	public sealed class HasFavoriteColor : PawnFilterPart {
+		private static IEnumerable<ColorDef> _legalColors =>
 #if V1_3
-			DefDatabase<ColorDef>.AllDefs;
+			DefDatabase<ColorDef>.AllDefs ?? new List<ColorDef>();
+#elif V1_4 || V1_5 || V1_6
+			DefDatabase<ColorDef>.AllDefs?.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc) ?? new List<ColorDef>();
 #else
-			DefDatabase<ColorDef>.AllDefs.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc);
+			DefDatabase<ColorDef>.AllDefs?.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc) ?? [];
 #endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private ColorDef color;
-#pragma warning restore IDE1006
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._color is null) {
+					yield return "Has favorite color filter part color is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._color is null;
+
+#if V1_3 || V1_4 || V1_5 || V1_6
+		private ColorDef _color;
+#else
+		private ColorDef? _color;
+#endif
 
 		private static string ColorToHex(Color color) =>
 			$"#{(int)(color.r * 0xff):X2}{(int)(color.g * 0xff):X2}{(int)(color.b * 0xff):X2}";
 
+#if V1_3 || V1_4 || V1_5 || V1_6
 		private static string LabelFor(ColorDef def) =>
-			(def?.LabelCap.NullOrEmpty() ?? true) ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).CapitalizeFirst()
-			: def.LabelCap;
+			def?.color is null ? "PM.UnnamedColor".Translate().StringSafe()
+			: def.label.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).StringSafe()
+			: def.label;
+#else
+		private static string LabelFor(ColorDef? def) =>
+			def?.color is null ? "PM.UnnamedColor".Translate().StringSafe
+			: def.label.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).StringSafe
+			: def.label;
+#endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+			if (Widgets.ButtonText(rect, LabelFor(this._color))) {
+				FloatMenuUtility.MakeMenu(
+					_legalColors.OrderBy((def) => def.label),
+					(def) => LabelFor(def),
+					(def) => () => this._color = def);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.color, nameof(this.color));
+			Scribe_Defs.Look(ref this._color, "color");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._color?.GetHashCode() ?? 0);
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, LabelFor(this.color))) {
-				FloatMenuUtility.MakeMenu(_legalFavoriteColors.OrderBy((def) => def.label),
-					LabelFor,
-					(def) => () => this.color = def);
-			}
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+		public override bool Matches(Pawn pawn) =>
 #if V1_3 || V1_4 || V1_5
-			: pawn.story.favoriteColor == this.color.color;
+			pawn.story?.favoriteColor == this._color.color;
 #else
-			: pawn.story.favoriteColor == this.color;
+			pawn.story?.favoriteColor == this._color;
 #endif
 
-		internal override void Randomize() =>
-			this.color = _legalFavoriteColors.RandomElement();
+		public override void Randomize() =>
+			this._color = _legalColors.RandomElement();
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasFavoriteColor".Translate(LabelFor(this.color));
+		public override string Summary(PawnFilter filter) =>
+#if V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasFavoriteColor".Translate(LabelFor(this._color)).StringSafe();
+#else
+			"PM.HasFavoriteColor".Translate(LabelFor(this._color)).StringSafe;
+#endif
 	}
 }
 #endif

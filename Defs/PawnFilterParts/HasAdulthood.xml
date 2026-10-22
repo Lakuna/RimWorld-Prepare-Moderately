@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAdulthood">
 		<defName>HasAdulthood</defName>
 		<label>has adulthood</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAdulthood</filterPartClass>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAdulthood</_filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

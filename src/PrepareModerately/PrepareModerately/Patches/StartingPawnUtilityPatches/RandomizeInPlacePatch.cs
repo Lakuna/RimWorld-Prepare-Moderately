@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Reflection;
 
 #if V1_0
@@ -10,33 +9,53 @@ using HarmonyLib;
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches;
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.RandomizeInPlace))]
-	internal static class RandomizeInPlacePatch {
-		internal static bool _isActivelyRolling;
+	public static class RandomizeInPlacePatch {
+		public static bool IsActivelyRolling {
+			get; set;
+		}
 
-		internal static Pawn _result;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static Pawn Result {
+#else
+		public static Pawn? Result {
+#endif
+			get; set;
+		}
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.
-		private static void Postfix(Pawn __result, MethodBase __originalMethod) {
-#pragma warning restore CA1707, IDE1006
-			_result = __result;
-			PreOpenPatch._instance.SelectPawn(_result);
-			if (_isActivelyRolling || PawnFilter._current is null || !PawnFilter._current.parts.Any() || PawnFilter._current.Matches(_result)) {
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Pawn __result, MethodBase __originalMethod) {
+#pragma warning restore IDE1006
+			Result = __result;
+
+			if (PreOpenPatch.Instance is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to select pawn on null page.");
+				return;
+			}
+
+			PreOpenPatch.Instance.SelectPawn(Result);
+			if (IsActivelyRolling || (PawnFilter.Current?.Parts?.Count ?? 0) <= 0 || (PawnFilter.Current?.Matches(Result) ?? true)) {
+				return;
+			}
+
+			if (Find.WindowStack is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to add window to null stack.");
 				return;
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, new object[] { _result })));
+			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, new object[] { Result })));
 #else
-			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, [_result])));
+			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, [Result])));
 #endif
 
-			_isActivelyRolling = true;
+			IsActivelyRolling = true;
 		}
 	}
 }

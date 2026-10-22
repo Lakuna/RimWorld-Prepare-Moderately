@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Filter;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using Verse.Sound;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.Page_SelectScenario`.
 	[StaticConstructorOnStartup]
-	internal sealed class SelectPawnFilterPage : Page {
+	public sealed class SelectPawnFilterPage : Page {
 		private const float _extraScrollHeight = 250;
 
 		private const float _filterListEntryHeight = 68;
@@ -39,18 +39,24 @@ namespace Lakuna.PrepareModerately.Ui {
 		private static readonly Color _minorTextColor = new(1, 1, 1, 0.5f);
 #endif
 
-#if !(V1_0 || V1_1 || V1_2)
 		private const float _tinyFontCorrectionMargin = 6;
-#endif
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 		private const float _warningIconMargin = 3;
-#endif
 
 		public override string PageTitle =>
-			"PM.ChooseFilter".Translate().CapitalizeFirst();
+#if V1_0
+			"PM.ChooseFilter".Translate()?.CapitalizeFirstSafe() ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.ChooseFilter".Translate().CapitalizeFirst().StringSafe();
+#else
+			"PM.ChooseFilter".Translate().CapitalizeFirst().StringSafe;
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private PawnFilter _filter;
+#else
+		private PawnFilter? _filter;
+#endif
 
 		private Vector2 _filtersScrollPosition;
 
@@ -58,20 +64,25 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private float _totalFilterListHeight;
 
-		internal SelectPawnFilterPage() {
-			this._infoScrollPosition = Vector2.zero;
-			this._filtersScrollPosition = Vector2.zero;
-		}
+		public static void BeginFilterConfiguration(PawnFilter filter) {
+			if (filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to begin filter configuration with null filter.");
+				return;
+			}
 
-		internal static void BeginFilterConfiguration(PawnFilter filter) {
-			PawnFilter._current = filter;
-			PawnFilter._current?.PreConfigure();
+			PawnFilter.Current = filter;
+			PawnFilter.Current.PreConfigure();
 		}
 
 		public override void DoWindowContents(Rect inRect) {
+			if (this._filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw select pawn filter page with null selected filter.");
+				return;
+			}
+
 			this.DrawPageTitle(inRect);
 
-			Rect mainRect = this.GetMainRect(inRect);
+			Rect mainRect = this.GetMainRect(inRect).Rounded();
 #if V1_0 || V1_1 || V1_2
 			GUI.BeginGroup(mainRect);
 #else
@@ -92,7 +103,13 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.EndGroup();
 #endif
 
-			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst(), this.GoToFilterEditor);
+#if V1_0
+			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate()?.CapitalizeFirstSafe() ?? "null", this.GoToFilterEditor);
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst().StringSafe(), this.GoToFilterEditor);
+#else
+			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst().StringSafe, this.GoToFilterEditor);
+#endif
 		}
 
 		public override void PreOpen() {
@@ -102,13 +119,33 @@ namespace Lakuna.PrepareModerately.Ui {
 			this.EnsureValidSelection();
 		}
 
-		internal void NotifyFilterListChanged() {
-			this._filter = PawnFilterLister._all.FirstOrDefault((filter) => filter.GetHashCode() == this._filter.GetHashCode());
+		public void NotifyFilterListChanged() {
+			if (this._filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Notified of filter list change with null selected filter.");
+				return;
+			}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			PawnFilter filter = PawnFilterLister.All.FirstOrDefault();
+#else
+			PawnFilter? filter = PawnFilterLister.All.FirstOrDefault();
+#endif
+			if (filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Unable to locate filter when filter list changed.");
+				return;
+			}
+
+			this._filter = filter;
 			this.EnsureValidSelection();
 		}
 
 		protected override bool CanDoNext() {
-			if (!base.CanDoNext() || this._filter is null) {
+			if (!base.CanDoNext()) {
+				return false;
+			}
+
+			if (this._filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to check if it was possible to proceed to the next page with null selected filter.");
 				return false;
 			}
 
@@ -117,23 +154,33 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		private void DoFilterListEntry(Rect rect, PawnFilter filter) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw list entry of null filter.");
+				return;
 			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
 
-			if (!filter._valid) {
+			if (Find.WindowStack is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to add to null window stack.");
+				return;
+			}
+
+			if (Textures.Delete is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null delete texture.");
+				return;
+			}
+
+			if (Textures.Warning is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null warning texture.");
+				return;
+			}
+
+			if (!filter.Valid) {
 #if V1_0
-				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.");
+				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate()?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null");
 #elif V1_1 || V1_2
-				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.".Colorize(ColorLibrary.Red));
-#elif V1_3 || V1_4
-				TooltipHandler.TipRegion(rect, $"{"PM.FilterPartError".Translate().CapitalizeFirst()}.".Colorize(ColorLibrary.RedReadable));
+				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().StringSafe().Colorize(ColorLibrary.Red) ?? "null");
 #else
-				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColorLibrary.RedReadable));
+				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColorLibrary.RedReadable) ?? "null");
 #endif
 			}
 
@@ -144,8 +191,9 @@ namespace Lakuna.PrepareModerately.Ui {
 			Rect innerRect = rect.ContractedBy(_filterListEntryPadding).Rounded();
 
 			Text.Font = GameFont.Small;
-			Rect filterNameRect = new Rect(innerRect.x, innerRect.y, innerRect.width, Text.CalcHeight(filter.name, innerRect.width)).Rounded();
-			Widgets.Label(filterNameRect, filter.name);
+			string name = filter.Name ?? "null";
+			Rect filterNameRect = new Rect(innerRect.x, innerRect.y, innerRect.width, Text.CalcHeight(name, innerRect.width)).Rounded();
+			Widgets.Label(filterNameRect, name);
 
 			Text.Font = GameFont.Tiny;
 			Rect filterSummaryRect = new Rect(innerRect.x, filterNameRect.yMax, innerRect.width, innerRect.height - filterNameRect.height).Rounded();
@@ -155,9 +203,9 @@ namespace Lakuna.PrepareModerately.Ui {
 				filterSummaryRect.height += _tinyFontCorrectionMargin;
 			}
 #endif
-			Widgets.Label(filterSummaryRect, filter.summary);
+			Widgets.Label(filterSummaryRect, filter.Summary ?? "null");
 
-			if (!filter._enabled) {
+			if (!filter.Enabled) {
 				return;
 			}
 
@@ -167,27 +215,43 @@ namespace Lakuna.PrepareModerately.Ui {
 			WidgetRow widgetRow = new(rect.xMax, rect.y, UIDirection.LeftThenDown);
 #endif
 
-			if (filter._canEdit && widgetRow.ButtonIcon(Textures._delete, "PM.Delete".Translate().CapitalizeFirst(), GenUI.SubtleMouseoverColor)) {
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter._file.Name).CapitalizeFirst(), () => {
-					filter._file.Delete();
+#if V1_0
+			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate()?.CapitalizeFirstSafe() ?? "null", GenUI.SubtleMouseoverColor)) {
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe(), GenUI.SubtleMouseoverColor)) {
+#else
+			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe, GenUI.SubtleMouseoverColor)) {
+#endif
+				if (filter.File is null) {
+					PrepareModeratelyLogger.LogErrorMessage("Attempted to delete null file.");
+					return;
+				}
+
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter.File.Name).CapitalizeFirst(), () => {
+					filter.File.Delete();
 					PawnFilterLister.MarkDirty();
 				}, true));
 			}
 
-			if (!filter._valid) {
+			if (!filter.Valid) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				widgetRow.Icon(Textures._warning);
+				_ = widgetRow.Icon(Textures.Warning);
 #else
-				widgetRow.Icon(Textures._warning, null, _warningIconMargin);
+				_ = widgetRow.Icon(Textures.Warning, null, _warningIconMargin);
 #endif
 			}
 
 			if (!currentFilterIsSelected && Widgets.ButtonInvisible(rect)) {
-				SoundDefOf.Click.PlayOneShotOnCamera();
-				if (filter._valid) {
+				SoundDefOf.Click?.PlayOneShotOnCamera();
+				if (filter.Valid) {
 					this._filter = filter;
 				} else {
-					PreLoadUtility.CheckVersionAndLoad(filter._file.FullName, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, () => {
+					if (filter.File is null) {
+						PrepareModeratelyLogger.LogErrorMessage("Attempted to load null file.");
+						return;
+					}
+
+					PreLoadUtility.CheckVersionAndLoad(filter.File.FullName, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, () => {
 						this._filter = filter;
 					});
 				}
@@ -201,14 +265,12 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Rect listingRect = new Rect(0, 0, scrollViewRect.width, _filterListHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Listing_Standard listing = new Listing_Standard {
-				ColumnWidth = scrollViewRect.width
-			};
+			Listing_Standard listing = new Listing_Standard() {
 #else
 			Listing_Standard listing = new() {
+#endif
 				ColumnWidth = scrollViewRect.width
 			};
-#endif
 			listing.Begin(listingRect);
 
 			Text.Font = GameFont.Small;
@@ -232,48 +294,62 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void EnsureValidSelection() {
 			if (this._filter is null || !PawnFilterLister.FilterIsListedAnywhere(this._filter)) {
-				this._filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).FirstOrDefault();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				PawnFilter filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).First();
+#else
+				PawnFilter? filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).First();
+#endif
+				if (filter is null) {
+					PrepareModeratelyLogger.LogErrorMessage("Unable to find any valid filter when ensuring valid filter selection.");
+					return;
+				}
+
+				this._filter = filter;
 			}
 		}
 
 		private void GoToFilterEditor() {
+			if (this._filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to go to filter editor with null selected filter.");
+				return;
+			}
+
+			if (Find.WindowStack is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to add filter editor to null window stack.");
+				return;
+			}
+
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(this._filter._canEdit ? this._filter : this._filter._copyForEditing) {
-				prev = this,
-				next = this.next // Go back to the configure starting pawns page.
-			};
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing) {
 #else
-			PawnFilterEditorPage pawnFilterEditorPage = new(this._filter._canEdit ? this._filter : this._filter._copyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing) {
+#endif
 				prev = this,
 				next = this.next // Go back to the configure starting pawns page.
 			};
-#endif
 			Find.WindowStack.Add(pawnFilterEditorPage);
 			this.Close();
 		}
 
 		private void ListFiltersOnListing(Listing_Standard listing, IEnumerable<PawnFilter> filters) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to list filters on null listing.");
+				return;
 			}
 
 			if (filters is null) {
-				throw new ArgumentNullException(nameof(filters));
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to list null filters on listing.");
+				return;
 			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-			ArgumentNullException.ThrowIfNull(filters);
-#endif
 
 			bool anyFilter = false;
 			foreach (PawnFilter filter in filters) {
-				if (filter._showInUi) {
+				if (filter.ShowInUi) {
 					if (anyFilter) {
 						listing.Gap(_filterListGap);
 					}
 
-					this.DoFilterListEntry(listing.GetRect(_filterListEntryHeight).ContractedBy(_filterListEntryPadding), filter);
+					this.DoFilterListEntry(listing.GetRect(_filterListEntryHeight).ContractedBy(_filterListEntryPadding).Rounded(), filter);
 					anyFilter = true;
 				}
 			}
@@ -281,9 +357,9 @@ namespace Lakuna.PrepareModerately.Ui {
 			if (!anyFilter) {
 				GUI.color = _minorTextColor;
 #if V1_0
-				listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
+				listing.Label($"({"PM.None".Translate().CapitalizeFirst()})");
 #else
-				_ = listing.Label($"({"NoneLower".Translate()})".CapitalizeFirst());
+				_ = listing.Label($"({"PM.None".Translate().CapitalizeFirst()})");
 #endif
 				GUI.color = Color.white;
 			}

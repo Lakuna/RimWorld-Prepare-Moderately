@@ -2,20 +2,20 @@
 
 <Patch>
 	<Operation Class="PatchOperationInsert">
-		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/filter/parts/li[def="LogicGate" and type="Not"]/innerFilter/parts/li[last()]</xpath>
+		<xpath>/Defs/Lakuna.PrepareModerately.Filter.PawnFilterDef[defName="Basic"]/_filter/_parts/li[_def="LogicGate" and _type="Not"]/_innerFilter/_parts/li[last()]</xpath>
 		<order>Append</order>
 		<value>
 			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-				<def>HasTrait</def>
-				<traitDegreePair>
-					<trait>SlowLearner</trait>
-				</traitDegreePair>
+				<_def>HasTrait</_def>
+				<_traitDegree>
+					<_trait>SlowLearner</_trait>
+				</_traitDegree>
 			</li>
 			<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-				<def>HasTrait</def>
-				<traitDegreePair>
-					<trait>TorturedArtist</trait>
-				</traitDegreePair>
+				<_def>HasTrait</_def>
+				<_traitDegree>
+					<_trait>TorturedArtist</_trait>
+				</_traitDegree>
 			</li>
 		</value>
 	</Operation>

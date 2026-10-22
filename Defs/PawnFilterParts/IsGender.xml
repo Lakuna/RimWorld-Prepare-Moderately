@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsGender">
 		<defName>IsGender</defName>
 		<label>is gender</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsGender</filterPartClass>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsGender</_filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

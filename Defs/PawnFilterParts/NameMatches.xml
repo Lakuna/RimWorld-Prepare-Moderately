@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="NameMatches">
 		<defName>NameMatches</defName>
 		<label>name matches</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.NameMatches</filterPartClass>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.NameMatches</_filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

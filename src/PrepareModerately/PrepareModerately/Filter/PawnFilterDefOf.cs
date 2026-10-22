@@ -3,14 +3,24 @@ using RimWorld;
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDefOf`.
 	[DefOf]
-	internal static class PawnFilterDefOf {
-#pragma warning disable CS0649, IDE1006 // `DefOf` relies on static fields with names matching XML definitions.
-		internal static readonly PawnFilterDef Basic;
+	public static class PawnFilterDefOf {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterDef Basic;
+#else
+		public static readonly PawnFilterDef? Basic;
+#endif
 
-		internal static readonly PawnFilterDef Empty;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterDef Empty;
+#else
+		public static readonly PawnFilterDef? Empty;
+#endif
 
-		internal static readonly PawnFilterDef Minimal;
-#pragma warning restore CS0649, IDE1006
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterDef Minimal;
+#else
+		public static readonly PawnFilterDef? Minimal;
+#endif
 
 		static PawnFilterDefOf() =>
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterDefOf));

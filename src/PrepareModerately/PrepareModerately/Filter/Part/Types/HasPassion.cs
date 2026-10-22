@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -11,94 +12,133 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasPassion : PawnFilterPart {
-#pragma warning restore CA1812
-		private static IEnumerable<Passion> _legalPassions =>
+	public sealed class HasPassion : PawnFilterPart {
+		private static IEnumerable<Passion> _allPassions =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Passion)).OfType<Passion>();
 #else
 			Enum.GetValues<Passion>().OfType<Passion>();
 #endif
 
-		private static IEnumerable<SkillDef> _legalSkills =>
-			DefDatabase<SkillDef>.AllDefs;
+		private static IEnumerable<SkillDef> _allSkills =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<SkillDef>.AllDefs ?? new List<SkillDef>();
+#else
+			DefDatabase<SkillDef>.AllDefs ?? [];
+#endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private Passion passion;
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
 
-		private SkillDef skill;
-#pragma warning restore IDE1006
+				if (this._skill is null) {
+					yield return "Has skill filter part skill is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._skill is null;
+
+		private Passion _passion;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private SkillDef _skill;
+#else
+		private SkillDef? _skill;
+#endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static bool PassionIsPossibleWithModifier(Passion passion, PassionMod.PassionModType modifier) =>
-			modifier == PassionMod.PassionModType.AddOneLevel ? passion != Passion.None
-			: modifier != PassionMod.PassionModType.DropAll || passion == Passion.None;
+			(modifier == PassionMod.PassionModType.AddOneLevel) ? (passion != Passion.None)
+			: (modifier != PassionMod.PassionModType.DropAll || passion == Passion.None);
 #endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight).Rounded();
+
+			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
+#if V1_0
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap ?? "null")) {
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe() ?? "null")) {
+#else
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe ?? "null")) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_allSkills.OrderBy((def) => def.label),
+#if V1_0
+					(def) => def.LabelCap ?? "null",
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => def.LabelCap.StringSafe(),
+#else
+					(def) => def.LabelCap.StringSafe,
+#endif
+					(def) => () => this._skill = def);
+			}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe)) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_allPassions.OrderBy((passion) => passion.ToString()),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(passion) => passion.ToString().CapitalizeFirstSafe(),
+#else
+					(passion) => passion.ToString().CapitalizeFirstSafe,
+#endif
+					(passion) => () => this._passion = passion);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.passion, nameof(this.passion));
-			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
+			Scribe_Values.Look(ref this._passion, "passion");
+			Scribe_Defs.Look(ref this._skill, "skill");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ this._passion.GetHashCode() ^ (this._skill?.GetHashCode() ?? 0);
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-#else
-			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
-#endif
-			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(_legalSkills.OrderBy((def) => def.label),
-					(def) => def.LabelCap,
-					(def) => () => this.skill = def);
-			}
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect passionRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-#else
-			Rect passionRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-#endif
-			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalPassions.OrderBy((passion) => passion.ToString()),
-					(passion) => passion.ToString().CapitalizeFirst(),
-					(passion) => () => this.passion = passion);
-			}
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
 #if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.skills.GetSkill(this.skill).passion == this.passion;
+#elif V1_4 || V1_5 || V1_6
+		public override bool IgnoreFor(Pawn pawn) =>
+			base.IgnoreFor(pawn)
+			|| this._skill is null
+			|| (pawn.genes?.GenesListForReading?.Any((gene) =>
+				gene?.def?.passionMod != null
+				&& gene.def.passionMod.skill == this._skill
+				&& !PassionIsPossibleWithModifier(this._passion, gene.def.passionMod.modType)) ?? false);
 #else
-			: pawn.skills.GetSkill(this.skill).passion == this.passion
-				|| pawn.genes.GenesListForReading.Any((gene) => gene.def.passionMod != null && gene.def.passionMod.skill == this.skill && !PassionIsPossibleWithModifier(this.passion, gene.def.passionMod.modType));
+		public override bool IgnoreFor(Pawn pawn) =>
+			base.IgnoreFor(pawn)
+			|| this._skill is null
+			|| (pawn.genes?.GenesListForReading?.Any((gene) =>
+				gene?.def?.passionMod is not null
+				&& gene.def.passionMod.skill == this._skill
+				&& !PassionIsPossibleWithModifier(this._passion, gene.def.passionMod.modType)) ?? false);
 #endif
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		// Override NOT gate functionality to disregard the gene override.
-		internal override bool NotMatches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.skills.GetSkill(this.skill).passion != this.passion
-				|| this.passion == Passion.None && pawn.genes.GenesListForReading.Any((gene) => gene.def.passionMod != null && gene.def.passionMod.skill == this.skill && !PassionIsPossibleWithModifier(Passion.Minor, gene.def.passionMod.modType));
-#endif
+		public override bool Matches(Pawn pawn) =>
+			this._skill is null
+			|| pawn.skills?.GetSkill(this._skill)?.passion == this._passion;
 
-		internal override void Randomize() {
-			this.passion = _legalPassions.RandomElement();
-			this.skill = _legalSkills.RandomElement();
+		public override void Randomize() {
+			this._passion = _allPassions.RandomElement();
+			this._skill = _allSkills.RandomElement();
 		}
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasPassionForSkill".Translate(this.passion.ToString(), this.skill.ToString());
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null") ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null").StringSafe();
+#else
+			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null").StringSafe;
+#endif
 	}
 }

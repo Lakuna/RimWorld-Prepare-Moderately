@@ -18,7 +18,7 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.DoWindowContents))]
-	internal static class DoWindowContentsPatch {
+	public static class DoWindowContentsPatch {
 		private const float _buttonHeight = 30;
 
 		private const float _buttonWidth = 150;
@@ -26,33 +26,43 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 		private const float _buttonY = 45;
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707, IDE1006 // Underscores are required for special Harmony parameters.
-		private static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
-#pragma warning restore CA1707, IDE1006
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(new Rect((rect.x + rect.width) / 2 - _buttonWidth / 2, rect.y - _buttonY, _buttonWidth, _buttonHeight), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Rect rect, Page_ConfigureStartingPawns __instance) {
+#pragma warning restore IDE1006
+			if (Widgets.ButtonText(
+				new Rect((rect.x + rect.width) / 2 - _buttonWidth / 2, rect.y - _buttonY, _buttonWidth, _buttonHeight).Rounded(),
+#if V1_0
+				"PM.PrepareModerately".Translate().CapitalizeAsTitleSafe())) {
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				"PM.PrepareModerately".Translate().StringSafe().CapitalizeAsTitleSafe())) {
 #else
-			if (Widgets.ButtonText(new((rect.x + rect.width) / 2 - _buttonWidth / 2, rect.y - _buttonY, _buttonWidth, _buttonHeight), "PM.PrepareModerately".Translate().CapitalizeFirst())) {
+				"PM.PrepareModerately".Translate().StringSafe.CapitalizeAsTitleSafe)) {
 #endif
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					SelectPawnFilterPage page = new SelectPawnFilterPage {
-						prev = __instance,
-						next = __instance
-					};
+					SelectPawnFilterPage page = new SelectPawnFilterPage() {
 #else
 					SelectPawnFilterPage page = new() {
+#endif
 						prev = __instance,
 						next = __instance
 					};
-#endif
+
+					if (Find.WindowStack is null) {
+						PrepareModeratelyLogger.LogErrorMessage("Attempted to add window to null stack.");
+						return;
+					}
+
 					Find.WindowStack.Add(page);
-#pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 				} catch (Exception e) {
-#pragma warning restore CA1031
-					SoundDefOf.ClickReject.PlayOneShotOnCamera();
-					Find.WindowStack.Add(new ExceptionDialog(e));
+					SoundDefOf.ClickReject?.PlayOneShotOnCamera();
+					if (Find.WindowStack is null) {
+						PrepareModeratelyLogger.LogErrorMessage("Attempted to add window to null stack.");
+					} else {
+						Find.WindowStack.Add(new ExceptionDialog(e));
+					}
 					PrepareModeratelyLogger.LogException(e, "Failed to initialize.");
+					throw;
 				}
 			}
 		}

@@ -3,22 +3,33 @@ using Lakuna.PrepareModerately.Filter;
 using Verse;
 
 namespace Lakuna.PrepareModerately {
-	internal sealed class PrepareModeratelySettings : ModSettings {
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		internal string filterSavePath;
-
-		internal float rollSpeedMultiplier;
-#pragma warning restore CA1051, IDE1006
-
-		public PrepareModeratelySettings() {
-			this.filterSavePath = PawnFilterFilePaths._defaultDataPath;
-			this.rollSpeedMultiplier = 1;
+	public sealed class PrepareModeratelySettings : ModSettings {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public string FilterSavePath {
+#else
+		public string? FilterSavePath {
+#endif
+			get => this._filterSavePath;
+			set => this._filterSavePath = value;
 		}
+
+		public float RollSpeedMultiplier {
+			get => this._rollSpeedMultiplier;
+			set => this._rollSpeedMultiplier = value;
+		}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private string _filterSavePath = PawnFilterFilePaths.DefaultDataPath;
+#else
+		private string? _filterSavePath = PawnFilterFilePaths.DefaultDataPath;
+#endif
+
+		private float _rollSpeedMultiplier = 1;
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.filterSavePath, nameof(this.filterSavePath));
-			Scribe_Values.Look(ref this.rollSpeedMultiplier, nameof(this.rollSpeedMultiplier));
+			Scribe_Values.Look(ref this._filterSavePath, "filterSavePath");
+			Scribe_Values.Look(ref this._rollSpeedMultiplier, "rollSpeedMultiplier");
 		}
 	}
 }

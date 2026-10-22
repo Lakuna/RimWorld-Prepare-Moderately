@@ -4,7 +4,7 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="IsKind">
 		<defName>IsKind</defName>
 		<label>is kind</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsKind</filterPartClass>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.IsKind</_filterPartClass>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

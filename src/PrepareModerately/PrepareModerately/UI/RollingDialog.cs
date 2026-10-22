@@ -2,6 +2,7 @@ using System;
 
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -10,7 +11,7 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
-	internal sealed class RollingDialog : Page {
+	public sealed class RollingDialog : Page {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static readonly Vector2 _size = new Vector2(450, 150);
 #else
@@ -21,13 +22,19 @@ namespace Lakuna.PrepareModerately.Ui {
 			_size;
 
 		public override string PageTitle =>
-			"PM.Rolling".Translate().CapitalizeFirst();
+#if V1_0
+			"PM.Rolling".Translate()?.CapitalizeFirstSafe() ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.Rolling".Translate().CapitalizeFirst().StringSafe();
+#else
+			"PM.Rolling".Translate().CapitalizeFirst().StringSafe;
+#endif
 
 		private int _iterations; // Will always be off by one (the "vanilla" iteration), but this should cause less confusion for the user.
 
 		private readonly Action _rollAction;
 
-		internal RollingDialog(Action rollAction) {
+		public RollingDialog(Action rollAction) {
 			this.closeOnClickedOutside = true;
 			this._rollAction = rollAction;
 		}
@@ -37,8 +44,14 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.Label(inRect, $"{"PM.RollingNumber".Translate(this._iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}");
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.
 
-			for (int i = 0; i < PrepareModeratelyMod._settings.rollSpeedMultiplier; i++) {
-				if (PawnFilter._current.Matches(RandomizeInPlacePatch._result)) {
+			if (RandomizeInPlacePatch.Result is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to check filter against null pawn.");
+				this.Close();
+				return;
+			}
+
+			for (int i = 0; i < (PrepareModeratelyMod.Settings?.RollSpeedMultiplier ?? 1); i++) {
+				if (PawnFilter.Current?.Matches(RandomizeInPlacePatch.Result) ?? true) {
 					this.Close();
 					return;
 				}
@@ -49,8 +62,8 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		public override void PreClose() {
-			RandomizeInPlacePatch._isActivelyRolling = false;
 			base.PreClose();
+			RandomizeInPlacePatch.IsActivelyRolling = false;
 		}
 	}
 }

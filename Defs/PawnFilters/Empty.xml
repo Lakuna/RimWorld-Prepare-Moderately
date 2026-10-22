@@ -4,10 +4,10 @@
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Empty">
 		<defName>Empty</defName>
 		<label>empty</label>
-		<filter>
-			<name>Empty</name>
-			<summary>An empty filter. Does not affect colonist generation.</summary>
-			<description>This filter does not filter out any colonists, leaving you with the vanilla colonist generation experience.</description>
-		</filter>
+		<_filter>
+			<_name>Empty</_name>
+			<_summary>An empty filter. Does not affect colonist generation.</_summary>
+			<_description>This filter does not filter out any colonists, leaving you with the vanilla colonist generation experience.</_description>
+		</_filter>
 	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 </Defs>

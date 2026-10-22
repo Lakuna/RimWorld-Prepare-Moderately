@@ -4,218 +4,218 @@
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Basic">
 		<defName>Basic</defName>
 		<label>basic</label>
-		<filter>
-			<name>Basic</name>
-			<summary>A basic filter. Filters out colonists with any undesirable properties.</summary>
-			<description>Filters out colonists with addictions, permanent injuries, or strictly negative traits, and those that are incapable of certain tasks, incapable of self defense, too young, or too old.</description>
-			<parts>
+		<_filter>
+			<_name>Basic</_name>
+			<_summary>A basic filter. Filters out colonists with any undesirable properties.</_summary>
+			<_description>Filters out colonists with addictions, permanent injuries, or strictly negative traits, and those that are incapable of certain tasks, incapable of self defense, too young, or too old.</_description>
+			<_parts>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
-					<def>LogicGate</def>
-					<type>Not</type>
-					<innerFilter>
-						<name>Inner filter</name>
-						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
-						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
-						<parts>
+					<_def>LogicGate</_def>
+					<_type>Not</_type>
+					<_innerFilter>
+						<_name>Inner Filter</_name>
+						<_summary>If you are seeing this summary in the UI, something has gone wrong.</_summary>
+						<_description>This filter exists inside of a logic gate. It is part of another filter.</_description>
+						<_parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction">
-								<def>HasAnyAddiction</def>
+								<_def>HasAnyAddiction</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification">
-								<def>HasAnyBodyModification</def>
+								<_def>HasAnyBodyModification</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyMissingBodyPart">
-								<def>HasAnyMissingBodyPart</def>
+								<_def>HasAnyMissingBodyPart</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
-								<def>HasAnyPermanentMedicalCondition</def>
+								<_def>HasAnyPermanentMedicalCondition</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyScar">
-								<def>HasAnyScar</def>
+								<_def>HasAnyScar</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Abrasive</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Abrasive</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Greedy</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Greedy</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Jealous</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Jealous</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>AnnoyingVoice</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>AnnoyingVoice</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>CreepyBreathing</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>CreepyBreathing</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Pyromaniac</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Pyromaniac</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Wimp</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Wimp</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>BodyPurist</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>BodyPurist</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>DislikesMen</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>DislikesMen</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>DislikesWomen</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>DislikesWomen</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Gourmand</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Gourmand</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>SpeedOffset</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>SpeedOffset</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>DrugDesire</trait>
-									<degree>2</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>DrugDesire</_trait>
+									<_degree>2</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>DrugDesire</trait>
-									<degree>1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>DrugDesire</_trait>
+									<_degree>1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>NaturalMood</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>NaturalMood</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>NaturalMood</trait>
-									<degree>-2</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>NaturalMood</_trait>
+									<_degree>-2</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Nerves</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Nerves</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Nerves</trait>
-									<degree>-2</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Nerves</_trait>
+									<_degree>-2</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Industriousness</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Industriousness</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Industriousness</trait>
-									<degree>-2</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Industriousness</_trait>
+									<_degree>-2</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Beauty</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Beauty</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Beauty</trait>
-									<degree>-2</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Beauty</_trait>
+									<_degree>-2</_degree>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Immunity</trait>
-									<degree>-1</degree>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Immunity</_trait>
+									<_degree>-1</_degree>
+								</_traitDegree>
 							</li>
-						</parts>
-					</innerFilter>
+						</_parts>
+					</_innerFilter>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsAge">
-					<def>IsAge</def>
-					<range>20~60</range>
-					<daysRange>0~60</daysRange>
-					<hoursRange>0~24</hoursRange>
+					<_def>IsAge</_def>
+					<_yearsRange>20~60</_yearsRange>
+					<_daysRange>0~60</_daysRange>
+					<_hoursRange>0~24</_hoursRange>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOfEverything">
-					<def>IsCapableOfEverything</def>
+					<_def>IsCapableOfEverything</_def>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
-					<def>LogicGate</def>
-					<type>Or</type>
-					<innerFilter>
-						<name>Inner filter</name>
-						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
-						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
-						<parts>
+					<_def>LogicGate</_def>
+					<_type>Or</_type>
+					<_innerFilter>
+						<_name>Inner Filter</_name>
+						<_summary>If you are seeing this summary in the UI, something has gone wrong.</_summary>
+						<_description>This filter exists inside of a logic gate. It is part of another filter.</_description>
+						<_parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasSkill">
-								<def>HasSkill</def>
-								<range>6~20</range>
-								<skill>Shooting</skill>
+								<_def>HasSkill</_def>
+								<_range>6~20</_range>
+								<_skill>Shooting</_skill>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasSkill">
-								<def>HasSkill</def>
-								<range>6~20</range>
-								<skill>Melee</skill>
+								<_def>HasSkill</_def>
+								<_range>6~20</_range>
+								<_skill>Melee</_skill>
 							</li>
-						</parts>
-					</innerFilter>
+						</_parts>
+					</_innerFilter>
 				</li>
-			</parts>
-		</filter>
+			</_parts>
+		</_filter>
 	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 </Defs>

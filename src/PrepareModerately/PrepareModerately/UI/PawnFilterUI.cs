@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using Lakuna.PrepareModerately.Filter;
 using Lakuna.PrepareModerately.Filter.Part;
+using Lakuna.PrepareModerately.Utility;
 
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `RimWorld.ScenarioUI`.
-	static internal class PawnFilterUi {
+	public static class PawnFilterUi {
 		private static float _editViewHeight;
 
 		private const float _extraScrollHeight = 100;
@@ -22,57 +23,55 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private const float _viewRectVerticalPadding = 30;
 
-		internal static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
-			Widgets.DrawMenuSection(rect);
-			Rect innerRect = rect.GetInnerRect();
-
+		public static void DrawEditInterface(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
 			if (filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw edit interface with null filter.");
 				return;
 			}
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect viewRect = new Rect(0, 0, innerRect.width - _viewRectHorizontalPadding, _editViewHeight);
-#else
-			Rect viewRect = new(0, 0, innerRect.width - _viewRectHorizontalPadding, _editViewHeight);
-#endif
+			Widgets.DrawMenuSection(rect);
+			Rect innerRect = rect.GetInnerRect().Rounded();
+			Rect viewRect = new Rect(0, 0, innerRect.width - _viewRectHorizontalPadding, _editViewHeight).Rounded();
 			Widgets.BeginScrollView(innerRect, ref infoScrollPosition, viewRect);
 
+			Rect listingRect = new Rect(0, 0, viewRect.width, _listingRectHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect listingRect = new Rect(0, 0, viewRect.width, _listingRectHeight);
 			PawnFilterEditListing listing = new PawnFilterEditListing(filter) {
-				ColumnWidth = listingRect.width
-			};
 #else
-			Rect listingRect = new(0, 0, viewRect.width, _listingRectHeight);
 			PawnFilterEditListing listing = new(filter) {
+#endif
 				ColumnWidth = listingRect.width
 			};
-#endif
 			listing.Begin(listingRect);
 
 #if V1_0
 			listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.name = listing.TextEntry(filter.name).TrimmedToLength(PawnFilter._nameMaxLength);
-
-			listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.summary = listing.TextEntry(filter.summary, 2).TrimmedToLength(PawnFilter._summaryMaxLength);
-
-			listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.description = listing.TextEntry(filter.description, 4).TrimmedToLength(PawnFilter._descriptionMaxLength);
 #else
 			_ = listing.Label("PM.Title".Translate().CapitalizeFirst());
-			filter.name = listing.TextEntry(filter.name).TrimmedToLength(PawnFilter._nameMaxLength);
-
-			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
-			filter.summary = listing.TextEntry(filter.summary, 2).TrimmedToLength(PawnFilter._summaryMaxLength);
-
-			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
-			filter.description = listing.TextEntry(filter.description, 4).TrimmedToLength(PawnFilter._descriptionMaxLength);
 #endif
+			filter.Name = listing.TextEntry(filter.Name)?.TrimmedToLength(PawnFilter.NameMaxLength) ?? "";
+
+#if V1_0
+			listing.Label("PM.Summary".Translate().CapitalizeFirst());
+#else
+			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
+#endif
+			filter.Summary = listing.TextEntry(filter.Summary, 2)?.TrimmedToLength(PawnFilter.SummaryMaxLength) ?? "";
+
+#if V1_0
+			listing.Label("PM.Description".Translate().CapitalizeFirst());
+#else
+			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
+#endif
+			filter.Description = listing.TextEntry(filter.Description, 4)?.TrimmedToLength(PawnFilter.DescriptionMaxLength) ?? "";
 
 			listing.Gap();
 
-			IEnumerable<PawnFilterPart> parts = filter.parts.ListFullCopy(); // Necessary so that deleting a pawn filter part doesn't cause an error.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			IEnumerable<PawnFilterPart> parts = filter.Parts is null ? new List<PawnFilterPart>() : new List<PawnFilterPart>(filter.Parts); // Necessary so that deleting a pawn filter part doesn't cause an error.
+#else
+			IEnumerable<PawnFilterPart> parts = filter.Parts is null ? [] : [.. filter.Parts]; // Necessary so that deleting a pawn filter part doesn't cause an error.
+#endif
 			foreach (PawnFilterPart part in parts) {
 				part.DoEditInterface(listing);
 			}
@@ -82,39 +81,27 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.EndScrollView();
 		}
 
-		internal static void DrawInfo(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
-			Widgets.DrawMenuSection(rect);
-			rect = rect.GetInnerRect();
-
+		public static void DrawInfo(Rect rect, PawnFilter filter, ref Vector2 infoScrollPosition) {
 			if (filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw information of null filter.");
 				return;
 			}
 
-			string fullInformationText = filter._fullInformationText;
-			Text.Font = GameFont.Small;
-			float width = rect.width - _viewRectHorizontalPadding;
-			float height = _viewRectVerticalPadding + Text.CalcHeight(fullInformationText, width) + _extraScrollHeight;
+			Widgets.DrawMenuSection(rect);
+			Rect innerRect = rect.GetInnerRect().Rounded();
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect viewRect = new Rect(0, 0, width, height);
-#else
-			Rect viewRect = new(0, 0, width, height);
-#endif
-			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
+			Text.Font = GameFont.Small;
+			float width = innerRect.width - _viewRectHorizontalPadding;
+			float height = _viewRectVerticalPadding + Text.CalcHeight(filter.FullInformationText, width) + _extraScrollHeight;
+
+			Rect viewRect = new Rect(0, 0, width, height).Rounded();
+			Widgets.BeginScrollView(innerRect, ref infoScrollPosition, viewRect);
 
 			Text.Font = GameFont.Medium;
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.Label(new Rect(0, 0, viewRect.width, _filterNameLabelHeight), filter.name);
-#else
-			Widgets.Label(new(0, 0, viewRect.width, _filterNameLabelHeight), filter.name);
-#endif
+			Widgets.Label(new Rect(0, 0, viewRect.width, _filterNameLabelHeight).Rounded(), filter.Name ?? "null");
 
 			Text.Font = GameFont.Small;
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.Label(new Rect(0, _filterNameLabelHeight, viewRect.width, viewRect.height - _filterNameLabelHeight), fullInformationText);
-#else
-			Widgets.Label(new(0, _filterNameLabelHeight, viewRect.width, viewRect.height - _filterNameLabelHeight), fullInformationText);
-#endif
+			Widgets.Label(new Rect(0, _filterNameLabelHeight, viewRect.width, viewRect.height - _filterNameLabelHeight).Rounded(), filter.FullInformationText);
 
 			Widgets.EndScrollView();
 		}

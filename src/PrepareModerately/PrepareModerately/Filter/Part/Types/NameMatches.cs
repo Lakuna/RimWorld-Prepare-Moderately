@@ -1,47 +1,71 @@
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 using System;
+#endif
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Lakuna.PrepareModerately.Ui;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using UnityEngine;
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class NameMatches : PawnFilterPart {
-#pragma warning restore CA1812
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private string regex;
-#pragma warning restore IDE1006
+	public sealed class NameMatches : PawnFilterPart {
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._regex is null) {
+					yield return "Name matches filter part regex is null.";
+				}
+			}
+		}
+
+		public override bool Valid =>
+			base.Valid
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			&& this._regex != null;
+#else
+			&& this._regex is not null;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private string _regex = "";
+#else
+		private string? _regex = "";
+#endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+			this._regex = Widgets.TextArea(rect, this._regex) ?? "";
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.regex, nameof(this.regex));
+			Scribe_Values.Look(ref this._regex, "regex");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		public override int GetHashCode() =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+			base.GetHashCode() ^ (this._regex?.GetHashCode() ?? 0);
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+			base.GetHashCode() ^ (this._regex?.GetHashCode(StringComparison.Ordinal) ?? 0);
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			this.regex = Widgets.TextArea(rect, this.regex);
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
+		public override bool Matches(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			: new Regex(this.regex).Matches(pawn.Name.ToStringFull).Count > 0;
+			new Regex(this._regex ?? "").Matches(pawn.Name?.ToStringFull ?? "null").Count > 0;
 #else
-			: new Regex(this.regex).Count(pawn.Name.ToStringFull) > 0;
+			new Regex(this._regex ?? "").Count(pawn.Name?.ToStringFull ?? "null") > 0;
 #endif
 
-		internal override void Randomize() {
+		public override void Randomize() {
 			// These names are all guaranteed to be in the game due to the name-in-game list.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			string[] names = new string[] {
@@ -93,10 +117,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			];
 #endif
 
-			this.regex = names.RandomElement();
+			this._regex = names.RandomElement();
 		}
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.NameMatches".Translate(this.regex);
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.NameMatches".Translate(this._regex) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.NameMatches".Translate(this._regex).StringSafe();
+#else
+			"PM.NameMatches".Translate(this._regex).StringSafe;
+#endif
 	}
 }

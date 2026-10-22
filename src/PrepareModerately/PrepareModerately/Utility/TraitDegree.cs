@@ -7,47 +7,74 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-	internal sealed class TraitDegree : IExposable {
+	public sealed class TraitDegree : IExposable {
 #else
-	internal sealed class TraitDegree(TraitDef def, int degree) : IExposable {
+	public sealed class TraitDegree(TraitDef? trait = default, int degree = default) : IExposable {
 #endif
-		internal static IEnumerable<TraitDegree> _all =>
-			DefDatabase<TraitDef>.AllDefs.SelectMany((def) => def.degreeDatas.Select((data) => new TraitDegree(def, data.degree)));
-
-		internal TraitDegreeData _data =>
-			this.trait.DataAtDegree(this.degree);
-
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		public static IEnumerable<TraitDegree> All =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		internal int degree;
+			DefDatabase<TraitDef>.AllDefs?.SelectMany((def) => def.degreeDatas?.Select((data) => new TraitDegree(def, data?.degree ?? default)) ?? new List<TraitDegree>()) ?? new List<TraitDegree>();
 #else
-		internal int degree = degree;
+			DefDatabase<TraitDef>.AllDefs?.SelectMany((def) => def.degreeDatas?.Select((data) => new TraitDegree(def, data?.degree ?? default)) ?? []) ?? [];
 #endif
 
+		public TraitDegreeData Data {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		internal TraitDef trait;
+				TraitDegreeData data = this._trait?.DataAtDegree(this._degree);
 #else
-		internal TraitDef trait = def;
+				TraitDegreeData? data = this._trait?.DataAtDegree(this._degree);
 #endif
-#pragma warning restore CA1051, IDE1006
+				if (data is null) {
+					PrepareModeratelyLogger.LogErrorMessage($"Unable to get data for trait {this._trait} at degree {this._degree}.");
+					return new TraitDegreeData();
+				}
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		// Must be public.
-		public TraitDegree() {
+				return data;
+			}
 		}
 
-		internal TraitDegree(TraitDef def, int degree) {
-			this.trait = def;
-			this.degree = degree;
+		public int Degree {
+			get => this._degree;
+			set => this._degree = value;
 		}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public TraitDef Trait {
 #else
-		// Must be public.
+		public TraitDef? Trait {
+#endif
+			get => this._trait;
+			set => this._trait = value;
+		}
+
 		public TraitDegree() : this(default, default) { }
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public TraitDegree(TraitDef trait = default, int degree = default) {
+			this._trait = trait;
+			this._degree = degree;
+		}
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private int _degree;
+#else
+		private int _degree = degree;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private TraitDef _trait;
+#else
+		private TraitDef? _trait = trait;
 #endif
 
 		public void ExposeData() {
-			Scribe_Defs.Look(ref this.trait, nameof(this.trait));
-			Scribe_Values.Look(ref this.degree, nameof(this.degree));
+			Scribe_Defs.Look(ref this._trait, "trait");
+			Scribe_Values.Look(ref this._degree, "degree");
 		}
+
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ this.Degree.GetHashCode() ^ (this.Trait?.GetHashCode() ?? 0);
 	}
 }

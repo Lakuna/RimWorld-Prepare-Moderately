@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -6,52 +6,53 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `Verse.GenFilePaths`.
-	internal static class PawnFilterFilePaths {
-		internal static IEnumerable<FileInfo> _allFiles {
+	public static class PawnFilterFilePaths {
+		public static Collection<FileInfo> All {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				DirectoryInfo directoryInfo = new DirectoryInfo(_dataPath);
+				DirectoryInfo directoryInfo = new DirectoryInfo(DataPath);
 #else
-				DirectoryInfo directoryInfo = new(_dataPath);
+				DirectoryInfo directoryInfo = new(DataPath);
 #endif
 				if (!directoryInfo.Exists) {
 					directoryInfo.Create();
 				}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				return directoryInfo
+				return new Collection<FileInfo>(directoryInfo
 					.GetFiles()
-					.Where((file) => file.Extension == _fileExtension)
-					.OrderByDescending((file) => file.LastWriteTime).ToList();
+					.Where((file) => file.Extension == FileExtension)
+					.OrderByDescending((file) => file.LastWriteTime)
+					.ToList());
 #else
 				return [.. directoryInfo
 					.GetFiles()
-					.Where((file) => file.Extension == _fileExtension)
+					.Where((file) => file.Extension == FileExtension)
 					.OrderByDescending((file) => file.LastWriteTime)];
 #endif
 			}
 		}
 
-		private static readonly string _dataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
+		public static readonly string DataFolder = $"PawnFilters{Path.DirectorySeparatorChar}";
 
-		private static string _dataPath =>
-			PrepareModeratelyMod._settings.filterSavePath.NullOrEmpty() ? _defaultDataPath
-			: PrepareModeratelyMod._settings.filterSavePath;
+		public static string DataPath =>
+			(PrepareModeratelyMod.Settings?.FilterSavePath is null || PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty()) ? DefaultDataPath
+			: PrepareModeratelyMod.Settings.FilterSavePath;
 
-		internal static string _defaultDataPath =>
+		public static string DefaultDataPath =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			(string)typeof(GenFilePaths)
+			((string)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, new object[] { _dataFolder });
+				?.Invoke(null, new object[] { DataFolder })) ?? "";
 #else
-			(string)typeof(GenFilePaths)
+			((string?)typeof(GenFilePaths)
 				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				.Invoke(null, [_dataFolder]);
+				?.Invoke(null, [DataFolder])) ?? "";
 #endif
 
-		private const string _fileExtension = ".rpf";
+		public const string FileExtension = ".rpf";
 
-		internal static string AbsolutePathForName(string filterName) =>
-			Path.Combine(_dataPath, filterName + _fileExtension);
+		public static string AbsolutePathForName(string filterName) =>
+			Path.Combine(DataPath, filterName + FileExtension);
 	}
 }

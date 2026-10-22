@@ -1,16 +1,21 @@
-using System;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasAnyScar : PawnFilterPart {
-#pragma warning restore CA1812
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.health.hediffSet.hediffs.Any((hediff) => hediff.IsPermanent());
+	public sealed class HasAnyScar : PawnFilterPart {
+		public override bool Matches(Pawn pawn) =>
+			pawn.health?.hediffSet?.hediffs?.Any((hediff) => hediff?.IsPermanent() ?? false) ?? false;
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasAnyScar".Translate();
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.HasAnyScar".Translate() ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasAnyScar".Translate().StringSafe();
+#else
+			"PM.HasAnyScar".Translate().StringSafe;
+#endif
 	}
 }

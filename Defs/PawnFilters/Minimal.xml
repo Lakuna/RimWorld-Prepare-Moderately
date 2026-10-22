@@ -4,46 +4,46 @@
 	<Lakuna.PrepareModerately.Filter.PawnFilterDef Name="Minimal">
 		<defName>Minimal</defName>
 		<label>minimal</label>
-		<filter>
-			<name>Minimal</name>
-			<summary>A minimal filter. Uses conservative settings to filter out bad starting colonists.</summary>
-			<description>Filters out colonists with addictions or extraordinarily bad traits and those that are incapable of violence or firefighting.</description>
-			<parts>
+		<_filter>
+			<_name>Minimal</_name>
+			<_summary>A minimal filter. Uses conservative settings to filter out bad starting colonists.</_summary>
+			<_description>Filters out colonists with addictions or extraordinarily bad traits and those that are incapable of violence or firefighting.</_description>
+			<_parts>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.LogicGate">
-					<def>LogicGate</def>
-					<type>Not</type>
-					<innerFilter>
-						<name>Inner filter</name>
-						<summary>If you are seeing this summary in the UI, something has gone wrong.</summary>
-						<description>This filter exists inside of a logic gate. It is part of another filter.</description>
-						<parts>
+					<_def>LogicGate</_def>
+					<_type>Not</_type>
+					<_innerFilter>
+						<_name>Inner Filter</_name>
+						<_summary>If you are seeing this summary in the UI, something has gone wrong.</_summary>
+						<_description>This filter exists inside of a logic gate. It is part of another filter.</_description>
+						<_parts>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction">
-								<def>HasAnyAddiction</def>
+								<_def>HasAnyAddiction</_def>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Pyromaniac</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Pyromaniac</_trait>
+								</_traitDegree>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
-								<def>HasTrait</def>
-								<traitDegreePair>
-									<trait>Wimp</trait>
-								</traitDegreePair>
+								<_def>HasTrait</_def>
+								<_traitDegree>
+									<_trait>Wimp</_trait>
+								</_traitDegree>
 							</li>
-						</parts>
-					</innerFilter>
+						</_parts>
+					</_innerFilter>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
-					<def>IsCapableOf</def>
-					<workTag>Violent</workTag>
+					<_def>IsCapableOf</_def>
+					<_workTag>Violent</_workTag>
 				</li>
 				<li Class="Lakuna.PrepareModerately.Filter.Part.Types.IsCapableOf">
-					<def>IsCapableOf</def>
-					<workTag>Firefighting</workTag>
+					<_def>IsCapableOf</_def>
+					<_workTag>Firefighting</_workTag>
 				</li>
-			</parts>
-		</filter>
+			</_parts>
+		</_filter>
 	</Lakuna.PrepareModerately.Filter.PawnFilterDef>
 </Defs>

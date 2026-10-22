@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -11,11 +12,7 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasPassionsAtLevel : PawnFilterPart {
-#pragma warning restore CA1812
-		private const float _labelWidthPercentage = 0.2f;
-
+	public sealed class HasPassionsAtLevel : PawnFilterPart {
 		private static IEnumerable<Passion> _legalPassions =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Passion)).OfType<Passion>();
@@ -23,73 +20,64 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<Passion>().OfType<Passion>();
 #endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private Passion passion;
+		private Passion _passion;
 
-		private IntRange range;
-#pragma warning restore IDE1006
+		private IntRange _range;
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight).Rounded();
+
+			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
+			Widgets.IntRange(countRect, Rand.Int, ref this._range, 0, 12, "PM.RangePassions");
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe)) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_legalPassions.OrderBy((passion) => passion.ToString()),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(passion) => passion.ToString().CapitalizeFirstSafe(),
+#else
+					(passion) => passion.ToString().CapitalizeFirstSafe,
+#endif
+					(passion) => () => this._passion = passion);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.passion, nameof(this.passion));
-			Scribe_Values.Look(ref this.range, nameof(this.range));
+			Scribe_Values.Look(ref this._passion, "passion");
+			Scribe_Values.Look(ref this._range, "range");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ this._passion.GetHashCode() ^ this._range.GetHashCode();
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect countRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-#else
-			Rect countRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
-#endif
-			Widgets.Label(countRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Count".Translate().CapitalizeFirst());
-			Widgets.IntRange(countRect.RightPart(1 - _labelWidthPercentage), Rand.Int, ref this.range, 0, 12);
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect passionRect = new Rect(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-#else
-			Rect passionRect = new(rect.x, countRect.yMax, rect.width, Text.LineHeight);
-#endif
-			if (Widgets.ButtonText(passionRect, this.passion.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalPassions.OrderBy((passion) => passion.ToString()),
-					(passion) => passion.ToString().CapitalizeFirst(),
-					(passion) => () => this.passion = passion);
-			}
+		public override bool Matches(Pawn pawn) {
+			int count = pawn.skills?.skills?.AsEnumerable().Count((skill) => skill?.passion == this._passion) ?? 0;
+			return count <= this._range.max && count >= this._range.min;
 		}
 
-		internal override bool Matches(Pawn pawn) {
+		public override void Randomize() {
+			this._passion = _legalPassions.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
+			this._range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
 #else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int count = pawn.skills.skills.AsEnumerable().Count((skill) => skill.passion == this.passion);
-			return count <= this.range.max && count >= this.range.min;
-		}
-
-		internal override void Randomize() {
-			this.passion = _legalPassions.RandomElement();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
-#else
-			this.range = new(Rand.Range(0, 2), Rand.Range(2, 6));
+			this._range = new(Rand.Range(0, 2), Rand.Range(2, 6));
 #endif
 		}
 
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.HasPassionForSkills".Translate(this.passion.ToString(), this.range.min)
-			: "PM.HasPassionForBetweenSkills".Translate(this.passion.ToString(), this.range.min, this.range.max);
+		public override string Summary(PawnFilter filter) =>
+			(this._range.min == this._range.max ? "PM.HasPassionForSkills".Translate(this._passion.ToString(), this._range.min)
+				: "PM.HasPassionForBetweenSkills".Translate(this._passion.ToString(), this._range.min, this._range.max))
+#if V1_0
+				?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				.StringSafe();
+#else
+				.StringSafe;
+#endif
 	}
 }

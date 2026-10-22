@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Filter.Part;
@@ -11,96 +12,123 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioMaker`.
-	internal static class PawnFilterMaker {
+	public static class PawnFilterMaker {
 		private const int _maximumRandomParts = 7;
 
 		private const int _maximumRandomPartTries = 100;
 
 		private const int _minimumRandomParts = 3;
 
-		internal static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) =>
-			DefDatabase<PawnFilterPartDef>.AllDefs.Where((def) => filter.parts.Count((part) => part.def == def) < def.maxUses);
-
-		internal static PawnFilterPart MakeFilterPart(PawnFilterPartDef def) {
+		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (def is null) {
-				throw new ArgumentNullException(nameof(def));
-			}
+			DefDatabase<PawnFilterPartDef>.AllDefs?.Where((def) => (filter.Parts?.Count((part) => part.Def == def) ?? 0) < def.MaxUses) ?? new List<PawnFilterPartDef>();
 #else
-			ArgumentNullException.ThrowIfNull(def);
+			DefDatabase<PawnFilterPartDef>.AllDefs?.Where((def) => (filter.Parts?.Count((part) => part.Def == def) ?? 0) < def.MaxUses) ?? [];
 #endif
 
-			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.filterPartClass);
-			part.def = def;
+		public static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
+			if (filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to add parts from category to null filter.");
+				return;
+			}
+
+			foreach (PawnFilterPart part in RandomPartsFromCategory(filter, category, count)) {
+				filter.AddPart(part);
+			}
+		}
+
+		public static bool CanAddPart(PawnFilter filter, PawnFilterPart part) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			part != null
+#else
+			part is not null
+#endif
+			&& (filter?.Parts?.All(part.CanCoexistWith) ?? false);
+
+		public static PawnFilterPart MakeFilterPart(PawnFilterPartDef def) {
+			if (def is null) {
+				throw new InvalidOperationException("Attempted to create filter part from null definition.");
+			}
+
+			if (def.FilterPartClass is null) {
+				throw new InvalidOperationException("Attempted to create filter part from definition with null filter part class.");
+			}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			PawnFilterPart part = ((PawnFilterPart)Activator.CreateInstance(def.FilterPartClass))
+#else
+			PawnFilterPart part = ((PawnFilterPart?)Activator.CreateInstance(def.FilterPartClass))
+#endif
+				?? throw new InvalidOperationException($"Failed to create an instance of a filter part for {def.defName}.");
+			part.Def = def;
 			return part;
 		}
 
-		internal static PawnFilter Random(string seed) {
+		public static PawnFilter Random(string seed) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (seed is null) {
-				throw new ArgumentNullException(nameof(seed));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(seed);
-#endif
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilter filter = new PawnFilter {
-				_category = PawnFilterCategory.CustomLocal,
-				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
-			};
+			PawnFilter filter = new PawnFilter() {
 #else
 			PawnFilter filter = new() {
-				_category = PawnFilterCategory.CustomLocal,
-				name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario)
-			};
 #endif
+				Category = PawnFilterCategory.CustomLocal,
+				Name = RulePackDefOf.NamerScenario is null ? "null"
+					: (NameGenerator.GenerateName(RulePackDefOf.NamerScenario) ?? "null")
+			};
+			if (filter.Parts is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to create random filter with null parts.");
+				return filter;
+			}
+
+			if (seed is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to create random filter with null seed.");
+				return filter;
+			}
 
 			Rand.PushState();
+
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			Rand.Seed = seed.GetHashCode();
 #else
 			Rand.Seed = seed.GetHashCode(StringComparison.Ordinal);
 #endif
-
 			AddPartsFromCategory(filter, PawnFilterPartCategory.Normal, Rand.RangeInclusive(_minimumRandomParts, _maximumRandomParts));
-			foreach (PawnFilterPart part in filter.parts) {
+			foreach (PawnFilterPart part in filter.Parts) {
 				part.Randomize();
 			}
 
-			for (int i = 0; i < filter.parts.Count; i++) {
-				for (int j = 0; j < filter.parts.Count; j++) {
+			for (int i = 0; i < filter.Parts.Count; i++) {
+				for (int j = 0; j < filter.Parts.Count; j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (filter.parts.ElementAt(i).TryMerge(filter.parts.ElementAt(j))) {
-						filter.RemovePart(filter.parts.ElementAt(j));
-						j--;
-						if (i > j) {
+					PawnFilterPart ej = filter.Parts[j];
+					if (filter.Parts[i].TryMerge(ej)) {
+						filter.RemovePart(ej);
+						if (i > --j) {
 							i--;
 						}
 					}
 				}
 			}
 
-			for (int i = 0; i < filter.parts.Count; i++) {
-				for (int j = 0; j < filter.parts.Count; j++) {
+			for (int i = 0; i < filter.Parts.Count; i++) {
+				for (int j = 0; j < filter.Parts.Count; j++) {
 					if (i == j) {
 						continue;
 					}
 
-					if (!filter.parts.ElementAt(i).CanCoexistWith(filter.parts.ElementAt(j))) {
-						filter.RemovePart(filter.parts.ElementAt(j));
-						j--;
-						if (i > j) {
+					PawnFilterPart ej = filter.Parts[j];
+					if (!filter.Parts[i].CanCoexistWith(ej)) {
+						filter.RemovePart(ej);
+						if (i > --j) {
 							i--;
 						}
 					}
 				}
 			}
 
-			foreach (string item in filter.ConfigErrors()) {
+			foreach (string item in filter.ConfigErrors) {
 				PrepareModeratelyLogger.LogErrorMessage(item);
 			}
 
@@ -109,51 +137,25 @@ namespace Lakuna.PrepareModerately.Filter {
 			return filter;
 		}
 
-		private static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = RandomPartsFromCategory(filter, category, count).ToList();
-#else
-			List<PawnFilterPart> parts = [.. RandomPartsFromCategory(filter, category, count)];
-#endif
-			foreach (PawnFilterPart part in parts) {
-				filter.AddPart(part);
-			}
-		}
-
-		private static bool CanAddPart(PawnFilter filter, PawnFilterPart part) =>
-			filter is null ? throw new ArgumentNullException(nameof(filter))
-			: part is null ? throw new ArgumentNullException(nameof(part))
-			: filter.parts.All(part.CanCoexistWith);
-
-		private static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
-
+		public static IEnumerable<PawnFilterPart> RandomPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			if (count <= 0) {
 				yield break;
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPartDef> allowedParts = AddableParts(filter).Where((def) => def.category == category).ToList();
+			Collection<PawnFilterPartDef> allowedParts = new Collection<PawnFilterPartDef>(AddableParts(filter).Where((def) => def.Category == category).ToList());
 #else
-			List<PawnFilterPartDef> allowedParts = [.. AddableParts(filter).Where((def) => def.category == category)];
+			Collection<PawnFilterPartDef> allowedParts = [.. AddableParts(filter).Where((def) => def.Category == category)];
 #endif
 			int yieldCount = 0;
 			int tryCount = 0;
-			while (yieldCount < count && allowedParts.Any()) {
-				PawnFilterPart part = MakeFilterPart(allowedParts.RandomElementByWeight((def) => def.selectionWeight));
+			while (yieldCount++ < count && allowedParts.Count > 0) {
+				PawnFilterPart part = MakeFilterPart(allowedParts.RandomElementByWeight((def) => def.SelectionWeight));
 				if (CanAddPart(filter, part)) {
 					yield return part;
-					yieldCount++;
 				}
 
-				tryCount++;
-				if (tryCount > _maximumRandomPartTries) {
+				if (++tryCount > _maximumRandomPartTries) {
 					PrepareModeratelyLogger.LogErrorMessage("Failed to add filter part.");
 					break;
 				}

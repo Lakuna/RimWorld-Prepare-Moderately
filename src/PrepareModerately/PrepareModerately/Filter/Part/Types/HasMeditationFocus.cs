@@ -1,9 +1,9 @@
 #if !V1_0
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -12,47 +12,73 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasMeditationFocus : PawnFilterPart {
-#pragma warning restore CA1812
-		private static IEnumerable<MeditationFocusDef> _legalMeditationFoci =>
-			DefDatabase<MeditationFocusDef>.AllDefs;
+	public sealed class HasMeditationFocus : PawnFilterPart {
+		private static IEnumerable<MeditationFocusDef> _allMeditationFoci =>
+#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<MeditationFocusDef>.AllDefs ?? new List<MeditationFocusDef>();
+#else
+			DefDatabase<MeditationFocusDef>.AllDefs ?? [];
+#endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private MeditationFocusDef meditationFocus;
-#pragma warning restore IDE1006
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._meditationFocus is null) {
+					yield return "Has meditation focus filter part meditation focus is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._meditationFocus is null;
+
+#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private MeditationFocusDef _meditationFocus;
+#else
+		private MeditationFocusDef? _meditationFocus;
+#endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, this._meditationFocus?.LabelCap.StringSafe() ?? "null")) {
+#else
+			if (Widgets.ButtonText(rect, this._meditationFocus?.LabelCap.StringSafe ?? "null")) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_allMeditationFoci.OrderBy((def) => def.label),
+#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => def.LabelCap.StringSafe(),
+#else
+					(def) => def.LabelCap.StringSafe,
+#endif
+					(def) => () => this._meditationFocus = def);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.meditationFocus, nameof(this.meditationFocus));
+			Scribe_Defs.Look(ref this._meditationFocus, "meditationFocus");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._meditationFocus?.GetHashCode() ?? 0);
+
+		public override bool Matches(Pawn pawn) =>
+			this._meditationFocus?.CanPawnUse(pawn) ?? false;
+
+		public override void Randomize() =>
+			this._meditationFocus = _allMeditationFoci.RandomElement();
+
+		public override string Summary(PawnFilter filter) =>
+#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasMeditationFocus".Translate(this._meditationFocus?.label ?? "null").StringSafe();
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+			"PM.HasMeditationFocus".Translate(this._meditationFocus?.label ?? "null").StringSafe;
 #endif
-
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, this.meditationFocus.LabelCap)) {
-				FloatMenuUtility.MakeMenu(_legalMeditationFoci.OrderBy((def) => def.label),
-					(def) => def.LabelCap,
-					(def) => () => this.meditationFocus = def);
-			}
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: this.meditationFocus.CanPawnUse(pawn);
-
-		internal override void Randomize() =>
-			this.meditationFocus = _legalMeditationFoci.RandomElement();
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasMeditationFocus".Translate(this.meditationFocus.label);
 	}
 }
 #endif

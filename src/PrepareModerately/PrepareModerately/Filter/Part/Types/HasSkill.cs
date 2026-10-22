@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using RimWorld;
 
@@ -11,95 +14,112 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasSkill : PawnFilterPart {
-#pragma warning restore CA1812
-		private const float _labelWidthPercentage = 0.2f;
-
+	public sealed class HasSkill : PawnFilterPart {
 		private static IEnumerable<SkillDef> _legalSkills =>
-			DefDatabase<SkillDef>.AllDefs;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<SkillDef>.AllDefs ?? new List<SkillDef>();
+#else
+			DefDatabase<SkillDef>.AllDefs ?? [];
+#endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._skill is null) {
+					yield return "Has skill filter part skill is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._skill is null;
+
 		[Obsolete("`level` has been superseded by `range`.")]
-		private int level;
+		private int _level;
 
-		private IntRange range;
+		private IntRange _range;
 
-		private SkillDef skill;
-#pragma warning restore IDE1006
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private SkillDef _skill;
+#else
+		private SkillDef? _skill;
+#endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight).Rounded();
+
+			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
+#if V1_0
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap ?? "null")) {
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe() ?? "null")) {
+#else
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe ?? "null")) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_legalSkills.OrderBy((def) => def.label),
+#if V1_0
+					(def) => def.LabelCap ?? "null",
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => def.LabelCap.StringSafe(),
+#else
+					(def) => def.LabelCap.StringSafe,
+#endif
+					(def) => () => this._skill = def);
+			}
+
+			Widgets.IntRange(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), Rand.Int, ref this._range, 0, 20, "PM.LevelRange");
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.range, nameof(this.range));
-			Scribe_Defs.Look(ref this.skill, nameof(this.skill));
+			Scribe_Values.Look(ref this._range, "range");
+			Scribe_Defs.Look(ref this._skill, "skill");
 
-#pragma warning disable CS0618 // `level` has been superseded by `range`.
+#pragma warning disable CS0618 // Support loading old filters that use `level` instead of `range`.
 			if (Scribe.mode == LoadSaveMode.LoadingVars) {
-				Scribe_Values.Look(ref this.level, nameof(this.level));
+				Scribe_Values.Look(ref this._level, "level");
 			}
 
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.range == default) {
-				this.range.min = this.level;
-				this.range.max = this.level;
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this._range == default) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				this._range = new IntRange(this._level, this._level);
+#else
+				this._range = new(this._level, this._level);
+#endif
 			}
 #pragma warning restore CS0618
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ this._range.GetHashCode() ^ (this._skill?.GetHashCode() ?? 0);
 
-			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight);
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight);
-#else
-			Rect skillRect = new(rect.x, rect.y, rect.width, Text.LineHeight);
-#endif
-			if (Widgets.ButtonText(skillRect, this.skill.LabelCap)) {
-				FloatMenuUtility.MakeMenu(_legalSkills.OrderBy((def) => def.label),
-					(def) => def.LabelCap,
-					(def) => () => this.skill = def);
-			}
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Rect levelRect = new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-#else
-			Rect levelRect = new(rect.x, skillRect.yMax, rect.width, Text.LineHeight);
-#endif
-			Widgets.Label(levelRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.Level".Translate().CapitalizeFirst());
-			Widgets.IntRange(levelRect.RightPart(1 - _labelWidthPercentage), Rand.Int, ref this.range, 0, 20);
+		public override bool Matches(Pawn pawn) {
+			int level = pawn.skills?.GetSkill(this._skill)?.levelInt ?? 0;
+			return level <= this._range.max && level >= this._range.min;
 		}
 
-		internal override bool Matches(Pawn pawn) {
+		public override void Randomize() {
+			this._skill = _legalSkills.RandomElement();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (pawn is null) {
-				throw new ArgumentNullException(nameof(pawn));
-			}
+			this._range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
 #else
-			ArgumentNullException.ThrowIfNull(pawn);
-#endif
-
-			int level = pawn.skills.GetSkill(this.skill).levelInt;
-			return level <= this.range.max && level >= this.range.min;
-		}
-
-		internal override void Randomize() {
-			this.skill = _legalSkills.RandomElement();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
-#else
-			this.range = new(Rand.Range(0, 5), Rand.Range(5, 10));
+			this._range = new(Rand.Range(0, 5), Rand.Range(5, 10));
 #endif
 		}
 
-		internal override string Summary(PawnFilter filter) =>
-			this.range.min == this.range.max ? "PM.IsLevelAtSkill".Translate(this.range.min, this.skill.label)
-			: "PM.IsBetweenLevelsAtSkill".Translate(this.range.min, this.range.max, this.skill.label);
+		public override string Summary(PawnFilter filter) =>
+			(this._range.min == this._range.max ? "PM.IsLevelAtSkill".Translate(this._range.min, this._skill?.label ?? "null")
+				: "PM.IsBetweenLevelsAtSkill".Translate(this._range.min, this._range.max, this._skill?.label ?? "null"))
+#if V1_0
+				?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				.StringSafe();
+#else
+				.StringSafe;
+#endif
 	}
 }

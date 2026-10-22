@@ -1,37 +1,66 @@
 using System.Collections.Generic;
 
+using Lakuna.PrepareModerately.Utility;
+
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
-#pragma warning disable CA1812 // Class is instantiated via RimWorld.
-	internal sealed class PawnFilterDef : Def {
-#pragma warning restore CA1812
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		internal readonly PawnFilter filter;
-#pragma warning restore CA1051, IDE1006
+	public sealed class PawnFilterDef : Def {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public PawnFilter Filter {
+#else
+		public PawnFilter? Filter {
+#endif
+			get => this._filter;
+			set => this._filter = value;
+		}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private PawnFilter _filter;
+#else
+		private PawnFilter? _filter;
+#endif
 
 		public override IEnumerable<string> ConfigErrors() {
-			if (this.filter is null) {
-				yield return "Null filter.";
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			foreach (string item in base.ConfigErrors() ?? new List<string>()) {
+#else
+			foreach (string item in base.ConfigErrors() ?? []) {
+#endif
+				yield return item;
 			}
 
-			foreach (string item in this.filter.ConfigErrors()) {
-				yield return item;
+			if (this.Filter is null) {
+				yield return "Pawn filter definition has null filter.";
+			} else {
+				foreach (string item in this.Filter.ConfigErrors) {
+					yield return item;
+				}
 			}
 		}
 
 		public override void PostLoad() {
 			base.PostLoad();
-			if (this.filter.name.NullOrEmpty()) {
-				this.filter.name = this.label;
+
+			if (this.Filter is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Loaded pawn filter definition with null pawn filter.");
+				return;
 			}
 
-			if (this.filter.description.NullOrEmpty()) {
-				this.filter.description = this.description;
+			if (this.Filter.Name is null || this.Filter.Name.NullOrEmpty()) {
+				this.Filter.Name = this.label ?? "null";
 			}
 
-			this.filter._category = PawnFilterCategory.FromDef;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (this.Filter.Description is null) {
+				this.Filter.Description = this.description ?? "null";
+			}
+#else
+			this.Filter.Description ??= this.description ?? "null";
+#endif
+
+			this.Filter.Category = PawnFilterCategory.FromDef;
 		}
 	}
 }

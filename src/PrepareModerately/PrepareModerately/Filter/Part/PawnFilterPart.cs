@@ -1,83 +1,86 @@
-using System;
 using System.Collections.Generic;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPart`.
-	internal abstract class PawnFilterPart : IExposable {
-		internal virtual string _label =>
-			this.def.label;
+	public abstract class PawnFilterPart : IExposable {
+		public virtual IEnumerable<string> ConfigErrors {
+			get {
+				yield break;
+			}
+		}
 
-		internal virtual PawnFilterPart _copyForEditing =>
+		public virtual PawnFilterPart CopyForEditing =>
 			(PawnFilterPart)this.MemberwiseClone();
 
-		internal virtual bool _summarized {
-			get; set;
-		}
-
-		internal virtual bool _visible =>
-			true;
-
-#pragma warning disable CA1051, IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		internal PawnFilterPartDef def;
-#pragma warning restore CA1051, IDE1006
-
-		public virtual void ExposeData() =>
-			Scribe_Defs.Look(ref this.def, nameof(this.def));
-
-		public override int GetHashCode() =>
-			this.def is null ? 0
-			: this.def.GetHashCode();
-
-		internal virtual bool Matches(Pawn pawn) =>
-			true;
-
-		internal virtual bool NotMatches(Pawn pawn) =>
-			!this.Matches(pawn);
-
-		internal virtual string Summary(PawnFilter filter) =>
-			this.def.description;
-
-		internal virtual bool CanCoexistWith(PawnFilterPart other) =>
-			true;
-
-		internal virtual IEnumerable<string> ConfigErrors() {
-			if (this.def is null) {
-				yield return $"{this.GetType()} has a null definition.".CapitalizeFirst();
-			}
-		}
-
-		internal void DoEditInterface(PawnFilterEditListing listing) =>
-			this.DoEditInterface(listing, out _);
-
-		internal virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		public PawnFilterPartDef Def {
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+		public PawnFilterPartDef? Def {
+#endif
+			get => this._def;
+			set => this._def = value;
+		}
+
+		public virtual bool HasNullDefs =>
+			false;
+
+		public virtual string Label =>
+			this.Def?.label ?? "null";
+
+		public virtual bool Valid =>
+			!this.HasNullDefs;
+
+		public bool Visible { get; set; } = true;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private PawnFilterPartDef _def;
+#else
+		private PawnFilterPartDef? _def;
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight);
+		public virtual bool CanCoexistWith(PawnFilterPart other) =>
+			true;
+
+		public virtual void DoEditInterface(PawnFilterEditListing listing) =>
+			this.DoEditInterface(listing, out _);
+
+		public virtual void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			totalAddedListHeight = 0;
+			if (listing is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw filter part edit interface on null listing.");
+				return;
+			}
+
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight).Rounded();
 		}
 
-		internal virtual bool HasNullDefs() =>
-			this.def is null;
+		public virtual void ExposeData() =>
+			Scribe_Defs.Look(ref this._def, "def");
 
-		internal virtual bool IsValid() =>
-			!this.HasNullDefs();
+		public override int GetHashCode() =>
+			this.Def?.GetHashCode() ?? 0;
 
-		internal virtual void PreConfigure() {
+		public virtual bool IgnoreFor(Pawn pawn) =>
+			!this.Valid;
+
+		public virtual bool Matches(Pawn pawn) =>
+			true;
+
+		public virtual void PreConfigure() {
 		}
 
-		internal virtual void Randomize() {
+		public virtual void Randomize() {
 		}
 
-		internal virtual bool TryMerge(PawnFilterPart other) =>
+		public virtual string Summary(PawnFilter filter) =>
+			this.Def?.description ?? "";
+
+		public virtual bool TryMerge(PawnFilterPart other) =>
 			false;
 	}
 }

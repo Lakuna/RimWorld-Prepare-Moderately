@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -11,9 +12,7 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class IsGender : PawnFilterPart {
-#pragma warning restore CA1812
+	public sealed class IsGender : PawnFilterPart {
 		private static IEnumerable<Gender> _legalGenders =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Enum.GetValues(typeof(Gender)).OfType<Gender>();
@@ -21,40 +20,47 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Enum.GetValues<Gender>().OfType<Gender>();
 #endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private Gender gender;
-#pragma warning restore IDE1006
+		private Gender _gender;
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, this._gender.ToString().CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(rect, this._gender.ToString().CapitalizeFirstSafe)) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_legalGenders.OrderBy((gender) => gender.ToString()),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(gender) => gender.ToString().CapitalizeFirstSafe(),
+#else
+					(gender) => gender.ToString().CapitalizeFirstSafe,
+#endif
+					(gender) => () => this._gender = gender);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Values.Look(ref this.gender, nameof(this.gender));
+			Scribe_Values.Look(ref this._gender, "gender");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ this._gender.GetHashCode();
+
+		public override bool Matches(Pawn pawn) =>
+			pawn.gender == this._gender;
+
+		public override void Randomize() =>
+			this._gender = _legalGenders.RandomElement();
+
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.IsGender".Translate(this._gender.ToString()) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.IsGender".Translate(this._gender.ToString()).StringSafe();
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+			"PM.IsGender".Translate(this._gender.ToString()).StringSafe;
 #endif
-
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, this.gender.ToString().CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalGenders.OrderBy((gender) => gender.ToString()),
-				(gender) => gender.ToString().CapitalizeFirst(),
-				(gender) => () => this.gender = gender);
-			}
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.gender == this.gender;
-
-		internal override void Randomize() =>
-			this.gender = _legalGenders.RandomElement();
-
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsGender".Translate(this.gender.ToString());
 	}
 }

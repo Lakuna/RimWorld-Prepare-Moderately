@@ -4,8 +4,8 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="LogicGate">
 		<defName>LogicGate</defName>
 		<label>logic gate</label>
-		<category>LogicGate</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.LogicGate</filterPartClass>
-		<selectionWeight>0</selectionWeight>
+		<_category>LogicGate</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.LogicGate</_filterPartClass>
+		<_selectionWeight>0</_selectionWeight>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

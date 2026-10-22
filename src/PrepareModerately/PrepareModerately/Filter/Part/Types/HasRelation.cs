@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -11,75 +11,116 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasRelation : PawnFilterPart {
-#pragma warning restore CA1812
+	public sealed class HasRelation : PawnFilterPart {
 		private static IEnumerable<PawnRelationDef> _legalRelations =>
-			DefDatabase<PawnRelationDef>.AllDefs;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<PawnRelationDef>.AllDefs ?? new List<PawnRelationDef>();
+#else
+			DefDatabase<PawnRelationDef>.AllDefs ?? [];
+#endif
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private PawnRelationDef relation;
-#pragma warning restore IDE1006
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
 
+				if (this._relation is null) {
+					yield return "Has relation filter part relation is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._relation is null;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private PawnRelationDef _relation;
+#else
+		private PawnRelationDef? _relation;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static string GetCombinedLabelFor(PawnRelationDef def) =>
-			def is null ? throw new ArgumentNullException(nameof(def))
-			: def.labelFemale.NullOrEmpty() ? def.label : $"{def.label}/{def.labelFemale}";
+#else
+		private static string GetCombinedLabelFor(PawnRelationDef? def) =>
+#endif
+			def is null ? "null"
+			: (def.labelFemale is null || def.labelFemale.NullOrEmpty()) ? (def.label ?? "null")
+			: $"{def.label ?? "null"}/{def.labelFemale}";
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static string GetUniqueCombinedLabelFor(PawnRelationDef def) =>
-			GetCombinedLabelFor(def).NullOrEmpty() ? def.defName
-			: _legalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName})"
+#else
+		private static string GetUniqueCombinedLabelFor(PawnRelationDef? def) =>
+#endif
+			def is null ? "null"
+			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
+			: _legalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
 			: GetCombinedLabelFor(def);
+
+		public override bool CanCoexistWith(PawnFilterPart other) =>
+			other.Def != PawnFilterPartDefOf.HasAnyRelation;
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).CapitalizeFirstSafe)) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_legalRelations.OrderBy(GetUniqueCombinedLabelFor),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe(),
+#else
+					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe,
+#endif
+					(def) => () => this._relation = def);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.relation, nameof(this.relation));
+			Scribe_Defs.Look(ref this._relation, "relation");
 		}
 
-		internal override bool CanCoexistWith(PawnFilterPart other) =>
-			other is null ? throw new ArgumentNullException(nameof(other))
-			: other.def != PawnFilterPartDefOf.HasAnyRelation;
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._relation?.GetHashCode() ?? 0);
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override bool Matches(Pawn pawn) =>
+#if !(V1_0 || V1_1 || V1_2)
+			!pawn.relations.hidePawnRelations &&
+#endif
+			pawn.relations.RelatedPawns.Any((relatedPawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+					relatedPawn != null
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+					relatedPawn is not null
 #endif
-
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this.relation).CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalRelations.OrderBy(GetUniqueCombinedLabelFor),
-					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirst(),
-					(def) => () => this.relation = def);
-			}
-		}
-
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0 || V1_1 || V1_2
-			: pawn.relations.RelatedPawns.Any((relatedPawn) =>
-				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
-				&& relatedPawn.Name != null
-				&& !relatedPawn.Name.Numerical
-				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
+					&& !((relatedPawn.RaceProps?.Animal ?? false) && relatedPawn.Dead && relatedPawn.Corpse is null)
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					&& relatedPawn.Name != null
 #else
-			: !pawn.relations.hidePawnRelations &&
-				pawn.relations.RelatedPawns.Any((relatedPawn) =>
-				(!relatedPawn.RaceProps.Animal || !relatedPawn.Dead || relatedPawn.Corpse != null)
-				&& relatedPawn.Name != null
-				&& !relatedPawn.Name.Numerical
-				&& !relatedPawn.relations.hidePawnRelations
-				&& relatedPawn.relations.everSeenByPlayer
-				&& pawn.GetRelations(relatedPawn).Any((relation) => relation == this.relation));
+					&& relatedPawn.Name is not null
 #endif
+					&& !relatedPawn.Name.Numerical
+#if !(V1_0 || V1_1 || V1_2)
+					&& !(relatedPawn.relations?.hidePawnRelations ?? false)
+#endif
+					&& (relatedPawn.relations?.everSeenByPlayer ?? false)
+					&& (pawn.GetRelations(relatedPawn)?.Any((relation) => relation == this._relation) ?? false));
 
-		internal override void Randomize() =>
-			this.relation = _legalRelations.RandomElement();
+		public override void Randomize() =>
+			this._relation = _legalRelations.RandomElement();
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this.relation));
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)).StringSafe();
+#else
+			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)).StringSafe;
+#endif
 	}
 }

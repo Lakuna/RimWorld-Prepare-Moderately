@@ -3,72 +3,178 @@ using RimWorld;
 namespace Lakuna.PrepareModerately.Filter.Part {
 	// Based on `RimWorld.ScenPartDefOf`.
 	[DefOf]
-	internal static class PawnFilterPartDefOf {
-#pragma warning disable CS0649, IDE1006 // `DefOf` relies on static fields with names matching XML definitions.
-		internal static readonly PawnFilterPartDef HasAdulthood;
-
-		internal static readonly PawnFilterPartDef HasAnyAddiction;
-
-		internal static readonly PawnFilterPartDef HasAnyBodyModification;
-
-		internal static readonly PawnFilterPartDef HasAnyMissingBodyPart;
-
-		internal static readonly PawnFilterPartDef HasAnyPermanentMedicalCondition;
-
-		internal static readonly PawnFilterPartDef HasAnyRelation;
-
-		internal static readonly PawnFilterPartDef HasAnyScar;
-
-		internal static readonly PawnFilterPartDef HasChildhood;
-
-#if !(V1_0 || V1_1 || V1_2)
-		internal static readonly PawnFilterPartDef HasFavoriteColor;
+	public static class PawnFilterPartDefOf {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAdulthood;
+#else
+		public static readonly PawnFilterPartDef? HasAdulthood;
 #endif
 
-#if !V1_0
-		internal static readonly PawnFilterPartDef HasMeditationFocus;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyAddiction;
+#else
+		public static readonly PawnFilterPartDef? HasAnyAddiction;
 #endif
 
-		internal static readonly PawnFilterPartDef HasNumberOfTraits;
-
-		internal static readonly PawnFilterPartDef HasPassion;
-
-		internal static readonly PawnFilterPartDef HasPassionsAtLevel;
-
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		internal static readonly PawnFilterPartDef HasPossession;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyBodyModification;
+#else
+		public static readonly PawnFilterPartDef? HasAnyBodyModification;
 #endif
 
-		internal static readonly PawnFilterPartDef HasRelation;
-
-		internal static readonly PawnFilterPartDef HasSkill;
-
-		internal static readonly PawnFilterPartDef HasSkillsAtLevel;
-
-		internal static readonly PawnFilterPartDef HasSumOfSkills;
-
-		internal static readonly PawnFilterPartDef HasTrait;
-
-		internal static readonly PawnFilterPartDef IsAge;
-
-		internal static readonly PawnFilterPartDef IsCapableOf;
-
-		internal static readonly PawnFilterPartDef IsCapableOfEverything;
-
-		internal static readonly PawnFilterPartDef IsGender;
-
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-		internal static readonly PawnFilterPartDef IsPregnant;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyMissingBodyPart;
+#else
+		public static readonly PawnFilterPartDef? HasAnyMissingBodyPart;
 #endif
 
-		internal static readonly PawnFilterPartDef IsKind;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyPermanentMedicalCondition;
+#else
+		public static readonly PawnFilterPartDef? HasAnyPermanentMedicalCondition;
+#endif
 
-		internal static readonly PawnFilterPartDef IsSpecies;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyRelation;
+#else
+		public static readonly PawnFilterPartDef? HasAnyRelation;
+#endif
 
-		internal static readonly PawnFilterPartDef LogicGate;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasAnyScar;
+#else
+		public static readonly PawnFilterPartDef? HasAnyScar;
+#endif
 
-		internal static readonly PawnFilterPartDef NameMatches;
-#pragma warning restore CS0649, IDE1006
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasChildhood;
+#else
+		public static readonly PawnFilterPartDef? HasChildhood;
+#endif
+
+#if V1_0 || V1_1 || V1_2
+#elif V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasFavoriteColor;
+#else
+		public static readonly PawnFilterPartDef? HasFavoriteColor;
+#endif
+
+#if V1_0
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasMeditationFocus;
+#else
+		public static readonly PawnFilterPartDef? HasMeditationFocus;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasNumberOfTraits;
+#else
+		public static readonly PawnFilterPartDef? HasNumberOfTraits;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasPassion;
+#else
+		public static readonly PawnFilterPartDef? HasPassion;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasPassionsAtLevel;
+#else
+		public static readonly PawnFilterPartDef? HasPassionsAtLevel;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+#elif V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasPossession;
+#else
+		public static readonly PawnFilterPartDef? HasPossession;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasRelation;
+#else
+		public static readonly PawnFilterPartDef? HasRelation;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasSkill;
+#else
+		public static readonly PawnFilterPartDef? HasSkill;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasSkillsAtLevel;
+#else
+		public static readonly PawnFilterPartDef? HasSkillsAtLevel;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasSumOfSkills;
+#else
+		public static readonly PawnFilterPartDef? HasSumOfSkills;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasTrait;
+#else
+		public static readonly PawnFilterPartDef? HasTrait;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsAge;
+#else
+		public static readonly PawnFilterPartDef? IsAge;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsCapableOf;
+#else
+		public static readonly PawnFilterPartDef? IsCapableOf;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsCapableOfEverything;
+#else
+		public static readonly PawnFilterPartDef? IsCapableOfEverything;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsGender;
+#else
+		public static readonly PawnFilterPartDef? IsGender;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+#elif V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsPregnant;
+#else
+		public static readonly PawnFilterPartDef? IsPregnant;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsKind;
+#else
+		public static readonly PawnFilterPartDef? IsKind;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef IsSpecies;
+#else
+		public static readonly PawnFilterPartDef? IsSpecies;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef LogicGate;
+#else
+		public static readonly PawnFilterPartDef? LogicGate;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef NameMatches;
+#else
+		public static readonly PawnFilterPartDef? NameMatches;
+#endif
 
 		static PawnFilterPartDefOf() =>
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnFilterPartDefOf));

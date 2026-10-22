@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using RimWorld;
 
@@ -11,69 +13,89 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class IsKind : PawnFilterPart {
-#pragma warning restore CA1812
+	public sealed class IsKind : PawnFilterPart {
 		private static IEnumerable<PawnKindDef> _legalKinds =>
-			DefDatabase<PawnKindDef>.AllDefs;
-
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private PawnKindDef kind;
-#pragma warning restore IDE1006
-
-#if V1_0
-		private static string GetUniqueLabelFor(PawnKindDef def) =>
-			def.LabelCap.NullOrEmpty() ? def.defName
-			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
-			: def.LabelCap;
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static TaggedString GetUniqueLabelFor(PawnKindDef def) =>
-			def is null ? throw new ArgumentNullException(nameof(def))
-			: def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
-			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
-			: def.LabelCap;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<PawnKindDef>.AllDefs ?? new List<PawnKindDef>();
 #else
-		private static TaggedString GetUniqueLabelFor(PawnKindDef def) =>
-			def is null ? throw new ArgumentNullException(nameof(def))
-			: def.LabelCap.NullOrEmpty() ? def.defName
-			: _legalKinds.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
-			: def.LabelCap;
+			DefDatabase<PawnKindDef>.AllDefs ?? [];
 #endif
+
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._kind is null) {
+					yield return "Is kind filter part kind is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._kind is null;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private PawnKindDef _kind;
+#else
+		private PawnKindDef? _kind;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static string GetCombinedLabelFor(PawnKindDef def) =>
+#else
+		private static string GetCombinedLabelFor(PawnKindDef? def) =>
+#endif
+			def is null ? "null"
+			: (def.labelFemale is null || def.labelFemale.NullOrEmpty()) ? (def.label ?? "null")
+			: $"{def.label ?? "null"}/{def.labelFemale}";
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static string GetUniqueCombinedLabelFor(PawnKindDef def) =>
+#else
+		private static string GetUniqueCombinedLabelFor(PawnKindDef? def) =>
+#endif
+			def is null ? "null"
+			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
+			: _legalKinds.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
+			: GetCombinedLabelFor(def);
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._kind))) {
+				FloatMenuUtility.MakeMenu(
+					_legalKinds.OrderBy((def) => def.label),
+					(def) => GetUniqueCombinedLabelFor(def),
+					(def) => () => this._kind = def);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Defs.Look(ref this.kind, nameof(this.kind));
+			Scribe_Defs.Look(ref this._kind, "kind");
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
-#else
-			ArgumentNullException.ThrowIfNull(listing);
-#endif
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._kind?.GetHashCode() ?? 0);
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this.kind))) {
-				FloatMenuUtility.MakeMenu(_legalKinds.OrderBy((def) => def.label),
-					(def) => GetUniqueLabelFor(def),
-					(def) => () => this.kind = def);
-			}
-		}
+		public override bool Matches(Pawn pawn) =>
+			pawn.kindDef == this._kind;
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.kindDef == this.kind;
-
-		internal override void Randomize() =>
+		public override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this.kind = Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
+			this._kind = Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.First(); // Other kinds wouldn't be legal for vanilla RimWorld.
 #else
-			this.kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def.basicMemberKind ?? PawnKindDefOf.Colonist; // Other kinds wouldn't be legal for vanilla RimWorld.
+			this._kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.First(); // Other kinds wouldn't be legal for vanilla RimWorld.
 #endif
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsKind".Translate(this.kind.label);
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)).StringSafe();
+#else
+			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)).StringSafe;
+#endif
 	}
 }

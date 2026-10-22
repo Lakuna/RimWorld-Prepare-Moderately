@@ -4,8 +4,8 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyAddiction">
 		<defName>HasAnyAddiction</defName>
 		<label>has any addiction</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction</filterPartClass>
-		<maxUses>1</maxUses>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction</_filterPartClass>
+		<_maxUses>1</_maxUses>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

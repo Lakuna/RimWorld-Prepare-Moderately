@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using RimWorld;
 
@@ -11,65 +13,76 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class IsSpecies : PawnFilterPart {
-#pragma warning restore CA1812
+	public sealed class IsSpecies : PawnFilterPart {
 		private static IEnumerable<ThingDef> _legalThings =>
-			DefDatabase<ThingDef>.AllDefs.Where((def) => def.race != null && !def.IsCorpse);
-
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
-		private ThingDef _species;
-#pragma warning restore IDE1006
-
-#if V1_0
-		private static string GetUniqueLabelFor(ThingDef def) =>
-			def.LabelCap.NullOrEmpty() ? def.defName
-			: _legalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
-			: def.LabelCap;
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static TaggedString GetUniqueLabelFor(ThingDef def) =>
-			def is null ? throw new ArgumentNullException(nameof(def))
-			: def.LabelCap.NullOrEmpty() ? new TaggedString(def.defName)
-			: _legalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? new TaggedString($"{def.LabelCap} ({def.defName})")
-			: def.LabelCap;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			DefDatabase<ThingDef>.AllDefs?.Where((def) => def?.race != null && !def.IsCorpse) ?? new List<ThingDef>();
 #else
-		private static TaggedString GetUniqueLabelFor(ThingDef def) =>
-			def is null ? throw new ArgumentNullException(nameof(def))
-			: def.LabelCap.NullOrEmpty() ? def.defName
-			: _legalThings.Count((def2) => def.LabelCap == def2.LabelCap) > 1 ? $"{def.LabelCap} ({def.defName})"
-			: def.LabelCap;
+			DefDatabase<ThingDef>.AllDefs?.Where((def) => def?.race is not null && !def.IsCorpse) ?? [];
 #endif
 
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Defs.Look(ref this._species, nameof(this._species));
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
+
+				if (this._species is null) {
+					yield return "Is species filter part species is null.";
+				}
+			}
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._species is null;
+
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		private ThingDef _species;
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+		private ThingDef? _species;
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static string GetUniqueLabelFor(ThingDef def) =>
+#else
+		private static string GetUniqueLabelFor(ThingDef? def) =>
+#endif
+			def is null ? "null"
+			: def.label.NullOrEmpty() ? (def.defName ?? "null")
+			: _legalThings.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
+			: def.label;
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
 			if (Widgets.ButtonText(rect, GetUniqueLabelFor(this._species))) {
-				FloatMenuUtility.MakeMenu(_legalThings.OrderBy((def) => def.label),
+				FloatMenuUtility.MakeMenu(
+					_legalThings.OrderBy((def) => def.label),
 					(def) => GetUniqueLabelFor(def),
 					(def) => () => this._species = def);
 			}
 		}
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.def == this._species;
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Defs.Look(ref this._species, "species");
+		}
 
-		internal override void Randomize() =>
-			this._species = ThingDefOf.Human; // Other things wouldn't be legal for vanilla RimWorld.
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._species?.GetHashCode() ?? 0);
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.IsSpecies".Translate(this._species.label);
+		public override bool Matches(Pawn pawn) =>
+			pawn.def == this._species;
+
+		public override void Randomize() =>
+			this._species = ThingDefOf.Human ?? _legalThings.First(); // Other things wouldn't be legal for vanilla RimWorld.
+
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.IsSpecies".Translate(GetUniqueLabelFor(this._species)) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.IsSpecies".Translate(GetUniqueLabelFor(this._species)).StringSafe();
+#else
+			"PM.IsSpecies".Translate(GetUniqueLabelFor(this._species)).StringSafe;
+#endif
 	}
 }

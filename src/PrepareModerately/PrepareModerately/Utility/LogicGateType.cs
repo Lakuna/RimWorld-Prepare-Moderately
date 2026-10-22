@@ -1,8 +1,10 @@
 namespace Lakuna.PrepareModerately.Utility {
-	internal enum LogicGateType {
+	public enum LogicGateType : int {
 		And,
 		Or,
 		Not,
-		Xor
+		Xor,
+		Nand,
+		Nor
 	}
 }

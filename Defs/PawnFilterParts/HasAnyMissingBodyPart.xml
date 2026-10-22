@@ -4,8 +4,8 @@
 	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasAnyMissingBodyPart">
 		<defName>HasAnyMissingBodyPart</defName>
 		<label>has any missing body part</label>
-		<category>Normal</category>
-		<filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyMissingBodyPart</filterPartClass>
-		<maxUses>1</maxUses>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasAnyMissingBodyPart</_filterPartClass>
+		<_maxUses>1</_maxUses>
 	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
 </Defs>

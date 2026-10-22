@@ -1,20 +1,24 @@
-using System;
+#if !V1_0
+using Lakuna.PrepareModerately.Utility;
+#endif
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasAnyRelation : PawnFilterPart {
-#pragma warning restore CA1812
-		internal override bool CanCoexistWith(PawnFilterPart other) =>
-			other is null ? throw new ArgumentNullException(nameof(other))
-			: other.def != PawnFilterPartDefOf.HasRelation;
+	public sealed class HasAnyRelation : PawnFilterPart {
+		public override bool CanCoexistWith(PawnFilterPart other) =>
+			other.Def != PawnFilterPartDefOf.HasRelation;
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-			: pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe;
+		public override bool Matches(Pawn pawn) =>
+			pawn.relations?.RelatedToAnyoneOrAnyoneRelatedToMe ?? false;
 
-		internal override string Summary(PawnFilter filter) =>
-			"PM.HasAnyRelation".Translate();
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.HasAnyRelation".Translate() ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasAnyRelation".Translate().StringSafe();
+#else
+			"PM.HasAnyRelation".Translate().StringSafe;
+#endif
 	}
 }

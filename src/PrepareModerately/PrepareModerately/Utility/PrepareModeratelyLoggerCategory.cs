@@ -1,6 +1,7 @@
 namespace Lakuna.PrepareModerately.Utility {
-	internal enum PrepareModeratelyLoggerCategory {
+	public enum PrepareModeratelyLoggerCategory : int {
 		Unrestricted,
-		GetFullInformationText
+		GetFullInformationText,
+		LogicGateIndentation
 	}
 }

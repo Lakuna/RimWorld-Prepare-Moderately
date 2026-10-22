@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
+using Lakuna.PrepareModerately.Utility;
 
 using RimWorld;
 
@@ -11,84 +11,119 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
-#pragma warning disable CA1812 // Class is instantiated via XML definitions.
-	internal sealed class HasAdulthood : PawnFilterPart {
-#pragma warning restore CA1812
+	public sealed class HasAdulthood : PawnFilterPart {
 #if V1_0 || V1_1 || V1_2 || V1_3
 		private static IEnumerable<Backstory> _legalBackstories =>
-			BackstoryDatabase.allBackstories.Values.Where((backstory) => backstory.slot == BackstorySlot.Adulthood);
+			BackstoryDatabase.allBackstories?.Values?.Where((backstory) => backstory?.slot == BackstorySlot.Adulthood) ?? new List<Backstory>();
+#elif V1_4 || V1_5 || V1_6
+		private static IEnumerable<BackstoryDef> _legalBackstories =>
+			DefDatabase<BackstoryDef>.AllDefs?.Where((def) => def.slot == BackstorySlot.Adulthood) ?? new List<BackstoryDef>();
 #else
 		private static IEnumerable<BackstoryDef> _legalBackstories =>
-			DefDatabase<BackstoryDef>.AllDefs.Where((def) => def.slot == BackstorySlot.Adulthood);
+			DefDatabase<BackstoryDef>.AllDefs?.Where((def) => def.slot == BackstorySlot.Adulthood) ?? [];
 #endif
 
-#if V1_0 || V1_1 || V1_2 || V1_3
-		private Backstory _backstory =>
-			_legalBackstories.First((backstory) => backstory.identifier == this.backstoryIdentifier);
-#endif
+		public override IEnumerable<string> ConfigErrors {
+			get {
+				foreach (string item in base.ConfigErrors) {
+					yield return item;
+				}
 
-#pragma warning disable IDE1006 // `Def` relies on static fields with names matching XML definitions.
+				if (this._backstory is null) {
+					yield return "Has adulthood filter part backstory is null.";
+				}
+			}
+		}
+
+		public override bool HasNullDefs =>
+			base.HasNullDefs || this._backstory is null;
+
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private string backstoryIdentifier;
+		private Backstory _backstory;
+#elif V1_4 || V1_5 || V1_6
+		private BackstoryDef _backstory;
 #else
-		private BackstoryDef backstory;
+		private BackstoryDef? _backstory;
 #endif
-#pragma warning restore IDE1006
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private static string GetCombinedLabelFor(Backstory def) =>
+#elif V1_4 || V1_5 || V1_6
+		private static string GetCombinedLabelFor(BackstoryDef def) =>
+#else
+		private static string GetCombinedLabelFor(BackstoryDef? def) =>
+#endif
+			def is null ? "null"
+			: (def.titleFemale is null || def.titleFemale.NullOrEmpty()) ? (def.title ?? "null")
+			: $"{def.title ?? "null"}/{def.titleFemale}";
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private static string GetUniqueCombinedLabelFor(Backstory def) =>
+			def is null ? "null"
+			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.identifier ?? "null")
+			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.identifier ?? "null"})"
+			: GetCombinedLabelFor(def);
+#elif V1_4 || V1_5 || V1_6
+		private static string GetUniqueCombinedLabelFor(BackstoryDef def) =>
+			def is null ? "null"
+			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
+			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
+			: GetCombinedLabelFor(def);
+#else
+		private static string GetUniqueCombinedLabelFor(BackstoryDef? def) =>
+			def is null ? "null"
+			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
+			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
+			: GetCombinedLabelFor(def);
+#endif
+
+		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
+			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._backstory).CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._backstory).CapitalizeFirstSafe)) {
+#endif
+				FloatMenuUtility.MakeMenu(
+					_legalBackstories.OrderBy(GetUniqueCombinedLabelFor),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe(),
+#else
+					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe,
+#endif
+					(def) => () => this._backstory = def);
+			}
+		}
 
 		public override void ExposeData() {
 			base.ExposeData();
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Scribe_Values.Look(ref this.backstoryIdentifier, nameof(this.backstoryIdentifier));
+			Scribe_Values.Look(ref this._backstory, "backstory");
 #else
-			Scribe_Defs.Look(ref this.backstory, nameof(this.backstory));
+			Scribe_Defs.Look(ref this._backstory, "backstory");
 #endif
 		}
 
-		internal override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing is null) {
-				throw new ArgumentNullException(nameof(listing));
-			}
+		public override int GetHashCode() =>
+			base.GetHashCode() ^ (this._backstory?.GetHashCode() ?? 0);
+
+		public override bool Matches(Pawn pawn) =>
+#if V1_0 || V1_1 || V1_2 || V1_3
+			pawn.story?.adulthood == this._backstory;
 #else
-			ArgumentNullException.ThrowIfNull(listing);
+			pawn.story?.Adulthood == this._backstory;
 #endif
 
-			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-#if V1_0 || V1_1 || V1_2 || V1_3
-			if (Widgets.ButtonText(rect, this._backstory.title.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalBackstories.OrderBy((backstory) => backstory.title),
-					(backstory) => backstory.title.CapitalizeFirst(),
-					(backstory) => () => this.backstoryIdentifier = backstory.identifier);
-			}
-#else
-			if (Widgets.ButtonText(rect, this.backstory.title.CapitalizeFirst())) {
-				FloatMenuUtility.MakeMenu(_legalBackstories.OrderBy((def) => def.title),
-					(def) => def.title.CapitalizeFirst(),
-					(def) => () => this.backstory = def);
-			}
-#endif
-		}
+		public override void Randomize() =>
+			this._backstory = _legalBackstories.RandomElement();
 
-		internal override bool Matches(Pawn pawn) =>
-			pawn is null ? throw new ArgumentNullException(nameof(pawn))
-#if V1_0 || V1_1 || V1_2 || V1_3
-			: pawn.story.adulthood == this._backstory;
+		public override string Summary(PawnFilter filter) =>
+#if V1_0
+			"PM.HasAdulthood".Translate(GetUniqueCombinedLabelFor(this._backstory)) ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			"PM.HasAdulthood".Translate(GetUniqueCombinedLabelFor(this._backstory)).StringSafe();
 #else
-			: pawn.story.Adulthood == this.backstory;
-#endif
-
-		internal override void Randomize() =>
-#if V1_0 || V1_1 || V1_2 || V1_3
-			this.backstoryIdentifier = _legalBackstories.RandomElement().identifier;
-#else
-			this.backstory = _legalBackstories.RandomElement();
-#endif
-
-		internal override string Summary(PawnFilter filter) =>
-#if V1_0 || V1_1 || V1_2 || V1_3
-			"PM.HasAdulthood".Translate(this._backstory.title);
-#else
-			"PM.HasAdulthood".Translate(this.backstory.title);
+			"PM.HasAdulthood".Translate(GetUniqueCombinedLabelFor(this._backstory)).StringSafe;
 #endif
 	}
 }

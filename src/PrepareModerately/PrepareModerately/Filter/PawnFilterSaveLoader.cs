@@ -1,23 +1,22 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-using System.Linq;
-#endif
 
-using Lakuna.PrepareModerately.Filter.Part;
 using Lakuna.PrepareModerately.Utility;
 
 using Verse;
 
 namespace Lakuna.PrepareModerately.Filter {
 	// Based on `Verse.GameDataSaveLoader`.
-	internal static class PawnFilterSaveLoader {
+	public static class PawnFilterSaveLoader {
 		private const string _filterNodeName = "filter";
 
 		private const string _savedFilterParentNodeName = "savedfilter";
 
-		internal static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+#else
+		public static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter? filter) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			return LoadInternal(absolutePath, category, out filter);
 #else
@@ -27,65 +26,81 @@ namespace Lakuna.PrepareModerately.Filter {
 #endif
 		}
 
-		internal static void Save(PawnFilter filter, string absolutePath) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static void Save(PawnFilter filter, string absolutePath) {
 			if (filter is null) {
-				throw new ArgumentNullException(nameof(filter));
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to save null filter.");
+				return;
 			}
-#else
-			ArgumentNullException.ThrowIfNull(filter);
-#endif
 
 			try {
-				filter._fileName = Path.GetFileNameWithoutExtension(absolutePath);
+				filter.FileName = Path.GetFileNameWithoutExtension(absolutePath);
 				SafeSaver.Save(absolutePath, _savedFilterParentNodeName, () => {
 					ScribeMetaHeaderUtility.WriteMetaHeader();
 					Scribe_Deep.Look(ref filter, _filterNodeName);
 				});
-#pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
 			} catch (Exception e) {
-#pragma warning restore CA1031
 				PrepareModeratelyLogger.LogException(e, "Failed to save pawn filter.");
+				return;
+				throw;
 			}
 		}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static bool LoadInternal(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+#else
+		private static bool LoadInternal(string absolutePath, PawnFilterCategory category, out PawnFilter? filter) {
+#endif
 			filter = null;
+
+			if (Scribe.loader is null) {
+				PrepareModeratelyLogger.LogErrorMessage("Attempted to load filter with null scribe loader.");
+				return false;
+			}
 
 			try {
 				Scribe.loader.InitLoading(absolutePath);
 				try {
-					// Using the scenario scribe header mode works fine.
-					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false);
+					ScribeMetaHeaderUtility.LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, false); // Using the scenario scribe header mode works fine.
 					Scribe_Deep.Look(ref filter, _filterNodeName);
 					Scribe.loader.FinalizeLoading();
-				} catch {
+				} catch (Exception e) {
+					PrepareModeratelyLogger.LogException(e, "Error while loading filter.");
 					Scribe.ForceStop();
 					throw;
 				}
 
-				filter._fileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
-				filter._category = category;
-#pragma warning disable CA1031 // Don't rethrow the exception to avoid messing with the game.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				if (filter != null) {
+#else
+				if (filter is not null) {
+#endif
+					filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
+					filter.Category = category;
+				}
 			} catch (Exception e) {
-#pragma warning restore CA1031
 				PrepareModeratelyLogger.LogException(e, "Failed to load pawn filter.");
 				filter = null;
 				Scribe.ForceStop();
+				throw;
 			}
 
-			if (filter == null) {
+			if (filter is null) {
 				return false;
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			List<PawnFilterPart> parts = filter.parts.ToList();
+			if (filter.Parts != null) {
 #else
-			List<PawnFilterPart> parts = [.. filter.parts];
+			if (filter.Parts is not null) {
 #endif
-			if (parts.RemoveAll((part) => part.HasNullDefs()) > 0) {
-				filter.parts = parts;
-				filter._valid = false;
+				for (int i = filter.Parts.Count - 1; i >= 0; i--) {
+					if (filter.Parts[i].Valid) {
+						continue;
+					}
+
+					filter.Parts.RemoveAt(i);
+					filter.Valid = false;
+				}
 			}
 
 			return true;
