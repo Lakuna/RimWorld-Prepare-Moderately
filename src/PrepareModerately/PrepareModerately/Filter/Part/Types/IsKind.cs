@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using RimWorld;
 
