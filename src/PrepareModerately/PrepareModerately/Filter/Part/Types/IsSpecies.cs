@@ -80,7 +80,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			pawn.def == this._species;
 
 		public override void Randomize() =>
-			this._species = ThingDefOf.Human ?? _legalThings.First(); // Other things wouldn't be legal for vanilla RimWorld.
+			this._species = ThingDefOf.Human ?? _legalThings.FirstOrDefault(); // Other things wouldn't be legal for vanilla RimWorld.
 
 		public override string Summary(PawnFilter filter) =>
 #if V1_0

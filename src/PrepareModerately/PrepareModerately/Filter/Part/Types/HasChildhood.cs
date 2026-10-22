@@ -102,6 +102,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 			Scribe_Defs.Look(ref this._backstory, "backstory");
 #endif
+
+			// Support loading old filters that use `backstoryIdentifier` instead of `backstory`.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			string backstoryIdentifier = "";
+#else
+			string? backstoryIdentifier = "";
+#endif
+			if (Scribe.mode == LoadSaveMode.LoadingVars) {
+				Scribe_Values.Look(ref backstoryIdentifier, "backstoryIdentifier");
+			}
+
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this._backstory == default) {
+				this._backstory = _legalBackstories.FirstOrDefault((backstory) => backstory.identifier == backstoryIdentifier);
+			}
 		}
 
 		public override int GetHashCode() =>

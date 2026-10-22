@@ -295,9 +295,9 @@ namespace Lakuna.PrepareModerately.Ui {
 		private void EnsureValidSelection() {
 			if (this._filter is null || !PawnFilterLister.FilterIsListedAnywhere(this._filter)) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				PawnFilter filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).First();
+				PawnFilter filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).FirstOrDefault();
 #else
-				PawnFilter? filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).First();
+				PawnFilter? filter = PawnFilterLister.InCategory(PawnFilterCategory.FromDef).FirstOrDefault();
 #endif
 				if (filter is null) {
 					PrepareModeratelyLogger.LogErrorMessage("Unable to find any valid filter when ensuring valid filter selection.");

@@ -90,9 +90,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() =>
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this._kind = Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.First(); // Other kinds wouldn't be legal for vanilla RimWorld.
+			this._kind = Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.FirstOrDefault(); // Other kinds wouldn't be legal for vanilla RimWorld.
 #else
-			this._kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.First(); // Other kinds wouldn't be legal for vanilla RimWorld.
+			this._kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.FirstOrDefault(); // Other kinds wouldn't be legal for vanilla RimWorld.
 #endif
 
 		public override string Summary(PawnFilter filter) =>

@@ -37,9 +37,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool HasNullDefs =>
 			base.HasNullDefs || this._skill is null;
 
-		[Obsolete("`level` has been superseded by `range`.")]
-		private int _level;
-
 		private IntRange _range;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -79,19 +76,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Scribe_Values.Look(ref this._range, "range");
 			Scribe_Defs.Look(ref this._skill, "skill");
 
-#pragma warning disable CS0618 // Support loading old filters that use `level` instead of `range`.
+			// Support loading old filters that use `level` instead of `range`.
+			int level = 0;
 			if (Scribe.mode == LoadSaveMode.LoadingVars) {
-				Scribe_Values.Look(ref this._level, "level");
+				Scribe_Values.Look(ref level, "level");
 			}
 
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && this._range == default) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				this._range = new IntRange(this._level, this._level);
+				this._range = new IntRange(level, level);
 #else
-				this._range = new(this._level, this._level);
+				this._range = new(level, level);
 #endif
 			}
-#pragma warning restore CS0618
 		}
 
 		public override int GetHashCode() =>
