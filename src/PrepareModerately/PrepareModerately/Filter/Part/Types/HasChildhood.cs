@@ -79,7 +79,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._backstory))) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._backstory).CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._backstory).CapitalizeFirstSafe)) {
+#endif
 				FloatMenuUtility.MakeMenu(
 					_legalBackstories.OrderBy(GetUniqueCombinedLabelFor),
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

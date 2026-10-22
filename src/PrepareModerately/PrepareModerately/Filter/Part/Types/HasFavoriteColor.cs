@@ -60,10 +60,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-			if (Widgets.ButtonText(rect, LabelFor(this._color))) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(rect, LabelFor(this._color).CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(rect, LabelFor(this._color).CapitalizeFirstSafe)) {
+#endif
 				FloatMenuUtility.MakeMenu(
 					_legalColors.OrderBy((def) => def.label),
-					(def) => LabelFor(def),
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					(def) => LabelFor(def).CapitalizeFirstSafe(),
+#else
+					(def) => LabelFor(def).CapitalizeFirstSafe,
+#endif
 					(def) => () => this._color = def);
 			}
 		}

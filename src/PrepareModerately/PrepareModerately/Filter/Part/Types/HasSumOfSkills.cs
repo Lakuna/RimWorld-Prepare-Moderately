@@ -65,7 +65,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				return;
 			}
 
-			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this._range, SkillRecord.MinLevel * this._skills.Count, SkillRecord.MaxLevel * this._skills.Count, "PM.LevelRange");
+			// If the range goes beyond the maximum because a skill was just removed from the list, adjust it to fit on the UI.
+			int max = SkillRecord.MaxLevel * this._skills.Count;
+			if (this._range.max > max) {
+				this._range.max = max;
+			}
+
+			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this._range, SkillRecord.MinLevel * this._skills.Count, max, "PM.LevelRange");
 
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
 #if V1_0
