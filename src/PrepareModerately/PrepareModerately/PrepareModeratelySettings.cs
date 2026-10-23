@@ -13,6 +13,11 @@ namespace Lakuna.PrepareModerately {
 			set => this._filterSavePath = value;
 		}
 
+		public bool HighVisibilityMode {
+			get => this._highVisibilityMode;
+			set => this._highVisibilityMode = value;
+		}
+
 		public float RollSpeedMultiplier {
 			get => this._rollSpeedMultiplier;
 			set => this._rollSpeedMultiplier = value;
@@ -24,11 +29,14 @@ namespace Lakuna.PrepareModerately {
 		private string? _filterSavePath = PawnFilterFilePaths.DefaultDataPath;
 #endif
 
+		private bool _highVisibilityMode;
+
 		private float _rollSpeedMultiplier = 1;
 
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Values.Look(ref this._filterSavePath, "filterSavePath");
+			Scribe_Values.Look(ref this._highVisibilityMode, "highVisibilityMode");
 			Scribe_Values.Look(ref this._rollSpeedMultiplier, "rollSpeedMultiplier");
 		}
 	}

@@ -40,6 +40,14 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		public override void DoWindowContents(Rect inRect) {
+			if (PrepareModeratelyMod.Settings?.HighVisibilityMode ?? false) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				Widgets.DrawBoxSolid(inRect, new Color(1, 1, 0));
+#else
+				Widgets.DrawBoxSolid(inRect, new(1, 1, 0));
+#endif
+			}
+
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(inRect, $"{"PM.RollingNumber".Translate(this._iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}");
 			Text.Anchor = TextAnchor.UpperLeft; // Text anchor must end on upper left.

@@ -54,64 +54,27 @@ namespace Lakuna.PrepareModerately {
 
 			listing.Gap(); // So that the horizontal slider's bound numbers don't intersect with the text area.
 
+			float rollSpeedMultiplier = Settings.RollSpeedMultiplier;
 #if V1_0
-			Settings.RollSpeedMultiplier = Widgets.HorizontalSlider(
-				listing.GetRect(Text.LineHeight).Rounded(),
-				Settings.RollSpeedMultiplier,
-				1,
-				100,
-				false,
-				"PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst(),
-				null,
-				null,
-				1);
+			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier)?.CapitalizeFirstSafe() ?? "null", null, null, 1);
 #elif V1_1 || V1_2 || V1_3
-			Settings.RollSpeedMultiplier = Widgets.HorizontalSlider(
-				listing.GetRect(Text.LineHeight).Rounded(),
-				Settings.RollSpeedMultiplier,
-				1,
-				100,
-				false,
-				"PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(),
-				null,
-				null,
-				1);
-#elif V1_4
-#pragma warning disable CS0612 // This was marked as obsolete temporarily just for RimWorld 1.4.
-			Settings.RollSpeedMultiplier = Widgets.HorizontalSlider(
-				listing.GetRect(Text.LineHeight).Rounded(),
-				Settings.RollSpeedMultiplier,
-				1,
-				100,
-				false,
-				"PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(),
-				null,
-				null,
-				1);
-#pragma warning restore CS0612
-#elif V1_5 || V1_6
-			Settings.RollSpeedMultiplier = Widgets.HorizontalSlider(
-				listing.GetRect(Text.LineHeight).Rounded(),
-				Settings.RollSpeedMultiplier,
-				1,
-				100,
-				false,
-				"PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(),
-				null,
-				null,
-				1);
+			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(), null, null, 1);
+#elif V1_4 || V1_5 || V1_6
+			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new FloatRange(1, 100), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(), 1);
 #else
-			Settings.RollSpeedMultiplier = Widgets.HorizontalSlider(
-				listing.GetRect(Text.LineHeight).Rounded(),
-				Settings.RollSpeedMultiplier,
-				1,
-				100,
-				false,
-				"PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe,
-				null,
-				null,
-				1);
+			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new(1, 100), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe, 1);
 #endif
+			Settings.RollSpeedMultiplier = rollSpeedMultiplier;
+
+			bool highVisibilityMode = Settings.HighVisibilityMode;
+#if V1_0
+			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate()?.CapitalizeFirstSafe() ?? "null", ref highVisibilityMode);
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate().CapitalizeFirst().StringSafe(), ref highVisibilityMode);
+#else
+			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate().CapitalizeFirst().StringSafe, ref highVisibilityMode);
+#endif
+			Settings.HighVisibilityMode = highVisibilityMode;
 
 			listing.End();
 		}

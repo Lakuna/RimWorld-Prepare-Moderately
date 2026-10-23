@@ -48,6 +48,7 @@
 	<PM.AddCondition>add condition</PM.AddCondition>
 	<PM.BodyPart>body part</PM.BodyPart>
 	<PM.Chemical>chemical</PM.Chemical>
+	<PM.HighVisibilityMode>high visibility mode</PM.HighVisibilityMode>
 
 	<!-- Filter Part Summaries -->
 	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>
