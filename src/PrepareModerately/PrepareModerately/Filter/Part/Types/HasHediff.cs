@@ -14,6 +14,8 @@ using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasHediff : PawnFilterPart {
+		private const int _labelGap = 4;
+
 		private static IEnumerable<BodyPartDef> _legalBodyParts =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			DefDatabase<BodyPartDef>.AllDefs ?? new List<BodyPartDef>();
@@ -107,6 +109,26 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private HediffDef? _hediff;
 #endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static string GetUniqueLabelFor(BodyPartDef def) =>
+#else
+		private static string GetUniqueLabelFor(BodyPartDef? def) =>
+#endif
+			def is null ? "null"
+			: (def.label is null || def.label.NullOrEmpty()) ? (def.defName ?? "null")
+			: _legalBodyParts.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
+			: def.label;
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static string GetUniqueLabelFor(HediffDef def) =>
+#else
+		private static string GetUniqueLabelFor(HediffDef? def) =>
+#endif
+			def is null ? "null"
+			: (def.label is null || def.label.NullOrEmpty()) ? (def.defName ?? "null")
+			: _legalHediffs.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
+			: def.label;
+
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (3 + (this._conditions?.Count ?? 0)), out totalAddedListHeight, out Rect headerRemainderRect).Rounded();
 
@@ -121,11 +143,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 #if V1_0
-			if (Widgets.ButtonText(headerRemainderRect, (this._hediff?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any")) {
+			if (Widgets.ButtonText(headerRemainderRect, this._hediff is null ? ("PM.Any".Translate()?.CapitalizeFirstSafe() ?? "null") : GetUniqueLabelFor(this._hediff).CapitalizeFirstSafe())) {
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(headerRemainderRect, (this._hediff?.LabelCap ?? "PM.Any".Translate()).StringSafe())) {
+			if (Widgets.ButtonText(headerRemainderRect, this._hediff is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe() : GetUniqueLabelFor(this._hediff).CapitalizeFirstSafe())) {
 #else
-			if (Widgets.ButtonText(headerRemainderRect, (this._hediff?.LabelCap ?? "PM.Any".Translate()).StringSafe)) {
+			if (Widgets.ButtonText(headerRemainderRect, this._hediff is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe : GetUniqueLabelFor(this._hediff).CapitalizeFirstSafe)) {
 #endif
 				FloatMenuUtility.MakeMenu(
 #if V1_0
@@ -134,22 +156,31 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					_legalHediffs.OrderBy((def) => def.label).Prepend(null),
 #endif
 #if V1_0
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any",
+					(def) => def is null ? ("PM.Any".Translate()?.CapitalizeFirstSafe() ?? "null") : GetUniqueLabelFor(def).CapitalizeFirstSafe(),
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe(),
+					(def) => def is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe() : GetUniqueLabelFor(def).CapitalizeFirstSafe(),
 #else
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe,
+					(def) => def is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe : GetUniqueLabelFor(def).CapitalizeFirstSafe,
 #endif
 					(def) => () => this._hediff = def);
 			}
 
-			Rect bodyPartRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
+			Rect bodyPartRect = new Rect(headerRemainderRect.x, rect.y, headerRemainderRect.width, Text.LineHeight).Rounded();
 #if V1_0
-			if (Widgets.ButtonText(bodyPartRect, (this._bodyPart?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any")) {
+			string bodyPartLabel = "PM.BodyPart".Translate()?.CapitalizeFirstSafe() ?? "null";
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(bodyPartRect, (this._bodyPart?.LabelCap ?? "PM.Any".Translate()).StringSafe())) {
+			string bodyPartLabel = "PM.BodyPart".Translate().CapitalizeFirst().StringSafe();
 #else
-			if (Widgets.ButtonText(bodyPartRect, (this._bodyPart?.LabelCap ?? "PM.Any".Translate()).StringSafe)) {
+			string bodyPartLabel = "PM.BodyPart".Translate().CapitalizeFirst().StringSafe;
+#endif
+			float bodyPartLabelWidth = Text.CalcSize(bodyPartLabel).x;
+			Widgets.Label(new Rect(bodyPartRect.x - bodyPartLabelWidth - _labelGap, bodyPartRect.y, bodyPartLabelWidth, bodyPartRect.height).Rounded(), bodyPartLabel);
+#if V1_0
+			if (Widgets.ButtonText(bodyPartRect, this._bodyPart is null ? ("PM.Any".Translate()?.CapitalizeFirstSafe() ?? "null") : GetUniqueLabelFor(this._bodyPart).CapitalizeFirstSafe())) {
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (Widgets.ButtonText(bodyPartRect, this._bodyPart is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe() : GetUniqueLabelFor(this._bodyPart).CapitalizeFirstSafe())) {
+#else
+			if (Widgets.ButtonText(bodyPartRect, this._bodyPart is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe : GetUniqueLabelFor(this._bodyPart).CapitalizeFirstSafe)) {
 #endif
 				FloatMenuUtility.MakeMenu(
 #if V1_0
@@ -158,22 +189,31 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					_legalBodyParts.OrderBy((def) => def.label).Prepend(null),
 #endif
 #if V1_0
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any",
+					(def) => def is null ? ("PM.Any".Translate()?.CapitalizeFirstSafe() ?? "null") : GetUniqueLabelFor(def).CapitalizeFirstSafe(),
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe(),
+					(def) => def is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe() : GetUniqueLabelFor(def).CapitalizeFirstSafe(),
 #else
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe,
+					(def) => def is null ? "PM.Any".Translate().CapitalizeFirst().StringSafe : GetUniqueLabelFor(def).CapitalizeFirstSafe,
 #endif
 					(def) => () => this._bodyPart = def);
 			}
 
-			Rect chemicalRect = new Rect(rect.x, bodyPartRect.yMax, rect.width, Text.LineHeight).Rounded();
+			Rect chemicalRect = new Rect(bodyPartRect.x, bodyPartRect.yMax, bodyPartRect.width, Text.LineHeight).Rounded();
+#if V1_0
+			string chemicalLabel = "PM.Chemical".Translate()?.CapitalizeFirstSafe() ?? "null";
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			string chemicalLabel = "PM.Chemical".Translate().CapitalizeFirst().StringSafe();
+#else
+			string chemicalLabel = "PM.Chemical".Translate().CapitalizeFirst().StringSafe;
+#endif
+			float chemicalLabelWidth = Text.CalcSize(chemicalLabel).x;
+			Widgets.Label(new Rect(chemicalRect.x - chemicalLabelWidth - _labelGap, chemicalRect.y, chemicalLabelWidth, chemicalRect.height).Rounded(), chemicalLabel);
 #if V1_0
 			if (Widgets.ButtonText(chemicalRect, (this._chemical?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any")) {
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(chemicalRect, (this._chemical?.LabelCap ?? "PM.Any".Translate()).StringSafe())) {
+			if (Widgets.ButtonText(chemicalRect, (this._chemical?.LabelCap ?? "PM.Any".Translate().CapitalizeFirst()).StringSafe())) {
 #else
-			if (Widgets.ButtonText(chemicalRect, (this._chemical?.LabelCap ?? "PM.Any".Translate()).StringSafe)) {
+			if (Widgets.ButtonText(chemicalRect, (this._chemical?.LabelCap ?? "PM.Any".Translate().CapitalizeFirst()).StringSafe)) {
 #endif
 				FloatMenuUtility.MakeMenu(
 #if V1_0
@@ -184,9 +224,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if V1_0
 					(def) => (def?.LabelCap ?? "PM.Any".Translate()?.CapitalizeFirstSafe()) ?? "any",
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe(),
+					(def) => (def?.LabelCap ?? "PM.Any".Translate().CapitalizeFirst()).StringSafe(),
 #else
-					(def) => (def?.LabelCap ?? "PM.Any".Translate()).StringSafe,
+					(def) => (def?.LabelCap ?? "PM.Any".Translate().CapitalizeFirst()).StringSafe,
 #endif
 					(def) => () => this._chemical = def);
 			}
@@ -204,9 +244,9 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if V1_0
 					(key) => key.Translate()?.CapitalizeFirstSafe() ?? "null",
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(key) => key.Translate().StringSafe(),
+					(key) => key.Translate().CapitalizeFirst().StringSafe(),
 #else
-					(key) => key.Translate().StringSafe,
+					(key) => key.Translate().CapitalizeFirst().StringSafe,
 #endif
 					(key) => () => this._conditions.Add(key));
 			}
@@ -349,21 +389,21 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 						: this._chemical is null ? "PM.HasHediffWithConditions".Translate(string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
 						: "PM.HasHediffWithConditionsToChemical".Translate(string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null")
 					: (this._conditions is null || this._conditions.Count < 1) ?
-						this._chemical is null ? "PM.HasHediffOnPart".Translate(this._bodyPart.label ?? "null")
-						: "PM.HasHediffOnPartToChemical".Translate(this._bodyPart.label ?? "null", this._chemical.label ?? "null")
-					: this._chemical is null ? "PM.HasHediffOnPartWithConditions".Translate(this._bodyPart.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
-					: "PM.HasHediffOnPartWithConditionsToChemical".Translate(this._bodyPart.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null")
+						this._chemical is null ? "PM.HasHediffOnPart".Translate(GetUniqueLabelFor(this._bodyPart))
+						: "PM.HasHediffOnPartToChemical".Translate(GetUniqueLabelFor(this._bodyPart), this._chemical.label ?? "null")
+					: this._chemical is null ? "PM.HasHediffOnPartWithConditions".Translate(GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
+					: "PM.HasHediffOnPartWithConditionsToChemical".Translate(GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null")
 				: this._bodyPart is null ?
 						(this._conditions is null || this._conditions.Count < 1) ?
-							this._chemical is null ? "PM.HasTypeHediff".Translate(this._hediff.label ?? "null")
-							: "PM.HasTypeHediffToChemical".Translate(this._hediff.label ?? "null", this._chemical.label ?? "null")
-						: this._chemical is null ? "PM.HasTypeHediffWithConditions".Translate(this._hediff.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
-						: "PM.HasTypeHediffWithConditionsToChemical".Translate(this._hediff.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null")
+							this._chemical is null ? "PM.HasTypeHediff".Translate(GetUniqueLabelFor(this._hediff))
+							: "PM.HasTypeHediffToChemical".Translate(GetUniqueLabelFor(this._hediff), this._chemical.label ?? "null")
+						: this._chemical is null ? "PM.HasTypeHediffWithConditions".Translate(GetUniqueLabelFor(this._hediff), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
+						: "PM.HasTypeHediffWithConditionsToChemical".Translate(GetUniqueLabelFor(this._hediff), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null")
 					: (this._conditions is null || this._conditions.Count < 1) ?
-						this._chemical is null ? "PM.HasTypeHediffOnPart".Translate(this._hediff.label ?? "null", this._bodyPart.label ?? "null")
-						: "PM.HasTypeHediffOnPartToChemical".Translate(this._hediff.label ?? "null", this._bodyPart.label ?? "null", this._chemical.label ?? "null")
-					: this._chemical is null ? "PM.HasTypeHediffOnPartWithConditions".Translate(this._hediff.label ?? "null", this._bodyPart.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
-					: "PM.HasTypeHediffOnPartWithConditionsToChemical".Translate(this._hediff.label ?? "null", this._bodyPart.label ?? "null", string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null"))
+						this._chemical is null ? "PM.HasTypeHediffOnPart".Translate(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart))
+						: "PM.HasTypeHediffOnPartToChemical".Translate(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), this._chemical.label ?? "null")
+					: this._chemical is null ? "PM.HasTypeHediffOnPartWithConditions".Translate(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()))
+					: "PM.HasTypeHediffOnPartWithConditionsToChemical".Translate(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.Translate()).ToArray()), this._chemical.label ?? "null"))
 #if V1_0
 				?? "null";
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

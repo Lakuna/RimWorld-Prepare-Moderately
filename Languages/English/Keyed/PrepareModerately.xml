@@ -44,6 +44,10 @@
 	<PM.UnnamedFilter>unnamed filter</PM.UnnamedFilter>
 	<PM.FailedToGetFullInformationText>failed to get full information text</PM.FailedToGetFullInformationText>
 	<PM.PrepareModeratelyEncounteredAnException>Prepare Moderately encountered an exception:\n{0}</PM.PrepareModeratelyEncounteredAnException>
+	<PM.Any>any</PM.Any>
+	<PM.AddCondition>add condition</PM.AddCondition>
+	<PM.BodyPart>body part</PM.BodyPart>
+	<PM.Chemical>chemical</PM.Chemical>
 
 	<!-- Filter Part Summaries -->
 	<PM.HasAnyAddiction>has any addiction</PM.HasAnyAddiction>
@@ -117,6 +121,4 @@
 	<PM.HasTypeHediffOnPartToChemical>has a(n) {0} health difference on their {1} to {2}</PM.HasTypeHediffOnPartToChemical>
 	<PM.HasTypeHediffOnPartWithConditions>has a(n) {0} health difference on their {1} that {2}</PM.HasTypeHediffOnPartWithConditions>
 	<PM.HasTypeHediffOnPartWithConditionsToChemical>has a(n) {0} health difference on their {1} that {2} to {3}</PM.HasTypeHediffOnPartWithConditionsToChemical>
-	<PM.Any>any</PM.Any>
-	<PM.AddCondition>add condition</PM.AddCondition>
 </LanguageData>
