@@ -9,6 +9,7 @@ using RimWorld;
 using UnityEngine;
 
 using Verse;
+using Verse.Sound;
 
 namespace Lakuna.PrepareModerately.Ui {
 	public sealed class RollingDialog : Page {
@@ -60,6 +61,10 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			for (int i = 0; i < (PrepareModeratelyMod.Settings?.RollSpeedMultiplier ?? 1); i++) {
 				if (PawnFilter.Current?.Matches(RandomizeInPlacePatch.Result) ?? true) {
+					if ((PrepareModeratelyMod.Settings?.HighVisibilityMode ?? false) && this._iterations > 1000) {
+						SoundDefOf.Crunch?.PlayOneShotOnCamera();
+					}
+
 					this.Close();
 					return;
 				}
