@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasMarketValue">
+		<defName>HasMarketValue</defName>
+		<label>has market value</label>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasMarketValue</_filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

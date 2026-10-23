@@ -72,6 +72,12 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef? HasHediff;
 #endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasMarketValue;
+#else
+		public static readonly PawnFilterPartDef? HasMarketValue;
+#endif
+
 #if V1_0
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static readonly PawnFilterPartDef HasMeditationFocus;
@@ -102,6 +108,12 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		public static readonly PawnFilterPartDef HasPossession;
 #else
 		public static readonly PawnFilterPartDef? HasPossession;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly PawnFilterPartDef HasPsychicSensitivity;
+#else
+		public static readonly PawnFilterPartDef? HasPsychicSensitivity;
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

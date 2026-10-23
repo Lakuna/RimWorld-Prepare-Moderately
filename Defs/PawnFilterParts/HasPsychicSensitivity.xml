@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Defs>
+	<Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef Name="HasPsychicSensitivity">
+		<defName>HasPsychicSensitivity</defName>
+		<label>has psychic sensitivity</label>
+		<_category>Normal</_category>
+		<_filterPartClass>Lakuna.PrepareModerately.Filter.Part.Types.HasPsychicSensitivity</_filterPartClass>
+	</Lakuna.PrepareModerately.Filter.Part.PawnFilterPartDef>
+</Defs>

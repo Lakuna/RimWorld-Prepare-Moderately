@@ -96,6 +96,10 @@
 	<PM.HasBetweenNumberOfTraits>has between {0} and {1} traits</PM.HasBetweenNumberOfTraits>
 	<PM.HasSumOfSkills>has sum {0} of skills {1}</PM.HasSumOfSkills>
 	<PM.HasBetweenSumOfSkills>has sum between {0} and {1} of skills {2}</PM.HasBetweenSumOfSkills>
+	<PM.HasMarketValue>has ${0} market value</PM.HasMarketValue>
+	<PM.HasBetweenMarketValue>has between ${0} and ${1} market value</PM.HasBetweenMarketValue>
+	<PM.HasPsychicSensitivity>has {0} psychic sensitivity</PM.HasPsychicSensitivity>
+	<PM.HasBetweenPsychicSensitivity>has between {0} and {1} psychic sensitivity</PM.HasBetweenPsychicSensitivity>
 	<PM.IsKind>is a(n) {0}</PM.IsKind>
 	<PM.Chronic>is chronic</PM.Chronic>
 	<PM.CountsAsAddedPartOrImplant>counts as added part or implant</PM.CountsAsAddedPartOrImplant>
