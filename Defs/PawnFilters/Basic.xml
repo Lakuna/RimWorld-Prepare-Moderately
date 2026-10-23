@@ -17,20 +17,11 @@
 						<_summary>If you are seeing this summary in the UI, something has gone wrong.</_summary>
 						<_description>This filter exists inside of a logic gate. It is part of another filter.</_description>
 						<_parts>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyAddiction">
-								<_def>HasAnyAddiction</_def>
-							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyBodyModification">
-								<_def>HasAnyBodyModification</_def>
-							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyMissingBodyPart">
-								<_def>HasAnyMissingBodyPart</_def>
-							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyPermanentMedicalCondition">
-								<_def>HasAnyPermanentMedicalCondition</_def>
-							</li>
-							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasAnyScar">
-								<_def>HasAnyScar</_def>
+							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasHediff">
+								<_def>HasHediff</_def>
+								<_conditions>
+									<li>PM.IsBad</li>
+								</_conditions>
 							</li>
 							<li Class="Lakuna.PrepareModerately.Filter.Part.Types.HasTrait">
 								<_def>HasTrait</_def>
