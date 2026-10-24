@@ -94,13 +94,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 			pawn.relations.RelatedPawns.Any((relatedPawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					relatedPawn != null
+					!(relatedPawn is null)
 #else
 					relatedPawn is not null
 #endif
 					&& !((relatedPawn.RaceProps?.Animal ?? false) && relatedPawn.Dead && relatedPawn.Corpse is null)
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					&& relatedPawn.Name != null
+					&& !(relatedPawn.Name is null)
 #else
 					&& relatedPawn.Name is not null
 #endif

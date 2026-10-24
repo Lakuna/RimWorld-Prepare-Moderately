@@ -221,7 +221,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Collections.Look(ref this._parts, "parts", LookMode.Deep);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.Parts != null) {
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && !(this.Parts is null)) {
 #else
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.Parts is not null) {
 #endif
@@ -253,7 +253,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			hash ^= this.Description?.GetHashCode(StringComparison.Ordinal) ?? 0;
 #endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (this.Parts != null) {
+			if (!(this.Parts is null)) {
 #else
 			if (this.Parts is not null) {
 #endif

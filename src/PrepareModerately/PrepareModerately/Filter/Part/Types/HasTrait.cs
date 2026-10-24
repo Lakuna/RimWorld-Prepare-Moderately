@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Valid =>
 			base.Valid
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			&& this._traitDegree != null;
+			&& !(this._traitDegree is null);
 #else
 			&& this._traitDegree is not null;
 #endif
@@ -84,7 +84,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._traitDegree?.Trait != null
+			!(this._traitDegree?.Trait is null)
 #else
 			this._traitDegree?.Trait is not null
 #endif

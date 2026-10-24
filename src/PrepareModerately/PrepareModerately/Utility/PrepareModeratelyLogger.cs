@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Utility {
 			Exception? innerException = e;
 #endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			while (innerException != null) {
+			while (!(innerException is null)) {
 #else
 			while (innerException is not null) {
 #endif
@@ -39,7 +39,7 @@ namespace Lakuna.PrepareModerately.Utility {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (e != null) {
+			if (!(e is null)) {
 #else
 			if (e is not null) {
 #endif

@@ -30,7 +30,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Valid =>
 			base.Valid
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			&& this._skills != null;
+			&& !(this._skills is null);
 #else
 			&& this._skills is not null;
 #endif
@@ -133,7 +133,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			int sum = 0;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) => skill != null && this._skills.Contains(skill.def)) ?? new List<SkillRecord>()) {
+			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) => !(skill is null) && this._skills.Contains(skill.def)) ?? new List<SkillRecord>()) {
 #else
 			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) => skill is not null && this._skills.Contains(skill.def)) ?? []) {
 #endif

@@ -110,7 +110,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.IgnoreFor(pawn)
 			|| this._skill is null
 			|| (pawn.genes?.GenesListForReading?.Any((gene) =>
-				gene?.def?.passionMod != null
+				!(gene?.def?.passionMod is null)
 				&& gene.def.passionMod.skill == this._skill
 				&& !PassionIsPossibleWithModifier(this._passion, gene.def.passionMod.modType)) ?? false);
 #else
@@ -125,7 +125,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._skill != null
+			!(this._skill is null)
 #else
 			this._skill is not null
 #endif

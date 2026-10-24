@@ -78,7 +78,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Valid =>
 			base.Valid
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			&& this._conditions != null;
+			&& !(this._conditions is null);
 #else
 			&& this._conditions is not null;
 #endif
@@ -132,7 +132,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #if V1_0 || V1_1 || V1_2 || V1_3
 #elif V1_4 || V1_5 || V1_6
 		private static bool IgnoreForHediff(Hediff hediff) =>
-			hediff?.pawn?.genes?.GenesListForReading != null
+			!(hediff?.pawn?.genes?.GenesListForReading is null)
 			&& hediff.pawn.genes.GenesListForReading.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff);
 #else
 		private static bool IgnoreForHediff(Hediff hediff) =>
@@ -373,7 +373,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private bool MatchesHediff(Hediff hediff) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			hediff != null
+			!(hediff is null)
 #else
 			hediff is not null
 #endif
@@ -385,7 +385,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				|| hediff is Hediff_Addiction addiction && addiction.Chemical == this._chemical)
 			&& (this._conditions?.All((condition) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				condition != null
+				!(condition is null)
 #else
 				condition is not null
 #endif

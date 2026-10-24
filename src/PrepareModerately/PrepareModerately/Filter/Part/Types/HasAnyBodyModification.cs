@@ -11,7 +11,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasAnyBodyModification : PawnFilterPart {
 		public override bool Matches(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			pawn.health.hediffSet != null
+			!(pawn.health.hediffSet is null)
 #else
 			pawn.health.hediffSet is not null
 #endif

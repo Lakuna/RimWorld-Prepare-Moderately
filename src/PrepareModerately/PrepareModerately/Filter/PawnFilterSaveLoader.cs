@@ -70,7 +70,7 @@ namespace Lakuna.PrepareModerately.Filter {
 				}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				if (filter != null) {
+				if (!(filter is null)) {
 #else
 				if (filter is not null) {
 #endif
@@ -89,7 +89,7 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter.Parts != null) {
+			if (!(filter.Parts is null)) {
 #else
 			if (filter.Parts is not null) {
 #endif

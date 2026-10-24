@@ -43,7 +43,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Valid =>
 			base.Valid
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			&& this._innerFilter != null;
+			&& !(this._innerFilter is null);
 #else
 			&& this._innerFilter is not null;
 #endif
