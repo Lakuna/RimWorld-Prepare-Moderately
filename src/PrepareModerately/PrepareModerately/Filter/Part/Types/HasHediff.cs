@@ -129,6 +129,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			: _legalHediffs.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
 			: def.label;
 
+#if V1_0 || V1_1 || V1_2 || V1_3
+#elif V1_4 || V1_5 || V1_6
+		private static bool IgnoreForHediff(Hediff hediff) =>
+			hediff?.pawn?.genes?.GenesListForReading != null
+			&& hediff.pawn.genes.GenesListForReading.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff);
+#else
+		private static bool IgnoreForHediff(Hediff hediff) =>
+			hediff?.pawn?.genes?.GenesListForReading is not null
+			&& hediff.pawn.genes.GenesListForReading.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff);
+#endif
+
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * (3 + (this._conditions?.Count ?? 0)), out totalAddedListHeight, out Rect headerRemainderRect).Rounded();
 
@@ -293,65 +304,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.GetHashCode() ^ (this._conditions?.GetHashCode() ?? 0);
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-		public override bool IgnoreFor(Pawn pawn) {
-			if (base.IgnoreFor(pawn)) {
-				return true;
-			}
-
-#if V1_4 || V1_5 || V1_6
-			if (this._chemical != null
-#else
-			if (this._chemical is not null
-#endif
-				&& (pawn.genes?.GenesListForReading?.Any((gene) => gene?.def?.chemical == this._chemical) ?? false)) {
-				return true;
-			}
-
-			if ((this._conditions?.Any((condition) => condition == "PM.IsAddiction") ?? false)
-#if V1_4 || V1_5 || V1_6
-				&& (pawn.genes?.GenesListForReading.Any((gene) => gene?.def?.chemical != null) ?? false)) {
-#else
-				&& (pawn.genes?.GenesListForReading.Any((gene) => gene?.def?.chemical is not null) ?? false)) {
-#endif
-				return true;
-			}
-
-#if V1_4 || V1_5 || V1_6
-			if (this._hediff != null
-#else
-			if (this._hediff is not null
-#endif
-				&& (pawn.genes?.GenesListForReading?.Any((gene) =>
-				(gene?.def?.makeImmuneTo?.Any((hediff) => this._hediff == hediff) ?? false)
-				|| (gene?.def?.hediffGiversCannotGive?.Any((hediff) => this._hediff == hediff) ?? false)) ?? false)) {
-				return true;
-			}
-
-			return false;
-		}
+		public override bool IgnoreFor(Pawn pawn) =>
+			base.IgnoreFor(pawn)
+			|| (pawn.health?.hediffSet?.hediffs?.Where(this.MatchesHediff).All(IgnoreForHediff) ?? false);
 #endif
 
 		public override bool Matches(Pawn pawn) =>
-			pawn.health?.hediffSet?.hediffs?.Any((hediff) =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				hediff != null
-#else
-				hediff is not null
-#endif
-				&& (this._bodyPart is null || hediff?.Part?.def == this._bodyPart)
-				&& (this._chemical is null
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-					|| hediff is Hediff_ChemicalDependency dependency && dependency.chemical == this._chemical
-#endif
-					|| hediff is Hediff_Addiction addiction && addiction.Chemical == this._chemical)
-				&& (this._conditions?.All((condition) =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					condition != null
-#else
-					condition is not null
-#endif
-					&& (_legalConditions.TryGetValue(condition)?.Invoke(hediff) ?? false)) ?? false)
-				&& (this._hediff is null || hediff.def == this._hediff)) ?? false;
+			pawn.health?.hediffSet?.hediffs?.Any(this.MatchesHediff) ?? false;
 
 		public override void Randomize() {
 			if (this._conditions is null) {
@@ -411,5 +370,26 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 				.StringSafe;
 #endif
+
+		private bool MatchesHediff(Hediff hediff) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			hediff != null
+#else
+			hediff is not null
+#endif
+			&& (this._bodyPart is null || hediff.Part?.def == this._bodyPart)
+			&& (this._chemical is null
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				|| hediff is Hediff_ChemicalDependency dependency && dependency.chemical == this._chemical
+#endif
+				|| hediff is Hediff_Addiction addiction && addiction.Chemical == this._chemical)
+			&& (this._conditions?.All((condition) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				condition != null
+#else
+				condition is not null
+#endif
+				&& (_legalConditions.TryGetValue(condition)?.Invoke(hediff) ?? false)) ?? false)
+			&& (this._hediff is null || hediff.def == this._hediff);
 	}
 }
