@@ -137,12 +137,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				return;
 			}
 
-			if (Textures.ReorderUp is null) {
+			if (PrepareModeratelyTextures.ReorderUp is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null reorder up texture.");
 				return;
 			}
 
-			if (Textures.ReorderDown is null) {
+			if (PrepareModeratelyTextures.ReorderDown is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null reorder down texture.");
 				return;
 			}
@@ -157,7 +157,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			WidgetRow collapseWidgetRow = new(collapseRect.x, collapseRect.y, UIDirection.RightThenDown, _collapseWidgetRowMaxWidth, 0);
 #endif
 			if (collapseWidgetRow.ButtonIcon(
-				this._collapsed ? Textures.ReorderDown : Textures.ReorderUp,
+				this._collapsed ? PrepareModeratelyTextures.ReorderDown : PrepareModeratelyTextures.ReorderUp,
 #if V1_0
 				(this._collapsed ? "PM.Expand" : "PM.Collapse").Translate()?.CapitalizeFirst() ?? "null",
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

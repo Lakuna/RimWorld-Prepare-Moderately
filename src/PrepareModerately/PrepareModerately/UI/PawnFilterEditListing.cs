@@ -55,13 +55,13 @@ namespace Lakuna.PrepareModerately.Ui {
 			if (part is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to get a listing rectangle for a null part.");
 				headerRemainderRect = headerRect;
-			} else if (Textures.Delete is null) {
+			} else if (PrepareModeratelyTextures.Delete is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null delete texture.");
 				headerRemainderRect = headerRect;
-			} else if (Textures.ReorderUp is null) {
+			} else if (PrepareModeratelyTextures.ReorderUp is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null reorder up texture.");
 				headerRemainderRect = headerRect;
-			} else if (Textures.ReorderDown is null) {
+			} else if (PrepareModeratelyTextures.ReorderDown is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null reorder down texture.");
 				headerRemainderRect = headerRect;
 			} else {
@@ -72,17 +72,17 @@ namespace Lakuna.PrepareModerately.Ui {
 				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
 
-				if ((part.Def?.PlayerAddRemovable ?? false) && widgetRow.ButtonIcon(Textures.Delete, null, GenUI.SubtleMouseoverColor)) {
+				if ((part.Def?.PlayerAddRemovable ?? false) && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, null, GenUI.SubtleMouseoverColor)) {
 					SoundDefOf.Click?.PlayOneShotOnCamera();
 					this._filter.RemovePart(part);
 				}
 
-				if (this._filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(Textures.ReorderUp)) {
+				if (this._filter.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(PrepareModeratelyTextures.ReorderUp)) {
 					SoundDefOf.Tick_High?.PlayOneShotOnCamera();
 					this._filter.Reorder(part, ReorderDirection.Up);
 				}
 
-				if (this._filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(Textures.ReorderDown)) {
+				if (this._filter.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(PrepareModeratelyTextures.ReorderDown)) {
 					SoundDefOf.Tick_Low?.PlayOneShotOnCamera();
 					this._filter.Reorder(part, ReorderDirection.Down);
 				}

@@ -148,7 +148,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				return;
 			}
 
-			if (Textures.Delete is null) {
+			if (PrepareModeratelyTextures.Delete is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null delete texture.");
 				return;
 			}
@@ -275,7 +275,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #else
 				WidgetRow widgetRow = new(widgetRect.x, widgetRect.y, UIDirection.RightThenDown, widgetRect.width, 0);
 #endif
-				if (widgetRow.ButtonIcon(Textures.Delete, null, GenUI.SubtleMouseoverColor)) {
+				if (widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, null, GenUI.SubtleMouseoverColor)) {
 					SoundDefOf.Click?.PlayOneShotOnCamera();
 					_ = this._conditions.Remove(key);
 				}

@@ -164,12 +164,12 @@ namespace Lakuna.PrepareModerately.Ui {
 				return;
 			}
 
-			if (Textures.Delete is null) {
+			if (PrepareModeratelyTextures.Delete is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null delete texture.");
 				return;
 			}
 
-			if (Textures.Warning is null) {
+			if (PrepareModeratelyTextures.Warning is null) {
 				PrepareModeratelyLogger.LogErrorMessage("Attempted to draw null warning texture.");
 				return;
 			}
@@ -216,11 +216,11 @@ namespace Lakuna.PrepareModerately.Ui {
 #endif
 
 #if V1_0
-			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate()?.CapitalizeFirstSafe() ?? "null", GenUI.SubtleMouseoverColor)) {
+			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate()?.CapitalizeFirstSafe() ?? "null", GenUI.SubtleMouseoverColor)) {
 #elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe(), GenUI.SubtleMouseoverColor)) {
+			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe(), GenUI.SubtleMouseoverColor)) {
 #else
-			if (filter.CanEdit && widgetRow.ButtonIcon(Textures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe, GenUI.SubtleMouseoverColor)) {
+			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe, GenUI.SubtleMouseoverColor)) {
 #endif
 				if (filter.File is null) {
 					PrepareModeratelyLogger.LogErrorMessage("Attempted to delete null file.");
@@ -235,9 +235,9 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			if (!filter.Valid) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				_ = widgetRow.Icon(Textures.Warning);
+				_ = widgetRow.Icon(PrepareModeratelyTextures.Warning);
 #else
-				_ = widgetRow.Icon(Textures.Warning, null, _warningIconMargin);
+				_ = widgetRow.Icon(PrepareModeratelyTextures.Warning, null, _warningIconMargin);
 #endif
 			}
 

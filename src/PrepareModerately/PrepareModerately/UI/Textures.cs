@@ -5,7 +5,7 @@ using Verse;
 namespace Lakuna.PrepareModerately.Ui {
 	// Based on `Verse.TexButton`.
 	[StaticConstructorOnStartup]
-	public static class Textures {
+	public static class PrepareModeratelyTextures {
 #if V1_0 || V1_1 || V1_2
 		public static readonly Texture2D Delete = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");
 #elif V1_3 || V1_4

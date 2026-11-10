@@ -18,6 +18,6 @@ namespace Lakuna.PrepareModerately.Patches {
 #endif
 
 		static HarmonyPatcher() =>
-			Instance.PatchAll();
+			Instance.PatchAll(typeof(HarmonyPatcher).Assembly);
 	}
 }
