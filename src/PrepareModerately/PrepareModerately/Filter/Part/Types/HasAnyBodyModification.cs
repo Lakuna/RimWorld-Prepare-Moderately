@@ -1,8 +1,6 @@
 using System;
 
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using Verse;
 
@@ -18,12 +16,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			&& (pawn.def?.race?.body?.AllParts?.Any(pawn.health.hediffSet.HasDirectlyAddedPartFor) ?? false);
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.HasAnyBodyModification".Translate() ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.HasAnyBodyModification".Translate().StringSafe();
-#else
-			"PM.HasAnyBodyModification".Translate().StringSafe;
-#endif
+			"PM.HasAnyBodyModification".TranslateFull();
 	}
 }

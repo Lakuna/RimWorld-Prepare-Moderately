@@ -23,13 +23,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			_size;
 
 		public override string PageTitle =>
-#if V1_0
-			"PM.Rolling".Translate()?.CapitalizeFirstSafe() ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.Rolling".Translate().CapitalizeFirst().StringSafe();
-#else
-			"PM.Rolling".Translate().CapitalizeFirst().StringSafe;
-#endif
+			"PM.Rolling".TranslateFull(CapitalizeType.First);
 
 		private int _iterations; // Will always be off by one (the "vanilla" iteration), but this should cause less confusion for the user.
 
@@ -41,7 +35,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		}
 
 		public override void DoWindowContents(Rect inRect) {
-			string label = $"{"PM.RollingNumber".Translate(this._iterations).CapitalizeFirst()}\n{"PM.ClickOutsideToStop".Translate().CapitalizeFirst()}";
+			string label = $"{"PM.RollingNumber".TranslateFull(CapitalizeType.First, this._iterations)}\n{"PM.ClickOutsideToStop".TranslateFull(CapitalizeType.First)}";
 
 			if (PrepareModeratelyMod.Settings?.HighVisibilityMode ?? false) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6

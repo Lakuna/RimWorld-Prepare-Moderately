@@ -24,18 +24,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, this._gender.ToString().CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(rect, this._gender.ToString().CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(rect, this._gender.ToString().Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_legalGenders.OrderBy((gender) => gender.ToString()),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(gender) => gender.ToString().CapitalizeFirstSafe(),
-#else
-					(gender) => gender.ToString().CapitalizeFirstSafe,
-#endif
+					(gender) => gender.ToString().Finish(CapitalizeType.First),
 					(gender) => () => this._gender = gender);
 			}
 		}
@@ -55,12 +47,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._gender = _legalGenders.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.IsGender".Translate(this._gender.ToString()) ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.IsGender".Translate(this._gender.ToString()).StringSafe();
-#else
-			"PM.IsGender".Translate(this._gender.ToString()).StringSafe;
-#endif
+			"PM.IsGender".TranslateFull(this._gender.ToString());
 	}
 }

@@ -60,37 +60,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight).Rounded();
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
-#if V1_0
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe() ?? "null")) {
-#else
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe ?? "null")) {
-#endif
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.Finish() ?? "null")) {
 				FloatMenuUtility.MakeMenu(
 					_allSkills.OrderBy((def) => def.label),
-#if V1_0
-					(def) => def.LabelCap ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => this._skill = def);
 			}
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(new Rect(rect.x, skillRect.yMax, rect.width, Text.LineHeight).Rounded(), this._passion.ToString().Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_allPassions.OrderBy((passion) => passion.ToString()),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(passion) => passion.ToString().CapitalizeFirstSafe(),
-#else
-					(passion) => passion.ToString().CapitalizeFirstSafe,
-#endif
+					(passion) => passion.ToString().Finish(CapitalizeType.First),
 					(passion) => () => this._passion = passion);
 			}
 		}
@@ -137,12 +117,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null") ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null").StringSafe();
-#else
-			"PM.HasPassionForSkill".Translate(this._passion.ToString(), this._skill?.label ?? "null").StringSafe;
-#endif
+			"PM.HasPassionForSkill".TranslateFull(this._passion.ToString(), this._skill?.label ?? "null");
 	}
 }

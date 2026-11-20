@@ -1,7 +1,5 @@
 using Lakuna.PrepareModerately.Ui;
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 #if V1_0 || V1_1
 using RimWorld;
@@ -48,14 +46,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			(this._range.min == this._range.max ? "PM.HasPsychicSensitivity".Translate(this._range.min)
-					: "PM.HasBetweenPsychicSensitivity".Translate(this._range.min, this._range.max))
-#if V1_0
-				?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				.StringSafe();
-#else
-				.StringSafe;
-#endif
+			(this._range.min == this._range.max) ? "PM.HasPsychicSensitivity".TranslateFull(this._range.min)
+			: "PM.HasBetweenPsychicSensitivity".TranslateFull(this._range.min, this._range.max);
 	}
 }

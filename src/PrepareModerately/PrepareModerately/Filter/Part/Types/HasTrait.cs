@@ -50,16 +50,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			}
 
 #if V1_0
-			if (Widgets.ButtonText(rect, this._traitDegree.Data.label?.CapitalizeFirstSafe() ?? "null")) {
+			string label = this._traitDegree.Data.label?.Finish(CapitalizeType.First) ?? "null";
 #else
-			if (Widgets.ButtonText(rect, this._traitDegree.Data.LabelCap ?? "null")) {
+			string label = this._traitDegree.Data.LabelCap?.Finish() ?? "null";
 #endif
+			if (Widgets.ButtonText(rect, label)) {
 				FloatMenuUtility.MakeMenu(
 					_legalTraitDegrees.OrderBy((pair) => pair.Data.label),
 #if V1_0
-					(traitDegreePair) => traitDegreePair.Data.label?.CapitalizeFirstSafe() ?? "null",
+					(traitDegreePair) => traitDegreePair.Data.label?.Finish(CapitalizeType.First) ?? "null",
 #else
-					(traitDegreePair) => traitDegreePair.Data.LabelCap ?? "null",
+					(traitDegreePair) => traitDegreePair.Data.LabelCap?.Finish() ?? "null",
 #endif
 					(traitDegreePair) => () => this._traitDegree = traitDegreePair);
 			}
@@ -94,12 +95,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._traitDegree = _legalTraitDegrees.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.HasTrait".Translate(this._traitDegree?.Data.label ?? "null") ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.HasTrait".Translate(this._traitDegree?.Data.label ?? "null").StringSafe();
-#else
-			"PM.HasTrait".Translate(this._traitDegree?.Data.label ?? "null").StringSafe;
-#endif
+			"PM.HasTrait".TranslateFull(this._traitDegree?.Data.label ?? "null");
 	}
 }

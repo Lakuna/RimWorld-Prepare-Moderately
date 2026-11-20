@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using Verse;
 
@@ -62,12 +60,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.IsCapableOfEverything".Translate() ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.IsCapableOfEverything".Translate().StringSafe();
-#else
-			"PM.IsCapableOfEverything".Translate().StringSafe;
-#endif
+			"PM.IsCapableOfEverything".TranslateFull();
 	}
 }

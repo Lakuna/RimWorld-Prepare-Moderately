@@ -27,18 +27,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, this._workTag.ToString().CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(rect, this._workTag.ToString().CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(rect, this._workTag.ToString().Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_legalWorkTags.OrderBy((workTag) => workTag.ToString()),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(workTag) => workTag.ToString().CapitalizeFirstSafe(),
-#else
-					(workTag) => workTag.ToString().CapitalizeFirstSafe,
-#endif
+					(workTag) => workTag.ToString().Finish(CapitalizeType.First),
 					(workTag) => () => this._workTag = workTag);
 			}
 		}
@@ -68,12 +60,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._workTag = _legalWorkTags.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.IsCapableOfWorkTag".Translate(this._workTag.ToString()) ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.IsCapableOfWorkTag".Translate(this._workTag.ToString()).StringSafe();
-#else
-			"PM.IsCapableOfWorkTag".Translate(this._workTag.ToString()).StringSafe;
-#endif
+			"PM.IsCapableOfWorkTag".TranslateFull(this._workTag.ToString());
 	}
 }

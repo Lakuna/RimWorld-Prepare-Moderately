@@ -43,18 +43,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect);
-#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, this._meditationFocus?.LabelCap.StringSafe() ?? "null")) {
-#else
-			if (Widgets.ButtonText(rect, this._meditationFocus?.LabelCap.StringSafe ?? "null")) {
-#endif
+			if (Widgets.ButtonText(rect, this._meditationFocus?.LabelCap.Finish() ?? "null")) {
 				FloatMenuUtility.MakeMenu(
 					_allMeditationFoci.OrderBy((def) => def.label),
-#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => this._meditationFocus = def);
 			}
 		}
@@ -74,11 +66,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._meditationFocus = _allMeditationFoci.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.HasMeditationFocus".Translate(this._meditationFocus?.label ?? "null").StringSafe();
-#else
-			"PM.HasMeditationFocus".Translate(this._meditationFocus?.label ?? "null").StringSafe;
-#endif
+			"PM.HasMeditationFocus".TranslateFull(this._meditationFocus?.label ?? "null");
 	}
 }
 #endif

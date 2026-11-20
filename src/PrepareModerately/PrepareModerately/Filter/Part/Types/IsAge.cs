@@ -1,7 +1,5 @@
 using Lakuna.PrepareModerately.Ui;
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using UnityEngine;
 
@@ -78,20 +76,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			(this._yearsRange.max > 0 ?
-					this._yearsRange.min == this._yearsRange.max ? "PM.IsYearsOld".Translate(this._yearsRange.min)
-					: "PM.IsBetweenYearsOld".Translate(this._yearsRange.min, this._yearsRange.max)
-				: this._daysRange.max > 0 ?
-					this._daysRange.min == this._daysRange.max ? "PM.IsDaysOld".Translate(this._daysRange.min)
-					: "PM.IsBetweenDaysOld".Translate(this._daysRange.min, this._daysRange.max)
-				: this._hoursRange.min == this._hoursRange.max ? "PM.IsHoursOld".Translate(this._hoursRange.min)
-				: "PM.IsBetweenHoursOld".Translate(this._hoursRange.min, this._hoursRange.max))
-#if V1_0
-				?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				.StringSafe();
-#else
-				.StringSafe;
-#endif
+			this._yearsRange.max > 0 ?
+				this._yearsRange.min == this._yearsRange.max ? "PM.IsYearsOld".TranslateFull(this._yearsRange.min)
+				: "PM.IsBetweenYearsOld".TranslateFull(this._yearsRange.min, this._yearsRange.max)
+			: this._daysRange.max > 0 ?
+				this._daysRange.min == this._daysRange.max ? "PM.IsDaysOld".TranslateFull(this._daysRange.min)
+				: "PM.IsBetweenDaysOld".TranslateFull(this._daysRange.min, this._daysRange.max)
+			: this._hoursRange.min == this._hoursRange.max ? "PM.IsHoursOld".TranslateFull(this._hoursRange.min)
+			: "PM.IsBetweenHoursOld".TranslateFull(this._hoursRange.min, this._hoursRange.max);
 	}
 }

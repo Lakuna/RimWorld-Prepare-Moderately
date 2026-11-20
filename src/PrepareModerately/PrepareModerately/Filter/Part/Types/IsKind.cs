@@ -61,18 +61,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._kind).CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._kind).CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._kind).Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_legalKinds.OrderBy((def) => def.label),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe(),
-#else
-					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe,
-#endif
+					(def) => GetUniqueCombinedLabelFor(def).Finish(CapitalizeType.First),
 					(def) => () => this._kind = def);
 			}
 		}
@@ -96,12 +88,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)) ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)).StringSafe();
-#else
-			"PM.IsKind".Translate(GetUniqueCombinedLabelFor(this._kind)).StringSafe;
-#endif
+			"PM.IsKind".TranslateFull(GetUniqueCombinedLabelFor(this._kind));
 	}
 }

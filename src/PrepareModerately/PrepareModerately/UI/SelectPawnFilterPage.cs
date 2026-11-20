@@ -44,13 +44,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		private const float _warningIconMargin = 3;
 
 		public override string PageTitle =>
-#if V1_0
-			"PM.ChooseFilter".Translate()?.CapitalizeFirstSafe() ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.ChooseFilter".Translate().CapitalizeFirst().StringSafe();
-#else
-			"PM.ChooseFilter".Translate().CapitalizeFirst().StringSafe;
-#endif
+			"PM.ChooseFilter".TranslateFull(CapitalizeType.First);
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private PawnFilter _filter;
@@ -103,13 +97,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			Widgets.EndGroup();
 #endif
 
-#if V1_0
-			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate()?.CapitalizeFirstSafe() ?? "null", this.GoToFilterEditor);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst().StringSafe(), this.GoToFilterEditor);
-#else
-			this.DoBottomButtons(inRect, null, "PM.FilterEditor".Translate().CapitalizeFirst().StringSafe, this.GoToFilterEditor);
-#endif
+			this.DoBottomButtons(inRect, null, "PM.FilterEditor".TranslateFull(CapitalizeType.First), this.GoToFilterEditor);
 		}
 
 		public override void PreOpen() {
@@ -175,13 +163,14 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 
 			if (!filter.Valid) {
+				string label = "PM.FilterPartError".TranslateFull(CapitalizeType.First, true);
 #if V1_0
-				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate()?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null");
 #elif V1_1 || V1_2
-				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().StringSafe().Colorize(ColorLibrary.Red) ?? "null");
+				label = label.Colorize(ColorLibrary.Red) ?? label;
 #else
-				TooltipHandler.TipRegion(rect, "PM.FilterPartError".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColorLibrary.RedReadable) ?? "null");
+				label = label.Colorize(ColorLibrary.RedReadable) ?? label;
 #endif
+				TooltipHandler.TipRegion(rect, label);
 			}
 
 			bool currentFilterIsSelected = this._filter == filter;
@@ -215,19 +204,13 @@ namespace Lakuna.PrepareModerately.Ui {
 			WidgetRow widgetRow = new(rect.xMax, rect.y, UIDirection.LeftThenDown);
 #endif
 
-#if V1_0
-			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate()?.CapitalizeFirstSafe() ?? "null", GenUI.SubtleMouseoverColor)) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe(), GenUI.SubtleMouseoverColor)) {
-#else
-			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".Translate().CapitalizeFirst().StringSafe, GenUI.SubtleMouseoverColor)) {
-#endif
+			if (filter.CanEdit && widgetRow.ButtonIcon(PrepareModeratelyTextures.Delete, "PM.Delete".TranslateFull(CapitalizeType.First), GenUI.SubtleMouseoverColor)) {
 				if (filter.File is null) {
 					PrepareModeratelyLogger.LogErrorMessage("Attempted to delete null file.");
 					return;
 				}
 
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".Translate(filter.File.Name).CapitalizeFirst(), () => {
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("PM.ReallyDeleteFile".TranslateFull(CapitalizeType.First, filter.File.Name), () => {
 					filter.File.Delete();
 					PawnFilterLister.MarkDirty();
 				}, true));
@@ -279,10 +262,11 @@ namespace Lakuna.PrepareModerately.Ui {
 			listing.Gap();
 
 			Text.Font = GameFont.Small;
+			string label = "PM.FiltersCustom".TranslateFull(CapitalizeType.First);
 #if V1_0
-			listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
+			listing.Label(label);
 #else
-			_ = listing.Label("PM.FiltersCustom".Translate().CapitalizeFirst());
+			_ = listing.Label(label);
 #endif
 
 			this.ListFiltersOnListing(listing, PawnFilterLister.InCategory(PawnFilterCategory.CustomLocal));
@@ -356,10 +340,11 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			if (!anyFilter) {
 				GUI.color = _minorTextColor;
+				string label = $"({"PM.None".TranslateFull(CapitalizeType.First)})";
 #if V1_0
-				listing.Label($"({"PM.None".Translate().CapitalizeFirst()})");
+				listing.Label(label);
 #else
-				_ = listing.Label($"({"PM.None".Translate().CapitalizeFirst()})");
+				_ = listing.Label(label);
 #endif
 				GUI.color = Color.white;
 			}

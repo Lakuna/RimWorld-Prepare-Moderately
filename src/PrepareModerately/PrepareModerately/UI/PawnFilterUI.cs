@@ -44,24 +44,27 @@ namespace Lakuna.PrepareModerately.Ui {
 			};
 			listing.Begin(listingRect);
 
+			string label0 = "PM.Title".TranslateFull(CapitalizeType.First);
 #if V1_0
-			listing.Label("PM.Title".Translate().CapitalizeFirst());
+			listing.Label(label0);
 #else
-			_ = listing.Label("PM.Title".Translate().CapitalizeFirst());
+			_ = listing.Label(label0);
 #endif
 			filter.Name = listing.TextEntry(filter.Name)?.TrimmedToLength(PawnFilter.NameMaxLength) ?? "";
 
+			string label1 = "PM.Summary".TranslateFull(CapitalizeType.First);
 #if V1_0
-			listing.Label("PM.Summary".Translate().CapitalizeFirst());
+			listing.Label(label1);
 #else
-			_ = listing.Label("PM.Summary".Translate().CapitalizeFirst());
+			_ = listing.Label(label1);
 #endif
 			filter.Summary = listing.TextEntry(filter.Summary, 2)?.TrimmedToLength(PawnFilter.SummaryMaxLength) ?? "";
 
+			string label2 = "PM.Description".TranslateFull(CapitalizeType.First);
 #if V1_0
-			listing.Label("PM.Description".Translate().CapitalizeFirst());
+			listing.Label(label2);
 #else
-			_ = listing.Label("PM.Description".Translate().CapitalizeFirst());
+			_ = listing.Label(label2);
 #endif
 			filter.Description = listing.TextEntry(filter.Description, 4)?.TrimmedToLength(PawnFilter.DescriptionMaxLength) ?? "";
 

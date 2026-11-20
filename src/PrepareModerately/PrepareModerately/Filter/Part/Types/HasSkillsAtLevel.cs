@@ -1,9 +1,7 @@
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using UnityEngine;
 
@@ -49,17 +47,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			(this._countRange.min == this._countRange.max ?
-					this._levelRange.min == this._levelRange.max ? "PM.HasSkillsAtLevel".Translate(this._countRange.min, this._levelRange.min)
-					: "PM.HasSkillsBetweenLevels".Translate(this._countRange.min, this._levelRange.min, this._levelRange.max)
-				: this._levelRange.min == this._levelRange.max ? "PM.HasBetweenSkillsAtLevel".Translate(this._countRange.min, this._countRange.max, this._levelRange.min)
-				: "PM.HasBetweenSkillsBetweenLevels".Translate(this._countRange.min, this._countRange.max, this._levelRange.min, this._levelRange.max))
-#if V1_0
-				?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				.StringSafe();
-#else
-				.StringSafe;
-#endif
+			this._countRange.min == this._countRange.max ?
+				this._levelRange.min == this._levelRange.max ? "PM.HasSkillsAtLevel".TranslateFull(this._countRange.min, this._levelRange.min)
+				: "PM.HasSkillsBetweenLevels".TranslateFull(this._countRange.min, this._levelRange.min, this._levelRange.max)
+			: this._levelRange.min == this._levelRange.max ? "PM.HasBetweenSkillsAtLevel".TranslateFull(this._countRange.min, this._countRange.max, this._levelRange.min)
+			: "PM.HasBetweenSkillsBetweenLevels".TranslateFull(this._countRange.min, this._countRange.max, this._levelRange.min, this._levelRange.max);
 	}
 }

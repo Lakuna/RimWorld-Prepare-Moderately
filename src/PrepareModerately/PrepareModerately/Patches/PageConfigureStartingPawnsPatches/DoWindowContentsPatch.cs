@@ -31,13 +31,7 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 #pragma warning restore IDE1006
 			if (Widgets.ButtonText(
 				new Rect((rect.x + rect.width) / 2 - _buttonWidth / 2, rect.y - _buttonY, _buttonWidth, _buttonHeight).Rounded(),
-#if V1_0
-				"PM.PrepareModerately".Translate().CapitalizeAsTitleSafe())) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				"PM.PrepareModerately".Translate().StringSafe().CapitalizeAsTitleSafe())) {
-#else
-				"PM.PrepareModerately".Translate().StringSafe.CapitalizeAsTitleSafe)) {
-#endif
+				"PM.PrepareModerately".TranslateFull(CapitalizeType.Title))) {
 				try {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 					SelectPawnFilterPage page = new SelectPawnFilterPage() {

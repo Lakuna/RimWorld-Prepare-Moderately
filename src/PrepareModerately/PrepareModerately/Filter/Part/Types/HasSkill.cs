@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Ui;
-#if !V1_0
 using Lakuna.PrepareModerately.Utility;
-#endif
 
 using RimWorld;
 
@@ -49,22 +47,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Rect rect = listing.GetPawnFilterPartRect(this, Text.LineHeight * 2, out totalAddedListHeight).Rounded();
 
 			Rect skillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
-#if V1_0
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe() ?? "null")) {
-#else
-			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.StringSafe ?? "null")) {
-#endif
+			if (Widgets.ButtonText(skillRect, this._skill?.LabelCap.Finish() ?? "null")) {
 				FloatMenuUtility.MakeMenu(
 					_legalSkills.OrderBy((def) => def.label),
-#if V1_0
-					(def) => def.LabelCap ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => this._skill = def);
 			}
 
@@ -109,14 +95,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			(this._range.min == this._range.max ? "PM.IsLevelAtSkill".Translate(this._range.min, this._skill?.label ?? "null")
-				: "PM.IsBetweenLevelsAtSkill".Translate(this._range.min, this._range.max, this._skill?.label ?? "null"))
-#if V1_0
-				?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				.StringSafe();
-#else
-				.StringSafe;
-#endif
+			this._range.min == this._range.max ? "PM.IsLevelAtSkill".TranslateFull(this._range.min, this._skill?.label ?? "null")
+			: "PM.IsBetweenLevelsAtSkill".TranslateFull(this._range.min, this._range.max, this._skill?.label ?? "null");
 	}
 }

@@ -48,30 +48,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if V1_3 || V1_4 || V1_5 || V1_6
 		private static string LabelFor(ColorDef def) =>
-			def?.color is null ? "PM.UnnamedColor".Translate().StringSafe()
-			: def.label.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).StringSafe()
-			: def.label;
 #else
 		private static string LabelFor(ColorDef? def) =>
-			def?.color is null ? "PM.UnnamedColor".Translate().StringSafe
-			: def.label.NullOrEmpty() ? "PM.UnnamedColorHex".Translate(ColorToHex(def.color)).StringSafe
-			: def.label;
 #endif
+			def?.color is null ? "PM.UnnamedColor".TranslateFull()
+			: (def.label is null || def.label.NullOrEmpty()) ? "PM.UnnamedColorHex".TranslateFull(ColorToHex(def.color))
+			: def.label;
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, LabelFor(this._color).CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(rect, LabelFor(this._color).CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(rect, LabelFor(this._color).Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_legalColors.OrderBy((def) => def.label),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => LabelFor(def).CapitalizeFirstSafe(),
-#else
-					(def) => LabelFor(def).CapitalizeFirstSafe,
-#endif
+					(def) => LabelFor(def).Finish(CapitalizeType.First),
 					(def) => () => this._color = def);
 			}
 		}
@@ -95,11 +84,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._color = _legalColors.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_3 || V1_4 || V1_5 || V1_6
-			"PM.HasFavoriteColor".Translate(LabelFor(this._color)).StringSafe();
-#else
-			"PM.HasFavoriteColor".Translate(LabelFor(this._color)).StringSafe;
-#endif
+			"PM.HasFavoriteColor".TranslateFull(LabelFor(this._color));
 	}
 }
 #endif

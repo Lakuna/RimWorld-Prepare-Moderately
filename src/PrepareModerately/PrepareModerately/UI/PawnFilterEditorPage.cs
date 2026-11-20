@@ -24,7 +24,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		private const float _gapBetweenColumns = 17;
 
 		public override string PageTitle =>
-			$"{"PM.FilterEditor".Translate().CapitalizeFirst()}{(this._filterEdited ? "*" : "")}";
+			$"{"PM.FilterEditor".TranslateFull(CapitalizeType.First)}{(this._filterEdited ? "*" : "")}";
 
 		private bool _editMode;
 
@@ -76,24 +76,12 @@ namespace Lakuna.PrepareModerately.Ui {
 					}
 
 					if (num > (part.Def?.MaxUses ?? 0)) {
-#if V1_0
-						Messages.Message("PM.TooManyOfFilterPart".Translate()?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null", MessageTypeDefOf.RejectInput, false);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-						Messages.Message("PM.TooManyOfFilterPart".Translate().CapitalizeFirst().EndWithPeriod().StringSafe(), MessageTypeDefOf.RejectInput, false);
-#else
-						Messages.Message("PM.TooManyOfFilterPart".Translate().CapitalizeFirst().EndWithPeriod().StringSafe, MessageTypeDefOf.RejectInput, false);
-#endif
+						Messages.Message("PM.TooManyOfFilterPart".TranslateFull(CapitalizeType.First, true), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 
 					if (part != part2 && !part.CanCoexistWith(part2)) {
-#if V1_0
-						Messages.Message("PM.IncompatibleFilterPart".Translate()?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null", MessageTypeDefOf.RejectInput, false);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-						Messages.Message("PM.IncompatibleFilterPart".Translate().CapitalizeFirst().EndWithPeriod().StringSafe(), MessageTypeDefOf.RejectInput, false);
-#else
-						Messages.Message("PM.IncompatibleFilterPart".Translate().CapitalizeFirst().EndWithPeriod().StringSafe, MessageTypeDefOf.RejectInput, false);
-#endif
+						Messages.Message("PM.IncompatibleFilterPart".TranslateFull(CapitalizeType.First, true), MessageTypeDefOf.RejectInput, false);
 						return false;
 					}
 				}
@@ -149,16 +137,8 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			if (this._filterEdited && this._needsSave) {
 				Find.WindowStack.Add(new Dialog_MessageBox(
-#if V1_0
-					"PM.FilterSavePrompt".Translate()?.CapitalizeSentencesSafe() ?? "null",
-					"Yes".Translate()?.CapitalizeFirstSafe() ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					"PM.FilterSavePrompt".Translate().StringSafe().CapitalizeSentencesSafe(),
-					"Yes".Translate().CapitalizeFirst().StringSafe(),
-#else
-					"PM.FilterSavePrompt".Translate().StringSafe.CapitalizeSentencesSafe,
-					"Yes".Translate().CapitalizeFirst().StringSafe,
-#endif
+					"PM.FilterSavePrompt".TranslateFull(CapitalizeType.Sentences),
+					"Yes".TranslateFull(CapitalizeType.First),
 					() => {
 						if (Find.WindowStack is null) {
 							PrepareModeratelyLogger.LogErrorMessage("Attempted to add window to null stack.");
@@ -171,13 +151,7 @@ namespace Lakuna.PrepareModerately.Ui {
 							this.DoNext();
 						}));
 					},
-#if V1_0
-					"No".Translate()?.CapitalizeFirstSafe() ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					"No".Translate().CapitalizeFirst().StringSafe(),
-#else
-					"No".Translate().CapitalizeFirst().StringSafe,
-#endif
+					"No".TranslateFull(CapitalizeType.First),
 					() => {
 						SelectPawnFilterPage.BeginFilterConfiguration(this._filter);
 						this._needsSave = false;
@@ -212,47 +186,30 @@ namespace Lakuna.PrepareModerately.Ui {
 				return;
 			}
 
-#if V1_0
-			if (listing.ButtonText("PM.Load".Translate()?.CapitalizeFirstSafe() ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst().StringSafe())) {
-#else
-			if (listing.ButtonText("PM.Load".Translate().CapitalizeFirst().StringSafe)) {
-#endif
+			if (listing.ButtonText("PM.Load".TranslateFull(CapitalizeType.First))) {
 				Find.WindowStack.Add(new PawnFilterListLoadDialog((filter) => {
 					this._filter = filter;
 					this._seedIsValid = false;
 				}));
 			}
 
-#if V1_0
-			if (listing.ButtonText("PM.Save".Translate()?.CapitalizeFirstSafe() ?? "null")
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing.ButtonText("PM.Save".Translate().CapitalizeFirst().StringSafe())
-#else
-			if (listing.ButtonText("PM.Save".Translate().CapitalizeFirst().StringSafe)
-#endif
+			if (listing.ButtonText("PM.Save".TranslateFull(CapitalizeType.First))
 				&& CheckAllPartsCompatible(this._filter)) {
 				Find.WindowStack.Add(new PawnFilterListSaveDialog(this._filter));
 			}
 
-#if V1_0
-			if (listing.ButtonText("PM.RandomizeSeed".Translate()?.CapitalizeFirstSafe() ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (listing.ButtonText("PM.RandomizeSeed".Translate().CapitalizeFirst().StringSafe())) {
-#else
-			if (listing.ButtonText("PM.RandomizeSeed".Translate().CapitalizeFirst().StringSafe)) {
-#endif
+			if (listing.ButtonText("PM.RandomizeSeed".TranslateFull(CapitalizeType.First))) {
 				SoundDefOf.Tick_Tiny?.PlayOneShotOnCamera();
 				this.RandomizeSeedAndFilter();
 				this._seedIsValid = true;
 			}
 
 			if (this._seedIsValid) {
+				string label = "PM.Seed".TranslateFull(CapitalizeType.First);
 #if V1_0
-				listing.Label("PM.Seed".Translate().CapitalizeFirst());
+				listing.Label(label);
 #else
-				_ = listing.Label("PM.Seed".Translate().CapitalizeFirst());
+				_ = listing.Label(label);
 #endif
 				string text = listing.TextEntry(this._seed) ?? "";
 				if (text != this._seed) {
@@ -263,23 +220,11 @@ namespace Lakuna.PrepareModerately.Ui {
 				listing.Gap(Text.LineHeight * 2 + 2);
 			}
 
-#if V1_0
-			listing.CheckboxLabeled("PM.EditMode".Translate()?.CapitalizeFirstSafe() ?? "null", ref this._editMode);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			listing.CheckboxLabeled("PM.EditMode".Translate().CapitalizeFirst().StringSafe(), ref this._editMode);
-#else
-			listing.CheckboxLabeled("PM.EditMode".Translate().CapitalizeFirst().StringSafe, ref this._editMode);
-#endif
+			listing.CheckboxLabeled("PM.EditMode".TranslateFull(CapitalizeType.First), ref this._editMode);
 
 			if (this._editMode) {
 				this._seedIsValid = false;
-#if V1_0
-				if (listing.ButtonText("PM.AddPart".Translate()?.CapitalizeFirstSafe() ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				if (listing.ButtonText("PM.AddPart".Translate().CapitalizeFirst().StringSafe())) {
-#else
-				if (listing.ButtonText("PM.AddPart".Translate().CapitalizeFirst().StringSafe)) {
-#endif
+				if (listing.ButtonText("PM.AddPart".TranslateFull(CapitalizeType.First))) {
 					this.OpenAddFilterPartMenu();
 				}
 			}
@@ -290,13 +235,7 @@ namespace Lakuna.PrepareModerately.Ui {
 		private void OpenAddFilterPartMenu() =>
 			FloatMenuUtility.MakeMenu(
 				PawnFilterMaker.AddableParts(this._filter).Where((part) => part.PlayerAddRemovable && part.Category != PawnFilterPartCategory.Obsolete).OrderBy((part) => part.label),
-#if V1_0
-				(def) => def.LabelCap ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				(def) => def.LabelCap.StringSafe(),
-#else
-				(def) => def.LabelCap.StringSafe,
-#endif
+				(def) => def.LabelCap.Finish(),
 				(def) => () => this.AddFilterPart(def));
 
 		private void RandomizeSeedAndFilter() {

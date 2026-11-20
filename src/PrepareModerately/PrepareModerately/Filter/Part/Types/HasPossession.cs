@@ -127,18 +127,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, this._possession?.LabelCap.StringSafe() ?? "null")) {
-#else
-			if (Widgets.ButtonText(rect, this._possession?.LabelCap.StringSafe ?? "null")) {
-#endif
+			if (Widgets.ButtonText(rect, this._possession?.LabelCap.Finish() ?? "null")) {
 				FloatMenuUtility.MakeMenu(
 					_legalThings.OrderBy((def) => def.label),
-#if V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => this._possession = def);
 			}
 		}
@@ -158,11 +150,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._possession = _legalThings.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_4 || V1_5 || V1_6
-			"PM.HasPossession".Translate(this._possession?.label ?? "null").StringSafe();
-#else
-			"PM.HasPossession".Translate(this._possession?.label ?? "null").StringSafe;
-#endif
+			"PM.HasPossession".TranslateFull(this._possession?.label ?? "null");
 	}
 }
 #endif

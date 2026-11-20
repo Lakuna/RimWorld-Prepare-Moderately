@@ -74,22 +74,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			Widgets.IntRange(headerRemainderRect, Rand.Int, ref this._range, SkillRecord.MinLevel * this._skills.Count, max, "PM.LevelRange");
 
 			Rect addSkillRect = new Rect(rect.x, rect.y, rect.width, Text.LineHeight).Rounded();
-#if V1_0
-			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst() ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst().StringSafe())) {
-#else
-			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".Translate().CapitalizeFirst().StringSafe)) {
-#endif
+			if (Widgets.ButtonText(addSkillRect, "PM.AddSkill".TranslateFull(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					this._addableSkills.OrderBy((def) => def.label),
-#if V1_0
-					(def) => def.LabelCap ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => this._skills.Add(def));
 			}
 
@@ -167,14 +155,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override string Summary(PawnFilter filter) =>
 			this._skills is null ? "null"
-			: (this._range.min == this._range.max ? "PM.HasSumOfSkills".Translate(this._range.min, string.Join(", ", this._skills.Select((def) => def.label ?? "null").OrderBy((label) => label).ToArray()))
-				: "PM.HasBetweenSumOfSkills".Translate(this._range.min, this._range.max, string.Join(", ", this._skills.Select((def) => def.label ?? "null").OrderBy((label) => label).ToArray())))
-#if V1_0
-				?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				.StringSafe();
-#else
-				.StringSafe;
-#endif
+			: this._range.min == this._range.max ? "PM.HasSumOfSkills".TranslateFull(this._range.min, string.Join(", ", this._skills.Select((def) => def.label ?? "null").OrderBy((label) => label).ToArray()))
+			: "PM.HasBetweenSumOfSkills".TranslateFull(this._range.min, this._range.max, string.Join(", ", this._skills.Select((def) => def.label ?? "null").OrderBy((label) => label).ToArray()));
 	}
 }

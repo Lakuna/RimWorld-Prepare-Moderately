@@ -87,11 +87,7 @@ namespace Lakuna.PrepareModerately.Ui {
 					this._filter.Reorder(part, ReorderDirection.Down);
 				}
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				string label = part.Label.CapitalizeFirstSafe();
-#else
-				string label = part.Label.CapitalizeFirstSafe;
-#endif
+				string label = part.Label.Finish(CapitalizeType.First);
 				Rect labelRect = new Rect(widgetRect.xMax, headerRect.y, Text.CalcSize(label).x, headerRect.height).Rounded();
 				Widgets.Label(labelRect, label);
 

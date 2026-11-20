@@ -64,18 +64,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).CapitalizeFirstSafe())) {
-#else
-			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).CapitalizeFirstSafe)) {
-#endif
+			if (Widgets.ButtonText(rect, GetUniqueCombinedLabelFor(this._relation).Finish(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					_legalRelations.OrderBy(GetUniqueCombinedLabelFor),
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe(),
-#else
-					(def) => GetUniqueCombinedLabelFor(def).CapitalizeFirstSafe,
-#endif
+					(def) => GetUniqueCombinedLabelFor(def).Finish(CapitalizeType.First),
 					(def) => () => this._relation = def);
 			}
 		}
@@ -115,12 +107,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			this._relation = _legalRelations.RandomElement();
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_0
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)) ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)).StringSafe();
-#else
-			"PM.IsARelation".Translate(GetUniqueCombinedLabelFor(this._relation)).StringSafe;
-#endif
+			"PM.IsARelation".TranslateFull(GetUniqueCombinedLabelFor(this._relation));
 	}
 }

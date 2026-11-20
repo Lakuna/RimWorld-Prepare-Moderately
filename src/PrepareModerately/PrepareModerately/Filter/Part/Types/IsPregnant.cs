@@ -14,11 +14,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			pawn.health?.hediffSet?.hediffs?.Any((hediff) => hediff.def == HediffDefOf.PregnantHuman) ?? false;
 
 		public override string Summary(PawnFilter filter) =>
-#if V1_4 || V1_5 || V1_6
-			"PM.IsPregnant".Translate().StringSafe();
-#else
-			"PM.IsPregnant".Translate().StringSafe;
-#endif
+			"PM.IsPregnant".TranslateFull();
 	}
 }
 #endif

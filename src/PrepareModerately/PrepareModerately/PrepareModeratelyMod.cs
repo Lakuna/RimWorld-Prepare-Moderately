@@ -34,58 +34,33 @@ namespace Lakuna.PrepareModerately {
 			listing.Begin(inRect);
 
 			Rect filterSavePathRect = listing.GetRect(Text.LineHeight).Rounded();
-#if V1_0
-			Widgets.Label(filterSavePathRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.FilterSavePath".Translate().CapitalizeFirst());
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.Label(filterSavePathRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.FilterSavePath".Translate().CapitalizeFirst().StringSafe());
-#else
-			Widgets.Label(filterSavePathRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.FilterSavePath".Translate().CapitalizeFirst().StringSafe);
-#endif
+			Widgets.Label(filterSavePathRect.LeftPart(_labelWidthPercentage).Rounded(), "PM.FilterSavePath".TranslateFull(CapitalizeType.First));
 			Settings.FilterSavePath = Widgets.TextArea(filterSavePathRect.RightPart(1 - _labelWidthPercentage).Rounded(), Settings.FilterSavePath);
 			if (Settings.FilterSavePath.NullOrEmpty()) {
-#if V1_0
-				Widgets.Label(listing.GetRect(Text.LineHeight).Rounded(), $"{"PM.UsingDefaultValue".Translate().CapitalizeFirst()}: {PawnFilterFilePaths.DefaultDataPath}");
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				Widgets.Label(listing.GetRect(Text.LineHeight).Rounded(), $"{"PM.UsingDefaultValue".Translate().CapitalizeFirst().StringSafe()}: {PawnFilterFilePaths.DefaultDataPath}");
-#else
-				Widgets.Label(listing.GetRect(Text.LineHeight).Rounded(), $"{"PM.UsingDefaultValue".Translate().CapitalizeFirst().StringSafe}: {PawnFilterFilePaths.DefaultDataPath}");
-#endif
+				Widgets.Label(listing.GetRect(Text.LineHeight).Rounded(), $"{"PM.UsingDefaultValue".TranslateFull(CapitalizeType.First)}: {PawnFilterFilePaths.DefaultDataPath}");
 			}
 
 			listing.Gap(); // So that the horizontal slider's bound numbers don't intersect with the text area.
 
 			float rollSpeedMultiplier = Settings.RollSpeedMultiplier;
-#if V1_0
-			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier)?.CapitalizeFirstSafe() ?? "null", null, null, 1);
-#elif V1_1 || V1_2 || V1_3
-			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(), null, null, 1);
+			string rollSpeedLabel = "PM.RollSpeedMultiplierNumber".TranslateFull(CapitalizeType.First, Settings.RollSpeedMultiplier);
+#if V1_0 || V1_1 || V1_2 || V1_3
+			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, rollSpeedLabel, null, null, 1);
 #elif V1_4 || V1_5 || V1_6
-			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new FloatRange(1, 100), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe(), 1);
+			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new FloatRange(1, 100), rollSpeedLabel, 1);
 #else
-			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new(1, 100), "PM.RollSpeedMultiplierNumber".Translate(Settings.RollSpeedMultiplier).CapitalizeFirst().StringSafe, 1);
+			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new(1, 100), rollSpeedLabel, 1);
 #endif
 			Settings.RollSpeedMultiplier = rollSpeedMultiplier;
 
 			bool highVisibilityMode = Settings.HighVisibilityMode;
-#if V1_0
-			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate()?.CapitalizeFirstSafe() ?? "null", ref highVisibilityMode);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate().CapitalizeFirst().StringSafe(), ref highVisibilityMode);
-#else
-			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".Translate().CapitalizeFirst().StringSafe, ref highVisibilityMode);
-#endif
+			Widgets.CheckboxLabeled(listing.GetRect(Text.LineHeight).Rounded(), "PM.HighVisibilityMode".TranslateFull(CapitalizeType.First), ref highVisibilityMode);
 			Settings.HighVisibilityMode = highVisibilityMode;
 
 			listing.End();
 		}
 
 		public override string SettingsCategory() =>
-#if V1_0
-			"PM.PrepareModerately".Translate().CapitalizeAsTitleSafe();
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			"PM.PrepareModerately".Translate().StringSafe().CapitalizeAsTitleSafe();
-#else
-			"PM.PrepareModerately".Translate().StringSafe.CapitalizeAsTitleSafe;
-#endif
+			"PM.PrepareModerately".TranslateFull(CapitalizeType.Title);
 	}
 }

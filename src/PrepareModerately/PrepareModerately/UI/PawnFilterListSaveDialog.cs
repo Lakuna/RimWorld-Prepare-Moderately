@@ -34,13 +34,7 @@ namespace Lakuna.PrepareModerately.Ui {
 			ArgumentNullException.ThrowIfNull(filter);
 #endif
 
-#if V1_0
-			this.interactButLabel = "PM.Overwrite".Translate()?.CapitalizeFirstSafe() ?? "null";
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst().StringSafe();
-#else
-			this.interactButLabel = "PM.Overwrite".Translate().CapitalizeFirst().StringSafe;
-#endif
+			this.interactButLabel = "PM.Overwrite".TranslateFull(CapitalizeType.First);
 			this.typingName = filter.Name?.Trim() ?? "null";
 			this._filter = filter;
 			this._onClosed = onClosed;
@@ -63,13 +57,7 @@ namespace Lakuna.PrepareModerately.Ui {
 				return;
 			}
 
-#if V1_0
-			Messages.Message("PM.SavedAsFile".Translate(sanitizedFileName)?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null", MessageTypeDefOf.SilentInput, false);
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Messages.Message("PM.SavedAsFile".Translate(sanitizedFileName).CapitalizeFirst().EndWithPeriod().StringSafe(), MessageTypeDefOf.SilentInput, false);
-#else
-			Messages.Message("PM.SavedAsFile".Translate(sanitizedFileName).CapitalizeFirst().EndWithPeriod().StringSafe, MessageTypeDefOf.SilentInput, false);
-#endif
+			Messages.Message("PM.SavedAsFile".TranslateFull(CapitalizeType.First, true, sanitizedFileName), MessageTypeDefOf.SilentInput, false);
 			this.Close();
 		}
 	}

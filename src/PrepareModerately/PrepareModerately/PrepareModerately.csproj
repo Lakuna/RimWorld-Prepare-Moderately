@@ -104,8 +104,8 @@
 		</When>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.7|AnyCPU'">
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.5000-unstable" />
-				<PackageReference Include="Lib.Harmony" Version="3.0.0-rc.5" />
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.5014-unstable " />
+				<PackageReference Include="Lib.Harmony" Version="3.0.0-rc.7" />
 			</ItemGroup>
 			<PropertyGroup>
 				<TargetFramework>net10.0</TargetFramework>

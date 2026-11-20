@@ -158,13 +158,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 #endif
 			if (collapseWidgetRow.ButtonIcon(
 				this._collapsed ? PrepareModeratelyTextures.ReorderDown : PrepareModeratelyTextures.ReorderUp,
-#if V1_0
-				(this._collapsed ? "PM.Expand" : "PM.Collapse").Translate()?.CapitalizeFirst() ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				(this._collapsed ? "PM.Expand" : "PM.Collapse").Translate().CapitalizeFirst().StringSafe(),
-#else
-				(this._collapsed ? "PM.Expand" : "PM.Collapse").Translate().CapitalizeFirst().StringSafe,
-#endif
+				(this._collapsed ? "PM.Expand" : "PM.Collapse").TranslateFull(CapitalizeType.First),
 				GenUI.SubtleMouseoverColor)) {
 				SoundDefOf.Tick_Low?.PlayOneShotOnCamera();
 				this._collapsed = !this._collapsed;
@@ -186,22 +180,10 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Add part button.
 			Rect addPartRect = new Rect(innerRect.x, typeRect.yMax, innerRect.width, Text.LineHeight).Rounded();
-#if V1_0
-			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate()?.CapitalizeFirst() ?? "null")) {
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst().StringSafe())) {
-#else
-			if (Widgets.ButtonText(addPartRect, "PM.AddPart".Translate().CapitalizeFirst().StringSafe)) {
-#endif
+			if (Widgets.ButtonText(addPartRect, "PM.AddPart".TranslateFull(CapitalizeType.First))) {
 				FloatMenuUtility.MakeMenu(
 					PawnFilterMaker.AddableParts(this._innerFilter).Where((part) => part.Category != PawnFilterPartCategory.Fixed && part.Category != PawnFilterPartCategory.Obsolete).OrderBy((part) => part.label),
-#if V1_0
-					(def) => def.LabelCap ?? "null",
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					(def) => def.LabelCap.StringSafe(),
-#else
-					(def) => def.LabelCap.StringSafe,
-#endif
+					(def) => def.LabelCap.Finish(),
 					(def) => () => {
 						PawnFilterPart part = PawnFilterMaker.MakeFilterPart(def);
 						part.Randomize();
@@ -292,20 +274,20 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			string output = "";
 			switch (this._type) {
 				case LogicGateType.And:
-					output = "PM.AllOf".Translate() ?? "null";
+					output = "PM.AllOf".TranslateFull();
 					break;
 				case LogicGateType.Or:
-					output = "PM.AtLeastOneOf".Translate() ?? "null";
+					output = "PM.AtLeastOneOf".TranslateFull();
 					break;
 				case LogicGateType.Not:
 				case LogicGateType.Nor:
-					output = "PM.NoneOf".Translate() ?? "null";
+					output = "PM.NoneOf".TranslateFull();
 					break;
 				case LogicGateType.Xor:
-					output = "PM.ExactlyOneOf".Translate() ?? "null";
+					output = "PM.ExactlyOneOf".TranslateFull();
 					break;
 				case LogicGateType.Nand:
-					output = "PM.NotAllOf".Translate() ?? "null";
+					output = "PM.NotAllOf".TranslateFull();
 					break;
 				default:
 					throw new NotImplementedException();
@@ -314,31 +296,31 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			string output = "";
 			switch (this._type) {
 				case LogicGateType.And:
-					output = "PM.AllOf".Translate().StringSafe();
+					output = "PM.AllOf".TranslateFull();
 					break;
 				case LogicGateType.Or:
-					output = "PM.AtLeastOneOf".Translate().StringSafe();
+					output = "PM.AtLeastOneOf".TranslateFull();
 					break;
 				case LogicGateType.Not:
 				case LogicGateType.Nor:
-					output = "PM.NoneOf".Translate().StringSafe();
+					output = "PM.NoneOf".TranslateFull();
 					break;
 				case LogicGateType.Xor:
-					output = "PM.ExactlyOneOf".Translate().StringSafe();
+					output = "PM.ExactlyOneOf".TranslateFull();
 					break;
 				case LogicGateType.Nand:
-					output = "PM.NotAllOf".Translate().StringSafe();
+					output = "PM.NotAllOf".TranslateFull();
 					break;
 				default:
 					throw new NotImplementedException();
 			}
 #else
 			string output = this._type switch {
-				LogicGateType.And => "PM.AllOf".Translate().StringSafe,
-				LogicGateType.Or => "PM.AtLeastOneOf".Translate().StringSafe,
-				LogicGateType.Not or LogicGateType.Nor => "PM.NoneOf".Translate().StringSafe,
-				LogicGateType.Xor => "PM.ExactlyOneOf".Translate().StringSafe,
-				LogicGateType.Nand => "PM.NotAllOf".Translate().StringSafe,
+				LogicGateType.And => "PM.AllOf".TranslateFull(),
+				LogicGateType.Or => "PM.AtLeastOneOf".TranslateFull(),
+				LogicGateType.Not or LogicGateType.Nor => "PM.NoneOf".TranslateFull(),
+				LogicGateType.Xor => "PM.ExactlyOneOf".TranslateFull(),
+				LogicGateType.Nand => "PM.NotAllOf".TranslateFull(),
 				_ => throw new NotImplementedException(),
 			};
 #endif
@@ -350,11 +332,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			bool empty = true;
 			foreach (PawnFilterPart part in this._innerFilter.Parts.OrderByDescending((part) => part.Def?.SummaryPriority).ThenBy((part) => part.Def?.defName).Where((part) => part.Visible)) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				string summary = part.Summary(filter).CapitalizeFirstSafe().EndWithPeriodSafe(); // Don't use the inner filter - needs broader context to properly determine nested indentation levels.
-#else
-				string summary = part.Summary(filter).CapitalizeFirstSafe.EndWithPeriodSafe; // Don't use the inner filter - needs broader context to properly determine nested indentation levels.
-#endif
+				string summary = part.Summary(filter).Finish(CapitalizeType.First, true); // Don't use the inner filter - needs broader context to properly determine nested indentation levels.
 				if (summary.NullOrEmpty()) {
 					continue;
 				}

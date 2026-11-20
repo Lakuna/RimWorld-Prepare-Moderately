@@ -132,11 +132,7 @@ namespace Lakuna.PrepareModerately.Filter {
 						.OrderByDescending((part) => part.Def?.SummaryPriority)
 						.ThenBy((part) => part.Def?.defName)
 						.Where((part) => part.Visible)) {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-						string summary = part.Summary(this).CapitalizeFirstSafe().EndWithPeriodSafe();
-#else
-						string summary = part.Summary(this).CapitalizeFirstSafe.EndWithPeriodSafe;
-#endif
+						string summary = part.Summary(this).Finish(CapitalizeType.First, true);
 						if (summary.NullOrEmpty()) {
 							continue;
 						}
@@ -147,11 +143,7 @@ namespace Lakuna.PrepareModerately.Filter {
 					return stringBuilder.ToString().Trim();
 				} catch (Exception e) {
 					PrepareModeratelyLogger.LogException(e, "Failed to get full information text.", PrepareModeratelyLoggerCategory.GetFullInformationText);
-#if V1_0
-					return "PM.FailedToGetFullInformationText".Translate()?.CapitalizeFirstSafe().EndWithPeriodSafe() ?? "null";
-#else
-					return "PM.FailedToGetFullInformationText".Translate().CapitalizeFirst().EndWithPeriod();
-#endif
+					return "PM.FailedToGetFullInformationText".TranslateFull(CapitalizeType.First, true);
 					throw;
 				}
 			}
@@ -266,7 +258,7 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 		public override string ToString() =>
-			(this.Name is null || this.Name.NullOrEmpty()) ? "PM.UnnamedFilter".Translate().ToString().CapitalizeFirst()
+			(this.Name is null || this.Name.NullOrEmpty()) ? "PM.UnnamedFilter".TranslateFull(CapitalizeType.First)
 			: this.Name;
 
 		public void AddPart(PawnFilterPart part, bool prepend = false) {
