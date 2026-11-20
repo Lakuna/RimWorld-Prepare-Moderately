@@ -21,12 +21,12 @@ namespace Lakuna.PrepareModerately.Utility {
 
 		public static string EndWithPeriodSafe(this string s) =>
 			s is null ? "null"
-#if V1_0
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 			: s.EndsWith(".") ? s
 			: $"{s}.";
-#elif V1_1 || V1_2 || V1_3 || V1_4
-			: s.EndsWith('.') ? s
-			: $"{s}.";
+#elif V1_5
+			: (s.EndWithPeriod() ?? (s.EndsWith(".") ? s
+					: $"{s}."));
 #else
 			: (s.EndWithPeriod() ?? (s.EndsWith('.') ? s
 					: $"{s}."));
@@ -58,7 +58,7 @@ namespace Lakuna.PrepareModerately.Utility {
 		}
 
 #if !V1_0
-		public string Finish(this TaggedString s, CapitalizeType capitalize = CapitalizeType.No, bool endWithPeriod = false) =>
+		public static string Finish(this TaggedString s, CapitalizeType capitalize = CapitalizeType.No, bool endWithPeriod = false) =>
 			s.StringSafe().Finish(capitalize, endWithPeriod);
 #endif
 
