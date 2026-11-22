@@ -1,7 +1,3 @@
-#if V1_4 || V1_5 || V1_6
-using System.Collections.Generic;
-#endif
-
 using System.Collections.Generic;
 
 using Lakuna.PrepareModerately.Ui;
