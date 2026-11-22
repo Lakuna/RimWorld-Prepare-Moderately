@@ -50,12 +50,14 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 				return;
 			}
 
+			Find.WindowStack.Add(new RollingDialog(() => {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			object[] parameters = new object[] { Result };
+				object[] parameters = new object[] { Result };
 #else
-			object?[]? parameters = [Result];
+				object?[]? parameters = [Result];
 #endif
-			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, parameters)));
+				_ = __originalMethod.Invoke(null, parameters);
+			}));
 
 			IsActivelyRolling = true;
 		}
