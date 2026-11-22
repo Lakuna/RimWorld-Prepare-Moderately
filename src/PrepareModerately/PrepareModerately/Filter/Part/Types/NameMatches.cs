@@ -122,8 +122,6 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			];
 #endif
 
-			List<string> foo = ["a", "b"];
-
 			this._regex = names.RandomElement();
 		}
 

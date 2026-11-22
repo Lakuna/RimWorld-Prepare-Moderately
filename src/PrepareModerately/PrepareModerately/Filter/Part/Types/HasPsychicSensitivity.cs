@@ -32,7 +32,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1
-			float psychicSensitivity = pawn.GetStatValue(StatDefOf.PsychicSensitivity) ?? 0;
+			float psychicSensitivity = pawn.GetStatValue(StatDefOf.PsychicSensitivity);
 #else
 			float psychicSensitivity = pawn.psychicEntropy?.PsychicSensitivity ?? 0;
 #endif

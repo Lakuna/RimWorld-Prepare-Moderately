@@ -16,7 +16,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static IEnumerable<Passion> _allPassions {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				Passion[] passions = Enum.GetValues(typeof(Passion));
+				Array passions = Enum.GetValues(typeof(Passion));
 #else
 				Passion[] passions = Enum.GetValues<Passion>();
 #endif

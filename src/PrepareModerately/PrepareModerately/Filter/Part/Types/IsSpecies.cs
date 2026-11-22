@@ -26,7 +26,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					def?.race is not null
 #endif
 					&& !def.IsCorpse
-				) ?? [];
+				) ?? empty;
 			}
 		}
 
