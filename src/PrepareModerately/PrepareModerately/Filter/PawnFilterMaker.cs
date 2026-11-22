@@ -19,12 +19,14 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private const int _minimumRandomParts = 3;
 
-		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) =>
+		public static IEnumerable<PawnFilterPartDef> AddableParts(PawnFilter filter) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<PawnFilterPartDef>.AllDefs?.Where((def) => (filter.Parts?.Count((part) => part.Def == def) ?? 0) < def.MaxUses) ?? new List<PawnFilterPartDef>();
+			List<PawnFilterPartDef> empty = new List<PawnFilterPartDef>();
 #else
-			DefDatabase<PawnFilterPartDef>.AllDefs?.Where((def) => (filter.Parts?.Count((part) => part.Def == def) ?? 0) < def.MaxUses) ?? [];
+			List<PawnFilterPartDef> empty = [];
 #endif
+			return DefDatabase<PawnFilterPartDef>.AllDefs?.Where((def) => (filter.Parts?.Count((part) => part.Def == def) ?? 0) < def.MaxUses) ?? empty;
+		}
 
 		public static void AddPartsFromCategory(PawnFilter filter, PawnFilterPartCategory category, int count) {
 			if (filter is null) {
@@ -55,21 +57,25 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterPart part = ((PawnFilterPart)Activator.CreateInstance(def.FilterPartClass))
+			PawnFilterPart part = (PawnFilterPart)Activator.CreateInstance(def.FilterPartClass);
 #else
-			PawnFilterPart part = ((PawnFilterPart?)Activator.CreateInstance(def.FilterPartClass))
+			PawnFilterPart? part = (PawnFilterPart?)Activator.CreateInstance(def.FilterPartClass);
 #endif
-				?? throw new InvalidOperationException($"Failed to create an instance of a filter part for {def.defName}.");
+			if (part is null) {
+				throw new InvalidOperationException($"Failed to create an instance of a filter part for {def.defName}.");
+			}
+
 			part.Def = def;
 			return part;
 		}
 
 		public static PawnFilter Random(string seed) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilter filter = new PawnFilter() {
+			PawnFilter filter = new PawnFilter()
 #else
-			PawnFilter filter = new() {
+			PawnFilter filter = new()
 #endif
+			{
 				Category = PawnFilterCategory.CustomLocal,
 				Name = RulePackDefOf.NamerScenario is null ? "null"
 					: (NameGenerator.GenerateName(RulePackDefOf.NamerScenario) ?? "null")
@@ -142,10 +148,11 @@ namespace Lakuna.PrepareModerately.Filter {
 				yield break;
 			}
 
+			IEnumerable<PawnFilterPartDef> enumerable = AddableParts(filter).Where((def) => def.Category == category);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Collection<PawnFilterPartDef> allowedParts = new Collection<PawnFilterPartDef>(AddableParts(filter).Where((def) => def.Category == category).ToList());
+			Collection<PawnFilterPartDef> allowedParts = new Collection<PawnFilterPartDef>(enumerable.ToList());
 #else
-			Collection<PawnFilterPartDef> allowedParts = [.. AddableParts(filter).Where((def) => def.Category == category)];
+			Collection<PawnFilterPartDef> allowedParts = [.. enumerable];
 #endif
 			int yieldCount = 0;
 			int tryCount = 0;

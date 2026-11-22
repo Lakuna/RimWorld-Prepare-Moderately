@@ -1,6 +1,7 @@
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 using System.Collections.Generic;
 #endif
+using System.Collections.Generic;
 using System.Linq;
 
 using Lakuna.PrepareModerately.Filter;
@@ -67,10 +68,11 @@ namespace Lakuna.PrepareModerately.Ui {
 			foreach (PawnFilterPart part in filter.Parts) {
 				int num = 0;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				foreach (PawnFilterPart part2 in filter.Parts ?? new List<PawnFilterPart>()) {
+				List<PawnFilterPart> empty = new List<PawnFilterPart>();
 #else
-				foreach (PawnFilterPart part2 in filter.Parts ?? []) {
+				List<PawnFilterPart> empty = [];
 #endif
+				foreach (PawnFilterPart part2 in filter.Parts ?? empty) {
 					if (part2.Def == part.Def) {
 						num++;
 					}
@@ -173,10 +175,11 @@ namespace Lakuna.PrepareModerately.Ui {
 
 		private void DoConfigControls(Rect inRect) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Listing_Standard listing = new Listing_Standard() {
+			Listing_Standard listing = new Listing_Standard()
 #else
-			Listing_Standard listing = new() {
+			Listing_Standard listing = new()
 #endif
+			{
 				ColumnWidth = _configControlsColumnWidth
 			};
 			listing.Begin(inRect);

@@ -12,12 +12,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasRelation : PawnFilterPart {
-		private static IEnumerable<PawnRelationDef> _legalRelations =>
+		private static IEnumerable<PawnRelationDef> _legalRelations {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<PawnRelationDef>.AllDefs ?? new List<PawnRelationDef>();
+				List<PawnRelationDef> empty = new List<PawnRelationDef>();
 #else
-			DefDatabase<PawnRelationDef>.AllDefs ?? [];
+				List<PawnRelationDef> empty = [];
 #endif
+				return DefDatabase<PawnRelationDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -40,20 +44,24 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private PawnRelationDef? _relation;
 #endif
 
+		private static string GetCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetCombinedLabelFor(PawnRelationDef def) =>
+			PawnRelationDef def
 #else
-		private static string GetCombinedLabelFor(PawnRelationDef? def) =>
+			PawnRelationDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.labelFemale is null || def.labelFemale.NullOrEmpty()) ? (def.label ?? "null")
 			: $"{def.label ?? "null"}/{def.labelFemale}";
 
+		private static string GetUniqueCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetUniqueCombinedLabelFor(PawnRelationDef def) =>
+			PawnRelationDef def
 #else
-		private static string GetUniqueCombinedLabelFor(PawnRelationDef? def) =>
+			PawnRelationDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
 			: _legalRelations.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"

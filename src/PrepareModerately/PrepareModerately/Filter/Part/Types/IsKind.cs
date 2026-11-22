@@ -12,12 +12,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class IsKind : PawnFilterPart {
-		private static IEnumerable<PawnKindDef> _legalKinds =>
+		private static IEnumerable<PawnKindDef> _legalKinds {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<PawnKindDef>.AllDefs ?? new List<PawnKindDef>();
+				List<PawnKindDef> empty = new List<PawnKindDef>();
 #else
-			DefDatabase<PawnKindDef>.AllDefs ?? [];
+				List<PawnKindDef> empty = [];
 #endif
+				return DefDatabase<PawnKindDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -40,20 +44,24 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private PawnKindDef? _kind;
 #endif
 
+		private static string GetCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetCombinedLabelFor(PawnKindDef def) =>
+			PawnKindDef def
 #else
-		private static string GetCombinedLabelFor(PawnKindDef? def) =>
+			PawnKindDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.labelFemale is null || def.labelFemale.NullOrEmpty()) ? (def.label ?? "null")
 			: $"{def.label ?? "null"}/{def.labelFemale}";
 
+		private static string GetUniqueCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetUniqueCombinedLabelFor(PawnKindDef def) =>
+			PawnKindDef def
 #else
-		private static string GetUniqueCombinedLabelFor(PawnKindDef? def) =>
+			PawnKindDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
 			: _legalKinds.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
@@ -80,12 +88,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override bool Matches(Pawn pawn) =>
 			pawn.kindDef == this._kind;
 
-		public override void Randomize() =>
+		public override void Randomize() {
 #if V1_0 || V1_1 || V1_2 || V1_3
-			this._kind = Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.FirstOrDefault(); // Other kinds wouldn't be legal for vanilla RimWorld.
+			PawnKindDef startingPawnKind = null;
+#elif V1_4 || V1_5 || V1_6
+			PawnKindDef startingPawnKind = Find.GameInitData?.startingPawnKind;
 #else
-			this._kind = Find.GameInitData?.startingPawnKind ?? Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.FirstOrDefault(); // Other kinds wouldn't be legal for vanilla RimWorld.
+			PawnKindDef? startingPawnKind = Find.GameInitData?.startingPawnKind;
 #endif
+			this._kind = startingPawnKind ?? Faction.OfPlayerSilentFail?.def?.basicMemberKind ?? PawnKindDefOf.Colonist ?? _legalKinds.FirstOrDefault(); // Other kinds wouldn't be legal for vanilla RimWorld.
+		}
 
 		public override string Summary(PawnFilter filter) =>
 			"PM.IsKind".TranslateFull(GetUniqueCombinedLabelFor(this._kind));

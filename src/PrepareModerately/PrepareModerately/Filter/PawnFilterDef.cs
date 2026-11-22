@@ -8,10 +8,11 @@ namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.ScenarioDef`.
 	public sealed class PawnFilterDef : Def {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public PawnFilter Filter {
+		public PawnFilter Filter
 #else
-		public PawnFilter? Filter {
+		public PawnFilter? Filter
 #endif
+		{
 			get => this._filter;
 			set => this._filter = value;
 		}
@@ -24,10 +25,11 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		public override IEnumerable<string> ConfigErrors() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			foreach (string item in base.ConfigErrors() ?? new List<string>()) {
+			List<string> empty = new List<string>();
 #else
-			foreach (string item in base.ConfigErrors() ?? []) {
+			List<string> empty = [];
 #endif
+			foreach (string item in base.ConfigErrors() ?? empty) {
 				yield return item;
 			}
 

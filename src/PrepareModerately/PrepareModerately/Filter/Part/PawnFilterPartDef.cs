@@ -12,10 +12,11 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public Type FilterPartClass {
+		public Type FilterPartClass
 #else
-		public Type? FilterPartClass {
+		public Type? FilterPartClass
 #endif
+		{
 			get => this._filterPartClass;
 			set => this._filterPartClass = value;
 		}
@@ -54,10 +55,11 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 
 		public override IEnumerable<string> ConfigErrors() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			foreach (string item in base.ConfigErrors() ?? new List<string>()) {
+			List<string> empty = new List<string>();
 #else
-			foreach (string item in base.ConfigErrors() ?? []) {
+			List<string> empty = [];
 #endif
+			foreach (string item in base.ConfigErrors() ?? empty) {
 				yield return item;
 			}
 

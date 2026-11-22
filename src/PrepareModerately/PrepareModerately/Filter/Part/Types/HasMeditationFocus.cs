@@ -13,12 +13,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasMeditationFocus : PawnFilterPart {
-		private static IEnumerable<MeditationFocusDef> _allMeditationFoci =>
+		private static IEnumerable<MeditationFocusDef> _allMeditationFoci {
+			get {
 #if V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<MeditationFocusDef>.AllDefs ?? new List<MeditationFocusDef>();
+				List<MeditationFocusDef> empty = new List<MeditationFocusDef>();
 #else
-			DefDatabase<MeditationFocusDef>.AllDefs ?? [];
+				List<MeditationFocusDef> empty = [];
 #endif
+				return DefDatabase<MeditationFocusDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {

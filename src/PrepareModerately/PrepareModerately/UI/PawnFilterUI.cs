@@ -36,10 +36,11 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Rect listingRect = new Rect(0, 0, viewRect.width, _listingRectHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditListing listing = new PawnFilterEditListing(filter) {
+			PawnFilterEditListing listing = new PawnFilterEditListing(filter)
 #else
-			PawnFilterEditListing listing = new(filter) {
+			PawnFilterEditListing listing = new(filter)
 #endif
+			{
 				ColumnWidth = listingRect.width
 			};
 			listing.Begin(listingRect);
@@ -71,9 +72,9 @@ namespace Lakuna.PrepareModerately.Ui {
 			listing.Gap();
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			IEnumerable<PawnFilterPart> parts = filter.Parts is null ? new List<PawnFilterPart>() : new List<PawnFilterPart>(filter.Parts); // Necessary so that deleting a pawn filter part doesn't cause an error.
+			IEnumerable<PawnFilterPart> parts = new List<PawnFilterPart>(filter.Parts ?? new List<PawnFilterPart>()); // Necessary so that deleting a pawn filter part doesn't cause an error.
 #else
-			IEnumerable<PawnFilterPart> parts = filter.Parts is null ? [] : [.. filter.Parts]; // Necessary so that deleting a pawn filter part doesn't cause an error.
+			IEnumerable<PawnFilterPart> parts = [.. filter.Parts ?? []]; // Necessary so that deleting a pawn filter part doesn't cause an error.
 #endif
 			foreach (PawnFilterPart part in parts) {
 				part.DoEditInterface(listing);

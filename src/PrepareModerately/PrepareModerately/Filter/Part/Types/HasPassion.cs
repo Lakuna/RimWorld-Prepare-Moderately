@@ -13,19 +13,27 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasPassion : PawnFilterPart {
-		private static IEnumerable<Passion> _allPassions =>
+		private static IEnumerable<Passion> _allPassions {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(Passion)).OfType<Passion>();
+				Passion[] passions = Enum.GetValues(typeof(Passion));
 #else
-			Enum.GetValues<Passion>().OfType<Passion>();
+				Passion[] passions = Enum.GetValues<Passion>();
 #endif
+				return passions.OfType<Passion>();
+			}
+		}
 
-		private static IEnumerable<SkillDef> _allSkills =>
+		private static IEnumerable<SkillDef> _allSkills {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<SkillDef>.AllDefs ?? new List<SkillDef>();
+				List<SkillDef> empty = new List<SkillDef>();
 #else
-			DefDatabase<SkillDef>.AllDefs ?? [];
+				List<SkillDef> empty = [];
 #endif
+				return DefDatabase<SkillDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -52,8 +60,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static bool PassionIsPossibleWithModifier(Passion passion, PassionMod.PassionModType modifier) =>
-			(modifier == PassionMod.PassionModType.AddOneLevel) ? (passion != Passion.None)
-			: (modifier != PassionMod.PassionModType.DropAll || passion == Passion.None);
+			modifier == PassionMod.PassionModType.AddOneLevel ? passion != Passion.None
+			: modifier != PassionMod.PassionModType.DropAll || passion == Passion.None;
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
@@ -84,21 +92,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override int GetHashCode() =>
 			base.GetHashCode() ^ this._passion.GetHashCode() ^ (this._skill?.GetHashCode() ?? 0);
 
-#if V1_0 || V1_1 || V1_2 || V1_3
-#elif V1_4 || V1_5 || V1_6
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		public override bool IgnoreFor(Pawn pawn) =>
 			base.IgnoreFor(pawn)
 			|| this._skill is null
 			|| (pawn.genes?.GenesListForReading?.Any((gene) =>
+#if V1_4 || V1_5 || V1_6
 				!(gene?.def?.passionMod is null)
-				&& gene.def.passionMod.skill == this._skill
-				&& !PassionIsPossibleWithModifier(this._passion, gene.def.passionMod.modType)) ?? false);
 #else
-		public override bool IgnoreFor(Pawn pawn) =>
-			base.IgnoreFor(pawn)
-			|| this._skill is null
-			|| (pawn.genes?.GenesListForReading?.Any((gene) =>
 				gene?.def?.passionMod is not null
+#endif
 				&& gene.def.passionMod.skill == this._skill
 				&& !PassionIsPossibleWithModifier(this._passion, gene.def.passionMod.modType)) ?? false);
 #endif

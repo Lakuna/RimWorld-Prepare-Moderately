@@ -35,12 +35,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			&& this._skills is not null;
 #endif
 
-		private IEnumerable<SkillDef> _addableSkills =>
+		private IEnumerable<SkillDef> _addableSkills {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<SkillDef>.AllDefs?.Where((def) => !this._skills?.Contains(def) ?? false) ?? new List<SkillDef>();
+				List<SkillDef> empty = new List<SkillDef>();
 #else
-			DefDatabase<SkillDef>.AllDefs?.Where((def) => !this._skills?.Contains(def) ?? false) ?? [];
+				List<SkillDef> empty = [];
 #endif
+				return DefDatabase<SkillDef>.AllDefs?.Where((def) => !this._skills?.Contains(def) ?? false) ?? empty;
+			}
+		}
 
 		private IntRange _range;
 
@@ -121,10 +125,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			int sum = 0;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) => !(skill is null) && this._skills.Contains(skill.def)) ?? new List<SkillRecord>()) {
+			List<SkillRecord> empty = new List<SkillRecord>();
 #else
-			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) => skill is not null && this._skills.Contains(skill.def)) ?? []) {
+			List<SkillRecord> empty = [];
 #endif
+			foreach (SkillRecord skill in pawn.skills?.skills?.Where((skill) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				!(skill is null)
+#else
+				skill is not null
+#endif
+				&& this._skills.Contains(skill.def)
+			) ?? empty) {
 				sum += skill.Level;
 			}
 
@@ -146,10 +158,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			int min = SkillRecord.MinLevel * this._skills.Count;
 			int max = SkillRecord.MaxLevel * this._skills.Count;
 			int mid = (max - min) / 2;
+			int r0 = Rand.Range(min, mid);
+			int r1 = Rand.Range(mid, max);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(min, mid), Rand.Range(mid, max));
+			this._range = new IntRange(r0, r1);
 #else
-			this._range = new(Rand.Range(min, mid), Rand.Range(mid, max));
+			this._range = new(r0, r1);
 #endif
 		}
 

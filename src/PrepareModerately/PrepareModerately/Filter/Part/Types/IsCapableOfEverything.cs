@@ -8,43 +8,39 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class IsCapableOfEverything : PawnFilterPart {
-		private static IEnumerable<WorkTags> _legalWorkTags =>
+		private static IEnumerable<WorkTags> _legalWorkTags {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>();
+				WorkTags[] values = Enum.GetValues(typeof(WorkTags));
 #else
-			Enum.GetValues<WorkTags>().OfType<WorkTags>();
+				WorkTags[] values = Enum.GetValues<WorkTags>();
 #endif
+				return values.OfType<WorkTags>();
+			}
+		}
 
-		private static IEnumerable<WorkTypeDef> _legalWorkTypes =>
+		private static IEnumerable<WorkTypeDef> _legalWorkTypes {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<WorkTypeDef>.AllDefs ?? new List<WorkTypeDef>();
+				List<WorkTypeDef> empty = new List<WorkTypeDef>();
 #else
-			DefDatabase<WorkTypeDef>.AllDefs ?? [];
+				List<WorkTypeDef> empty = [];
 #endif
+				return DefDatabase<WorkTypeDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override bool CanCoexistWith(PawnFilterPart other) =>
 			other.Def != PawnFilterPartDefOf.IsCapableOf;
 
 		public override bool Matches(Pawn pawn) {
-#if V1_0
-			return _legalWorkTypes.All((def) => !(pawn.story?.WorkTypeIsDisabled(def) ?? false));
-#elif V1_1 || V1_2 || V1_3
-			return _legalWorkTypes.All((def) => !pawn.WorkTypeIsDisabled(def));
+#if V1_0 || V1_1 || V1_2 || V1_3
 #elif V1_4 || V1_5 || V1_6
 			List<WorkTags> disabledWorkTags = new List<WorkTags>();
-			foreach (WorkTags workTags in _legalWorkTags) {
-				if (workTags == WorkTags.None) {
-					continue;
-				}
-
-				if (pawn.genes?.DisabledWorkTags.HasFlag(workTags) ?? false) {
-					disabledWorkTags.Add(workTags);
-				}
-			}
-
-			return _legalWorkTypes.All((def) => !pawn.WorkTypeIsDisabled(def) || disabledWorkTags.Any((workTags) => def.workTags.HasFlag(workTags)));
 #else
 			List<WorkTags> disabledWorkTags = [];
+#endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			foreach (WorkTags workTags in _legalWorkTags) {
 				if (workTags == WorkTags.None) {
 					continue;
@@ -54,9 +50,18 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					disabledWorkTags.Add(workTags);
 				}
 			}
-
-			return _legalWorkTypes.All((def) => !pawn.WorkTypeIsDisabled(def) || disabledWorkTags.Any((workTags) => def.workTags.HasFlag(workTags)));
 #endif
+
+			return _legalWorkTypes.All((def) =>
+#if V1_0
+				!(pawn.story?.WorkTypeIsDisabled(def) ?? false)
+#else
+				!pawn.WorkTypeIsDisabled(def)
+#endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				|| disabledWorkTags.Any((workTags) => def.workTags.HasFlag(workTags))
+#endif
+			);
 		}
 
 		public override string Summary(PawnFilter filter) =>

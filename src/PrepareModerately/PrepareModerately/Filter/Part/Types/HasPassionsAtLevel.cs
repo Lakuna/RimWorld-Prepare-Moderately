@@ -13,12 +13,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasPassionsAtLevel : PawnFilterPart {
-		private static IEnumerable<Passion> _legalPassions =>
+		private static IEnumerable<Passion> _legalPassions {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(Passion)).OfType<Passion>();
+				Passion[] passions = Enum.GetValues(typeof(Passion));
 #else
-			Enum.GetValues<Passion>().OfType<Passion>();
+				Passion[] passions = Enum.GetValues<Passion>();
 #endif
+				return passions.OfType<Passion>();
+			}
+		}
 
 		private Passion _passion;
 
@@ -54,15 +58,17 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() {
 			this._passion = _legalPassions.RandomElement();
+			int min = Rand.Range(0, 2);
+			int max = Rand.Range(2, 6);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(0, 2), Rand.Range(2, 6));
+			this._range = new IntRange(min, max);
 #else
-			this._range = new(Rand.Range(0, 2), Rand.Range(2, 6));
+			this._range = new(min, max);
 #endif
 		}
 
 		public override string Summary(PawnFilter filter) =>
-			(this._range.min == this._range.max) ? "PM.HasPassionForSkills".TranslateFull(this._passion.ToString(), this._range.min)
+			this._range.min == this._range.max ? "PM.HasPassionForSkills".TranslateFull(this._passion.ToString(), this._range.min)
 			: "PM.HasPassionForBetweenSkills".TranslateFull(this._passion.ToString(), this._range.min, this._range.max);
 	}
 }

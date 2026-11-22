@@ -19,12 +19,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		private const float _innerPadding = 5;
 
-		private static IEnumerable<LogicGateType> _legalLogicGateTypes =>
+		private static IEnumerable<LogicGateType> _legalLogicGateTypes {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(LogicGateType)).OfType<LogicGateType>();
+				LogicGateType[] values = Enum.GetValues(typeof(LogicGateType));
 #else
-			Enum.GetValues<LogicGateType>().OfType<LogicGateType>();
+				LogicGateType[] values = Enum.GetValues<LogicGateType>();
 #endif
+				return values.OfType<LogicGateType>();
+			}
+		}
 
 		private const float _padding = 20;
 
@@ -53,10 +57,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private float _editViewHeight;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private PawnFilter _innerFilter = new PawnFilter() {
+		private PawnFilter _innerFilter = new PawnFilter()
 #else
-		private PawnFilter? _innerFilter = new() {
+		private PawnFilter? _innerFilter = new()
 #endif
+		{
 			Name = "Inner Filter",
 			Description = "This filter exists inside of a logic gate. It is part of another filter.",
 			Summary = "If you are seeing this summary in the UI, something has gone wrong."
@@ -94,11 +99,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 			// Otherwise, check nested logic gates to see if they contain the logic gate and add one indentation level.
 			foreach (PawnFilterPart part in filter.Parts) {
+				if (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				if (!(part is LogicGate gate2)) {
+					!(part is LogicGate gate2)
 #else
-				if (part is not LogicGate gate2) {
+					part is not LogicGate gate2
 #endif
+				) {
 					continue;
 				}
 
@@ -195,10 +202,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			// Part listing.
 			Rect listingRect = new Rect(innerRect.x, addPartRect.yMax, innerRect.width, this._editViewHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditListing innerListing = new PawnFilterEditListing(this._innerFilter) {
+			PawnFilterEditListing innerListing = new PawnFilterEditListing(this._innerFilter)
 #else
-			PawnFilterEditListing innerListing = new(this._innerFilter) {
+			PawnFilterEditListing innerListing = new(this._innerFilter)
 #endif
+			{
 				ColumnWidth = listingRect.width
 			};
 			innerListing.Begin(listingRect);
@@ -270,29 +278,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				return "";
 			}
 
-#if V1_0
-			string output = "";
-			switch (this._type) {
-				case LogicGateType.And:
-					output = "PM.AllOf".TranslateFull();
-					break;
-				case LogicGateType.Or:
-					output = "PM.AtLeastOneOf".TranslateFull();
-					break;
-				case LogicGateType.Not:
-				case LogicGateType.Nor:
-					output = "PM.NoneOf".TranslateFull();
-					break;
-				case LogicGateType.Xor:
-					output = "PM.ExactlyOneOf".TranslateFull();
-					break;
-				case LogicGateType.Nand:
-					output = "PM.NotAllOf".TranslateFull();
-					break;
-				default:
-					throw new NotImplementedException();
-			}
-#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			string output = "";
 			switch (this._type) {
 				case LogicGateType.And:

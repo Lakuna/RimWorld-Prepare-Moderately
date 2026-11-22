@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 #endif
 
+using System.Collections.Generic;
+
 using Lakuna.PrepareModerately.Ui;
 using Lakuna.PrepareModerately.Utility;
 
@@ -27,32 +29,30 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.GetHashCode() ^ this._range.GetHashCode();
 
 		public override bool Matches(Pawn pawn) {
-#if V1_0 || V1_1 || V1_2 || V1_3
-			int traitsCount = pawn.story?.traits?.allTraits?.Count ?? 0;
-#elif V1_4 || V1_5 || V1_6
 			int geneForcedTraitCount = 0;
-			foreach (Gene gene in pawn.genes?.GenesListForReading ?? new List<Gene>()) {
-				geneForcedTraitCount += gene.def?.forcedTraits?.Count ?? 0;
-			}
-
-			int traitsCount = (pawn.story?.traits?.allTraits?.Count ?? 0) - geneForcedTraitCount;
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if V1_4 || V1_5 || V1_6
+			List<Gene> empty = new List<Gene>();
 #else
-			int geneForcedTraitCount = 0;
-			foreach (Gene gene in pawn.genes?.GenesListForReading ?? []) {
+			List<Gene> empty = [];
+#endif
+			foreach (Gene gene in pawn.genes?.GenesListForReading ?? empty) {
 				geneForcedTraitCount += gene.def?.forcedTraits?.Count ?? 0;
 			}
-
-			int traitsCount = (pawn.story?.traits?.allTraits?.Count ?? 0) - geneForcedTraitCount;
 #endif
+			int traitsCount = (pawn.story?.traits?.allTraits?.Count ?? 0) - geneForcedTraitCount;
 			return traitsCount >= this._range.min && traitsCount <= this._range.max;
 		}
 
-		public override void Randomize() =>
+		public override void Randomize() {
+			int min = Rand.Range(1, 2);
+			int max = Rand.Range(2, 4);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(1, 2), Rand.Range(2, 4));
+			this._range = new IntRange(min, max);
 #else
-			this._range = new(Rand.Range(1, 2), Rand.Range(2, 4));
+			this._range = new(min, max);
 #endif
+		}
 
 		public override string Summary(PawnFilter filter) =>
 			(this._range.min == this._range.max) ? "PM.HasNumberOfTraits".TranslateFull(this._range.min)

@@ -13,12 +13,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class IsCapableOf : PawnFilterPart {
-		private static IEnumerable<WorkTags> _legalWorkTags =>
+		private static IEnumerable<WorkTags> _legalWorkTags {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(WorkTags)).OfType<WorkTags>();
+				WorkTags[] values = Enum.GetValues(typeof(WorkTags));
 #else
-			Enum.GetValues<WorkTags>().OfType<WorkTags>();
+				WorkTags[] values = Enum.GetValues<WorkTags>();
 #endif
+				return values.OfType<WorkTags>();
+			}
+		}
 
 		private WorkTags _workTag;
 

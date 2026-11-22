@@ -1,6 +1,8 @@
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Verse;
 
@@ -18,17 +20,14 @@ namespace Lakuna.PrepareModerately.Filter {
 					directoryInfo.Create();
 				}
 
+				IOrderedEnumerable<FileInfo> enumerable = directoryInfo
+					.GetFiles()
+					.Where((file) => file.Extension == FileExtension)
+					.OrderByDescending((file) => file.LastWriteTime);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				return new Collection<FileInfo>(directoryInfo
-					.GetFiles()
-					.Where((file) => file.Extension == FileExtension)
-					.OrderByDescending((file) => file.LastWriteTime)
-					.ToList());
+				return new Collection<FileInfo>(enumerable.ToList());
 #else
-				return [.. directoryInfo
-					.GetFiles()
-					.Where((file) => file.Extension == FileExtension)
-					.OrderByDescending((file) => file.LastWriteTime)];
+				return [.. enumerable];
 #endif
 			}
 		}
@@ -39,16 +38,18 @@ namespace Lakuna.PrepareModerately.Filter {
 			(PrepareModeratelyMod.Settings?.FilterSavePath is null || PrepareModeratelyMod.Settings.FilterSavePath.NullOrEmpty()) ? DefaultDataPath
 			: PrepareModeratelyMod.Settings.FilterSavePath;
 
-		public static string DefaultDataPath =>
+		public static string DefaultDataPath {
+			get {
+				Type type = typeof(GenFilePaths);
+				string name = "FolderUnderSaveData";
+				BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			((string)typeof(GenFilePaths)
-				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				?.Invoke(null, new object[] { DataFolder })) ?? "";
+				return (string)type.GetMethod(name, flags)?.Invoke(null, new object[] { DataFolder }) ?? "null";
 #else
-			((string?)typeof(GenFilePaths)
-				.GetMethod("FolderUnderSaveData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-				?.Invoke(null, [DataFolder])) ?? "";
+				return (string?)type.GetMethod(name, flags)?.Invoke(null, [DataFolder]) ?? "null";
 #endif
+			}
+		}
 
 		public const string FileExtension = ".rpf";
 

@@ -30,10 +30,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			pawn.MarketValue <= this._range.max && pawn.MarketValue >= this._range.min;
 
 		public override void Randomize() {
+			int min = Rand.Range(0, 3000);
+			int max = Rand.Range(3000, 10000);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new FloatRange(Rand.Range(0, 3000), Rand.Range(1000, 10000));
+			this._range = new FloatRange(min, max);
 #else
-			this._range = new(Rand.Range(0, 3000), Rand.Range(3000, 10000));
+			this._range = new(min, max);
 #endif
 		}
 

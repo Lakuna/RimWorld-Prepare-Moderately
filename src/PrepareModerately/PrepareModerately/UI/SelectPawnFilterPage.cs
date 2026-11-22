@@ -248,10 +248,11 @@ namespace Lakuna.PrepareModerately.Ui {
 
 			Rect listingRect = new Rect(0, 0, scrollViewRect.width, _filterListHeight).Rounded();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Listing_Standard listing = new Listing_Standard() {
+			Listing_Standard listing = new Listing_Standard()
 #else
-			Listing_Standard listing = new() {
+			Listing_Standard listing = new()
 #endif
+			{
 				ColumnWidth = scrollViewRect.width
 			};
 			listing.Begin(listingRect);
@@ -304,10 +305,11 @@ namespace Lakuna.PrepareModerately.Ui {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new PawnFilterEditorPage(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing)
 #else
-			PawnFilterEditorPage pawnFilterEditorPage = new(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing) {
+			PawnFilterEditorPage pawnFilterEditorPage = new(this._filter.CanEdit ? this._filter : this._filter.CopyForEditing)
 #endif
+			{
 				prev = this,
 				next = this.next // Go back to the configure starting pawns page.
 			};

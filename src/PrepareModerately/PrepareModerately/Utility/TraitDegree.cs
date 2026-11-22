@@ -7,16 +7,21 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Utility {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-	public sealed class TraitDegree : IExposable {
+	public sealed class TraitDegree : IExposable
 #else
-	public sealed class TraitDegree(TraitDef? trait = default, int degree = default) : IExposable {
+	public sealed class TraitDegree(TraitDef? trait = default, int degree = default) : IExposable
 #endif
-		public static IEnumerable<TraitDegree> All =>
+	{
+		public static IEnumerable<TraitDegree> All {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<TraitDef>.AllDefs?.SelectMany((def) => def.degreeDatas?.Select((data) => new TraitDegree(def, data?.degree ?? default)) ?? new List<TraitDegree>()) ?? new List<TraitDegree>();
+				List<TraitDegree> empty = new List<TraitDegree>();
 #else
-			DefDatabase<TraitDef>.AllDefs?.SelectMany((def) => def.degreeDatas?.Select((data) => new TraitDegree(def, data?.degree ?? default)) ?? []) ?? [];
+				List<TraitDegree> empty = [];
 #endif
+				return DefDatabase<TraitDef>.AllDefs?.SelectMany((def) => def.degreeDatas?.Select((data) => new TraitDegree(def, data?.degree ?? default)) ?? empty) ?? empty;
+			}
+		}
 
 		public TraitDegreeData Data {
 			get {
@@ -40,10 +45,11 @@ namespace Lakuna.PrepareModerately.Utility {
 		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public TraitDef Trait {
+		public TraitDef Trait
 #else
-		public TraitDef? Trait {
+		public TraitDef? Trait
 #endif
+		{
 			get => this._trait;
 			set => this._trait = value;
 		}

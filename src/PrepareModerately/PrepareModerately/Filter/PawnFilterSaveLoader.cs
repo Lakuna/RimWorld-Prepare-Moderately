@@ -12,11 +12,15 @@ namespace Lakuna.PrepareModerately.Filter {
 
 		private const string _savedFilterParentNodeName = "savedfilter";
 
+		public static bool Load(
+			string absolutePath,
+			PawnFilterCategory category,
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+			out PawnFilter filter
 #else
-		public static bool Load(string absolutePath, PawnFilterCategory category, out PawnFilter? filter) {
+			out PawnFilter? filter
 #endif
+		) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			return LoadInternal(absolutePath, category, out filter);
 #else
@@ -45,11 +49,15 @@ namespace Lakuna.PrepareModerately.Filter {
 			}
 		}
 
+		private static bool LoadInternal(
+			string absolutePath,
+			PawnFilterCategory category,
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static bool LoadInternal(string absolutePath, PawnFilterCategory category, out PawnFilter filter) {
+			out PawnFilter filter
 #else
-		private static bool LoadInternal(string absolutePath, PawnFilterCategory category, out PawnFilter? filter) {
+			out PawnFilter? filter
 #endif
+		) {
 			filter = null;
 
 			if (Scribe.loader is null) {
@@ -69,11 +77,13 @@ namespace Lakuna.PrepareModerately.Filter {
 					throw;
 				}
 
+				if (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				if (!(filter is null)) {
+					!(filter is null)
 #else
-				if (filter is not null) {
+					filter is not null
 #endif
+				) {
 					filter.FileName = Path.GetFileNameWithoutExtension(new FileInfo(absolutePath).Name);
 					filter.Category = category;
 				}
@@ -88,11 +98,13 @@ namespace Lakuna.PrepareModerately.Filter {
 				return false;
 			}
 
+			if (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (!(filter.Parts is null)) {
+				!(filter.Parts is null)
 #else
-			if (filter.Parts is not null) {
+				filter.Parts is not null
 #endif
+			) {
 				for (int i = filter.Parts.Count - 1; i >= 0; i--) {
 					if (filter.Parts[i].Valid) {
 						continue;

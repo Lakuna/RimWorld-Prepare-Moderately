@@ -56,12 +56,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.GetHashCode() ^ (this._regex?.GetHashCode(StringComparison.Ordinal) ?? 0);
 #endif
 
-		public override bool Matches(Pawn pawn) =>
+		public override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			new Regex(this._regex ?? "").Matches(pawn.Name?.ToStringFull ?? "null").Count > 0;
+			Regex regex = new Regex(this._regex ?? "");
 #else
-			new Regex(this._regex ?? "").Count(pawn.Name?.ToStringFull ?? "null") > 0;
+			Regex regex = new(this._regex ?? "");
 #endif
+			string name = pawn.Name?.ToStringFull ?? "null";
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			return regex.Matches(name).Count > 0;
+#else
+			return regex.Count(name) > 0;
+#endif
+		}
 
 		public override void Randomize() {
 			// These names are all guaranteed to be in the game due to the name-in-game list.
@@ -114,6 +121,8 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				"Skye"
 			];
 #endif
+
+			List<string> foo = ["a", "b"];
 
 			this._regex = names.RandomElement();
 		}

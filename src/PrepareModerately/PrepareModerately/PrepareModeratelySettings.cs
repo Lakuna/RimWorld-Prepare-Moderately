@@ -5,10 +5,11 @@ using Verse;
 namespace Lakuna.PrepareModerately {
 	public sealed class PrepareModeratelySettings : ModSettings {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public string FilterSavePath {
+		public string FilterSavePath
 #else
-		public string? FilterSavePath {
+		public string? FilterSavePath
 #endif
+		{
 			get => this._filterSavePath;
 			set => this._filterSavePath = value;
 		}

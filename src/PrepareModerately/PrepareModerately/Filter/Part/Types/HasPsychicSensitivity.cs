@@ -30,18 +30,22 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		public override int GetHashCode() =>
 			base.GetHashCode() ^ this._range.GetHashCode();
 
-		public override bool Matches(Pawn pawn) =>
+		public override bool Matches(Pawn pawn) {
 #if V1_0 || V1_1
-			pawn.GetStatValue(StatDefOf.PsychicSensitivity) <= this._range.max && pawn.GetStatValue(StatDefOf.PsychicSensitivity) >= this._range.min;
+			float psychicSensitivity = pawn.GetStatValue(StatDefOf.PsychicSensitivity) ?? 0;
 #else
-			(pawn.psychicEntropy?.PsychicSensitivity ?? 0) <= this._range.max && (pawn.psychicEntropy?.PsychicSensitivity ?? 0) >= this._range.min;
+			float psychicSensitivity = pawn.psychicEntropy?.PsychicSensitivity ?? 0;
 #endif
+			return psychicSensitivity <= this._range.max && psychicSensitivity >= this._range.min;
+		}
 
 		public override void Randomize() {
+			int min = Rand.Range(0, 1);
+			int max = Rand.Range(1, 10);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new FloatRange(Rand.Range(0, 1), Rand.Range(1, 10));
+			this._range = new FloatRange(min, max);
 #else
-			this._range = new(Rand.Range(0, 1), Rand.Range(1, 10));
+			this._range = new(min, max);
 #endif
 		}
 

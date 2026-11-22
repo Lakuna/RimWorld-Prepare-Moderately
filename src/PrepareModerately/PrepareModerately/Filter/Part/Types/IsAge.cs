@@ -64,14 +64,26 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override void Randomize() {
+			int min0 = Rand.Range(14, 30);
+			int max0 = Rand.Range(30, 100);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._yearsRange = new IntRange(Rand.Range(14, 30), Rand.Range(30, 100));
-			this._daysRange = new IntRange(Rand.Range(0, 30), Rand.Range(30, 45));
-			this._hoursRange = new IntRange(Rand.Range(0, 10), Rand.Range(10, 20));
+			this._yearsRange = new IntRange(min0, max0);
 #else
-			this._yearsRange = new(Rand.Range(14, 30), Rand.Range(30, 100));
-			this._daysRange = new(Rand.Range(0, 30), Rand.Range(30, 45));
-			this._hoursRange = new(Rand.Range(0, 10), Rand.Range(10, 20));
+			this._yearsRange = new(min0, max0);
+#endif
+			int min1 = Rand.Range(0, 30);
+			int max1 = Rand.Range(30, 45);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this._daysRange = new IntRange(min1, max1);
+#else
+			this._daysRange = new(min1, max1);
+#endif
+			int min2 = Rand.Range(0, 10);
+			int max2 = Rand.Range(10, 20);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this._hoursRange = new IntRange(min2, max2);
+#else
+			this._hoursRange = new(min2, max2);
 #endif
 		}
 

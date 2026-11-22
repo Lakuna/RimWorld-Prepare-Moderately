@@ -37,12 +37,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		}
 
 		public override void Randomize() {
+			int min0 = Rand.Range(0, 1);
+			int max0 = Rand.Range(1, 3);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._countRange = new IntRange(Rand.Range(0, 1), Rand.Range(1, 3));
-			this._levelRange = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
+			this._countRange = new IntRange(min0, max0);
 #else
-			this._countRange = new(Rand.Range(0, 1), Rand.Range(1, 3));
-			this._levelRange = new(Rand.Range(0, 5), Rand.Range(5, 10));
+			this._countRange = new(min0, max0);
+#endif
+			int min1 = Rand.Range(0, 5);
+			int max1 = Rand.Range(5, 10);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			this._levelRange = new IntRange(min1, max1);
+#else
+			this._levelRange = new(min1, max1);
 #endif
 		}
 

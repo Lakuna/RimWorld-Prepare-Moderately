@@ -18,10 +18,11 @@ namespace Lakuna.PrepareModerately.Filter.Part {
 			(PawnFilterPart)this.MemberwiseClone();
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public PawnFilterPartDef Def {
+		public PawnFilterPartDef Def
 #else
-		public PawnFilterPartDef? Def {
+		public PawnFilterPartDef? Def
 #endif
+		{
 			get => this._def;
 			set => this._def = value;
 		}

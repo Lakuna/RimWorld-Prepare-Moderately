@@ -13,12 +13,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class IsGender : PawnFilterPart {
-		private static IEnumerable<Gender> _legalGenders =>
+		private static IEnumerable<Gender> _legalGenders {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Enum.GetValues(typeof(Gender)).OfType<Gender>();
+				Gender[] values = Enum.GetValues(typeof(Gender));
 #else
-			Enum.GetValues<Gender>().OfType<Gender>();
+				Gender[] values = Enum.GetValues<Gender>();
 #endif
+				return values.OfType<Gender>();
+			}
+		}
 
 		private Gender _gender;
 

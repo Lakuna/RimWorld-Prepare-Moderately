@@ -17,11 +17,15 @@ namespace Lakuna.PrepareModerately.Utility {
 			Log.ErrorOnce($"{_prefix}{e}", _keyBase + (int)category);
 		}
 
+		public static void LogException(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static void LogException(Exception e, string description = "No description provided.", PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
+			Exception e,
 #else
-		public static void LogException(Exception? e, string description = "No description provided.", PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted) {
+			Exception? e,
 #endif
+			string description = "No description provided.",
+			PrepareModeratelyLoggerCategory category = PrepareModeratelyLoggerCategory.Unrestricted
+		) {
 			string output = $"{_prefix}{description}\n";
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
@@ -29,20 +33,24 @@ namespace Lakuna.PrepareModerately.Utility {
 #else
 			Exception? innerException = e;
 #endif
+			while (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			while (!(innerException is null)) {
+				!(innerException is null)
 #else
-			while (innerException is not null) {
+				innerException is not null
 #endif
+			) {
 				output += $"\n> {innerException.Message}";
 				innerException = innerException.InnerException;
 			}
 
+			if (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (!(e is null)) {
+				!(e is null)
 #else
-			if (e is not null) {
+				e is not null
 #endif
+			) {
 				output += $"\n\nStack trace:\n{e.StackTrace}\n\n";
 			}
 

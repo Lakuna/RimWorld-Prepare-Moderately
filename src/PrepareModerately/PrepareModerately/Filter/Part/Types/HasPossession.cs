@@ -27,10 +27,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				o.Add(ThingDefOf.BabyFood);
 
 #if V1_4 || V1_5 || V1_6
-				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs ?? new List<ThingDef>()) {
+				List<ThingDef> empty0 = new List<ThingDef>();
 #else
-				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs ?? []) {
+				List<ThingDef> empty0 = [];
 #endif
+				foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs ?? empty0) {
 					// Pawns with addictions or chemical dependencies can start with some of whatever they're addicted to or dependent on.
 					if (def.GetCompProperties<CompProperties_Drug>()?.chemical is null) {
 						o.Add(def);
@@ -49,17 +50,25 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 				// Certain backstories add special possible possessions.
 #if V1_4 || V1_5 || V1_6
-				foreach (BackstoryDef def in DefDatabase<BackstoryDef>.AllDefs ?? new List<BackstoryDef>()) {
+				List<BackstoryDef> empty1 = new List<BackstoryDef>();
 #else
-				foreach (BackstoryDef def in DefDatabase<BackstoryDef>.AllDefs ?? []) {
+				List<BackstoryDef> empty1 = [];
 #endif
+				foreach (BackstoryDef def in DefDatabase<BackstoryDef>.AllDefs ?? empty1) {
 #if V1_4
-					foreach (BackstoryThingDefCountClass possession in def.possessions ?? new List<BackstoryThingDefCountClass>()) {
+					List<BackstoryThingDefCountClass> possessions = def.possessions ?? new List<BackstoryThingDefCountClass>();
 #elif V1_5 || V1_6
-					foreach (PossessionThingDefCountClass possession in def.possessions ?? new List<PossessionThingDefCountClass>()) {
+					List<PossessionThingDefCountClass> possessions = def.possessions ?? new List<PossessionThingDefCountClass>();
 #else
-					foreach (PossessionThingDefCountClass possession in def.possessions ?? []) {
+					List<PossessionThingDefCountClass> possessions = def.possessions ?? [];
 #endif
+					foreach (
+#if V1_4
+						BackstoryThingDefCountClass possession in possessions
+#else
+						PossessionThingDefCountClass possession in possessions
+#endif
+					) {
 						if (possession.key is null) {
 							continue;
 						}
@@ -68,22 +77,15 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					}
 				}
 
-#if V1_4
-#elif V1_5 || V1_6
-				// Certain traits add special possible possessions.
-				foreach (TraitDegree traitDegree in TraitDegree.All) {
-					foreach (PossessionThingDefCountClass possession in traitDegree.Data.possessions ?? new List<PossessionThingDefCountClass>()) {
-						if (possession.key is null) {
-							continue;
-						}
-
-						o.Add(possession.key);
-					}
-				}
+#if !V1_4
+#if V1_5 || V1_6
+				List<PossessionThingDefCountClass> empty2 = new List<PossessionThingDefCountClass>();
 #else
+				List<PossessionThingDefCountClass> empty2 = [];
+#endif
 				// Certain traits add special possible possessions.
 				foreach (TraitDegree traitDegree in TraitDegree.All) {
-					foreach (PossessionThingDefCountClass possession in traitDegree.Data.possessions ?? []) {
+					foreach (PossessionThingDefCountClass possession in traitDegree.Data.possessions ?? empty2) {
 						if (possession.key is null) {
 							continue;
 						}
@@ -118,12 +120,29 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private ThingDef? _possession;
 #endif
 
-		private static Collection<ThingDefCount> StartingPossessionsOf(Pawn pawn) =>
+		private static Collection<ThingDefCount> StartingPossessionsOf(Pawn pawn) {
 #if V1_4 || V1_5 || V1_6
-			new Collection<ThingDefCount>((Find.GameInitData?.startingPossessions ?? new Dictionary<Pawn, List<ThingDefCount>>()).TryGetValue(pawn, out List<ThingDefCount> output) ? output : new List<ThingDefCount>());
+			Dictionary<Pawn, List<ThingDefCount>> empty0 = new Dictionary<Pawn, List<ThingDefCount>>();
 #else
-			[.. (Find.GameInitData?.startingPossessions ?? []).TryGetValue(pawn, out List<ThingDefCount>? output) ? output : []];
+			Dictionary<Pawn, List<ThingDefCount>> empty0 = [];
 #endif
+			Dictionary<Pawn, List<ThingDefCount>> startingPossessions = Find.GameInitData?.startingPossessions ?? empty0;
+#if V1_4 || V1_5 || V1_6
+			List<ThingDefCount> empty1 = new List<ThingDefCount>();
+#else
+			List<ThingDefCount> empty1 = [];
+#endif
+#if V1_4 || V1_5 || V1_6
+			List<ThingDefCount> possessions = startingPossessions.TryGetValue(pawn, out List<ThingDefCount> output) ? output : empty1;
+#else
+			List<ThingDefCount> possessions = startingPossessions.TryGetValue(pawn, out List<ThingDefCount>? output) ? output : empty1;
+#endif
+#if V1_4 || V1_5 || V1_6
+			return new Collection<ThingDefCount>(possessions);
+#else
+			return [.. possessions];
+#endif
+		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();

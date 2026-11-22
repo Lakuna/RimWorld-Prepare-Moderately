@@ -18,11 +18,15 @@ namespace Lakuna.PrepareModerately.Filter {
 		public static void RecacheLocalFilters() {
 			LocalFilters.Clear();
 			foreach (FileInfo file in PawnFilterFilePaths.All) {
+				if (PawnFilterSaveLoader.Load(
+					file.FullName,
+					PawnFilterCategory.CustomLocal,
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter filter)) {
+					out PawnFilter filter
 #else
-				if (PawnFilterSaveLoader.Load(file.FullName, PawnFilterCategory.CustomLocal, out PawnFilter? filter)) {
+					out PawnFilter? filter
 #endif
+				)) {
 					if (filter is null) {
 						PrepareModeratelyLogger.LogErrorMessage("Attempted to add null filter to list of local filters.");
 						continue;

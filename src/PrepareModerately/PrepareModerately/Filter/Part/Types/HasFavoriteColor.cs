@@ -13,14 +13,21 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasFavoriteColor : PawnFilterPart {
-		private static IEnumerable<ColorDef> _legalColors =>
-#if V1_3
-			DefDatabase<ColorDef>.AllDefs ?? new List<ColorDef>();
-#elif V1_4 || V1_5 || V1_6
-			DefDatabase<ColorDef>.AllDefs?.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc) ?? new List<ColorDef>();
+		private static IEnumerable<ColorDef> _legalColors {
+			get {
+#if V1_3 || V1_4 || V1_5 || V1_6
+				List<ColorDef> empty = new List<ColorDef>();
 #else
-			DefDatabase<ColorDef>.AllDefs?.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc) ?? [];
+				List<ColorDef> empty = [];
 #endif
+				IEnumerable<ColorDef> defs = DefDatabase<ColorDef>.AllDefs ?? empty;
+#if V1_3
+				return defs;
+#else
+				return defs.Where((def) => def.colorType == ColorType.Ideo || def.colorType == ColorType.Misc);
+#endif
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -46,11 +53,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private static string ColorToHex(Color color) =>
 			$"#{(int)(color.r * 0xff):X2}{(int)(color.g * 0xff):X2}{(int)(color.b * 0xff):X2}";
 
+		private static string LabelFor(
 #if V1_3 || V1_4 || V1_5 || V1_6
-		private static string LabelFor(ColorDef def) =>
+			ColorDef def
 #else
-		private static string LabelFor(ColorDef? def) =>
+			ColorDef? def
 #endif
+		) =>
 			def?.color is null ? "PM.UnnamedColor".TranslateFull()
 			: (def.label is null || def.label.NullOrEmpty()) ? "PM.UnnamedColorHex".TranslateFull(ColorToHex(def.color))
 			: def.label;

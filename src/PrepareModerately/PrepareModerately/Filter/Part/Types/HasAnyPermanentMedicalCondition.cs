@@ -8,11 +8,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	[Obsolete("Prefer HasHediff.")]
 	public sealed class HasAnyPermanentMedicalCondition : PawnFilterPart {
 		public override bool Matches(Pawn pawn) =>
-#if V1_0
-			pawn.health?.hediffSet?.hediffs?.Any((hediff) => hediff?.IsPermanent() ?? false) ?? false;
-#else
-			pawn.health?.hediffSet?.hediffs?.Any((hediff) => (hediff?.IsPermanent() ?? false) || (hediff?.def?.chronic ?? false)) ?? false;
+			pawn.health?.hediffSet?.hediffs?.Any((hediff) =>
+				(hediff?.IsPermanent() ?? false)
+#if !V1_0
+				|| (hediff?.def?.chronic ?? false)
 #endif
+			) ?? false;
 
 		public override string Summary(PawnFilter filter) =>
 			"PM.HasAnyPermanentMedicalConditions".TranslateFull();

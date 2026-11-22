@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,12 +12,16 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasSkill : PawnFilterPart {
-		private static IEnumerable<SkillDef> _legalSkills =>
+		private static IEnumerable<SkillDef> _legalSkills {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<SkillDef>.AllDefs ?? new List<SkillDef>();
+				List<SkillDef> empty = new List<SkillDef>();
 #else
-			DefDatabase<SkillDef>.AllDefs ?? [];
+				List<SkillDef> empty = [];
 #endif
+				return DefDatabase<SkillDef>.AllDefs ?? empty;
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -87,10 +90,12 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void Randomize() {
 			this._skill = _legalSkills.RandomElement();
+			int min = Rand.Range(0, 5);
+			int max = Rand.Range(5, 10);
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			this._range = new IntRange(Rand.Range(0, 5), Rand.Range(5, 10));
+			this._range = new IntRange(min, max);
 #else
-			this._range = new(Rand.Range(0, 5), Rand.Range(5, 10));
+			this._range = new(min, max);
 #endif
 		}
 

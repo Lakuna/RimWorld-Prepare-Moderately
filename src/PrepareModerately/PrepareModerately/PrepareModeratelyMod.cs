@@ -8,10 +8,11 @@ using Verse;
 namespace Lakuna.PrepareModerately {
 	public sealed class PrepareModeratelyMod : Mod {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static PrepareModeratelySettings Settings {
+		public static PrepareModeratelySettings Settings
 #else
-		public static PrepareModeratelySettings? Settings {
+		public static PrepareModeratelySettings? Settings
 #endif
+		{
 			get; private set;
 		}
 
@@ -44,12 +45,17 @@ namespace Lakuna.PrepareModerately {
 
 			float rollSpeedMultiplier = Settings.RollSpeedMultiplier;
 			string rollSpeedLabel = "PM.RollSpeedMultiplierNumber".TranslateFull(CapitalizeType.First, Settings.RollSpeedMultiplier);
-#if V1_0 || V1_1 || V1_2 || V1_3
-			rollSpeedMultiplier = Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), rollSpeedMultiplier, 1, 100, false, rollSpeedLabel, null, null, 1);
-#elif V1_4 || V1_5 || V1_6
-			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new FloatRange(1, 100), rollSpeedLabel, 1);
+			Rect rollSpeedRect = listing.GetRect(Text.LineHeight).Rounded();
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			FloatRange rollSpeedRange = new FloatRange(1, 100);
 #else
-			Widgets.HorizontalSlider(listing.GetRect(Text.LineHeight).Rounded(), ref rollSpeedMultiplier, new(1, 100), rollSpeedLabel, 1);
+			FloatRange rollSpeedRange = new(1, 100);
+#endif
+			float rollSpeedIncrement = 1;
+#if V1_0 || V1_1 || V1_2 || V1_3
+			rollSpeedMultiplier = Widgets.HorizontalSlider(rollSpeedRect, rollSpeedMultiplier, rollSpeedRange.min, rollSpeedRange.max, false, rollSpeedLabel, null, null, rollSpeedIncrement);
+#else
+			Widgets.HorizontalSlider(rollSpeedRect, ref rollSpeedMultiplier, rollSpeedRange, rollSpeedLabel, rollSpeedIncrement);
 #endif
 			Settings.RollSpeedMultiplier = rollSpeedMultiplier;
 

@@ -12,12 +12,23 @@ using Verse;
 
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class IsSpecies : PawnFilterPart {
-		private static IEnumerable<ThingDef> _legalThings =>
+		private static IEnumerable<ThingDef> _legalThings {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<ThingDef>.AllDefs?.Where((def) => !(def?.race is null) && !def.IsCorpse) ?? new List<ThingDef>();
+				List<ThingDef> empty = new List<ThingDef>();
 #else
-			DefDatabase<ThingDef>.AllDefs?.Where((def) => def?.race is not null && !def.IsCorpse) ?? [];
+				List<ThingDef> empty = [];
 #endif
+				return DefDatabase<ThingDef>.AllDefs?.Where((def) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+					!(def?.race is null)
+#else
+					def?.race is not null
+#endif
+					&& !def.IsCorpse
+				) ?? [];
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -40,11 +51,13 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private ThingDef? _species;
 #endif
 
+		private static string GetUniqueLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetUniqueLabelFor(ThingDef def) =>
+			ThingDef def
 #else
-		private static string GetUniqueLabelFor(ThingDef? def) =>
+			ThingDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.label is null || def.label.NullOrEmpty()) ? (def.defName ?? "null")
 			: _legalThings.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"

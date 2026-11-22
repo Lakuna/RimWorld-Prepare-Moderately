@@ -10,10 +10,11 @@ namespace Lakuna.PrepareModerately.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), nameof(Page_ConfigureStartingPawns.PreOpen))]
 	public static class PreOpenPatch {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static Page_ConfigureStartingPawns Instance {
+		public static Page_ConfigureStartingPawns Instance
 #else
-		public static Page_ConfigureStartingPawns? Instance {
+		public static Page_ConfigureStartingPawns? Instance
 #endif
+		{
 			get; set;
 		}
 

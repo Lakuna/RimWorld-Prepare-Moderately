@@ -13,10 +13,11 @@ namespace Lakuna.PrepareModerately.Filter {
 	// Based on `RimWorld.Scenario`.
 	public sealed class PawnFilter : IExposable {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static PawnFilter Current {
+		public static PawnFilter Current
 #else
-		public static PawnFilter? Current {
+		public static PawnFilter? Current
 #endif
+		{
 			get; set;
 		}
 
@@ -60,10 +61,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		public PawnFilter CopyForEditing {
 			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				PawnFilter copyForEditing = new PawnFilter() {
+				PawnFilter copyForEditing = new PawnFilter()
 #else
-				PawnFilter copyForEditing = new() {
+				PawnFilter copyForEditing = new()
 #endif
+				{
 					Category = PawnFilterCategory.CustomLocal,
 					Description = this.Description,
 					Name = this.Name,
@@ -73,10 +75,11 @@ namespace Lakuna.PrepareModerately.Filter {
 					PrepareModeratelyLogger.LogErrorMessage("Created copy of filter with null parts.");
 				} else {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					foreach (PawnFilterPart part in this.Parts ?? new List<PawnFilterPart>()) {
+					List<PawnFilterPart> empty = new List<PawnFilterPart>();
 #else
-					foreach (PawnFilterPart part in this.Parts ?? []) {
+					List<PawnFilterPart> empty = [];
 #endif
+					foreach (PawnFilterPart part in this.Parts ?? empty) {
 						copyForEditing.Parts.Add(part.CopyForEditing);
 					}
 				}
@@ -86,10 +89,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public string Description {
+		public string Description
 #else
-		public string? Description {
+		public string? Description
 #endif
+		{
 			get => this._description;
 			set => this._description = value;
 		}
@@ -97,20 +101,31 @@ namespace Lakuna.PrepareModerately.Filter {
 		public bool Enabled { get; set; } = true;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public FileInfo File =>
-			this.FileName is null ? null
-			: new FileInfo(PawnFilterFilePaths.AbsolutePathForName(this.FileName));
+		public FileInfo File
 #else
-		public FileInfo? File =>
-			this.FileName is null ? null
-			: new(PawnFilterFilePaths.AbsolutePathForName(this.FileName));
+		public FileInfo? File
 #endif
+		{
+			get {
+				if (this.FileName is null) {
+					return null;
+				}
+
+				string path = PawnFilterFilePaths.AbsolutePathForName(this.FileName);
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				return new FileInfo(path);
+#else
+				return new(path);
+#endif
+			}
+		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public string FileName {
+		public string FileName
 #else
-		public string? FileName {
+		public string? FileName
 #endif
+		{
 			get; set;
 		}
 
@@ -125,10 +140,11 @@ namespace Lakuna.PrepareModerately.Filter {
 					stringBuilder = stringBuilder.AppendLine(this.Description);
 					stringBuilder = stringBuilder.AppendLine();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					foreach (PawnFilterPart part in (this.Parts ?? new List<PawnFilterPart>())
+					List<PawnFilterPart> empty = new List<PawnFilterPart>();
 #else
-					foreach (PawnFilterPart part in (this.Parts ?? [])
+					List<PawnFilterPart> empty = [];
 #endif
+					foreach (PawnFilterPart part in (this.Parts ?? empty)
 						.OrderByDescending((part) => part.Def?.SummaryPriority)
 						.ThenBy((part) => part.Def?.defName)
 						.Where((part) => part.Visible)) {
@@ -150,10 +166,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public string Name {
+		public string Name
 #else
-		public string? Name {
+		public string? Name
 #endif
+		{
 			get => this._name;
 			set => this._name = value;
 		}
@@ -170,10 +187,11 @@ namespace Lakuna.PrepareModerately.Filter {
 		public bool ShowInUi { get; set; } = true;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public string Summary {
+		public string Summary
 #else
-		public string? Summary {
+		public string? Summary
 #endif
+		{
 			get => this._summary;
 			set => this._summary = value;
 		}
@@ -212,11 +230,14 @@ namespace Lakuna.PrepareModerately.Filter {
 			Scribe_Values.Look(ref this._description, "description");
 			Scribe_Collections.Look(ref this._parts, "parts", LookMode.Deep);
 
+			if (
+				Scribe.mode == LoadSaveMode.PostLoadInit
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && !(this.Parts is null)) {
+				&& !(this.Parts is null)
 #else
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.Parts is not null) {
+				&& this.Parts is not null
 #endif
+			) {
 				int removed = 0;
 				for (int i = this.Parts.Count - 1; i >= 0; i--) {
 					if (this.Parts[i].Valid) {
@@ -244,11 +265,13 @@ namespace Lakuna.PrepareModerately.Filter {
 			hash ^= this.Summary?.GetHashCode(StringComparison.Ordinal) ?? 0;
 			hash ^= this.Description?.GetHashCode(StringComparison.Ordinal) ?? 0;
 #endif
+			if (
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (!(this.Parts is null)) {
+				!(this.Parts is null)
 #else
-			if (this.Parts is not null) {
+				this.Parts is not null
 #endif
+			) {
 				for (int i = 0; i < this.Parts.Count; i++) {
 					hash ^= this.Parts[i].GetHashCode() + i++;
 				}

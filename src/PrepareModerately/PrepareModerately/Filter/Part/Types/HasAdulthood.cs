@@ -13,15 +13,26 @@ using Verse;
 namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasAdulthood : PawnFilterPart {
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static IEnumerable<Backstory> _legalBackstories =>
-			BackstoryDatabase.allBackstories?.Values?.Where((backstory) => backstory?.slot == BackstorySlot.Adulthood) ?? new List<Backstory>();
-#elif V1_4 || V1_5 || V1_6
-		private static IEnumerable<BackstoryDef> _legalBackstories =>
-			DefDatabase<BackstoryDef>.AllDefs?.Where((def) => def.slot == BackstorySlot.Adulthood) ?? new List<BackstoryDef>();
+		private static IEnumerable<Backstory> _legalBackstories
 #else
-		private static IEnumerable<BackstoryDef> _legalBackstories =>
-			DefDatabase<BackstoryDef>.AllDefs?.Where((def) => def.slot == BackstorySlot.Adulthood) ?? [];
+		private static IEnumerable<BackstoryDef> _legalBackstories
 #endif
+		{
+			get {
+#if V1_0 || V1_1 || V1_2 || V1_3
+				List<Backstory> empty = new List<Backstory>();
+#elif V1_4 || V1_5 || V1_6
+				List<BackstoryDef> empty = new List<BackstoryDef>();
+#else
+				List<BackstoryDef> empty = [];
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3
+				return BackstoryDatabase.allBackstories?.Values?.Where((backstory) => backstory?.slot == BackstorySlot.Adulthood) ?? empty;
+#else
+				return DefDatabase<BackstoryDef>.AllDefs?.Where((def) => def.slot == BackstorySlot.Adulthood) ?? empty;
+#endif
+			}
+		}
 
 		public override IEnumerable<string> ConfigErrors {
 			get {
@@ -46,36 +57,42 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private BackstoryDef? _backstory;
 #endif
 
+		private static string GetCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static string GetCombinedLabelFor(Backstory def) =>
+			Backstory def
 #elif V1_4 || V1_5 || V1_6
-		private static string GetCombinedLabelFor(BackstoryDef def) =>
+			BackstoryDef def
 #else
-		private static string GetCombinedLabelFor(BackstoryDef? def) =>
+			BackstoryDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.titleFemale is null || def.titleFemale.NullOrEmpty()) ? (def.title ?? "null")
 			: $"{def.title ?? "null"}/{def.titleFemale}";
 
+		private static string GetUniqueCombinedLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static string GetUniqueCombinedLabelFor(Backstory def) =>
-			def is null ? "null"
-			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.identifier ?? "null")
-			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.identifier ?? "null"})"
-			: GetCombinedLabelFor(def);
+			Backstory def
 #elif V1_4 || V1_5 || V1_6
-		private static string GetUniqueCombinedLabelFor(BackstoryDef def) =>
-			def is null ? "null"
-			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
-			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
-			: GetCombinedLabelFor(def);
+			BackstoryDef def
 #else
-		private static string GetUniqueCombinedLabelFor(BackstoryDef? def) =>
-			def is null ? "null"
-			: GetCombinedLabelFor(def).NullOrEmpty() ? (def.defName ?? "null")
-			: _legalBackstories.Count((def2) => GetCombinedLabelFor(def) == GetCombinedLabelFor(def2)) > 1 ? $"{GetCombinedLabelFor(def)} ({def.defName ?? "null"})"
-			: GetCombinedLabelFor(def);
+			BackstoryDef? def
 #endif
+		) {
+			if (def is null) {
+				return "null";
+			}
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+			string defName = def.identifier ?? "null";
+#else
+			string defName = def.defName ?? "null";
+#endif
+			string combinedLabel = GetCombinedLabelFor(def);
+			return combinedLabel.NullOrEmpty() ? defName
+				: _legalBackstories.Count((def2) => combinedLabel == GetCombinedLabelFor(def2)) > 1 ? $"{combinedLabel} ({defName})"
+				: combinedLabel;
+		}
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {
 			_ = listing.GetPawnFilterPartRect(this, 0, out totalAddedListHeight, out Rect rect).Rounded();
@@ -89,10 +106,11 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 
 		public override void ExposeData() {
 			base.ExposeData();
+			string backstoryName = "backstory";
 #if V1_0 || V1_1 || V1_2 || V1_3
-			Scribe_Values.Look(ref this._backstory, "backstory");
+			Scribe_Values.Look(ref this._backstory, backstoryName);
 #else
-			Scribe_Defs.Look(ref this._backstory, "backstory");
+			Scribe_Defs.Look(ref this._backstory, backstoryName);
 #endif
 
 			// Support loading old filters that use `backstoryIdentifier` instead of `backstory`.

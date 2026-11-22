@@ -13,10 +13,11 @@ namespace Lakuna.PrepareModerately.Filter {
 			get {
 				RecacheIfDirty();
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-				foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? new List<PawnFilterDef>()) {
+				List<PawnFilterDef> empty = new List<PawnFilterDef>();
 #else
-				foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? []) {
+				List<PawnFilterDef> empty = [];
 #endif
+				foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? empty) {
 					if (def.Filter is null) {
 						PrepareModeratelyLogger.LogErrorMessage("Attempted to cache null filter from definition.");
 						continue;
@@ -55,10 +56,11 @@ namespace Lakuna.PrepareModerately.Filter {
 			switch (category) {
 				case PawnFilterCategory.FromDef:
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? new List<PawnFilterDef>()) {
+					List<PawnFilterDef> empty = new List<PawnFilterDef>();
 #else
-					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? []) {
+					List<PawnFilterDef> empty = [];
 #endif
+					foreach (PawnFilterDef def in DefDatabase<PawnFilterDef>.AllDefs ?? empty) {
 						if (def.Filter is null) {
 							PrepareModeratelyLogger.LogErrorMessage("Attempted to list null filter from definition.");
 							continue;

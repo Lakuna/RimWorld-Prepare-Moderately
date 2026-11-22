@@ -16,27 +16,39 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 	public sealed class HasHediff : PawnFilterPart {
 		private const int _labelGap = 4;
 
-		private static IEnumerable<BodyPartDef> _legalBodyParts =>
+		private static IEnumerable<BodyPartDef> _legalBodyParts {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<BodyPartDef>.AllDefs ?? new List<BodyPartDef>();
+				List<BodyPartDef> empty = new List<BodyPartDef>();
 #else
-			DefDatabase<BodyPartDef>.AllDefs ?? [];
+				List<BodyPartDef> empty = [];
 #endif
+				return DefDatabase<BodyPartDef>.AllDefs ?? empty;
+			}
+		}
 
-		private static IEnumerable<ChemicalDef> _legalChemicals =>
+		private static IEnumerable<ChemicalDef> _legalChemicals {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<ChemicalDef>.AllDefs ?? new List<ChemicalDef>();
+				List<ChemicalDef> empty = new List<ChemicalDef>();
 #else
-			DefDatabase<ChemicalDef>.AllDefs ?? [];
+				List<ChemicalDef> empty = [];
 #endif
+				return DefDatabase<ChemicalDef>.AllDefs ?? empty;
+			}
+		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		private static Dictionary<string, Func<Hediff, bool>> _legalConditions =>
-			new Dictionary<string, Func<Hediff, bool>>() {
 #else
 		private static Dictionary<string, Func<Hediff, bool>?> _legalConditions =>
-			new() {
 #endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			new Dictionary<string, Func<Hediff, bool>>()
+#else
+			new()
+#endif
+			{
 #if !V1_0
 				["PM.Chronic"] = (hediff) => hediff.def.chronic,
 #endif
@@ -54,12 +66,16 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 				["PM.Tendable"] = (hediff) => hediff.def.tendable
 			};
 
-		private static IEnumerable<HediffDef> _legalHediffs =>
+		private static IEnumerable<HediffDef> _legalHediffs {
+			get {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			DefDatabase<HediffDef>.AllDefs ?? new List<HediffDef>();
+				List<HediffDef> empty = new List<HediffDef>();
 #else
-			DefDatabase<HediffDef>.AllDefs ?? [];
+				List<HediffDef> empty = [];
 #endif
+				return DefDatabase<HediffDef>.AllDefs ?? empty;
+			}
+		}
 
 		private const int _widgetRowMaxWidth = 24;
 
@@ -109,35 +125,33 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 		private HediffDef? _hediff;
 #endif
 
+		private static string GetUniqueLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetUniqueLabelFor(BodyPartDef def) =>
+			BodyPartDef def
 #else
-		private static string GetUniqueLabelFor(BodyPartDef? def) =>
+			BodyPartDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.label is null || def.label.NullOrEmpty()) ? (def.defName ?? "null")
 			: _legalBodyParts.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
 			: def.label;
 
+		private static string GetUniqueLabelFor(
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static string GetUniqueLabelFor(HediffDef def) =>
+			HediffDef def
 #else
-		private static string GetUniqueLabelFor(HediffDef? def) =>
+			HediffDef? def
 #endif
+		) =>
 			def is null ? "null"
 			: (def.label is null || def.label.NullOrEmpty()) ? (def.defName ?? "null")
 			: _legalHediffs.Count((def2) => def.label == def2.label) > 1 ? $"{def.label} ({def.defName ?? "null"})"
 			: def.label;
 
-#if V1_0 || V1_1 || V1_2 || V1_3
-#elif V1_4 || V1_5 || V1_6
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static bool IgnoreForHediff(Hediff hediff) =>
-			!(hediff?.pawn?.genes?.GenesListForReading is null)
-			&& hediff.pawn.genes.GenesListForReading.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff);
-#else
-		private static bool IgnoreForHediff(Hediff hediff) =>
-			hediff?.pawn?.genes?.GenesListForReading is not null
-			&& hediff.pawn.genes.GenesListForReading.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff);
+			hediff?.pawn?.genes?.GenesListForReading?.Any((gene) => gene is Gene_ChemicalDependency dependency && dependency.LinkedHediff == hediff) ?? false;
 #endif
 
 		public override void DoEditInterface(PawnFilterEditListing listing, out float totalAddedListHeight) {

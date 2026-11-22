@@ -21,10 +21,11 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 		}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public static Pawn Result {
+		public static Pawn Result
 #else
-		public static Pawn? Result {
+		public static Pawn? Result
 #endif
+		{
 			get; set;
 		}
 
@@ -50,10 +51,11 @@ namespace Lakuna.PrepareModerately.Patches.StartingPawnUtilityPatches {
 			}
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, new object[] { Result })));
+			object[] parameters = new object[] { Result };
 #else
-			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, [Result])));
+			object?[]? parameters = [Result];
 #endif
+			Find.WindowStack.Add(new RollingDialog(() => _ = __originalMethod.Invoke(null, parameters)));
 
 			IsActivelyRolling = true;
 		}

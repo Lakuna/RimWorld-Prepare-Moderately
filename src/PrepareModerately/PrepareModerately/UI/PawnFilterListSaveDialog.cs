@@ -21,11 +21,14 @@ namespace Lakuna.PrepareModerately.Ui {
 		private readonly Action? _onClosed;
 #endif
 
+		public PawnFilterListSaveDialog(
+			PawnFilter filter,
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		public PawnFilterListSaveDialog(PawnFilter filter, Action onClosed = null) {
+			Action onClosed = null
 #else
-		public PawnFilterListSaveDialog(PawnFilter filter, Action? onClosed = null) {
+			Action? onClosed = null
 #endif
+		) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (filter is null) {
 				throw new ArgumentNullException(nameof(filter));
