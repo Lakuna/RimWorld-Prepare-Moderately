@@ -252,9 +252,19 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 			base.GetHashCode() ^ (this._conditions?.GetHashCode() ?? 0);
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-		public override bool IgnoreFor(Pawn pawn) =>
-			base.IgnoreFor(pawn)
-			|| (pawn.health?.hediffSet?.hediffs?.Where(this.MatchesHediff).All(IgnoreForHediff) ?? false);
+		public override bool IgnoreFor(Pawn pawn) {
+			if (base.IgnoreFor(pawn)) {
+				return true;
+			}
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			List<Hediff> empty = new List<Hediff>();
+#else
+			List<Hediff> empty = [];
+#endif
+			IEnumerable<Hediff> hediffs = pawn.health?.hediffSet?.hediffs?.Where(this.MatchesHediff) ?? empty;
+			return hediffs.Any() && hediffs.All(IgnoreForHediff);
+		}
 #endif
 
 		public override bool Matches(Pawn pawn) =>
@@ -310,7 +320,7 @@ namespace Lakuna.PrepareModerately.Filter.Part.Types {
 					this._chemical is null ? "PM.HasTypeHediffOnPart".TranslateFull(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart))
 					: "PM.HasTypeHediffOnPartToChemical".TranslateFull(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), this._chemical.label ?? "null")
 				: this._chemical is null ? "PM.HasTypeHediffOnPartWithConditions".TranslateFull(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.TranslateFull()).ToArray()))
-				: "PM.HasTypeHediffOnPartWithConditionsToChemical".TranslateFull(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.TranslateFull()).ToArray()), this._chemical.label ?? "null");
+			: "PM.HasTypeHediffOnPartWithConditionsToChemical".TranslateFull(GetUniqueLabelFor(this._hediff), GetUniqueLabelFor(this._bodyPart), string.Join(", ", this._conditions.Select((condition) => condition.TranslateFull()).ToArray()), this._chemical.label ?? "null");
 
 		private bool MatchesHediff(Hediff hediff) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
